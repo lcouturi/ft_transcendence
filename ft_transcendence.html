@@ -7,8 +7,6 @@
 		<head>
 			<link href="ft_transcendence.css" rel="stylesheet" />
 			<link href="bootstrap/css/bootstrap.css" rel="stylesheet">
-			<script src="ft_transcendence.js">
-			</script>
 			<script src="popper/popper.min.js">
 			</script>
 			<script src="bootstrap/js/bootstrap.js">
@@ -334,12 +332,27 @@
 						</h2>
 					</div>
 					<div class="m-1 modal-body p-0">
-						<div class="border d-flex frame m-1 rounded">
-							Insert UI here.
+						<div class="border frame m-1 rounded">
+							<div class="d-flex w-100">
+								<input  class="border m-1 p-1 rounded w-100" placeholder="Enter username" id="list_item" type="text"/>
+								<button class="border button d-flex m-1 rounded shadow-sm" id="list_add">
+									<img class="icon m-1" height="22" src="icons/list-add.svg">
+								</button>
+							</div>
+							<div class="list_container">
+								<div id="list">
+								</div>
+							</div>
 						</div>
 					</div>
 					<div class="modal-footer p-1">
-						<button class="border button d-flex m-1 ms-auto rounded shadow-sm" data-bs-dismiss="modal" type="button">
+						<button class="border button d-flex m-1 ms-auto rounded shadow-sm" type="button">
+							<img class="icon m-1" height="22" src="icons/media-playback-start.svg">
+							<div class="my-auto">
+								Start tournament
+							</div>
+						</button>
+						<button class="border button d-flex m-1 rounded shadow-sm" data-bs-dismiss="modal" type="button">
 							<img class="icon m-1" height="22" src="icons/window-close.svg">
 							<div class="my-auto">
 								Close
@@ -350,4 +363,6 @@
 			</div>
 		</div>
 	</body>
+	<script src="ft_transcendence.js">
+	</script>
 </html>

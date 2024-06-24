@@ -36,18 +36,6 @@
 	transition: border-color 0.25s ease-out;
 }
 
-.button:disabled
-{
-	--bs-border-color: #dadbdb !important;
-	background-color: #f0f0f0;
-	color: #a8a9aa;
-}
-
-.button:disabled .icon
-{
-	filter: invert(82%) sepia(0%) saturate(780%) hue-rotate(238deg) brightness(116%) contrast(79%);
-}
-
 .button:focus
 {
 	--bs-border-color: #65b3d2;
@@ -62,7 +50,6 @@
 input[type=password], input[type=text]
 {
 	background-color: #fcfcfc;
-	height: 30px;
 	transition: border-color 0.25s ease-out;
 }
 
