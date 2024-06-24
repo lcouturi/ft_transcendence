@@ -9,8 +9,8 @@ document.querySelector("#list_add").addEventListener("click", () =>
 		<div class="m-1 p-1 w-100">
 			${list_item.value}
 		</div>
-		<button class="border button d-flex m-1 rounded shadow-sm" id="list_add">
-			<img class="delete icon m-1" height="22" src="icons/list-remove.svg">
+		<button class="border button d-flex delete m-1 rounded shadow-sm" id="list_add">
+			<img class="icon m-1" height="22" src="icons/list-remove.svg">
 		</button>
 	</div>`;
 	div.innerHTML = divContainer;
