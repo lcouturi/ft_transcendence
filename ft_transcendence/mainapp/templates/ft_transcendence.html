@@ -17,19 +17,19 @@
 			<div class="container-fluid px-0">
 				<ul class="flex-row me-auto navbar-nav">
 					<li class="border d-flex nav-item py-1 rounded text-nowrap" title="Leaderboard">
-						<img class="icon" height="22" src="icons/games-highscores.svg">
+						<img class="icon" height="22" src='{% static "../static/icons/games-highscores.svg" %}'>
 						<a aria-current="page" class="active ms-1 my-auto nav-link p-0">
 							Leaderboard
 						</a>
 					</li>
 					<li class="border d-flex nav-item py-1 rounded text-nowrap" data-bs-target="#tournament" data-bs-toggle="modal" title="Tournament">
-						<img class="icon" height="22" src="icons/view-list-tree.svg">
+						<img class="icon" height="22" src='{% static "../static/icons/view-list-tree.svg" %}'>
 						<a aria-current="page" class="active ms-1 my-auto nav-link p-0">
 							Tournament
 						</a>
 					</li>
 					<li class="border d-flex nav-item py-1 rounded text-nowrap" data-bs-target="#about" data-bs-toggle="modal" title="About">
-						<img class="icon" height="22" src="icons/help-about.svg">
+						<img class="icon" height="22" src='{% static "../static/icons/help-about.svg" %}'>
 						<a aria-current="page" class="active ms-1 my-auto nav-link p-0">
 							About
 						</a>
@@ -37,7 +37,7 @@
 				</ul>
 				<ul class="navbar-nav">
 					<li class="border d-flex nav-item py-1 rounded text-nowrap" data-bs-target="#login" data-bs-toggle="modal" title="Log in">
-						<img class="icon" height="22" src="icons/im-user.svg">
+						<img class="icon" height="22" src='{% static "../static/icons/im-user.svg" %}'>
 						<a aria-current="page" class="active ms-1 my-auto nav-link p-0">
 							Log in
 						</a>
@@ -46,7 +46,7 @@
 			</div>
 		</nav>
 		<div class="content d-flex m-auto mh-100 mw-100" id="content">
-			<img class="border content-body m-1 rounded w-100" id="content-body" src="icons/placeholder.png">
+			<img class="border content-body m-1 rounded w-100" id="content-body" src='{% static "../static/icons/placeholder.png" %}'>
 		</div>
 		<div aria-hidden="true" aria-labelledby="about" class="modal fade" id="about" tabindex="-1">
 			<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
@@ -77,7 +77,7 @@
 						<div class="d-flex overflow-hidden tab-content" id="myTabContent">
 							<div aria-labelledby="about-tab" class="active border mb-1 mx-1 overflow-y-auto p-1 position-relative rounded show tab-pane" id="about-tab-pane" role="tabpanel" tabindex="0">
 								<div class="d-flex">
-									<img class="inline-img" src="icons/openart-image_yBIl3nIg_1717776713014_raw.jpg">
+									<img class="inline-img" src='{% static "../static/icons/openart-image_yBIl3nIg_1717776713014_raw.jpg" %}'>
 								</div>
 								<br>
 								On February 30th 2024, something happened that would forever change the course of history. Tired of being treated as little more than food, the avocados waged war against the animal kingdom as a whole.
@@ -105,7 +105,7 @@
 								<br>
 								<button class="border borderless-button d-flex m-1 p-0 rounded" title="Visit component's homepage&#013;https://getbootstrap.com" type="button">
 									<a href="https://getbootstrap.com" target="_blank">
-										<img class="icon m-1" height="22" src="icons/globe.svg">
+										<img class="icon m-1" height="22" src='{% static "../static/icons/globe.svg" %}'>
 									</a>
 								</button>
 								<b>
@@ -118,7 +118,7 @@
 								<br>
 								<button class="border borderless-button d-flex m-1 p-0 rounded" title="Visit component's homepage&#013;https://www.djangoproject.com" type="button">
 									<a href="https://www.djangoproject.com" target="_blank">
-										<img class="icon m-1" height="22" src="icons/globe.svg">
+										<img class="icon m-1" height="22" src='{% static "../static/icons/globe.svg" %}'>
 									</a>
 								</button>
 								<b>
@@ -131,7 +131,7 @@
 								<br>
 								<button class="border borderless-button d-flex m-1 p-0 rounded" title="Visit component's homepage&#013;https://www.postgresql.org" type="button">
 									<a href="https://www.postgresql.org" target="_blank">
-										<img class="icon m-1" height="22" src="icons/globe.svg">
+										<img class="icon m-1" height="22" src='{% static "../static/icons/globe.svg" %}'>
 									</a>
 								</button>
 								<b>
@@ -144,7 +144,7 @@
 								<br>
 								<button class="border borderless-button d-flex m-1 p-0 rounded" title="Visit component's homepage&#013;https://threejs.org" type="button">
 									<a href="https://threejs.org" target="_blank">
-										<img class="icon m-1" height="22" src="icons/globe.svg">
+										<img class="icon m-1" height="22" src='{% static "../static/icons/globe.svg" %}'>
 									</a>
 								</button>
 							</div>
@@ -159,7 +159,7 @@
 								<br>
 								<button class="border borderless-button d-flex m-1 p-0 rounded" title="Visit contributor's homepage&#013;https://github.com/Nyonyx" type="button">
 									<a href="https://github.com/Nyonyx" target="_blank">
-										<img class="icon m-1" height="22" src="icons/globe.svg">
+										<img class="icon m-1" height="22" src='{% static "../static/icons/globe.svg" %}'>
 									</a>
 								</button>
 								<b>
@@ -172,7 +172,7 @@
 								<br>
 								<button class="border borderless-button d-flex m-1 p-0 rounded" title="Visit contributor's homepage&#013;https://github.com/ShroomySquid" type="button">
 									<a href="https://github.com/ShroomySquid" target="_blank">
-										<img class="icon m-1" height="22" src="icons/globe.svg">
+										<img class="icon m-1" height="22" src='{% static "../static/icons/globe.svg" %}'>
 									</a>
 								</button>
 								<b>
@@ -185,7 +185,7 @@
 								<br>
 								<button class="border borderless-button d-flex m-1 p-0 rounded" title="Visit contributor's homepage&#013;https://github.com/joeroeg" type="button">
 									<a href="https://github.com/joeroeg" target="_blank">
-										<img class="icon m-1" height="22" src="icons/globe.svg">
+										<img class="icon m-1" height="22" src='{% static "../static/icons/globe.svg" %}'>
 									</a>
 								</button>
 								<b>
@@ -198,7 +198,7 @@
 								<br>
 								<button class="border borderless-button d-flex m-1 p-0 rounded" title="Visit contributor's homepage&#013;https://github.com/lcouturi" type="button">
 									<a href="https://github.com/lcouturi" target="_blank">
-										<img class="icon m-1" height="22" src="icons/globe.svg">
+										<img class="icon m-1" height="22" src='{% static "../static/icons/globe.svg" %}'>
 									</a>
 								</button>
 								<b>
@@ -211,7 +211,7 @@
 								<br>
 								<button class="border borderless-button d-flex m-1 p-0 rounded" title="Visit contributor's homepage&#013;https://github.com/pierreolivierpaquet" type="button">
 									<a href="https://github.com/pierreolivierpaquet" target="_blank">
-										<img class="icon m-1" height="22" src="icons/globe.svg">
+										<img class="icon m-1" height="22" src='{% static "../static/icons/globe.svg" %}'>
 									</a>
 								</button>
 							</div>
@@ -219,7 +219,7 @@
 					</div>
 					<div class="modal-footer p-1">
 						<button class="border button d-flex m-1 ms-auto rounded shadow-sm" data-bs-dismiss="modal" type="button">
-							<img class="icon m-1" height="22" src="icons/window-close.svg">
+							<img class="icon m-1" height="22" src='{% static "../static/icons/window-close.svg" %}'>
 							<div class="my-auto">
 								Close
 							</div>
@@ -255,19 +255,19 @@
 						</div>
 						<div class="modal-footer p-1">
 							<button class="border button d-flex m-1 rounded shadow-sm text-nowrap" data-bs-target="#register" data-bs-toggle="modal" type="button">
-								<img class="icon m-1" height="22" src="icons/list-add-user.svg">
+								<img class="icon m-1" height="22" src='{% static "../static/icons/list-add-user.svg" %}'>
 								<div class="my-auto pe-none">
 									Register
 								</div>
 							</button>
 							<button class="border button d-flex m-1 ms-auto rounded shadow-sm" data-bs-dismiss="modal" type="button">
-								<img class="icon m-1" height="22" src="icons/dialog-cancel.svg">
+								<img class="icon m-1" height="22" src='{% static "../static/icons/dialog-cancel.svg" %}'>
 								<div class="my-auto">
 									Cancel
 								</div>
 							</button>
 							<button class="border button d-flex m-1 rounded shadow-sm" type="submit">
-								<img class="icon m-1" height="22" src="icons/dialog-ok-apply.svg">
+								<img class="icon m-1" height="22" src='{% static "../static/icons/dialog-ok-apply.svg" %}'>
 								<div class="my-auto">
 									OK
 								</div>
@@ -308,13 +308,13 @@
 						</div>
 						<div class="modal-footer p-1">
 							<button class="border button d-flex m-1 ms-auto rounded shadow-sm" data-bs-target="#login" data-bs-toggle="modal" type="button">
-								<img class="icon m-1" height="22" src="icons/dialog-cancel.svg">
+								<img class="icon m-1" height="22" src='{% static "../static/icons/dialog-cancel.svg" %}'>
 								<div class="my-auto">
 									Cancel
 								</div>
 							</button>
 							<button class="border button d-flex m-1 rounded shadow-sm" type="submit">
-								<img class="icon m-1" height="22" src="icons/dialog-ok-apply.svg">
+								<img class="icon m-1" height="22" src='{% static "../static/icons/dialog-ok-apply.svg" %}'>
 								<div class="my-auto">
 									OK
 								</div>
@@ -337,7 +337,7 @@
 							<div class="d-flex w-100">
 								<input  class="border m-1 p-1 rounded w-100" placeholder="Enter username" id="list_item" type="text"/>
 								<button class="border button d-flex m-1 rounded shadow-sm" id="list_add">
-									<img class="icon m-1" height="22" src="icons/list-add.svg">
+									<img class="icon m-1" height="22" src='{% static "../static/icons/list-add.svg" %}'>
 								</button>
 							</div>
 							<div class="list_container">
@@ -348,13 +348,13 @@
 					</div>
 					<div class="modal-footer p-1">
 						<button class="border button d-flex m-1 ms-auto rounded shadow-sm" type="button">
-							<img class="icon m-1" height="22" src="icons/media-playback-start.svg">
+							<img class="icon m-1" height="22" src='{% static "../static/icons/media-playback-start.svg" %}'>
 							<div class="my-auto">
 								Start tournament
 							</div>
 						</button>
 						<button class="border button d-flex m-1 rounded shadow-sm" data-bs-dismiss="modal" type="button">
-							<img class="icon m-1" height="22" src="icons/window-close.svg">
+							<img class="icon m-1" height="22" src='{% static "../static/icons/window-close.svg" %}'>
 							<div class="my-auto">
 								Close
 							</div>
