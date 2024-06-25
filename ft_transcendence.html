@@ -324,23 +324,32 @@
 			</div>
 		</div>
 		<div aria-hidden="true" aria-labelledby="tournament" class="modal fade" id="tournament" tabindex="-1">
-			<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 				<div class="bg-body border modal-content p-1 rounded">
 					<div class="modal-header p-1">
 						<h2 class="m-1 pe-none">
 							Tournament
 						</h2>
 					</div>
-					<div class="m-1 modal-body p-0">
-						<div class="border frame m-1 rounded">
-							<div class="d-flex w-100">
-								<input class="border m-1 p-1 rounded w-100" id="list_item" placeholder="Enter username" type="text">
-								<button class="border button d-flex m-1 rounded shadow-sm" id="list_add" onclick="add_item()">
-									<img class="icon m-1" height="22" src="icons/list-add.svg">
+					<div class="d-flex flex-column m-1 modal-body overflow-hidden p-0">
+						<div class="border d-flex flex-column frame m-1 overflow-hidden p-0 rounded">
+							<div class="d-flex overflow-hidden p-0 warning-banner" id="banner" style="max-height: 0">
+								<div class="m-auto pe-none" id="banner-text">
+								</div>
+								<button class="border borderless-button d-flex p-0 rounded" onclick="close_banner()" type="button">
+									<img class="icon m-1" height="22" src="icons/window-close.svg">
 								</button>
 							</div>
-							<div class="list_container">
-								<div id="list">
+							<div class="overflow-y-auto">
+								<div class="d-flex m-2">
+									<input class="border m-1 p-1 rounded w-100" id="list_item" placeholder="Enter username" type="text">
+									<button class="border button d-flex m-1 rounded shadow-sm" id="list_add" onclick="add_item()">
+										<img class="icon m-1" height="22" src="icons/list-add.svg">
+									</button>
+								</div>
+								<div class="list_container m-2">
+									<div id="list">
+									</div>
 								</div>
 							</div>
 						</div>
@@ -348,7 +357,7 @@
 					<div class="modal-footer p-1">
 						<button class="border button d-flex m-1 ms-auto rounded shadow-sm" type="button">
 							<img class="icon m-1" height="22" src="icons/media-playback-start.svg">
-							<div class="my-auto">
+							<div class="my-auto" onclick="start-tournament()">
 								Start tournament
 							</div>
 						</button>

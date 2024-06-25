@@ -167,6 +167,15 @@ input[type=password]:focus, input[type=password]:hover, input[type=text]:focus, 
 	max-width: 50rem;
 }
 
+.warning-banner
+{
+	background-color: #f8e3e6;
+	color: #be7d88;
+	max-height: 500px;
+	transition-duration: 0.25s;
+	transition-property: max-height, padding;
+}
+
 body
 {
 	--bs-body-bg: #eff0f1;
