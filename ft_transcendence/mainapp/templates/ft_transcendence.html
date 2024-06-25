@@ -1,3 +1,4 @@
+{% load static %}
 <!doctype html>
 <html class="h-100" lang="en-US">
 	<title>
@@ -5,11 +6,11 @@
 	</title>
 	<body class="d-flex flex-column h-100">
 		<head>
-			<link href="ft_transcendence.css" rel="stylesheet" />
-			<link href="bootstrap/css/bootstrap.css" rel="stylesheet">
-			<script src="popper/popper.min.js">
+			<link href='{% static "../static/ft_transcendence.css" %}' rel="stylesheet" />
+			<link href='{% static "../static/bootstrap/css/bootstrap.css" %}' rel="stylesheet">
+			<script src='{% static "../static/popper/popper.min.js" %}'>
 			</script>
-			<script src="bootstrap/js/bootstrap.js">
+			<script src='{% static "../static/bootstrap/js/bootstrap.js" %}'>
 			</script>
 		</head>
 		<nav class="bg-body-tertiary border-bottom navbar navbar-expand-lg py-0 shadow-sm">
@@ -363,6 +364,6 @@
 			</div>
 		</div>
 	</body>
-	<script src="ft_transcendence.js">
+	<script src='{% static "../static/ft_transcendence.js" %}'>
 	</script>
 </html>
