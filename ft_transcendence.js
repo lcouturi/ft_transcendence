@@ -1,7 +1,9 @@
-document.querySelector("#list_add").addEventListener("click", () =>
+const tournament_array = [];
+
+function add_item()
 {
 	let list_item = document.querySelector("#list_item");
-	if (list_item.value == "")
+	if (list_item.value == "" || tournament_array.indexOf(list_item.value) != -1)
 		return false;
 	const div = document.createElement("div");
 	let divContainer = `
@@ -19,5 +21,6 @@ document.querySelector("#list_add").addEventListener("click", () =>
 		e.currentTarget.closest("div").remove();
 	});
 	document.querySelector("#list").appendChild(div);
+	tournament_array.push(list_item.value);
 	list_item.value = "";
-});
+}

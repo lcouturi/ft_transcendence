@@ -36,12 +36,6 @@
 	transition: border-color 0.25s ease-out;
 }
 
-.button:focus
-{
-	--bs-border-color: #65b3d2;
-	background-color: #d0edfa;
-}
-
 .button:hover
 {
 	--bs-border-color: #00b0ef;
