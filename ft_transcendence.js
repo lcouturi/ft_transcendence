@@ -8,7 +8,7 @@ function add_item()
 	const div = document.createElement("div");
 	let divContainer = `
 	<div class="d-flex">
-		<div class="m-1 p-1 w-100">
+		<div class="m-1 p-1 w-100 value">
 			${list_item.value}
 		</div>
 		<button class="border button d-flex delete m-1 rounded shadow-sm" id="list_add">
@@ -18,6 +18,7 @@ function add_item()
 	div.innerHTML = divContainer;
 	div.querySelector(".delete").addEventListener("click", (e) =>
 	{
+		tournament_array.splice(tournament_array.indexOf(e.currentTarget.closest("div").innerText), 1);
 		e.currentTarget.closest("div").remove();
 	});
 	document.querySelector("#list").appendChild(div);
