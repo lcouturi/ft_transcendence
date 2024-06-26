@@ -9,8 +9,8 @@ export function initGUI() {
     gui.add(params, 'hemiIrradiance', Object.keys(hemiLuminousIrradiances)).name('irradiance');
     gui.add(params, 'bulbPower', Object.keys(bulbLuminousPowers)).name('bulb power');
     gui.add(params, 'exposure', 0, 3);
-    gui.add(params, 'paddleSpeed', 0, 1).name('user paddle speed');
-    gui.add(params, 'aiPaddleSpeed', 0, 1).name('AI paddle speed');
+    gui.add(params, 'paddleSpeed', 0, 10).name('user paddle speed');
+    gui.add(params, 'aiPaddleSpeed', 0, 10).name('AI paddle speed');
     gui.add(params, 'tolerance', 0, 1).name('tolerance');
     gui.add(params, 'easingFactor', 0, 1).name('easing factor');
     gui.add(params, 'shadows');

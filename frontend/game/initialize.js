@@ -9,13 +9,14 @@ export function initScene(g) {
 export function initCamera(g) {
     g.camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 100); // Create a new camera object
     g.camera.position.set(0, 15, 25);                                                             // Set the camera position
-    window.addEventListener('resize', onWindowResize);                                            // Add an event listener for window resize events(when the window is resized, the camera aspect ratio and projection matrix are updated)
+    window.addEventListener('resize', onWindowResize(g));                                            // Add an event listener for window resize events(when the window is resized, the camera aspect ratio and projection matrix are updated)
 }
 
-export function onWindowResize() {
-    camera.aspect = window.innerWidth / window.innerHeight;  // Update the camera aspect ratio
-    camera.updateProjectionMatrix();                         // Update the camera projection matrix
-    renderer.setSize(window.innerWidth, window.innerHeight); // Update the renderer size
+export function onWindowResize(g) {
+    g.camera.aspect = window.innerWidth / window.innerHeight;  // Update the camera aspect ratio
+    g.camera.updateProjectionMatrix();                         // Update the camera projection matrix
+    if (g.renderer)                                            // Check if the renderer exists
+        g.renderer.setSize(window.innerWidth, window.innerHeight); // Update the renderer size
 }
 
 export function initLights(g) {

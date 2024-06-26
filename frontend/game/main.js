@@ -4,7 +4,14 @@ import { initGeometry } from './geometry.js';                                   
 import { initRenderer } from './renderer.js';                                       // renderer used to render the scene. It also takes a callback function that is called on each frame of the animation loop.
 import { initGUI } from './gui.js';                                                 // a graphical user interface (GUI) for adjusting parameters in the scene
 import { bulbLuminousPowers, hemiLuminousIrradiances, params } from './utils.js';   // utility functions and parameters used in the scene
-import { updateLighting, movePlayerPaddle, moveAIPaddle, moveBall, handleCollisions, checkMissedBall, checkBounds } from './animation.js'; // functions for updating lighting, moving paddles, moving the ball, handling collisions, and checking bounds
+import { updateLighting,
+         movePlayerPaddle,
+         moveAIPaddle,
+         moveBall,
+         handleCollisions,
+         checkMissedBall,
+         checkBounds,
+         initScoreDisplay } from './animation.js'; // functions for updating lighting, moving paddles, moving the ball, handling collisions, and checking bounds
 import { addStars, initGlassSphere, initStarField, updateStars } from './objects.js'; // objects in the scene (e.g., stars, glass sphere, etc.)
 import { initScene, initCamera, initLights, initStats } from './initialize.js';
 import { initEventListeners, initControls, paddleDirection, aiPaddleDirection } from './events.js'; // event listeners for window resize events and keyboard input
@@ -27,7 +34,11 @@ export const g = {
     previousShadowMap: false,                 // Previous shadow map state
     starPool: [],                             // Pool of star objects
     numStars: 5000,                           // Number of stars
-    floor: null
+    floor: null,
+    playerScore: 0,
+    aiScore: 0,
+    playerScoreText: null,
+    aiScoreText: null,
 };
 
 init();     // Initialize the scene
@@ -46,15 +57,16 @@ function init() {
     initGUI();                                              // Initialize the GUI
     initControls();                                         // Setup the controls for the player paddle
     initEventListeners();                                   // Initialize event listeners
+    initScoreDisplay(g);                                    // Initialize the score display
 }
 
 function animate() {
     updateLighting(params, g.previousShadowMap, g.floorMat, g.renderer, g.bulbLight, g.bulbMat, g.hemiLight, bulbLuminousPowers, hemiLuminousIrradiances);
     movePlayerPaddle(g.paddleMesh, paddleDirection, params);
     moveAIPaddle(g.aiPaddleMesh, aiPaddleDirection, g.bulbLight, params);
-    moveBall(g.bulbLight, g.ballVelocity);
+    moveBall(g);
     handleCollisions(g.bulbLight, g.paddleMesh, g.aiPaddleMesh, g.ballVelocity, params);
-    checkMissedBall(g.bulbLight, g.ballVelocity, params);
+    checkMissedBall(g, params);
     checkBounds(g.paddleMesh, params);
     g.renderer.render(g.scene, g.camera);
     updateStars(g);

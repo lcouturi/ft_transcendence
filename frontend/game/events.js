@@ -38,5 +38,5 @@ function onKeyUp(event) {
 }
 
 export function initEventListeners() {
-    window.addEventListener('resize', onWindowResize);      // Add an event listener for window resize events
+    
 }
