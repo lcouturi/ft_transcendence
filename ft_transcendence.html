@@ -45,16 +45,6 @@
 			</div>
 		</nav>
 		<div class="content d-flex flex-column m-auto mh-100 mw-100" id="content">
-			<div class="d-none m-2" id="results">
-				<img class="m-1 my-auto" height="22" src="icons/im-user.svg">
-				<div class="m-1 my-auto" id="result">
-				</div>
-				<button class="border button d-flex m-1 ms-auto rounded shadow-sm" onclick="start_match()" type="button">
-					<div class="my-auto">
-						Next match
-					</div>
-				</button>
-			</div>
 			<div class="d-flex m-1" id="current-match">
 				<div class="d-flex m-1 me-auto">
 					<img class="mx-1 my-auto" height="22" src="icons/im-user.svg">
@@ -392,10 +382,10 @@
 						</div>
 					</div>
 					<div class="modal-footer p-1">
-						<button class="border button d-flex m-1 ms-auto rounded shadow-sm" type="button">
+						<button class="border button d-flex m-1 ms-auto rounded shadow-sm" onclick="start_tournament()" type="button">
 							<img class="m-1" height="22" src="icons/media-playback-start.svg">
-							<div class="my-auto" onclick="start_tournament()">
-								Start tournament
+							<div class="my-auto">
+								Start Tournament
 							</div>
 						</button>
 						<button class="border button d-flex m-1 rounded shadow-sm" data-bs-dismiss="modal" id="close" type="button">
@@ -408,6 +398,32 @@
 				</div>
 			</div>
 		</div>
+		<div aria-hidden="true" aria-labelledby="results" class="modal fade" id="results" tabindex="-1">
+			<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+				<div class="bg-body border modal-content p-1 rounded">
+					<div class="modal-header p-1">
+						<h2 class="m-1 pe-none">
+							Results
+						</h2>
+					</div>
+					<div class="d-flex flex-column m-1 modal-body overflow-hidden p-0">
+						<div class="border d-flex flex-column frame m-1 overflow-hidden p-1 rounded">
+							<h4 class="my-1 mx-auto" id="result">
+							</h4>
+							<h6 class="my-1 mx-auto" id="next-match">
+							</h6>
+						</div>
+					</div>
+					<div class="modal-footer p-1">
+						<button class="border button d-flex m-1 ms-auto rounded shadow-sm" data-bs-dismiss="modal" onclick="start_match()" type="button">
+							<img class="m-1" height="22" src="icons/media-playback-start.svg">
+							<div class="my-auto">
+								Next Match
+							</div>
+						</button>
+					</div>
+				</div>
+			</div>
 	</body>
 	<script src="ft_transcendence.js">
 	</script>

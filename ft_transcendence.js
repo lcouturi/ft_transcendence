@@ -53,46 +53,8 @@ function	open_banner(value)
 	document.querySelector("#banner").style.maxHeight = "500px";
 }
 
-function	result(value)
+function	prepare_next_match()
 {
-	let	what = " won the match!";
-
-	if (in_tournament == false)
-	{
-		contestant1 = document.querySelector("#contestant1").innerText;
-		contestant2 = document.querySelector("#contestant2").innerText;
-	}
-	else if (value == 1)
-		winners.push(contestant1);
-	else if (value == 2)
-		winners.push(contestant2);
-	document.querySelector("#current-match").classList.add("d-none");
-	document.querySelector("#current-match").classList.remove("d-flex");
-	document.querySelector("#results").classList.add("d-flex");
-	document.querySelector("#results").classList.remove("d-none");
-	if (tournament_array.length == 0 && winners.length == 1)
-	{
-		in_tournament = false;
-		what = " won the tournament!";
-	}
-	if (value == 1)
-	{
-		document.querySelector("#result").innerHTML = contestant1 + what;
-		console.log("%s%s", contestant1, what);
-	}
-	else if (value == 2)
-	{
-		document.querySelector("#result").innerHTML = contestant2 + what;
-		console.log("%s%s", contestant2, what);
-	}
-}
-
-function start_match()
-{
-	document.querySelector("#current-match").classList.add("d-flex");
-	document.querySelector("#current-match").classList.remove("d-none");
-	document.querySelector("#results").classList.add("d-none");
-	document.querySelector("#results").classList.remove("d-flex");
 	if (in_tournament == true)
 	{
 		i++;
@@ -110,12 +72,56 @@ function start_match()
 		}
 		contestant2 = tournament_array[Math.floor(Math.random()*tournament_array.length)];
 		tournament_array.splice(tournament_array.indexOf(contestant2), 1);
+		document.querySelector("#next-match").innerHTML = "The next match will be between " + contestant1 + " and " + contestant2 + ".";
 	}
 	else
 	{
 		contestant1 = "Guest 1";
 		contestant2 = "Guest 2";
+		i = 0;
+		document.querySelector("#next-match").innerHTML = "";
 	}
+}
+
+function	result(value)
+{
+	if (in_tournament == false)
+	{
+		contestant1 = document.querySelector("#contestant1").innerText;
+		contestant2 = document.querySelector("#contestant2").innerText;
+	}
+	else if (value == 1)
+		winners.push(contestant1);
+	else if (value == 2)
+		winners.push(contestant2);
+	if (tournament_array.length == 0 && winners.length == 1 && in_tournament == true)
+	{
+		in_tournament = false;
+		if (value == 1)
+			document.querySelector("#result").innerHTML = contestant1 + " won the tournament!";
+		else
+			document.querySelector("#result").innerHTML = contestant2 + " won the tournament!";
+		prepare_next_match();
+	}
+	else if (value == 1)
+	{
+		document.querySelector("#result").innerHTML = contestant1 + " won the match against " + contestant2 + "!";
+		if (in_tournament == true)
+			prepare_next_match();
+		console.log("%s won the match against %s!", contestant1, contestant2);
+	}
+	else if (value == 2)
+	{
+		document.querySelector("#result").innerHTML = contestant2 + " won the match against " + contestant1 + "!";
+		if (in_tournament == true)
+			prepare_next_match();
+		console.log("%s won the match against %s!", contestant2, contestant1);
+	}
+	new bootstrap.Modal(document.querySelector("#results")).show();
+}
+
+function start_match()
+{
 	document.querySelector("#contestant1").innerHTML = contestant1;
 	document.querySelector("#contestant2").innerHTML = contestant2;
 	console.log("match %i: %s vs %s", i, contestant1, contestant2);
@@ -135,5 +141,6 @@ function	start_tournament()
 	document.querySelector("#close").click();
 	winners = [];
 	i = 0;
+	prepare_next_match();
 	start_match();
 }
