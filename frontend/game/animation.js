@@ -35,8 +35,8 @@ export function moveAIPaddle(aiPaddleMesh, aiPaddleDirection, bulbLight, params)
     aiPaddleMesh.position.x += aiPaddleDirection.x * params.aiPaddleSpeed * 0.016;
 }
 
-export function moveBall(bulbLight, ballVelocity) {
-    bulbLight.position.add(ballVelocity.clone().multiplyScalar(0.016));
+export function moveBall(g) {
+    g.bulbLight.position.add(g.ballVelocity.clone().multiplyScalar(0.016));
     // .clone() is used to avoid modifying the original vector
     // 0.016 is the time delta between frames (60 frames per second)
 }
@@ -72,14 +72,71 @@ export function handleCollisions(bulbLight, paddleMesh, aiPaddleMesh, ballVeloci
     }
 }
 
-export function checkMissedBall(bulbLight, ballVelocity, params) {
+export function checkMissedBall(g, params) {
     // Check if the ball has missed the player paddle
-    if (bulbLight.position.z > 10 || bulbLight.position.z < -10) {
-        // Reset ball position
-        bulbLight.position.set(0, 0.2, 0);
-        // Reset ball velocity (move towards player paddle)
-        ballVelocity.set(0, 0, 5);
+    if (g.bulbLight.position.z > params.wallBoundary) {
+        g.aiScore++;
+        g.bulbLight.position.set(0, 0.2, 0);
+        g.ballVelocity.set(0, 0, 5);
+        updateScoreDisplay(g);
+    } else if (g.bulbLight.position.z < -params.wallBoundary) {
+        g.playerScore++;
+        g.bulbLight.position.set(0, 0.2, 0);
+        g.ballVelocity.set(0, 0, -5);
+        updateScoreDisplay(g);
     }
+}
+
+export function initScoreDisplay(g) {
+    // Create player score text element
+    g.playerScoreText = document.createElement('div');
+    g.playerScoreText.style.position = 'absolute';
+    g.playerScoreText.style.top = '10px';
+    g.playerScoreText.style.left = '300px';
+    g.playerScoreText.style.color = '#ffffff';
+    g.playerScoreText.style.fontFamily = 'Arial, sans-serif';
+    g.playerScoreText.style.fontSize = '24px';
+    document.body.appendChild(g.playerScoreText);
+
+    // Create AI score text element
+    g.aiScoreText = document.createElement('div');
+    g.aiScoreText.style.position = 'absolute';
+    g.aiScoreText.style.top = '10px';
+    g.aiScoreText.style.right = '300px';
+    g.aiScoreText.style.color = '#ffffff';
+    g.aiScoreText.style.fontFamily = 'Arial, sans-serif';
+    g.aiScoreText.style.fontSize = '24px';
+    document.body.appendChild(g.aiScoreText);
+
+    // Initial update of score display
+    updateScoreDisplay(g);
+}
+
+export function updateScoreDisplay(g) {
+    if (!g.playerScoreText) {
+        g.playerScoreText = document.createElement('div');
+        g.playerScoreText.style.position = 'absolute';
+        g.playerScoreText.style.top = '10px';
+        g.playerScoreText.style.left = '200px';
+        g.playerScoreText.style.color = '#ffffff';
+        g.playerScoreText.style.fontFamily = 'Arial, sans-serif';
+        g.playerScoreText.style.fontSize = '24px';
+        document.body.appendChild(g.playerScoreText);
+    }
+
+    if (!g.aiScoreText) {
+        g.aiScoreText = document.createElement('div');
+        g.aiScoreText.style.position = 'absolute';
+        g.aiScoreText.style.top = '10px';
+        g.aiScoreText.style.right = '400px';
+        g.aiScoreText.style.color = '#ffffff';
+        g.aiScoreText.style.fontFamily = 'Arial, sans-serif';
+        g.aiScoreText.style.fontSize = '24px';
+        document.body.appendChild(g.aiScoreText);
+    }
+
+    g.playerScoreText.textContent = `Player Score: ${g.playerScore}`;
+    g.aiScoreText.textContent = `AI Score: ${g.aiScore}`;
 }
 
 export function checkBounds(paddleMesh, params) {
