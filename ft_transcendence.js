@@ -5,6 +5,11 @@ let	contestant2;
 let	tournament_array = [];
 let	winners = [];
 
+document.getElementById('avatar').onchange = function ()
+{
+	document.querySelector("#avatar-name").value = this.files[0].name;
+};
+
 function	add_item()
 {
 	let	list_item = document.querySelector("#list_item");
