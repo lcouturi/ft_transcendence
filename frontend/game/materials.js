@@ -1,6 +1,7 @@
 import * as THREE from 'three';
+import { g } from './main.js';
 
-export function initMaterials(g) {
+export function initMaterials() {
     const woodMaterials = initWoodMaterials();
     const glassMaterials = initGlassMaterials();
 

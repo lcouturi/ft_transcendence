@@ -1,19 +1,20 @@
 import * as THREE from 'three';
+import { g } from './main.js';
 
-export function initGeometry(g) {
-    initializeFloor(g);
-    initializePaddles(g);
+export function initGeometry() {
+    initializeFloor();
+    initializePaddles();
     g.bulbLight.position.set(0, 0.2, 0);
 }
 
-function initializeFloor(g) {
+function initializeFloor() {
     const floorMaterial = g.floorMat;
     const floorMesh = createFloorMesh(floorMaterial);
     g.floorMesh = floorMesh;
     g.scene.add(floorMesh);
 }
 
-function initializePaddles(g) {
+function initializePaddles() {
     const paddleMaterial = new THREE.MeshStandardMaterial({
         color: 0x00ff00,
         transparent: true,
