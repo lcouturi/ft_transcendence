@@ -113,6 +113,18 @@ export function initScoreDisplay(g) {
 }
 
 export function updateScoreDisplay(g) {
+    // Check the scoreLimit to determine if a player has won
+    if (g.playerScore >= g.limitScore) {
+        alert('Player wins!');
+        g.playerScore = 0;
+        g.aiScore = 0;
+    } else if (g.aiScore >= g.limitScore) {
+        alert('AI wins!');
+        g.playerScore = 0;
+        g.aiScore = 0;
+    }
+
+    // Update the player and AI score text elements
     if (!g.playerScoreText) {
         g.playerScoreText = document.createElement('div');
         g.playerScoreText.style.position = 'absolute';

@@ -43,6 +43,7 @@ export const g = {
     aiScore: 0,                               // AI score
     playerScoreText: null,                    // Player score text
     aiScoreText: null,                        // AI score text
+    limitScore: 5
 };
 
 init();     // Initialize the scene

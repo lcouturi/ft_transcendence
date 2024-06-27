@@ -1,7 +1,5 @@
 import * as THREE from 'three';
 
-const envMap = new THREE.CubeTextureLoader().load(['px.jpg', 'nx.jpg', 'py.jpg', 'ny.jpg', 'pz.jpg', 'nz.jpg']);
-
 export function initGeometry(g) {
     initializeFloor(g);
     initializePaddles(g);
@@ -24,8 +22,6 @@ function initializePaddles(g) {
         metalness: 0.1,
         emissive: 0x00ff00,
         emissiveIntensity: 0.9,
-        envMap: envMap,
-        reflectivity: 0.5,
     });
 
     const aiPaddleMaterial = new THREE.MeshStandardMaterial({
@@ -36,8 +32,6 @@ function initializePaddles(g) {
         metalness: 0.1,
         emissive: 0xff0000,
         emissiveIntensity: 0.9,
-        envMap: envMap,
-        reflectivity: 0.5,
     });
 
     const paddleMesh = createPaddleMesh(paddleMaterial, 8);

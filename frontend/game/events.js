@@ -38,5 +38,5 @@ function onKeyUp(event) {
 }
 
 export function initEventListeners() {
-    
+
 }

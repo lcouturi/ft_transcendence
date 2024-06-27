@@ -13,6 +13,7 @@ export function initGUI() {
     gui.add(params, 'aiPaddleSpeed', 0, 10).name('AI paddle speed');
     gui.add(params, 'tolerance', 0, 1).name('tolerance');
     gui.add(params, 'easingFactor', 0, 1).name('easing factor');
+    gui.add(g, 'limitScore', 1, 20).name('score limit').step(1);
     gui.add(params, 'shadows');
     gui.add(floorMaterialOptions, 'floor', ['wood', 'glass']).name('floor material').onChange(value => { changeFloorMaterial(value); });
     gui.open();
