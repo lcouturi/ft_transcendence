@@ -5,6 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.urls import reverse
+from mainapp.models import CustomUser
 
 # Create your views here.
 def index(request):    
@@ -17,7 +18,7 @@ def login_check(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect(reverse("accueil"))
+            return JsonResponse({'username': user.get_username()})
         else:
             return JsonResponse({'error': "Login or password incorrect"})
     else:
@@ -29,13 +30,13 @@ def register(request):
         password = request.POST['password']
         confirm_password = request.POST['confirm_password']
 
-        if User.objects.filter(username=username).exists():
+        if CustomUser.objects.filter(username=username).exists():
                 return JsonResponse({'error': "User name already exists"})
         else:
             if password != confirm_password:
                 return JsonResponse({'error': "Passwords are not the same"})
 
-            new_user = User.objects.create_user(username=username, password=password)
+            new_user = CustomUser.objects.create_user(username=username, password=password)
             new_user.save()
             return redirect(reverse("accueil"))
     else:
