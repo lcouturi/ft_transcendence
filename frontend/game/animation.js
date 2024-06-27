@@ -27,16 +27,25 @@ export function movePlayerPaddle() {
 }
 
 export function moveAIPaddle() {
-    const targetX = Math.max(Math.min(g.bulbLight.position.x,  params.paddleBoundary),  -params.paddleBoundary); // Clamp to boundaries
-    const distanceToTarget = targetX - g.aiPaddleMesh.position.x;
+    const { bulbLight, aiPaddleMesh } = g; // Destructuring for clarity
+    const { paddleBoundary, easingFactor, tolerance, aiPaddleSpeed } = params;
 
-    if (Math.abs(distanceToTarget) > params.tolerance) { // Apply tolerance
-        aiPaddleDirection.x = distanceToTarget * params.easingFactor; // Smooth movement
-    } else {
-        aiPaddleDirection.x = 0; // Stop if within tolerance
-    }
-    g.aiPaddleMesh.position.x += aiPaddleDirection.x * params.aiPaddleSpeed * 0.016;
-}
+    // Calculate target position and clamp to boundaries
+    const targetX = Math.max(-paddleBoundary, Math.min(bulbLight.position.x, paddleBoundary));
+
+    // Determine distance to target
+    const distanceToTarget = targetX - aiPaddleMesh.position.x;
+    const absDistance = Math.abs(distanceToTarget);
+
+    // Move towards target with easing or stop if within tolerance
+    aiPaddleDirection.x = absDistance > tolerance
+      ? distanceToTarget * easingFactor
+      : 0;
+
+    aiPaddleMesh.position.x += aiPaddleDirection.x * aiPaddleSpeed * 0.016;
+  }
+
+
 
 export function moveBall() {
     g.bulbLight.position.add(g.ballVelocity.clone().multiplyScalar(g.ballSpeed));

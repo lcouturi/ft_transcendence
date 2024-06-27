@@ -37,6 +37,7 @@ function initializePaddles() {
 
     const paddleMesh = createPaddleMesh(paddleMaterial, 8);
     g.paddleMesh = paddleMesh;
+    g.player2PaddleMesh = paddleMesh.clone();
     g.scene.add(paddleMesh);
 
     const aiPaddleMesh = createPaddleMesh(aiPaddleMaterial, -8);

@@ -22,8 +22,9 @@ export function initGUI() {
     gui.add(g, 'ballSpeed', 0, 0.1).name('ball speed').step(0.001);
     gui.add(params, 'shadows');
     gui.add(floorMaterialOptions, 'floor', ['wood', 'glass']).name('floor material').onChange(value => { changeFloorMaterial(value); });
-    gui.add(g, 'orbitSpeed', 0, 0.1).name('orbit speed').step(0.001); // Add control for orbit speed
-    gui.add(g, 'isOrbiting').name('Enable Orbiting'); // Add toggle for orbiting
+    gui.add(g, 'orbitSpeed', 0, 0.1).name('orbit speed').step(0.001);
+    gui.add(g, 'isOrbiting').name('enable orbiting');
+    gui.add(g, 'isSinglePlayer').name('single player mode').onChange(value => { toggleGameMode(value); });
     gui.open();
     return gui;
 }
@@ -32,4 +33,8 @@ function changeFloorMaterial(materialName) {
     g.floorMat = g.floor[materialName];
     g.floorMesh.material = g.floorMat;
     g.floorMesh.material.needsUpdate = true;
+}
+
+function toggleGameMode(isSinglePlayer) {
+    g.isSinglePlayer = isSinglePlayer;
 }

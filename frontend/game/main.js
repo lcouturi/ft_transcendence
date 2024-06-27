@@ -4,7 +4,7 @@ import { initGeometry } from './geometry.js';                 // Import geometry
 import { initRenderer } from './renderer.js';                 // Import renderer initialization
 import { initGUI } from './gui.js';                           // Import GUI setup
 import { initScene, initCamera, initLights, initStats } from './initialize.js'; // Import scene, camera, lights, and stats initialization
-import { initEventListeners, initControls } from './events.js'; // Import event listeners and controls setup
+import { initEventListeners, initControls, player2PaddleDirection } from './events.js'; // Import event listeners and controls
 import { initStarField, updateStars } from './objects.js';    // Import star field initialization and update
 import {
     updateLighting,
@@ -51,6 +51,9 @@ export const g = {
     orbitCenter: new THREE.Vector3(0, 0, 0),  // Center point of the orbit (table position)
     orbitAngle: 0,                            // Current angle in the orbit
     isOrbiting: false,                        // Flag to enable/disable orbiting
+    isSinglePlayer: true,                     // Flag to track if the game is single-player or multiplayer
+    player2PaddleMesh: null,                  // Player 2 paddle mesh object
+    player2PaddleSpeed: 0.016,                // Player 2 paddle speed
 };
 
 // Initialize the scene
@@ -75,10 +78,38 @@ function init() {
     initScoreDisplay();                                    // Initialize the score display
 }
 
+// Function to move player 2 paddle based on controls
+function movePlayer2Paddle() {
+    const speed = 0.1;  // Adjust speed as needed
+
+    // Move player 2 paddle based on player2PaddleDirection
+    g.aiPaddleMesh.position.z += player2PaddleDirection.z * speed;
+    g.aiPaddleMesh.position.x += player2PaddleDirection.x * speed;
+
+    // Limit paddle movement within boundaries (adjust as per your game's logic)
+    const paddleHalfSize = 10;  // Adjust based on paddle size
+    g.aiPaddleMesh.position.z = THREE.MathUtils.clamp(
+        g.aiPaddleMesh.position.z,
+        -paddleHalfSize,
+        paddleHalfSize
+    );
+    g.aiPaddleMesh.position.x = THREE.MathUtils.clamp(
+        g.aiPaddleMesh.position.x,
+        -paddleHalfSize,
+        paddleHalfSize
+    );
+}
+
 function animate() {
     updateLighting();       // Update lighting in the scene
     movePlayerPaddle();     // Move player paddle
-    moveAIPaddle();         // Move AI paddle
+    // moveAIPaddle();         // AI controls
+    // movePlayer2Paddle();    // Player 2 controls
+    if (!g.isSinglePlayer) {
+        movePlayer2Paddle(); // Player 2 controls
+    } else {
+        moveAIPaddle();      // AI
+    }
     moveBall();             // Move the ball
     handleCollisions();     // Handle collisions
     checkMissedBall();      // Check if the ball has missed
