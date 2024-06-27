@@ -5,7 +5,7 @@ import { initStarField, updateStars } from './objects.js';
 
 export function initGUI() {
     const gui = new GUI();
-    const floorMaterialOptions = {floor: 'wood'}; // default material
+    const floorMaterialOptions = { floor: 'wood' }; // default material
 
     gui.add(params, 'hemiIrradiance', Object.keys(hemiLuminousIrradiances)).name('irradiance');
     gui.add(params, 'bulbPower', Object.keys(bulbLuminousPowers)).name('bulb power');
@@ -17,8 +17,13 @@ export function initGUI() {
     gui.add(g, 'limitScore', 1, 9999).name('score limit').step(1);
     gui.add(g, 'numStars', 0, 10000).name('number of stars').step(1).onChange(() => { initStarField(); });
     gui.add(g, 'starsSpeed', 0, 1).name('stars speed');
+    gui.addColor(g.starColor, 'color').name('star color').onChange(value => { g.starPool.forEach(star => { star.material.color.set(value); }); });
+    gui.add(g, 'startSize', 0, 0.1).name('star size').step(0.001).onChange(() => { initStarField(); });
+    gui.add(g, 'ballSpeed', 0, 0.1).name('ball speed').step(0.001);
     gui.add(params, 'shadows');
     gui.add(floorMaterialOptions, 'floor', ['wood', 'glass']).name('floor material').onChange(value => { changeFloorMaterial(value); });
+    gui.add(g, 'orbitSpeed', 0, 0.1).name('orbit speed').step(0.001); // Add control for orbit speed
+    gui.add(g, 'isOrbiting').name('Enable Orbiting'); // Add toggle for orbiting
     gui.open();
     return gui;
 }

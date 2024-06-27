@@ -1,9 +1,10 @@
 import * as THREE from 'three';
-import { initControls, paddleDirection, aiPaddleDirection } from './events.js';
 import { g } from './main.js';
 import { params } from './utils.js';
+import { bulbLuminousPowers, hemiLuminousIrradiances } from './utils.js';   // utility functions and parameters used in the scene
+import { paddleDirection, aiPaddleDirection } from './events.js'; // event listeners for window resize events and keyboard input
 
-export function updateLighting(bulbLuminousPowers, hemiLuminousIrradiances) {
+export function updateLighting() {
     g.renderer.toneMappingExposure = Math.pow(params.exposure, 5.0);  // Update the tone mapping exposure (brightness of the scene)
     g.renderer.shadowMap.enabled = params.shadows;                    // Enable or disable shadows
     g.bulbLight.castShadow = params.shadows;                          // Enable or disable shadow casting for the bulb light
@@ -20,12 +21,12 @@ export function updateLighting(bulbLuminousPowers, hemiLuminousIrradiances) {
     g.hemiLight.intensity = hemiLuminousIrradiances[params.hemiIrradiance];   // Update the hemisphere light intensity
 }
 
-export function movePlayerPaddle(paddleDirection) {
+export function movePlayerPaddle() {
     g.paddleMesh.position.x += paddleDirection.x * params.paddleSpeed * 0.016; // Move the paddle in the x direction
     g.paddleMesh.position.z += paddleDirection.z * params.paddleSpeed * 0.016; // Move the paddle in the z direction
 }
 
-export function moveAIPaddle(aiPaddleDirection) {
+export function moveAIPaddle() {
     const targetX = Math.max(Math.min(g.bulbLight.position.x,  params.paddleBoundary),  -params.paddleBoundary); // Clamp to boundaries
     const distanceToTarget = targetX - g.aiPaddleMesh.position.x;
 
@@ -38,7 +39,7 @@ export function moveAIPaddle(aiPaddleDirection) {
 }
 
 export function moveBall() {
-    g.bulbLight.position.add(g.ballVelocity.clone().multiplyScalar(0.016));
+    g.bulbLight.position.add(g.ballVelocity.clone().multiplyScalar(g.ballSpeed));
     // .clone() is used to avoid modifying the original vector
     // 0.016 is the time delta between frames (60 frames per second)
 }
@@ -166,5 +167,14 @@ export function checkBounds() {
         g.paddleMesh.position.z = -params.paddleBoundary; // Reset paddle position
     } else if (g.paddleMesh.position.z > params.paddleBoundary) {
         g.paddleMesh.position.z = params.paddleBoundary; // Reset paddle position
+    }
+}
+
+export function orbitalRotation() {
+    if (g.isOrbiting) {
+        g.orbitAngle += g.orbitSpeed; // Increment the angle
+        g.camera.position.x = g.orbitCenter.x + g.orbitRadius * Math.cos(g.orbitAngle);
+        g.camera.position.z = g.orbitCenter.z + g.orbitRadius * Math.sin(g.orbitAngle);
+        g.camera.lookAt(g.orbitCenter); // Ensure the camera looks at the center of the orbit (table)
     }
 }

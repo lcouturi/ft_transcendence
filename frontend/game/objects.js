@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { g } from './main.js';
 
 export function initStarField() {
-    // Reset star pool if it already exists
+    // Reset star pool if it already exists (when changing star settings in the GUI)
     if (g.starPool.length > 0) {
         g.starPool.forEach(star => {
             g.scene.remove(star);
@@ -11,8 +11,8 @@ export function initStarField() {
         });
         g.starPool = [];
     }
-    const starGeometry = new THREE.SphereGeometry(0.03, 24, 24);
-    const starMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+    const starGeometry = new THREE.SphereGeometry(g.startSize, 24, 24);
+    const starMaterial = new THREE.MeshBasicMaterial({ color: g.starColor.color });
 
     for (let i = 0; i < g.numStars; i++) {
         const star = new THREE.Mesh(starGeometry, starMaterial);
@@ -25,14 +25,15 @@ export function initStarField() {
 function resetStarPosition(star) {
     star.position.x = (Math.random() - 0.5) * 100;
     star.position.y = (Math.random() - 0.5) * 100;
-    star.position.z = (Math.random() - 0.5) * 100 - 50;  // Position stars in front of the camera
+    star.position.z = (Math.random() - 0.5) * 100;  // Position stars in front of the camera
 }
 
 export function updateStars() {
     g.starPool.forEach(star => {
         star.position.z += g.starsSpeed;
 
-        if (star.position.z > 1) {
+        // Reset star position if it goes behind the camera
+        if (star.position.z > 50) {
             resetStarPosition(star);
         }
     });

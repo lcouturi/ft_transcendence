@@ -1,20 +1,22 @@
 import * as THREE from 'three';
-import { initMaterials } from './materials.js';                                     // materials used in the scene (e.g., floor material, paddle material, etc.)
-import { initGeometry } from './geometry.js';                                       // geometry used in the scene (e.g., floor geometry, paddle geometry, etc.)
-import { initRenderer } from './renderer.js';                                       // renderer used to render the scene. It also takes a callback function that is called on each frame of the animation loop.
-import { initGUI } from './gui.js';                                                 // a graphical user interface (GUI) for adjusting parameters in the scene
-import { initScene, initCamera, initLights, initStats } from './initialize.js';
-import { bulbLuminousPowers, hemiLuminousIrradiances } from './utils.js';   // utility functions and parameters used in the scene
-import { initEventListeners, initControls, paddleDirection, aiPaddleDirection } from './events.js'; // event listeners for window resize events and keyboard input
-import { initStarField, updateStars } from './objects.js'; // objects in the scene (e.g., stars, glass sphere, etc.)
-import { updateLighting,
-         movePlayerPaddle,
-         moveAIPaddle,
-         moveBall,
-         handleCollisions,
-         checkMissedBall,
-         checkBounds,
-         initScoreDisplay } from './animation.js'; // functions for updating lighting, moving paddles, moving the ball, handling collisions, and checking bounds
+import { initMaterials } from './materials.js';               // Import materials initialization
+import { initGeometry } from './geometry.js';                 // Import geometry initialization
+import { initRenderer } from './renderer.js';                 // Import renderer initialization
+import { initGUI } from './gui.js';                           // Import GUI setup
+import { initScene, initCamera, initLights, initStats } from './initialize.js'; // Import scene, camera, lights, and stats initialization
+import { initEventListeners, initControls } from './events.js'; // Import event listeners and controls setup
+import { initStarField, updateStars } from './objects.js';    // Import star field initialization and update
+import {
+    updateLighting,
+    movePlayerPaddle,
+    moveAIPaddle,
+    moveBall,
+    handleCollisions,
+    checkMissedBall,
+    checkBounds,
+    initScoreDisplay,
+    orbitalRotation,
+} from './animation.js'; // Import animation-related functions
 
 // Initialization of global variables
 export const g = {
@@ -35,16 +37,27 @@ export const g = {
     starPool: [],                             // Pool of star objects
     numStars: 5000,                           // Number of stars
     starsSpeed: 0.2,                          // Speed of stars
+    startSize: 0.01,                          // Size of stars
+    starColor: { color: '#ffffff' },          // Color of stars
     floor: null,                              // Floor object
     playerScore: 0,                           // Player score
     aiScore: 0,                               // AI score
     playerScoreText: null,                    // Player score text
     aiScoreText: null,                        // AI score text
-    limitScore: 9999                          // Score limit
+    limitScore: 9999,                         // Score limit
+    ballSpeed: 0.016,                         // Ball speed
+    orbitRadius: 20,                          // Radius of the orbit
+    orbitSpeed: 0.002,                        // Speed of the orbit
+    orbitCenter: new THREE.Vector3(0, 0, 0),  // Center point of the orbit (table position)
+    orbitAngle: 0,                            // Current angle in the orbit
+    isOrbiting: false,                        // Flag to enable/disable orbiting
 };
 
-init();     // Initialize the scene
-animate();  // Start animation loop
+// Initialize the scene
+init();
+
+// Start animation loop
+animate();
 
 function init() {
     g.container = document.getElementById('container');    // Get the container element from the HTML document
@@ -63,14 +76,15 @@ function init() {
 }
 
 function animate() {
-    updateLighting(bulbLuminousPowers, hemiLuminousIrradiances);
-    movePlayerPaddle(paddleDirection);
-    moveAIPaddle(aiPaddleDirection);
-    moveBall();
-    handleCollisions();
-    checkMissedBall();
-    checkBounds();
-    g.renderer.render(g.scene, g.camera);
-    updateStars();
-    g.stats.update();
+    updateLighting();       // Update lighting in the scene
+    movePlayerPaddle();     // Move player paddle
+    moveAIPaddle();         // Move AI paddle
+    moveBall();             // Move the ball
+    handleCollisions();     // Handle collisions
+    checkMissedBall();      // Check if the ball has missed
+    checkBounds();          // Check bounds
+    orbitalRotation();      // Orbit the camera
+    g.renderer.render(g.scene, g.camera); // Render the scene
+    updateStars();          // Update the star field
+    g.stats.update();       // Update performance stats
 }
