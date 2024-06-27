@@ -36,10 +36,20 @@
 					</li>
 				</ul>
 				<ul class="navbar-nav">
-					<li class="border d-flex nav-item py-1 rounded text-nowrap" data-bs-target="#login" data-bs-toggle="modal" title="Log in">
+					<li class="border d-flex nav-item py-1 rounded text-nowrap" 
+					{% if not user.is_authenticated %}
+						data-bs-target="#login" 
+					{% else %}
+						data-bs-target="#logout"
+					{% endif %}
+					data-bs-toggle="modal" title="Log in">
 						<img class="icon" height="22" src='{% static "../static/icons/im-user.svg" %}'>
 						<a aria-current="page" class="active ms-1 my-auto nav-link p-0">
+							{% if not user.is_authenticated %}
 							Log in
+							{% else %}
+								{{ user.username }}
+							{% endif %}
 						</a>
 					</li>
 				</ul>
@@ -228,6 +238,8 @@
 				</div>
 			</div>
 		</div>
+
+		{% comment %} Login form {% endcomment %}
 		<div aria-hidden="true" aria-labelledby="login" class="modal fade" id="login" tabindex="-1">
 			<div class="modal-dialog modal-dialog-centered">
 				<div class="bg-body border modal-content p-1 rounded">
@@ -278,6 +290,40 @@
 				</div>
 			</div>
 		</div>
+
+		{% comment %} {% endcomment %}
+		{% comment %} Logout form {% endcomment %}
+		<div aria-hidden="true" aria-labelledby="logout" class="modal fade" id="logout" tabindex="-1">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="bg-body border modal-content p-1 rounded">
+					<div class="modal-header p-1">
+						<h2 class="m-1 pe-none">
+							Log out
+						</h2>
+					</div>
+					<form method="get" action="{% url 'logout' %}">
+						<div class="modal-footer p-1">
+							<button class="border button d-flex m-1 ms-auto rounded shadow-sm" data-bs-dismiss="modal" type="button">
+								<img class="icon m-1" height="22" src='{% static "../static/icons/dialog-cancel.svg" %}'>
+								<div class="my-auto">
+									Cancel
+								</div>
+							</button>
+							<button class="border button d-flex m-1 rounded shadow-sm" type="submit" >
+								<img class="icon m-1" height="22" src='{% static "../static/icons/dialog-ok-apply.svg" %}'>
+								<div class="my-auto">
+									OK
+								</div>
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		{% comment %} {% endcomment %}
+
+
 		<div aria-hidden="true" aria-labelledby="register" class="modal fade" id="register" tabindex="-1">
 			<div class="modal-dialog modal-dialog-centered">
 				<div class="bg-body border modal-content p-1 rounded">
