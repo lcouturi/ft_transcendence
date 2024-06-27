@@ -1,21 +1,20 @@
 import * as THREE from 'three';
+import { g } from './main.js';
 
-const envMap = new THREE.CubeTextureLoader().load(['px.jpg', 'nx.jpg', 'py.jpg', 'ny.jpg', 'pz.jpg', 'nz.jpg']);
-
-export function initGeometry(g) {
-    initializeFloor(g);
-    initializePaddles(g);
+export function initGeometry() {
+    initializeFloor();
+    initializePaddles();
     g.bulbLight.position.set(0, 0.2, 0);
 }
 
-function initializeFloor(g) {
+function initializeFloor() {
     const floorMaterial = g.floorMat;
     const floorMesh = createFloorMesh(floorMaterial);
     g.floorMesh = floorMesh;
     g.scene.add(floorMesh);
 }
 
-function initializePaddles(g) {
+function initializePaddles() {
     const paddleMaterial = new THREE.MeshStandardMaterial({
         color: 0x00ff00,
         transparent: true,
@@ -24,8 +23,6 @@ function initializePaddles(g) {
         metalness: 0.1,
         emissive: 0x00ff00,
         emissiveIntensity: 0.9,
-        envMap: envMap,
-        reflectivity: 0.5,
     });
 
     const aiPaddleMaterial = new THREE.MeshStandardMaterial({
@@ -36,12 +33,11 @@ function initializePaddles(g) {
         metalness: 0.1,
         emissive: 0xff0000,
         emissiveIntensity: 0.9,
-        envMap: envMap,
-        reflectivity: 0.5,
     });
 
     const paddleMesh = createPaddleMesh(paddleMaterial, 8);
     g.paddleMesh = paddleMesh;
+    g.player2PaddleMesh = paddleMesh.clone();
     g.scene.add(paddleMesh);
 
     const aiPaddleMesh = createPaddleMesh(aiPaddleMaterial, -8);

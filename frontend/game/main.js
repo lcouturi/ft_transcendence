@@ -1,24 +1,22 @@
 import * as THREE from 'three';
-import { initMaterials } from './materials.js';                                     // materials used in the scene (e.g., floor material, paddle material, etc.)
-import { initGeometry } from './geometry.js';                                       // geometry used in the scene (e.g., floor geometry, paddle geometry, etc.)
-import { initRenderer } from './renderer.js';                                       // renderer used to render the scene. It also takes a callback function that is called on each frame of the animation loop.
-import { initGUI } from './gui.js';                                                 // a graphical user interface (GUI) for adjusting parameters in the scene
-import { initScene, initCamera, initLights, initStats } from './initialize.js';
-import { bulbLuminousPowers, hemiLuminousIrradiances, params } from './utils.js';   // utility functions and parameters used in the scene
-import { initEventListeners, initControls, paddleDirection, aiPaddleDirection } from './events.js'; // event listeners for window resize events and keyboard input
-import { addStars,
-         initGlassSphere,
-         initStarField,
-         updateStars } from './objects.js'; // objects in the scene (e.g., stars, glass sphere, etc.)
-
-import { updateLighting,
-         movePlayerPaddle,
-         moveAIPaddle,
-         moveBall,
-         handleCollisions,
-         checkMissedBall,
-         checkBounds,
-         initScoreDisplay } from './animation.js'; // functions for updating lighting, moving paddles, moving the ball, handling collisions, and checking bounds
+import { initMaterials } from './materials.js';               // Import materials initialization
+import { initGeometry } from './geometry.js';                 // Import geometry initialization
+import { initRenderer } from './renderer.js';                 // Import renderer initialization
+import { initGUI } from './gui.js';                           // Import GUI setup
+import { initScene, initCamera, initLights, initStats } from './initialize.js'; // Import scene, camera, lights, and stats initialization
+import { initEventListeners, initControls, player2PaddleDirection } from './events.js'; // Import event listeners and controls
+import { initStarField, updateStars } from './objects.js';    // Import star field initialization and update
+import {
+    updateLighting,
+    movePlayerPaddle,
+    moveAIPaddle,
+    moveBall,
+    handleCollisions,
+    checkMissedBall,
+    checkBounds,
+    initScoreDisplay,
+    orbitalRotation,
+} from './animation.js'; // Import animation-related functions
 
 // Initialization of global variables
 export const g = {
@@ -38,41 +36,86 @@ export const g = {
     previousShadowMap: false,                 // Previous shadow map state
     starPool: [],                             // Pool of star objects
     numStars: 5000,                           // Number of stars
+    starsSpeed: 0.2,                          // Speed of stars
+    startSize: 0.01,                          // Size of stars
+    starColor: { color: '#ffffff' },          // Color of stars
     floor: null,                              // Floor object
     playerScore: 0,                           // Player score
     aiScore: 0,                               // AI score
     playerScoreText: null,                    // Player score text
     aiScoreText: null,                        // AI score text
+    limitScore: 9999,                         // Score limit
+    ballSpeed: 0.016,                         // Ball speed
+    orbitRadius: 20,                          // Radius of the orbit
+    orbitSpeed: 0.002,                        // Speed of the orbit
+    orbitCenter: new THREE.Vector3(0, 0, 0),  // Center point of the orbit (table position)
+    orbitAngle: 0,                            // Current angle in the orbit
+    isOrbiting: false,                        // Flag to enable/disable orbiting
+    isSinglePlayer: true,                     // Flag to track if the game is single-player or multiplayer
+    player2PaddleMesh: null,                  // Player 2 paddle mesh object
+    player2PaddleSpeed: 0.016,                // Player 2 paddle speed
 };
 
-init();     // Initialize the scene
-animate();  // Start animation loop
+// Initialize the scene
+init();
+
+// Start animation loop
+animate();
 
 function init() {
-    g.container = document.getElementById('container');     // Get the container element from the HTML document
-    initScene(g);                                           // Initialize the scene
-    initCamera(g);                                          // Initialize the camera
-    initLights(g);                                          // Initialize the lights
-    initStats(g);                                           // Initialize the stats
-    initMaterials(g);                                       // Initialize the materials
-    initGeometry(g);                                        // Initialize the geometry
-    initStarField(g);                                       // Initialize the star field
-    initRenderer(g, animate);                               // Initialize the renderer
-    initGUI();                                              // Initialize the GUI
-    initControls();                                         // Setup the controls for the player paddle
-    initEventListeners();                                   // Initialize event listeners
-    initScoreDisplay(g);                                    // Initialize the score display
+    g.container = document.getElementById('container');    // Get the container element from the HTML document
+    initScene();                                           // Initialize the scene
+    initCamera();                                          // Initialize the camera
+    initLights();                                          // Initialize the lights
+    initStats();                                           // Initialize the stats
+    initMaterials();                                       // Initialize the materials
+    initGeometry();                                        // Initialize the geometry
+    initStarField();                                       // Initialize the star field
+    initRenderer(animate);                                 // Initialize the renderer
+    initGUI();                                             // Initialize the GUI
+    initControls();                                        // Setup the controls for the player paddle
+    initEventListeners();                                  // Initialize event listeners
+    initScoreDisplay();                                    // Initialize the score display
+}
+
+// Function to move player 2 paddle based on controls
+function movePlayer2Paddle() {
+    const speed = 0.1;  // Adjust speed as needed
+
+    // Move player 2 paddle based on player2PaddleDirection
+    g.aiPaddleMesh.position.z += player2PaddleDirection.z * speed;
+    g.aiPaddleMesh.position.x += player2PaddleDirection.x * speed;
+
+    // Limit paddle movement within boundaries (adjust as per your game's logic)
+    const paddleHalfSize = 10;  // Adjust based on paddle size
+    g.aiPaddleMesh.position.z = THREE.MathUtils.clamp(
+        g.aiPaddleMesh.position.z,
+        -paddleHalfSize,
+        paddleHalfSize
+    );
+    g.aiPaddleMesh.position.x = THREE.MathUtils.clamp(
+        g.aiPaddleMesh.position.x,
+        -paddleHalfSize,
+        paddleHalfSize
+    );
 }
 
 function animate() {
-    updateLighting(params, g.previousShadowMap, g.floorMat, g.renderer, g.bulbLight, g.bulbMat, g.hemiLight, bulbLuminousPowers, hemiLuminousIrradiances);
-    movePlayerPaddle(g.paddleMesh, paddleDirection, params);
-    moveAIPaddle(g.aiPaddleMesh, aiPaddleDirection, g.bulbLight, params);
-    moveBall(g);
-    handleCollisions(g.bulbLight, g.paddleMesh, g.aiPaddleMesh, g.ballVelocity, params);
-    checkMissedBall(g, params);
-    checkBounds(g.paddleMesh, params);
-    g.renderer.render(g.scene, g.camera);
-    updateStars(g);
-    g.stats.update();
+    updateLighting();       // Update lighting in the scene
+    movePlayerPaddle();     // Move player paddle
+    // moveAIPaddle();         // AI controls
+    // movePlayer2Paddle();    // Player 2 controls
+    if (!g.isSinglePlayer) {
+        movePlayer2Paddle(); // Player 2 controls
+    } else {
+        moveAIPaddle();      // AI
+    }
+    moveBall();             // Move the ball
+    handleCollisions();     // Handle collisions
+    checkMissedBall();      // Check if the ball has missed
+    checkBounds();          // Check bounds
+    orbitalRotation();      // Orbit the camera
+    g.renderer.render(g.scene, g.camera); // Render the scene
+    updateStars();          // Update the star field
+    g.stats.update();       // Update performance stats
 }

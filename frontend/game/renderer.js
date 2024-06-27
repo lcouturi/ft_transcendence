@@ -1,7 +1,8 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { g } from './main.js';
 
-export function initRenderer(g, animate) {
+export function initRenderer(animate) {
     g.renderer = new THREE.WebGLRenderer({ antialias: true}); // Create a new WebGLRenderer object
     g.renderer.setPixelRatio(window.devicePixelRatio);          // Set the pixel ratio (for high DPI displays)
     g.renderer.setSize(window.innerWidth, window.innerHeight);  // Set the size of the renderer (full screen)
