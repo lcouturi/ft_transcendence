@@ -262,9 +262,16 @@
 							Log in
 						</h2>
 					</div>
-					<form>
-						<div class="m-1 modal-body p-0">
-							<div class="border d-flex frame m-1 rounded">
+					<div class="m-1 modal-body p-0">
+						<div class="border d-flex flex-column frame m-1 p-0 rounded">
+							<div class="d-flex overflow-hidden p-0 warning-banner" id="login-banner" style="max-height: 0">
+								<div class="m-auto pe-none" id="login-banner-text">
+								</div>
+								<button class="border borderless-button d-flex p-0 rounded" onclick="close_banner('#login-banner')" type="button">
+									<img class="m-1" height="22" src="icons/window-close.svg">
+								</button>
+							</div>
+							<div class="d-flex m-3">
 								<div class="d-flex flex-column">
 									<div class="my-auto pe-none text-end">
 										Username:
@@ -274,32 +281,32 @@
 									</div>
 								</div>
 								<div class="d-flex flex-column w-100">
-									<input class="border m-1 p-1 rounded w-100" required type="text">
-									<input class="border m-1 p-1 rounded w-100" required type="password">
+									<input class="border m-1 p-1 rounded w-100" id="login-name" type="text">
+									<input class="border m-1 p-1 rounded w-100" id="login-pass" type="password">
 								</div>
 							</div>
 						</div>
-						<div class="modal-footer p-1">
-							<button class="border button d-flex m-1 rounded shadow-sm text-nowrap" data-bs-target="#register" data-bs-toggle="modal" type="button">
-								<img class="m-1" height="22" src="icons/list-add-user.svg">
-								<div class="my-auto pe-none">
-									Register
-								</div>
-							</button>
-							<button class="border button d-flex m-1 ms-auto rounded shadow-sm" data-bs-dismiss="modal" type="button">
-								<img class="m-1" height="22" src="icons/dialog-cancel.svg">
-								<div class="my-auto">
-									Cancel
-								</div>
-							</button>
-							<button class="border button d-flex m-1 rounded shadow-sm" type="submit">
-								<img class="m-1" height="22" src="icons/dialog-ok-apply.svg">
-								<div class="my-auto">
-									OK
-								</div>
-							</button>
-						</div>
-					</form>
+					</div>
+					<div class="modal-footer p-1">
+						<button class="border button d-flex m-1 rounded shadow-sm text-nowrap" data-bs-dismiss="modal" onclick="register_open()" type="button">
+							<img class="m-1" height="22" src="icons/list-add-user.svg">
+							<div class="my-auto pe-none">
+								Register
+							</div>
+						</button>
+						<button class="border button d-flex m-1 ms-auto rounded shadow-sm" data-bs-dismiss="modal" id="login-close" type="button">
+							<img class="m-1" height="22" src="icons/dialog-cancel.svg">
+							<div class="my-auto">
+								Cancel
+							</div>
+						</button>
+						<button class="border button d-flex m-1 rounded shadow-sm" onclick="validate_login()">
+							<img class="m-1" height="22" src="icons/dialog-ok-apply.svg">
+							<div class="my-auto">
+								OK
+							</div>
+						</button>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -311,9 +318,16 @@
 							Register
 						</h2>
 					</div>
-					<form>
-						<div class="m-1 modal-body p-0">
-							<div class="border d-flex frame m-1 rounded">
+					<div class="m-1 modal-body p-0">
+						<div class="border d-flex flex-column frame m-1 p-0 rounded">
+							<div class="d-flex overflow-hidden p-0 warning-banner" id="register-banner" style="max-height: 0">
+								<div class="m-auto pe-none" id="register-banner-text">
+								</div>
+								<button class="border borderless-button d-flex p-0 rounded" onclick="close_banner('#register-banner')" type="button">
+									<img class="m-1" height="22" src="icons/window-close.svg">
+								</button>
+							</div>
+							<div class="d-flex m-3">
 								<div class="d-flex flex-column">
 									<div class="my-auto pe-none text-end">
 										Username:
@@ -329,9 +343,9 @@
 									</div>
 								</div>
 								<div class="d-flex flex-column w-100">
-									<input class="border m-1 p-1 rounded w-100" required type="text">
-									<input class="border m-1 p-1 rounded w-100" required type="password">
-									<input class="border m-1 p-1 rounded w-100" required type="password">
+									<input class="border m-1 p-1 rounded w-100" id="register-name" type="text">
+									<input class="border m-1 p-1 rounded w-100" id="register-pass" type="password">
+									<input class="border m-1 p-1 rounded w-100" id="register-pass2" type="password">
 									<div class="d-flex" style="width: calc(100% + 0.5rem)">
 										<input class="border m-1 p-1 pe-none rounded w-100" id="avatar-name" type="text">
 										<label class="border button d-flex m-1 rounded shadow-sm" for="avatar" type="submit">
@@ -342,21 +356,21 @@
 								</div>
 							</div>
 						</div>
-						<div class="modal-footer p-1">
-							<button class="border button d-flex m-1 ms-auto rounded shadow-sm" data-bs-target="#login" data-bs-toggle="modal" type="button">
-								<img class="m-1" height="22" src="icons/dialog-cancel.svg">
-								<div class="my-auto">
-									Cancel
-								</div>
-							</button>
-							<button class="border button d-flex m-1 rounded shadow-sm" type="submit">
-								<img class="m-1" height="22" src="icons/dialog-ok-apply.svg">
-								<div class="my-auto">
-									OK
-								</div>
-							</button>
-						</div>
-					</form>
+					</div>
+					<div class="modal-footer p-1">
+						<button class="border button d-flex m-1 ms-auto rounded shadow-sm" data-bs-target="#login" data-bs-toggle="modal" type="button">
+							<img class="m-1" height="22" src="icons/dialog-cancel.svg">
+							<div class="my-auto">
+								Cancel
+							</div>
+						</button>
+						<button class="border button d-flex m-1 rounded shadow-sm" onclick="register_validate()">
+							<img class="m-1" height="22" src="icons/dialog-ok-apply.svg">
+							<div class="my-auto">
+								OK
+							</div>
+						</button>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -370,10 +384,10 @@
 					</div>
 					<div class="d-flex flex-column m-1 modal-body overflow-hidden p-0">
 						<div class="border d-flex flex-column frame m-1 overflow-hidden p-0 rounded">
-							<div class="d-flex overflow-hidden p-0 warning-banner" id="banner" style="max-height: 0">
-								<div class="m-auto pe-none" id="banner-text">
+							<div class="d-flex overflow-hidden p-0 warning-banner" id="tournament-banner" style="max-height: 0">
+								<div class="m-auto pe-none" id="tournament-banner-text">
 								</div>
-								<button class="border borderless-button d-flex p-0 rounded" onclick="close_banner()" type="button">
+								<button class="border borderless-button d-flex p-0 rounded" onclick="close_banner('#tournament_banner')" type="button">
 									<img class="m-1" height="22" src="icons/window-close.svg">
 								</button>
 							</div>
@@ -408,7 +422,7 @@
 				</div>
 			</div>
 		</div>
-		<div aria-hidden="true" aria-labelledby="results" class="modal fade" id="results" tabindex="-1">
+		<div aria-hidden="true" aria-labelledby="results" class="modal fade" data-bs-backdrop="static" id="results" tabindex="-1">
 			<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 				<div class="bg-body border modal-content p-1 rounded">
 					<div class="modal-header p-1">

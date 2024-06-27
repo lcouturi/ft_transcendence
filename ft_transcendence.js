@@ -16,12 +16,12 @@ function	add_item()
 	if (list_item.value == "" || tournament_array.indexOf(list_item.value) != -1)
 	{
 		if (list_item.value == "")
-			open_banner("Cannot add user: empty input.");
+			open_banner("Cannot add user: empty input.", "#tournament-banner");
 		else if (tournament_array.indexOf(list_item.value) != -1)
-			open_banner("Cannot add user: already in list.");
-		return (false);
+			open_banner("Cannot add user: already in list.", "#tournament-banner");
+		return ;
 	}
-	close_banner();
+	close_banner("#tournament_banner");
 	const	div = document.createElement("div");
 	let	divContainer = `
 	<div class="d-flex">
@@ -43,19 +43,19 @@ function	add_item()
 	list_item.value = "";
 }
 
-function	close_banner()
+function	close_banner(id)
 {
-	document.querySelector("#banner").classList.add("p-0", "overflow-hidden");
-	document.querySelector("#banner").classList.remove("p-1");
-	document.querySelector("#banner").style.maxHeight = "0";
+	document.querySelector(id).classList.add("p-0", "overflow-hidden");
+	document.querySelector(id).classList.remove("p-1");
+	document.querySelector(id).style.maxHeight = "0";
 }
 
-function	open_banner(value)
+function	open_banner(value, id)
 {
-	document.querySelector("#banner").classList.add("p-1");
-	document.querySelector("#banner").classList.remove("overflow-hidden", "p-0");
-	document.querySelector("#banner-text").innerHTML = value;
-	document.querySelector("#banner").style.maxHeight = "500px";
+	document.querySelector(id).classList.add("p-1");
+	document.querySelector(id).classList.remove("overflow-hidden", "p-0");
+	document.querySelector(id + "-text").innerHTML = value;
+	document.querySelector(id).style.maxHeight = "500px";
 }
 
 function	prepare_next_match()
@@ -86,6 +86,40 @@ function	prepare_next_match()
 		i = 0;
 		document.querySelector("#next-match").innerHTML = "";
 	}
+}
+
+function	register_open()
+{
+	document.querySelector("#login-name").value = "";
+	document.querySelector("#login-pass").value = "";
+	document.querySelector("#register-name").value = "";
+	document.querySelector("#register-pass").value = "";
+	document.querySelector("#register-pass2").value = "";
+	new bootstrap.Modal(document.querySelector("#register")).show();
+	console.log("allo");
+}
+
+function	register_validate()
+{
+	if (document.querySelector("#register-name").value == "")
+	{
+		open_banner("Username must be set.", "#register-banner");
+		return ;
+	}
+	else if (document.querySelector("#register-pass").value == "")
+	{
+		open_banner("No password provided.", "#register-banner");
+		return ;
+	}
+	else if (document.querySelector("#register-pass").value != document.querySelector("#register-pass2").value)
+	{
+		open_banner("Your passwords do not match.", "#register-banner");
+		return ;
+	}
+	bootstrap.Modal.getInstance(document.getElementById("register")).hide();
+	document.querySelector("#register-name").value = "";
+	document.querySelector("#register-pass").value = "";
+	document.querySelector("#register-pass2").value = "";
 }
 
 function	result(value)
@@ -125,7 +159,7 @@ function	result(value)
 	new bootstrap.Modal(document.querySelector("#results")).show();
 }
 
-function start_match()
+function	start_match()
 {
 	document.querySelector("#contestant1").innerHTML = contestant1;
 	document.querySelector("#contestant2").innerHTML = contestant2;
@@ -139,8 +173,8 @@ function	start_tournament()
 	in_tournament = true;
 	if (tournament_array.length <= 1)
 	{
-		open_banner("Tournament needs at least two users!");
-		return (false);
+		open_banner("Tournament needs at least two users!", "#tournament-banner");
+		return ;
 	}
 	document.querySelector("#list").innerHTML = "";
 	document.querySelector("#close").click();
@@ -148,4 +182,21 @@ function	start_tournament()
 	i = 0;
 	prepare_next_match();
 	start_match();
+}
+
+function	validate_login()
+{
+	if (document.querySelector("#login-name").value == "")
+	{
+		open_banner("Username must be set.", "#login-banner");
+		return ;
+	}
+	else if (document.querySelector("#login-pass").value == "")
+	{
+		open_banner("No password provided.", "#login-banner");
+		return ;
+	}
+	document.querySelector("#login-close").click();
+	document.querySelector("#login-name").value = "";
+	document.querySelector("#login-pass").value = "";
 }
