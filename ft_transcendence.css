@@ -71,7 +71,8 @@ input[type=password]:focus, input[type=password]:hover, input[type=text]:focus, 
 .frame
 {
 	background-color: #f4f5f5;
-	padding: 10px;
+	min-width: 0 !important;
+	padding: 10px !important;
 }
 
 .inline-img
@@ -94,13 +95,13 @@ input[type=password]:focus, input[type=password]:hover, input[type=text]:focus, 
 	transition: border-color 0.25s ease-out;
 }
 
-.nav-item:active
+.nav-item:active, .nav-item.show
 {
 	transition: background-color 0.25s ease-out;
-	background-color: #9ed0e8;
+	background-color: #9ed0e8 !important;
 }
 
-.nav-item:hover
+.nav-item:hover, .nav-item.show
 {
 	--bs-border-color: #00b0ef;
 }
@@ -153,9 +154,10 @@ input[type=password]:focus, input[type=password]:hover, input[type=text]:focus, 
 	--bs-border-color: #aeb2b4;
 }
 
-.navbar-nav .nav-item
+.navbar-nav .nav-item, .navbar-nav .dropdown .nav-item
 {
 	--bs-nav-link-font-size: 10px;
+	font-size: 10px;
 	margin: 5.5px 1px;
 	padding: 0 7.5px 0 7px;
 }

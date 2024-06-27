@@ -3,6 +3,7 @@ let	in_tournament = false;
 let	contestant1;
 let	contestant2;
 let	tournament_array = [];
+let	username;
 let	winners = [];
 
 document.getElementById('avatar').onchange = function ()
@@ -16,12 +17,12 @@ function	add_item()
 	if (list_item.value == "" || tournament_array.indexOf(list_item.value) != -1)
 	{
 		if (list_item.value == "")
-			open_banner("Cannot add user: empty input.", "#tournament-banner");
+			banner_open("Cannot add user: empty input.", "#tournament-banner");
 		else if (tournament_array.indexOf(list_item.value) != -1)
-			open_banner("Cannot add user: already in list.", "#tournament-banner");
+			banner_open("Cannot add user: already in list.", "#tournament-banner");
 		return ;
 	}
-	close_banner("#tournament_banner");
+	banner_close("#tournament_banner");
 	const	div = document.createElement("div");
 	let	divContainer = `
 	<div class="d-flex">
@@ -43,19 +44,46 @@ function	add_item()
 	list_item.value = "";
 }
 
-function	close_banner(id)
+function	banner_close(id)
 {
 	document.querySelector(id).classList.add("p-0", "overflow-hidden");
 	document.querySelector(id).classList.remove("p-1");
 	document.querySelector(id).style.maxHeight = "0";
 }
 
-function	open_banner(value, id)
+function	banner_open(value, id)
 {
 	document.querySelector(id).classList.add("p-1");
 	document.querySelector(id).classList.remove("overflow-hidden", "p-0");
 	document.querySelector(id + "-text").innerHTML = value;
 	document.querySelector(id).style.maxHeight = "500px";
+}
+
+function	login_complete()
+{
+	document.querySelector("#login-button").classList.add("d-none");
+	document.querySelector("#login-button").classList.remove("d-flex");
+	document.querySelector("#profile-name").innerHTML = username;
+	document.querySelector("#profile-button").classList.remove("d-none");
+}
+
+function	login_validate()
+{
+	if (document.querySelector("#login-name").value == "")
+	{
+		banner_open("No username provided.", "#login-banner");
+		return ;
+	}
+	else if (document.querySelector("#login-pass").value == "")
+	{
+		banner_open("No password provided.", "#login-banner");
+		return ;
+	}
+	document.querySelector("#login-close").click();
+	username = document.querySelector("#login-name").value;
+	document.querySelector("#login-name").value = "";
+	document.querySelector("#login-pass").value = "";
+	login_complete();
 }
 
 function	prepare_next_match()
@@ -96,30 +124,31 @@ function	register_open()
 	document.querySelector("#register-pass").value = "";
 	document.querySelector("#register-pass2").value = "";
 	new bootstrap.Modal(document.querySelector("#register")).show();
-	console.log("allo");
 }
 
 function	register_validate()
 {
 	if (document.querySelector("#register-name").value == "")
 	{
-		open_banner("Username must be set.", "#register-banner");
+		banner_open("No username provided.", "#register-banner");
 		return ;
 	}
 	else if (document.querySelector("#register-pass").value == "")
 	{
-		open_banner("No password provided.", "#register-banner");
+		banner_open("No password provided.", "#register-banner");
 		return ;
 	}
 	else if (document.querySelector("#register-pass").value != document.querySelector("#register-pass2").value)
 	{
-		open_banner("Your passwords do not match.", "#register-banner");
+		banner_open("Passwords do not match.", "#register-banner");
 		return ;
 	}
 	bootstrap.Modal.getInstance(document.getElementById("register")).hide();
+	username = document.querySelector("#register-name").value;
 	document.querySelector("#register-name").value = "";
 	document.querySelector("#register-pass").value = "";
 	document.querySelector("#register-pass2").value = "";
+	login_complete();
 }
 
 function	result(value)
@@ -173,7 +202,7 @@ function	start_tournament()
 	in_tournament = true;
 	if (tournament_array.length <= 1)
 	{
-		open_banner("Tournament needs at least two users!", "#tournament-banner");
+		banner_open("Tournament needs at least two users!", "#tournament-banner");
 		return ;
 	}
 	document.querySelector("#list").innerHTML = "";
@@ -182,21 +211,4 @@ function	start_tournament()
 	i = 0;
 	prepare_next_match();
 	start_match();
-}
-
-function	validate_login()
-{
-	if (document.querySelector("#login-name").value == "")
-	{
-		open_banner("Username must be set.", "#login-banner");
-		return ;
-	}
-	else if (document.querySelector("#login-pass").value == "")
-	{
-		open_banner("No password provided.", "#login-banner");
-		return ;
-	}
-	document.querySelector("#login-close").click();
-	document.querySelector("#login-name").value = "";
-	document.querySelector("#login-pass").value = "";
 }
