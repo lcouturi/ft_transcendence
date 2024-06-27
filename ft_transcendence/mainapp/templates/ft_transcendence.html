@@ -323,7 +323,7 @@
 
 		{% comment %} {% endcomment %}
 
-
+		{% comment %} Registration form {% endcomment %}
 		<div aria-hidden="true" aria-labelledby="register" class="modal fade" id="register" tabindex="-1">
 			<div class="modal-dialog modal-dialog-centered">
 				<div class="bg-body border modal-content p-1 rounded">
@@ -332,14 +332,10 @@
 							Register
 						</h2>
 					</div>
-					<form method="post" action="register">
+					<form method="post" action="register" id="myForm">
 						{% csrf_token %}
 						<div class="m-1 modal-body p-0">
-							{% if messages %}
-								{% for message in messages %}
-									<p style="color:red;"> {{ message }}</p>
-								{% endfor %}
-							{% endif %}
+							<p style="color:red;" id="error-message"> </p>
 							<div class="border d-flex frame m-1 rounded">
 								<div class="d-flex flex-column">
 									<div class="my-auto pe-none text-end">
@@ -377,6 +373,8 @@
 				</div>
 			</div>
 		</div>
+
+		{% comment %} {% endcomment %}
 		<div aria-hidden="true" aria-labelledby="tournament" class="modal fade" id="tournament" tabindex="-1">
 			<div class="modal-dialog modal-dialog-centered">
 				<div class="bg-body border modal-content p-1 rounded">
@@ -418,5 +416,38 @@
 		</div>
 	</body>
 	<script src='{% static "../static/ft_transcendence.js" %}'>
+	</script>
+
+
+	<script>
+		// Ajax Registration form
+		document.getElementById('myForm').addEventListener('submit', function(event) {
+			event.preventDefault(); // Empêcher la soumission normale du formulaire
+			// Récupérer les données du formulaire
+			var formData = new FormData(this);
+			// Envoyer les données via Ajax
+			fetch("{% url 'register' %}", {
+				method: 'POST',
+				body: formData,
+				headers: {
+					'X-Requested-With': 'XMLHttpRequest',
+					'X-CSRFToken': '{% csrf_token %}'
+				}
+			})
+			.then(response => response.json())
+			.then(data => {
+				if (data.error) {
+					document.getElementById('error-message').textContent = data.error;
+				} else {
+					// Si aucune erreur, faire quelque chose (comme rediriger ou afficher un message de succès)
+					// // Exemple de redirection
+					window.location.href = "{% url 'accueil' %}";
+					console.log(" cest bon ");
+				}
+			})
+			.catch(error => {
+				console.error('Error:', error);
+			});
+		});
 	</script>
 </html>

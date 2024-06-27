@@ -30,23 +30,23 @@ def login_check(request):
 def logout_check(request):
     logout(request)
     return redirect(reverse("accueil"))
-def register(request):
+
+def register_check(request):
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
         confirm_password = request.POST['confirm_password']
 
         if CustomUser.objects.filter(username=username).exists():
-                return JsonResponse({'error': "User name already exists"})
+                return JsonResponse({'error': "User name already exists !"})
         else:
             if password != confirm_password:
-                return JsonResponse({'error': "Passwords are not the same"})
+                return JsonResponse({'error': "Passwords are not the same !"})
 
             new_user = CustomUser.objects.create_user(username=username, password=password)
             new_user.save()
             login(request, new_user)
-            return redirect(reverse("accueil"))
+            return JsonResponse({'sucess': "login sucessfull !"})
     else:
         form = UserCreationForm()
     return HttpResponse("vue de registration")
-
