@@ -1,5 +1,7 @@
 import * as THREE from 'three';
 
+const envMap = new THREE.CubeTextureLoader().load(['px.jpg', 'nx.jpg', 'py.jpg', 'ny.jpg', 'pz.jpg', 'nz.jpg']);
+
 export function initGeometry(g) {
     initializeFloor(g);
     initializePaddles(g);
@@ -14,8 +16,29 @@ function initializeFloor(g) {
 }
 
 function initializePaddles(g) {
-    const paddleMaterial = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
-    const aiPaddleMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000 });
+    const paddleMaterial = new THREE.MeshStandardMaterial({
+        color: 0x00ff00,
+        transparent: true,
+        opacity: 0.8,
+        roughness: 0.05,
+        metalness: 0.1,
+        emissive: 0x00ff00,
+        emissiveIntensity: 0.9,
+        envMap: envMap,
+        reflectivity: 0.5,
+    });
+
+    const aiPaddleMaterial = new THREE.MeshStandardMaterial({
+        color: 0xff0000,
+        transparent: true,
+        opacity: 0.8,
+        roughness: 0.05,
+        metalness: 0.1,
+        emissive: 0xff0000,
+        emissiveIntensity: 0.9,
+        envMap: envMap,
+        reflectivity: 0.5,
+    });
 
     const paddleMesh = createPaddleMesh(paddleMaterial, 8);
     g.paddleMesh = paddleMesh;
@@ -25,6 +48,7 @@ function initializePaddles(g) {
     g.aiPaddleMesh = aiPaddleMesh;
     g.scene.add(aiPaddleMesh);
 }
+
 
 function createFloorMesh(floorMat) {
     const floorGeometry = new THREE.PlaneGeometry(20, 20);
