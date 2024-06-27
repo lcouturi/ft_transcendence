@@ -43,7 +43,13 @@
 						data-bs-target="#logout"
 					{% endif %}
 					data-bs-toggle="modal" title="Log in">
-						<img class="icon" height="22" src='{% static "../static/icons/im-user.svg" %}'>
+
+						{% if not user.is_authenticated %}
+							<img class="icon" height="22" src='{% static "../static/icons/im-user.svg" %}'>
+						{% else %}
+								<img src="{{ user.get_image_profile_url }}" class="rounded-circle" alt="profile picture" width="30" height="30">
+						{% endif %}
+						
 						<a aria-current="page" class="active ms-1 my-auto nav-link p-0">
 							{% if not user.is_authenticated %}
 							Log in
@@ -55,6 +61,26 @@
 				</ul>
 			</div>
 		</nav>
+
+		{% comment %} Profile page {% endcomment %}
+		{% if user.is_authenticated %}
+		<div>
+			<p> User: {{ user.username }} </p>
+			<img src="{{ user.get_image_profile_url }}" alt="profile picture" width="100" height="100">
+			<p>Date Joined : {{ user.date_joined }}</p>
+
+			<form action="/upload_image" method="post" enctype="multipart/form-data">
+				{% csrf_token %}
+				<label for="imageFile">Sélectionnez une image :</label><br>
+				<input type="file" id="imageFile" name="imageFile"><br><br>
+				<input type="submit" value="Envoyer">
+			</form>
+		</div>
+		{% endif %}
+		{% comment %}  {% endcomment %}
+
+
+
 		<div class="content d-flex m-auto mh-100 mw-100" id="content">
 			<img class="border content-body m-1 rounded w-100" id="content-body" src='{% static "../static/icons/placeholder.png" %}'>
 		</div>

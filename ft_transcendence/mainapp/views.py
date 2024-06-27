@@ -6,12 +6,29 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.urls import reverse
 from mainapp.models import CustomUser
+from django import forms
+from django.contrib.auth.decorators import login_required
+
 
 # Create your views here.
 def index(request):
     return render(request, "ft_transcendence.html", {
         "user":request.user
     })
+
+class ImageForm(forms.Form):
+    imageFile = forms.ImageField()
+    
+
+@login_required
+def upload_image(request):
+    if request.method == 'POST':
+        form = ImageForm(request.POST, request.FILES)
+        if form.is_valid():
+            image_file = form.cleaned_data['imageFile']
+            request.user.image_profile = image_file
+            request.user.save()
+    return redirect(reverse("accueil"))
 
 def login_check(request):
     if request.method == "POST":
