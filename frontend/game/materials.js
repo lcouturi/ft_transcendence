@@ -216,7 +216,7 @@ function initIceMaterials() {
         floorMat.needsUpdate = true;
     });
 
-    const normalTexture = textureLoader.load('textures/Ice003_4K-JPG/Ice003_4K-JPG_Normal.jpg', function (map) {
+    const normalTexture = textureLoader.load('textures/Ice003_4K-JPG/Ice003_4K-JPG_NormalGL.jpg', function (map) {
         map.wrapS = THREE.RepeatWrapping;
         map.wrapT = THREE.RepeatWrapping;
         map.anisotropy = 4;
@@ -234,22 +234,12 @@ function initIceMaterials() {
         floorMat.needsUpdate = true;
     });
 
-    const aoTexture = textureLoader.load('textures/WoodFloor051_4K-JPG/Ice003_4K-JPG_AmbientOcclusion.jpg', function (map) {
-        map.wrapS = THREE.RepeatWrapping;
-        map.wrapT = THREE.RepeatWrapping;
-        map.anisotropy = 4;
-        map.repeat.set(2, 2);
-        floorMat.aoMap = map;
-        floorMat.needsUpdate = true;
-    });
-
 
     // Create Material
     const floorMat = new THREE.MeshStandardMaterial({
         map: colorTexture,
         // normalMap: normalTexture,
         roughnessMap: roughnessTexture,
-        aoMap: aoTexture,
     });
 
     // Set Texture Repeat

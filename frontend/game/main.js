@@ -57,6 +57,10 @@ export const g = {
     player2PaddleMesh: null,                  // Player 2 paddle mesh object
     player2PaddleSpeed: 0.016,                // Player 2 paddle speed
     localStorage: window.localStorage,        // Local storage object
+    prevPaddlePosition: new THREE.Vector3(),  // Previous paddle position
+    prevAIPaddlePosition: new THREE.Vector3(),// Previous AI paddle position
+    paddleVelocity: new THREE.Vector3(0, 0, 0),// Paddle velocity vector
+    aiPaddleVelocity: new THREE.Vector3(0, 0, 0),// AI paddle velocity vector
 };
 
 // Initialize the scene

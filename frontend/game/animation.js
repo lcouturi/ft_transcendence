@@ -24,20 +24,49 @@ export function updateLighting() {
     g.hemiLight.intensity = hemiLuminousIrradiances[params.hemiIrradiance];   // Update the hemisphere light intensity
 }
 
+// export function movePlayerPaddle() {
+//     let delta = 0.008; // Time delta between frames (60 frames per second)
+//     g.paddleMesh.position.x += paddleDirection.x * params.paddleSpeed * 0.016; // Move the paddle in the x direction
+//     g.paddleMesh.position.z += paddleDirection.z * params.paddleSpeed * 0.016; // Move the paddle in the z direction
+
+//     // Create bounding boxes for the paddle and ball
+//     const paddleBox = new THREE.Box3().setFromObject(g.paddleMesh);
+//     const ballBox = new THREE.Box3().setFromObject(g.bulbLight);
+
+//     // If the paddle intersects with the ball, prevent the paddle from moving further
+//     if (paddleBox.intersectsBox(ballBox)) {
+//         g.paddleMesh.position.x -= paddleDirection.x * params.paddleSpeed * delta; // when it's 0.016, the ball does change direction
+//         g.paddleMesh.position.z -= paddleDirection.z * params.paddleSpeed * delta; // when it's 0.016, the ball does change direction
+//     }
+// }
+
 export function movePlayerPaddle() {
-    g.paddleMesh.position.x += paddleDirection.x * params.paddleSpeed * 0.016; // Move the paddle in the x direction
-    g.paddleMesh.position.z += paddleDirection.z * params.paddleSpeed * 0.016; // Move the paddle in the z direction
+    const delta = 0.016; // Time delta between frames (60 frames per second)
+    const paddleSpeed = params.paddleSpeed * delta;
+
+    // Calculate paddle velocity
+    const paddleVelocity = new THREE.Vector3(
+        (g.paddleMesh.position.x - g.prevPaddlePosition.x) / delta, 0, (g.paddleMesh.position.z - g.prevPaddlePosition.z) / delta );
+
+    // Update previous paddle position
+    g.prevPaddlePosition.copy(g.paddleMesh.position);
+
+    g.paddleMesh.position.x += paddleDirection.x * paddleSpeed;
+    g.paddleMesh.position.z += paddleDirection.z * paddleSpeed;
 
     // Create bounding boxes for the paddle and ball
     const paddleBox = new THREE.Box3().setFromObject(g.paddleMesh);
     const ballBox = new THREE.Box3().setFromObject(g.bulbLight);
 
     // If the paddle intersects with the ball, prevent the paddle from moving further
-    // if (paddleBox.intersectsBox(ballBox)) {
-    //     g.paddleMesh.position.x -= paddleDirection.x * params.paddleSpeed * 0.012; // when it's 0.016, the ball does change direction
-    //     g.paddleMesh.position.z -= paddleDirection.z * params.paddleSpeed * 0.012; // when it's 0.016, the ball does change direction
-    // }
+    if (paddleBox.intersectsBox(ballBox)) {
+        g.paddleMesh.position.x -= paddleDirection.x * paddleSpeed * delta;
+        g.paddleMesh.position.z -= paddleDirection.z * paddleSpeed * delta;
+    }
+
+    g.paddleVelocity = paddleVelocity; // Store paddle velocity for collision handling
 }
+
 
 export function movePlayer2Paddle() {
     const speed = 0.1;  // Adjust speed as needed
@@ -73,25 +102,81 @@ export function moveAIPaddle() {
 
     // Move towards target with easing or stop if within tolerance
     aiPaddleDirection.x = absDistance > tolerance
-      ? distanceToTarget * easingFactor
-      : 0;
+        ? distanceToTarget * easingFactor
+        : 0;
+
+    // Calculate AI paddle velocity
+    const aiPaddleVelocity = new THREE.Vector3(
+        (aiPaddleMesh.position.x - g.prevAIPaddlePosition.x) / 0.016,
+        0,
+        0
+    );
+
+    // Update previous AI paddle position
+    g.prevAIPaddlePosition.copy(aiPaddleMesh.position);
 
     aiPaddleMesh.position.x += aiPaddleDirection.x * aiPaddleSpeed * 0.016;
-  }
 
+    // Store AI paddle velocity for collision handling
+    g.aiPaddleVelocity = aiPaddleVelocity;
+}
 
 
 export function moveBall() {
+    const maxSpeed = 20; // maximum speed limit
+    if (g.ballVelocity.length() > maxSpeed) {
+        g.ballVelocity.setLength(maxSpeed); // velocity to the maximum speed
+    }
     g.bulbLight.position.add(g.ballVelocity.clone().multiplyScalar(g.ballSpeed));
-    // .clone() is used to avoid modifying the original vector
-    // 0.016 is the time delta between frames (60 frames per second)
 }
 
+// export function handleCollisions() {
+//     // Ball and paddle collision detection
+//     const ballBox = new THREE.Box3().setFromObject(g.bulbLight);        // Create a bounding box for the ball
+//     const paddleBox = new THREE.Box3().setFromObject(g.paddleMesh);     // Create a bounding box for the player paddle
+//     const aiPaddleBox = new THREE.Box3().setFromObject(g.aiPaddleMesh); // Create a bounding box for the AI paddle
+
+//     // Check for collision between the ball and the player paddle
+//     if (ballBox.intersectsBox(paddleBox)) {
+//         const impactX = g.bulbLight.position.x - g.paddleMesh.position.x;
+
+//         // Adjust ball's velocity
+//         g.ballVelocity.z = -Math.abs(g.ballVelocity.z); // Always move away from the paddle
+//         g.ballVelocity.x += impactX * 10.8; // Adjust x velocity based on impact point
+//     }
+
+//     // Check collision with AI paddle
+//     if (ballBox.intersectsBox(aiPaddleBox)) {
+//         // Calculate impact point relative to AI paddle center
+//         const impactX = g.bulbLight.position.x - g.aiPaddleMesh.position.x;
+
+//         // Adjust ball's velocity
+//         g.ballVelocity.z = Math.abs(g.ballVelocity.z); // Always move away from the paddle
+//         g.ballVelocity.x += impactX * 10.8; // Adjust x velocity based on impact point
+//     }
+
+//     // Check collision with left and right walls
+//     if (g.bulbLight.position.x < -params.wallBoundary || g.bulbLight.position.x > params.wallBoundary) {
+//         g.ballVelocity.x = -g.ballVelocity.x; // Reverse x velocity
+//     }
+// }
+
 export function handleCollisions() {
-    // Ball and paddle collision detection
-    const ballBox = new THREE.Box3().setFromObject(g.bulbLight);        // Create a bounding box for the ball
-    const paddleBox = new THREE.Box3().setFromObject(g.paddleMesh);     // Create a bounding box for the player paddle
-    const aiPaddleBox = new THREE.Box3().setFromObject(g.aiPaddleMesh); // Create a bounding box for the AI paddle
+    const ballBox = new THREE.Box3().setFromObject(g.bulbLight);
+    const paddleBox = new THREE.Box3().setFromObject(g.paddleMesh);
+    const aiPaddleBox = new THREE.Box3().setFromObject(g.aiPaddleMesh);
+
+    const increaseSpeed = (velocity, factor) => {
+        velocity.multiplyScalar(factor);
+        const maxSpeed = 20; // maximum speed limit
+        if (velocity.length() > maxSpeed) {
+            velocity.setLength(maxSpeed); // velocity to the maximum speed
+        }
+        return velocity;
+    };
+
+    const baseSpeedIncrease = 1.05; // Base speed increase factor for any paddle hit
+    const sideSpeedIncrease = 1.05;  // Extra speed increase factor for side hits
 
     // Check for collision between the ball and the player paddle
     if (ballBox.intersectsBox(paddleBox)) {
@@ -99,17 +184,36 @@ export function handleCollisions() {
 
         // Adjust ball's velocity
         g.ballVelocity.z = -Math.abs(g.ballVelocity.z); // Always move away from the paddle
-        g.ballVelocity.x += impactX * 0.8; // Adjust x velocity based on impact point
+        g.ballVelocity.x += impactX * 0.2; // Adjust x velocity based on impact point
+
+        // Incorporate paddle's velocity into ball's redirection
+        g.ballVelocity.add(g.paddleVelocity.clone().multiplyScalar(1.5));
+
+        // Increase ball speed
+        if (Math.abs(impactX) > 1) {
+            g.ballVelocity = increaseSpeed(g.ballVelocity, sideSpeedIncrease);
+        } else {
+            g.ballVelocity = increaseSpeed(g.ballVelocity, baseSpeedIncrease);
+        }
     }
 
     // Check collision with AI paddle
     if (ballBox.intersectsBox(aiPaddleBox)) {
-        // Calculate impact point relative to AI paddle center
         const impactX = g.bulbLight.position.x - g.aiPaddleMesh.position.x;
 
         // Adjust ball's velocity
         g.ballVelocity.z = Math.abs(g.ballVelocity.z); // Always move away from the paddle
-        g.ballVelocity.x += impactX * 0.8; // Adjust x velocity based on impact point
+        g.ballVelocity.x += impactX * 0.2; // Adjust x velocity based on impact point
+
+        // Incorporate AI paddle's velocity into ball's redirection
+        g.ballVelocity.add(g.aiPaddleVelocity.clone().multiplyScalar(0.5));
+
+        // Increase ball speed
+        if (Math.abs(impactX) > 0.1) {
+            g.ballVelocity = increaseSpeed(g.ballVelocity, sideSpeedIncrease);
+        } else {
+            g.ballVelocity = increaseSpeed(g.ballVelocity, baseSpeedIncrease);
+        }
     }
 
     // Check collision with left and right walls
@@ -117,6 +221,10 @@ export function handleCollisions() {
         g.ballVelocity.x = -g.ballVelocity.x; // Reverse x velocity
     }
 }
+
+
+
+
 
 export function checkMissedBall() {
     // Check if the ball has missed the player paddle

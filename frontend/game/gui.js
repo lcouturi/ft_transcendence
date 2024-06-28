@@ -12,8 +12,8 @@ export function initGUI() {
     gui.add(params, 'hemiIrradiance', Object.keys(hemiLuminousIrradiances)).name('irradiance');
     gui.add(params, 'bulbPower', Object.keys(bulbLuminousPowers)).name('bulb power');
     gui.add(params, 'exposure', 0, 3);
-    gui.add(params, 'paddleSpeed', 0, 10).name('user paddle speed').step(1).onChange(value => saveParameter('paddleSpeed', value));
-    gui.add(params, 'aiPaddleSpeed', 0, 10).name('AI paddle speed').step(1).onChange(value => saveParameter('aiPaddleSpeed', value));
+    gui.add(params, 'paddleSpeed', 0, 20).name('user paddle speed').step(1).onChange(value => saveParameter('paddleSpeed', value));
+    gui.add(params, 'aiPaddleSpeed', 0, 20).name('AI paddle speed').step(1).onChange(value => saveParameter('aiPaddleSpeed', value));
     gui.add(params, 'tolerance', 0, 1).name('tolerance').onChange(value => saveParameter('tolerance', value));
     gui.add(params, 'easingFactor', 0, 1).name('easing factor').onChange(value => saveParameter('easingFactor', value));
     gui.add(g, 'limitScore', 1, 9999).name('score limit').step(1).onChange(value => saveParameter('limitScore', value));
