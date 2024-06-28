@@ -68,6 +68,12 @@ input[type=password]:focus, input[type=password]:hover, input[type=text]:focus, 
 	--bs-border-color: #bcbbbd;
 }
 
+.content-body canvas
+{
+	height: auto !important;
+	max-width: 100%;
+}
+
 .frame
 {
 	background-color: #f4f5f5;

@@ -244,6 +244,7 @@ export function checkMissedBall() {
 export function initScoreDisplay() {
     // Create player score text element
     g.playerScoreText = document.createElement('div');
+    g.playerScoreText.style.display = 'none';
     g.playerScoreText.style.position = 'absolute';
     g.playerScoreText.style.top = '10px';
     g.playerScoreText.style.left = '300px';
@@ -255,6 +256,7 @@ export function initScoreDisplay() {
     // Create AI score text element
     g.aiScoreText = document.createElement('div');
     g.aiScoreText.style.position = 'absolute';
+	g.aiScoreText.style.display = 'none';
     g.aiScoreText.style.top = '10px';
     g.aiScoreText.style.right = '300px';
     g.aiScoreText.style.color = '#ffffff';
