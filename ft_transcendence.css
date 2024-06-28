@@ -193,3 +193,26 @@ body
 	--bs-tertiary-bg: #dee0e2;
 	--bs-tertiary-bg-rgb: 222, 224, 226;
 }
+
+progress, ::-webkit-progress-bar
+{
+  background-color: #e2e3e3;
+  border: 0px;
+  border-radius: 3px;
+  box-shadow: inset -1px 0 0 #cacbcb, inset 0 -1px 0 #cacbcb, inset 1px 0 0 #cacbcb, inset 0 1px 0 #cacbcb;
+  height: 6px;
+}
+
+::-moz-progress-bar
+{
+  background-color: #a5d8f1;
+  border: 1px solid #49bdee;
+  border-radius: 3px;
+}
+
+::-webkit-progress-value
+{
+  background-color: #a5d8f1;
+  border: 1px solid #49bdee;
+  border-radius: 3px;
+}
