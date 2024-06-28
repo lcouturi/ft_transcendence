@@ -22,7 +22,7 @@ function	add_item()
 			banner_open("Cannot add user: already in list.", "#tournament-banner");
 		return ;
 	}
-	banner_close("#tournament_banner");
+	banner_close("#tournament-banner");
 	const	div = document.createElement("div");
 	let	divContainer = `
 	<div class="d-flex">
