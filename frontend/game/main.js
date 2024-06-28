@@ -6,9 +6,11 @@ import { initGUI } from './gui.js';                           // Import GUI setu
 import { initScene, initCamera, initLights, initStats } from './initialize.js'; // Import scene, camera, lights, and stats initialization
 import { initEventListeners, initControls, player2PaddleDirection } from './events.js'; // Import event listeners and controls
 import { initStarField, updateStars } from './objects.js';    // Import star field initialization and update
+import { params } from './utils.js';                         // Import utility functions and parameters
 import {
     updateLighting,
     movePlayerPaddle,
+    movePlayer2Paddle,
     moveAIPaddle,
     moveBall,
     handleCollisions,
@@ -54,6 +56,11 @@ export const g = {
     isSinglePlayer: true,                     // Flag to track if the game is single-player or multiplayer
     player2PaddleMesh: null,                  // Player 2 paddle mesh object
     player2PaddleSpeed: 0.016,                // Player 2 paddle speed
+    localStorage: window.localStorage,        // Local storage object
+    prevPaddlePosition: new THREE.Vector3(),  // Previous paddle position
+    prevAIPaddlePosition: new THREE.Vector3(),// Previous AI paddle position
+    paddleVelocity: new THREE.Vector3(0, 0, 0),// Paddle velocity vector
+    aiPaddleVelocity: new THREE.Vector3(0, 0, 0),// AI paddle velocity vector
 };
 
 // Initialize the scene
@@ -62,7 +69,32 @@ init();
 // Start animation loop
 animate();
 
+// Load saved parameters from local storage
+function loadSavedParameters() {
+    const savedParameters = [
+        'hemiIrradiance', 'bulbPower', 'exposure', 'paddleSpeed', 'aiPaddleSpeed',
+        'tolerance', 'easingFactor', 'limitScore', 'numStars', 'starsSpeed', 'starColor',
+        'startSize', 'ballSpeed', 'shadows', 'floorMaterial', 'orbitSpeed', 'isOrbiting', 'isSinglePlayer'
+    ];
+
+    savedParameters.forEach(param => {
+        const savedValue = g.localStorage.getItem(param);
+        if (savedValue !== null) {
+            if (param === 'starColor') {
+                g.starColor.color = savedValue;
+            } else if (param in g) {
+                g[param] = parseFloat(savedValue);
+            } else if (param in params) {
+                params[param] = parseFloat(savedValue);
+            }
+        }
+    });
+
+    // g.localStorage.clear();
+}
+
 function init() {
+    loadSavedParameters();
     g.container = document.getElementById('container');    // Get the container element from the HTML document
     initScene();                                           // Initialize the scene
     initCamera();                                          // Initialize the camera
@@ -78,33 +110,10 @@ function init() {
     initScoreDisplay();                                    // Initialize the score display
 }
 
-// Function to move player 2 paddle based on controls
-function movePlayer2Paddle() {
-    const speed = 0.1;  // Adjust speed as needed
-
-    // Move player 2 paddle based on player2PaddleDirection
-    g.aiPaddleMesh.position.z += player2PaddleDirection.z * speed;
-    g.aiPaddleMesh.position.x += player2PaddleDirection.x * speed;
-
-    // Limit paddle movement within boundaries (adjust as per your game's logic)
-    const paddleHalfSize = 10;  // Adjust based on paddle size
-    g.aiPaddleMesh.position.z = THREE.MathUtils.clamp(
-        g.aiPaddleMesh.position.z,
-        -paddleHalfSize,
-        paddleHalfSize
-    );
-    g.aiPaddleMesh.position.x = THREE.MathUtils.clamp(
-        g.aiPaddleMesh.position.x,
-        -paddleHalfSize,
-        paddleHalfSize
-    );
-}
 
 function animate() {
     updateLighting();       // Update lighting in the scene
     movePlayerPaddle();     // Move player paddle
-    // moveAIPaddle();         // AI controls
-    // movePlayer2Paddle();    // Player 2 controls
     if (!g.isSinglePlayer) {
         movePlayer2Paddle(); // Player 2 controls
     } else {

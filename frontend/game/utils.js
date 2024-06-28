@@ -26,12 +26,12 @@ export const hemiLuminousIrradiances = {
 export const params = {
     paddleBoundary: 10,
     wallBoundary: 10,
-    paddleSpeed: 10,
-    aiPaddleSpeed: 10,
+    paddleSpeed: 8,
+    aiPaddleSpeed: 8,
     tolerance: 0.5,
     easingFactor: 0.5,
     shadows: true,
-    exposure: 1.40,
-    bulbPower: Object.keys(bulbLuminousPowers)[5],
-    hemiIrradiance: Object.keys(hemiLuminousIrradiances)[1],
+    exposure: 3,
+    bulbPower: Object.keys(bulbLuminousPowers)[6],
+    hemiIrradiance: Object.keys(hemiLuminousIrradiances)[0],
 };
