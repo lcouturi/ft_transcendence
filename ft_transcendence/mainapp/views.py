@@ -8,13 +8,46 @@ from django.urls import reverse
 from mainapp.models import CustomUser
 from django import forms
 from django.contrib.auth.decorators import login_required
+import json
 
 
 # Create your views here.
 def index(request):
+    friends = None
+    if request.user.is_authenticated:
+        friends = request.user.friends_list.all()
+
     return render(request, "ft_transcendence.html", {
-        "user":request.user
+        "user":request.user,
+        "friends": friends
     })
+
+
+@login_required
+def add_friend(request):
+    if request.method == 'POST':
+        friend_to_add = request.POST['friend_to_add']
+        try:
+            f = CustomUser.objects.get(username=friend_to_add)
+            request.user.friends_list.add(f)
+            print('add sucess')
+        except:
+            pass
+    return redirect(reverse("accueil"))
+
+
+@login_required
+def delete_friend(request):
+    if request.method == 'DELETE':
+        data = json.loads(request.body)
+        friendname = data.get('friend_to_delete')
+        try:
+            friend = CustomUser.objects.get(username=friendname)
+            request.user.friends_list.remove(friend)
+        except:
+            pass
+    return redirect(reverse("accueil"))
+
 
 class ImageForm(forms.Form):
     imageFile = forms.ImageField()

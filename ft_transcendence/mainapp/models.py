@@ -8,6 +8,10 @@ from django.conf import settings
 class CustomUser(AbstractUser):
     image_profile = models.ImageField(upload_to='images/',default='default_profile_image.jpg', null=True, blank=True)
     date_joined = models.DateTimeField(default=timezone.now)
+    friends_list = models.ManyToManyField('self')
+
+    class Meta:
+        verbose_name_plural = "CustomUsers"
 
     def __str__(self):
         return self.username

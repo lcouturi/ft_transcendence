@@ -4,8 +4,6 @@ from django.contrib.auth.admin import UserAdmin
 from .models import CustomUser
 
 class CustomUserAdmin(UserAdmin):
-    model = CustomUser
-    # Ajoutez les champs personnalisés que vous souhaitez afficher dans l'interface admin
-    list_display = ['username','date_joined','image_profile']
+    list_display = ['username']
 
-admin.site.register(CustomUser, CustomUserAdmin)
+admin.site.register(CustomUser)

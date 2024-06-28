@@ -66,14 +66,31 @@
 		{% if user.is_authenticated %}
 		<div>
 			<p> User: {{ user.username }} </p>
-			<img src="{{ user.get_image_profile_url }}" alt="profile picture" width="100" height="100">
 			<p>Date Joined : {{ user.date_joined }}</p>
+			<img src="{{ user.get_image_profile_url }}" alt="profile picture" width="100" height="100">
 
 			<form action="/upload_image" method="post" enctype="multipart/form-data">
 				{% csrf_token %}
 				<label for="imageFile">Sélectionnez une image :</label><br>
 				<input type="file" id="imageFile" name="imageFile"><br><br>
 				<input type="submit" value="Envoyer">
+			</form>
+
+			<h4>All friends</h4>
+			{% for friend in friends %}
+				<li>
+					<img src="{{ friend.get_image_profile_url }}" class="rounded-circle" alt="profile picture" width="30" height="30">
+					{{ friend.username }}
+					<button type="submit" id="deleteButton" onclick="delete_friend('{{ friend.username }}')">
+						<img src='{% static "../static/icons/red_x_icon.jpg" %}' width="20" height="20">  
+					</button>
+				</li>
+			{% endfor %}
+
+			<form action="/add_friend" method="post">
+				{% csrf_token %}
+				<input type="text" id="info" name="friend_to_add" placeholder="Add a friend" required><br><br>
+				<button type="submit">Add</button>
 			</form>
 		</div>
 		{% endif %}
@@ -475,5 +492,46 @@
 				console.error('Error:', error);
 			});
 		});
+
+
+
+		function delete_friend(friend) {
+			let bouton = document.getElementById('deleteButton');
+            var url = `/delete_friend`; 
+            fetch(url, {
+                method: 'DELETE',
+				headers: {
+					'X-CSRFToken': getCookie('csrftoken')
+				},
+				body: JSON.stringify( { friend_to_delete: friend })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erreur lors de la suppression de l\'élément');
+                }
+				window.location.href = "{% url 'accueil' %}";
+                console.log('Élément supprimé avec succès');
+            })
+            .catch(error => {
+                console.error('Erreur :', error);
+            });
+        }
+
+		function getCookie(name) {
+			var cookieValue = null;
+			if (document.cookie && document.cookie !== '') {
+				var cookies = document.cookie.split(';');
+				for (var i = 0; i < cookies.length; i++) {
+					var cookie = cookies[i].trim();
+					// Trouve le cookie avec le nom spécifié
+					if (cookie.substring(0, name.length + 1) === (name + '=')) {
+						cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+						break;
+					}
+				}
+			}
+			return cookieValue;
+		}
+
 	</script>
 </html>
