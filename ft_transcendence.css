@@ -63,13 +63,9 @@ input[type=password]:focus, input[type=password]:hover, input[type=text]:focus, 
 	width: 90rem;
 }
 
-.content-body
-{
-	--bs-border-color: #bcbbbd;
-}
-
 .content-body canvas
 {
+	--bs-border-color: #bcbbbd;
 	border: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color) !important;
 	border-radius: var(--bs-border-radius) !important;
 	height: auto !important;
