@@ -11,7 +11,10 @@ export function updateLighting() {
 
     // Update the floor material if the shadow map state has changed
     if (params.shadows !== g.previousShadowMap) {
-        g.floorMat.needsUpdate = true;
+        if (params.shadows) {
+            // g.floorMat.shadowSide = THREE.FrontSide; // Set the shadow side of the floor material
+        }
+        // g.floorMat.needsUpdate = true;
         g.previousShadowMap = params.shadows;
     }
 

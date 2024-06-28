@@ -6,6 +6,7 @@ import { initGUI } from './gui.js';                           // Import GUI setu
 import { initScene, initCamera, initLights, initStats } from './initialize.js'; // Import scene, camera, lights, and stats initialization
 import { initEventListeners, initControls, player2PaddleDirection } from './events.js'; // Import event listeners and controls
 import { initStarField, updateStars } from './objects.js';    // Import star field initialization and update
+import { params } from './utils.js';                         // Import utility functions and parameters
 import {
     updateLighting,
     movePlayerPaddle,
@@ -55,6 +56,7 @@ export const g = {
     isSinglePlayer: true,                     // Flag to track if the game is single-player or multiplayer
     player2PaddleMesh: null,                  // Player 2 paddle mesh object
     player2PaddleSpeed: 0.016,                // Player 2 paddle speed
+    localStorage: window.localStorage,        // Local storage object
 };
 
 // Initialize the scene
@@ -63,7 +65,32 @@ init();
 // Start animation loop
 animate();
 
+// Load saved parameters from local storage
+function loadSavedParameters() {
+    const savedParameters = [
+        'hemiIrradiance', 'bulbPower', 'exposure', 'paddleSpeed', 'aiPaddleSpeed',
+        'tolerance', 'easingFactor', 'limitScore', 'numStars', 'starsSpeed', 'starColor',
+        'startSize', 'ballSpeed', 'shadows', 'floorMaterial', 'orbitSpeed', 'isOrbiting', 'isSinglePlayer'
+    ];
+
+    savedParameters.forEach(param => {
+        const savedValue = g.localStorage.getItem(param);
+        if (savedValue !== null) {
+            if (param === 'starColor') {
+                g.starColor.color = savedValue;
+            } else if (param in g) {
+                g[param] = parseFloat(savedValue);
+            } else if (param in params) {
+                params[param] = parseFloat(savedValue);
+            }
+        }
+    });
+
+    // g.localStorage.clear();
+}
+
 function init() {
+    loadSavedParameters();
     g.container = document.getElementById('container');    // Get the container element from the HTML document
     initScene();                                           // Initialize the scene
     initCamera();                                          // Initialize the camera
