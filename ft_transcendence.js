@@ -137,11 +137,34 @@ function	profile_bar_update(value)
 		losses++;
 	else if (value == 1)
 		wins++;
-	document.querySelector("#profile-bar").max = losses + wins;
-	document.querySelector("#profile-bar").value = wins;
+	if (losses + wins == 0)
+	{
+		document.querySelector("#profile-bar").max = 2;
+		document.querySelector("#profile-bar").value = 1;
+	}
+	else
+	{
+		document.querySelector("#profile-bar").max = losses + wins;
+		document.querySelector("#profile-bar").value = wins;
+	}
 	document.querySelector("#profile-losses").innerHTML = losses + " Losses";
 	document.querySelector("#profile-wins").innerHTML = wins + " Wins";
 
+}
+
+function	profile_logout()
+{
+	document.querySelector("#login-button").classList.add("d-flex");
+	document.querySelector("#login-button").classList.remove("d-none");
+	document.querySelector("#profile-button").classList.add("d-none");
+	document.querySelector("#profile-name").innerHTML = "";
+	document.querySelector("#profile-name-inside").innerHTML = "";
+	if (in_tournament == false)
+		document.querySelector("#contestant1").innerText = "Guest";
+	losses = 0;
+	wins = 0;
+	profile_bar_update(0);
+	username = null;
 }
 
 function	register_open()
@@ -232,7 +255,15 @@ function	start_match()
 	console.log("match %i: %s vs %s", i, contestant1, contestant2);
 }
 
-function	start_tournament()
+function	tournament_open()
+{
+	document.querySelector("#list_item").value = "";
+	new bootstrap.Modal(document.querySelector("#tournament")).show();
+	if (username != null)
+		add_item(username);
+}
+
+function	tournament_start()
 {
 	contestant1 = null;
 	contestant2 = null;
@@ -248,12 +279,4 @@ function	start_tournament()
 	i = 0;
 	prepare_next_match();
 	start_match();
-}
-
-function	tournament_open()
-{
-	document.querySelector("#list_item").value = "";
-	new bootstrap.Modal(document.querySelector("#tournament")).show();
-	if (username != null)
-		add_item(username);
 }
