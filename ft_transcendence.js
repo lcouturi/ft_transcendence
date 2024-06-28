@@ -15,10 +15,11 @@ document.getElementById('avatar').onchange = function ()
 
 	reader.onload = function (e)
 	{
-		avatar = e.target.result;
-		document.querySelector("#profile-avatar").src = avatar;
+		document.querySelector("#profile-avatar").src = e.target.result;
+		document.querySelector("#profile-avatar-mini").src = e.target.result;
 	};
-	reader.readAsDataURL(this.files[0]);
+	avatar = this.files[0];
+	reader.readAsDataURL(avatar);
 	document.querySelector("#avatar-name").value = avatar.name;
 };
 
@@ -85,7 +86,10 @@ function	login_complete()
 	document.querySelector("#profile-name-inside").innerHTML = username;
 	document.querySelector("#profile-button").classList.remove("d-none");
 	if (in_tournament == false)
+	{
 		document.querySelector("#contestant1").innerHTML = username;
+		document.querySelector("#contestant1-avatar").src = document.querySelector("#profile-avatar").src;
+	}
 }
 
 function	login_validate()
@@ -178,6 +182,7 @@ function	profile_logout()
 
 function	register_open()
 {
+	document.querySelector("#avatar-name").value = "";
 	document.querySelector("#login-name").value = "";
 	document.querySelector("#login-pass").value = "";
 	document.querySelector("#register-name").value = "";
@@ -205,6 +210,7 @@ function	register_validate()
 	}
 	bootstrap.Modal.getInstance(document.getElementById("register")).hide();
 	username = sanitize(document.querySelector("#register-name").value);
+	document.querySelector("#avatar-name").value = "";
 	document.querySelector("#register-name").value = "";
 	document.querySelector("#register-pass").value = "";
 	document.querySelector("#register-pass2").value = "";
@@ -260,7 +266,15 @@ function	sanitize(string)
 function	start_match()
 {
 	document.querySelector("#contestant1").innerHTML = contestant1;
+	if (contestant1 == username)
+		document.querySelector("#contestant1-avatar").src = document.querySelector("#profile-avatar").src;
+	else
+		document.querySelector("#contestant1-avatar").src = "icons/im-user.svg";
 	document.querySelector("#contestant2").innerHTML = contestant2;
+	if (contestant2 == username)
+		document.querySelector("#contestant2-avatar").src = document.querySelector("#profile-avatar").src;
+	else
+		document.querySelector("#contestant2-avatar").src = "icons/im-user.svg";
 	console.log("match %i: %s vs %s", i, contestant1, contestant2);
 }
 

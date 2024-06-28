@@ -45,14 +45,14 @@
 					</li>
 					<li class="dropdown d-none" id="profile-button">
 						<button aria-expanded="false" class="bg-body-tertiary border d-flex nav-item py-1 rounded text-nowrap" data-bs-auto-close="outside" data-bs-toggle="dropdown" title="Profile">
-							<img height="22" src="icons/im-user.svg">
+							<img class="rounded-circle" height="22" id="profile-avatar-mini" src="icons/im-user.svg">
 							<a aria-current="page" class="active ms-1 my-auto nav-link p-0" id="profile-name">
 							</a>
 							<img class="ms-1 my-auto" height="16" src="icons/go-down.svg">
 						</button>
 						<ul class="border dropdown-menu dropdown-menu-end frame rounded">
 							<div class="d-flex flex-column">
-								<img class="mx-auto mw-100" id="profile-avatar" src="icons/im-user.svg">
+								<img class="mx-auto mw-100 rounded-circle" id="profile-avatar" src="icons/im-user.svg">
 								<h3 class="mx-auto pe-none" id="profile-name-inside">
 								</h3>
 								<progress class="border-0 rounded" id="profile-bar" max="100" value="50">
@@ -95,7 +95,7 @@
 		<div class="content d-flex flex-column m-auto mh-100 mw-100" id="content">
 			<div class="d-flex m-1" id="current-match">
 				<div class="d-flex m-1 w-50">
-					<img class="mx-1 my-auto" height="22" src="icons/im-user.svg">
+					<img class="mx-1 my-auto rounded-circle" height="22" id="contestant1-avatar" src="icons/im-user.svg">
 					<div class="mx-1 my-auto" id="contestant1">
 						Guest
 					</div>
@@ -109,7 +109,7 @@
 					VS
 				</div>
 				<div class="d-flex m-1 w-50">
-					<img class="me-1 ms-auto my-auto" height="22" src="icons/im-user.svg">
+					<img class="me-1 ms-auto my-auto rounded-circle" height="22" id="contestant2-avatar" src="icons/im-user.svg">
 					<div class="mx-1 my-auto" id="contestant2">
 						Guest
 					</div>
@@ -120,7 +120,7 @@
 					</button>
 				</div>
 			</div>
-			<div class="border content-body m-1 mt-0 rounded" id="container">
+			<div class="content-body m-1 mt-0" id="container">
 			</div>
 		</div>
 		<div aria-hidden="true" aria-labelledby="about" class="modal fade" id="about" tabindex="-1">
