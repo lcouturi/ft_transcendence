@@ -1,3 +1,4 @@
+let	avatar;
 let	i = 0;
 let	in_tournament = false;
 let	contestant1;
@@ -10,7 +11,15 @@ let	wins = 0;
 
 document.getElementById('avatar').onchange = function ()
 {
-	document.querySelector("#avatar-name").value = this.files[0].name;
+	var	reader = new FileReader();
+
+	reader.onload = function (e)
+	{
+		avatar = e.target.result;
+		document.querySelector("#profile-avatar").src = avatar;
+	};
+	reader.readAsDataURL(this.files[0]);
+	document.querySelector("#avatar-name").value = avatar.name;
 };
 
 function	add_item(value)

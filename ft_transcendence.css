@@ -197,8 +197,6 @@ body
 progress, ::-webkit-progress-bar
 {
   background-color: #e2e3e3;
-  border: 0px;
-  border-radius: 3px;
   box-shadow: inset -1px 0 0 #cacbcb, inset 0 -1px 0 #cacbcb, inset 1px 0 0 #cacbcb, inset 0 1px 0 #cacbcb;
   height: 6px;
 }

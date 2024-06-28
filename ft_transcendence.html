@@ -35,8 +35,8 @@
 							Log in
 						</a>
 					</li>
-					<li class="dropdown d-none" id="profile-button" title="Profile">
-						<button aria-expanded="false" class="bg-body-tertiary border d-flex nav-item py-1 rounded text-nowrap" data-bs-auto-close="outside" data-bs-toggle="dropdown">
+					<li class="dropdown d-none" id="profile-button">
+						<button aria-expanded="false" class="bg-body-tertiary border d-flex nav-item py-1 rounded text-nowrap" data-bs-auto-close="outside" data-bs-toggle="dropdown" title="Profile">
 							<img height="22" src="icons/im-user.svg">
 							<a aria-current="page" class="active ms-1 my-auto nav-link p-0" id="profile-name">
 							</a>
@@ -44,10 +44,10 @@
 						</button>
 						<ul class="border dropdown-menu dropdown-menu-end frame rounded">
 							<div class="d-flex flex-column">
-								<img class="mx-auto" height="128" src="icons/im-user.svg">
+								<img class="mx-auto mw-100" id="profile-avatar" src="icons/im-user.svg">
 								<h3 class="mx-auto pe-none" id="profile-name-inside">
 								</h3>
-								<progress id="profile-bar" max="100" value="50">
+								<progress class="border-0 rounded" id="profile-bar" max="100" value="50">
 								</progress>
 								<div class="d-flex">
 									<div class="pe-none m-1" id="profile-wins">
