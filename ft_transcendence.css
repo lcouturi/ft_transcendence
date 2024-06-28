@@ -95,13 +95,19 @@ input[type=password]:focus, input[type=password]:hover, input[type=text]:focus, 
 	transition: border-color 0.25s ease-out;
 }
 
-.nav-item:active, .nav-item.show
+.nav-item:active
 {
+	background-color: #9ed0e8 !important;
 	transition: background-color 0.25s ease-out;
+}
+
+.nav-item.show
+{
+	--bs-border-color: #00b0ef;
 	background-color: #9ed0e8 !important;
 }
 
-.nav-item:hover, .nav-item.show
+.nav-item:hover
 {
 	--bs-border-color: #00b0ef;
 }

@@ -80,7 +80,7 @@ function	login_validate()
 		return ;
 	}
 	document.querySelector("#login-close").click();
-	username = document.querySelector("#login-name").value;
+	username = sanitize(document.querySelector("#login-name").value);
 	document.querySelector("#login-name").value = "";
 	document.querySelector("#login-pass").value = "";
 	login_complete();
@@ -144,7 +144,7 @@ function	register_validate()
 		return ;
 	}
 	bootstrap.Modal.getInstance(document.getElementById("register")).hide();
-	username = document.querySelector("#register-name").value;
+	username = sanitize(document.querySelector("#register-name").value);
 	document.querySelector("#register-name").value = "";
 	document.querySelector("#register-pass").value = "";
 	document.querySelector("#register-pass2").value = "";
@@ -186,6 +186,11 @@ function	result(value)
 		console.log("%s won the match against %s!", contestant2, contestant1);
 	}
 	new bootstrap.Modal(document.querySelector("#results")).show();
+}
+
+function	sanitize(string)
+{
+	return (string.replace(/</g, "&lt;").replace(/\>/g, "&gt;"));
 }
 
 function	start_match()
