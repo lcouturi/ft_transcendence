@@ -9,6 +9,7 @@ import { initStarField, updateStars } from './objects.js';    // Import star fie
 import {
     updateLighting,
     movePlayerPaddle,
+    movePlayer2Paddle,
     moveAIPaddle,
     moveBall,
     handleCollisions,
@@ -78,33 +79,10 @@ function init() {
     initScoreDisplay();                                    // Initialize the score display
 }
 
-// Function to move player 2 paddle based on controls
-function movePlayer2Paddle() {
-    const speed = 0.1;  // Adjust speed as needed
-
-    // Move player 2 paddle based on player2PaddleDirection
-    g.aiPaddleMesh.position.z += player2PaddleDirection.z * speed;
-    g.aiPaddleMesh.position.x += player2PaddleDirection.x * speed;
-
-    // Limit paddle movement within boundaries (adjust as per your game's logic)
-    const paddleHalfSize = 10;  // Adjust based on paddle size
-    g.aiPaddleMesh.position.z = THREE.MathUtils.clamp(
-        g.aiPaddleMesh.position.z,
-        -paddleHalfSize,
-        paddleHalfSize
-    );
-    g.aiPaddleMesh.position.x = THREE.MathUtils.clamp(
-        g.aiPaddleMesh.position.x,
-        -paddleHalfSize,
-        paddleHalfSize
-    );
-}
 
 function animate() {
     updateLighting();       // Update lighting in the scene
     movePlayerPaddle();     // Move player paddle
-    // moveAIPaddle();         // AI controls
-    // movePlayer2Paddle();    // Player 2 controls
     if (!g.isSinglePlayer) {
         movePlayer2Paddle(); // Player 2 controls
     } else {

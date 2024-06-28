@@ -4,13 +4,19 @@ import { g } from './main.js';
 export function initMaterials() {
     const woodMaterials = initWoodMaterials();
     const glassMaterials = initGlassMaterials();
+    const asphaltMaterials = initAsphaltMaterials();
+    const grassMaterials = initGrassMaterials();
+    const wood2Materials = initWood2Materials();
 
     g.floor = {
         wood: woodMaterials.floorMat,
-        glass: glassMaterials.floorMat
+        wood2: wood2Materials.floorMat,
+        glass: glassMaterials.floorMat,
+        asphalt: asphaltMaterials.floorMat,
+        grass: grassMaterials.floorMat
     };
 
-    g.floorMat = g.floor.wood; // default material
+    g.floorMat = g.floor.wood2; // default material
 }
 
 export function initWoodMaterials() {
@@ -68,6 +74,178 @@ export function initGlassMaterials() {
     // const envTexture = new THREE.TextureLoader().load('textures/environment.jpg'); // Replace with your environment texture
     // envTexture.mapping = THREE.EquirectangularReflectionMapping;
     // glassMat.envMap = envTexture;
+
+    return { floorMat };
+}
+
+function initAsphaltMaterials() {
+    const textureLoader = new THREE.TextureLoader();
+
+    // Load textures with callbacks to ensure they load correctly
+    const colorTexture = textureLoader.load('textures/asphalt_4K/JPG_Color.jpg', function (map) {
+        map.wrapS = THREE.RepeatWrapping;
+        map.wrapT = THREE.RepeatWrapping;
+        map.anisotropy = 4;
+        map.repeat.set(10, 24);
+        map.colorSpace = THREE.SRGBColorSpace;
+        floorMat.map = map;
+        floorMat.needsUpdate = true;
+    });
+    // const normalTexture = textureLoader.load('textures/asphalt_1K/NormalGL.jpg', onLoad, onProgress, onError);
+    // const roughnessTexture = textureLoader.load('textures/asphalt_1K/Roughness.jpg', onLoad, onProgress, onError);
+    const aoTexture = textureLoader.load('textures/asphalt_4K/AmbientOcclusion.jpg', function (map) {
+        map.wrapS = THREE.RepeatWrapping;
+        map.wrapT = THREE.RepeatWrapping;
+        map.anisotropy = 4;
+        map.repeat.set(10, 24);
+        floorMat.aoMap = map;
+        floorMat.needsUpdate = true;
+    });
+
+    // const colorTexture = textureLoader.load('textures/asphalt_4K/JPG_Color.jpg', onLoad, onProgress, onError);
+    const normalTexture = textureLoader.load('textures/asphalt_4K/NormalGL.jpg', function (map) {
+        map.wrapS = THREE.RepeatWrapping;
+        map.wrapT = THREE.RepeatWrapping;
+        map.anisotropy = 4;
+        map.repeat.set(10, 24);
+        floorMat.normalMap = map;
+        floorMat.needsUpdate = true;
+    });
+
+    const roughnessTexture = textureLoader.load('textures/asphalt_4K/Roughness.jpg', function (map) {
+        map.wrapS = THREE.RepeatWrapping;
+        map.wrapT = THREE.RepeatWrapping;
+        map.anisotropy = 4;
+        map.repeat.set(10, 24);
+        floorMat.roughnessMap = map;
+        floorMat.needsUpdate = true;
+    });
+
+
+    // Create Asphalt Material
+    const floorMat = new THREE.MeshStandardMaterial({
+        map: colorTexture,
+        normalMap: normalTexture,
+        roughnessMap: roughnessTexture,
+        aoMap: aoTexture,
+    });
+
+    // Set Texture Repeat
+    colorTexture.wrapS = THREE.RepeatWrapping;
+    colorTexture.wrapT = THREE.RepeatWrapping;
+    colorTexture.repeat.set(10, 24);
+
+    return { floorMat };
+}
+
+function initGrassMaterials() {
+    const textureLoader = new THREE.TextureLoader();
+    const colorTexture = textureLoader.load('textures/Grass001_4K/Grass001_4K-PNG_Color.png', function (map) {
+        map.wrapS = THREE.RepeatWrapping;
+        map.wrapT = THREE.RepeatWrapping;
+        map.anisotropy = 4;
+        map.repeat.set(10, 24);
+        map.colorSpace = THREE.SRGBColorSpace;
+        floorMat.map = map;
+        floorMat.needsUpdate = true;
+    });
+
+    const normalTexture = textureLoader.load('textures/Grass001_4K/Grass001_4K-PNG_NormalGL.png', function (map) {
+        map.wrapS = THREE.RepeatWrapping;
+        map.wrapT = THREE.RepeatWrapping;
+        map.anisotropy = 4;
+        map.repeat.set(10, 24);
+        floorMat.normalMap = map;
+        floorMat.needsUpdate = true;
+    });
+
+
+    const roughnessTexture = textureLoader.load('textures/Grass001_4K/Grass001_4K-PNG_Roughness.png', function (map) {
+        map.wrapS = THREE.RepeatWrapping;
+        map.wrapT = THREE.RepeatWrapping;
+        map.anisotropy = 4;
+        map.repeat.set(10, 24);
+        floorMat.roughnessMap = map;
+        floorMat.needsUpdate = true;
+    });
+
+    const aoTexture = textureLoader.load('textures/Grass001_4K/Grass001_4K-PNG_AmbientOcclusion.png', function (map) {
+        map.wrapS = THREE.RepeatWrapping;
+        map.wrapT = THREE.RepeatWrapping;
+        map.anisotropy = 4;
+        map.repeat.set(10, 24);
+        floorMat.aoMap = map;
+        floorMat.needsUpdate = true;
+    });
+
+
+    // Create Material
+    const floorMat = new THREE.MeshStandardMaterial({
+        map: colorTexture,
+        normalMap: normalTexture,
+        roughnessMap: roughnessTexture,
+        aoMap: aoTexture,
+    });
+
+    // Set Texture Repeat
+    colorTexture.wrapS = THREE.RepeatWrapping;
+    colorTexture.wrapT = THREE.RepeatWrapping;
+    colorTexture.repeat.set(2, 2);
+
+    return { floorMat };
+}
+
+function initWood2Materials() {
+    const textureLoader = new THREE.TextureLoader();
+    const colorTexture = textureLoader.load('textures/WoodFloor051_4K/WoodFloor051_4K-JPG_Color.jpg', function (map) {
+        map.wrapS = THREE.RepeatWrapping;
+        map.wrapT = THREE.RepeatWrapping;
+        map.anisotropy = 4;
+        map.repeat.set(10, 24);
+        map.colorSpace = THREE.SRGBColorSpace;
+        floorMat.map = map;
+        floorMat.needsUpdate = true;
+    });
+
+    const normalTexture = textureLoader.load('textures/WoodFloor051_4K/WoodFloor051_4K-JPG_Normal.jpg', function (map) {
+        map.wrapS = THREE.RepeatWrapping;
+        map.wrapT = THREE.RepeatWrapping;
+        map.anisotropy = 4;
+        map.repeat.set(10, 24);
+        floorMat.normalMap = map;
+        floorMat.needsUpdate = true;
+    });
+
+    const roughnessTexture = textureLoader.load('textures/WoodFloor051_4K/WoodFloor051_4K-JPG_Roughness.jpg', function (map) {
+        map.wrapS = THREE.RepeatWrapping;
+        map.wrapT = THREE.RepeatWrapping;
+        map.anisotropy = 4;
+        map.repeat.set(10, 24);
+        floorMat.roughnessMap = map;
+        floorMat.needsUpdate = true;
+    });
+
+    const aoTexture = textureLoader.load('textures/WoodFloor051_4K/WoodFloor051_4K-JPG_AmbientOcclusion.jpg', function (map) {
+        map.wrapS = THREE.RepeatWrapping;
+        map.wrapT = THREE.RepeatWrapping;
+        map.anisotropy = 4;
+        map.repeat.set(10, 24);
+        floorMat.aoMap = map;
+        floorMat.needsUpdate = true;
+    });
+
+    // Create Material
+    const floorMat = new THREE.MeshStandardMaterial({
+        // map: colorTexture,
+        // normalMap: normalTexture,
+        roughnessMap: roughnessTexture,
+        // aoMap: aoTexture,
+    });
+
+    // Set Texture Repeat
+    colorTexture.wrapS = THREE.RepeatWrapping;
+    colorTexture.wrapT = THREE.RepeatWrapping;
+    colorTexture.repeat.set(10, 24);
 
     return { floorMat };
 }

@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { g } from './main.js';
 import { params } from './utils.js';
 import { bulbLuminousPowers, hemiLuminousIrradiances } from './utils.js';   // utility functions and parameters used in the scene
-import { paddleDirection, aiPaddleDirection } from './events.js'; // event listeners for window resize events and keyboard input
+import { paddleDirection, aiPaddleDirection, player2PaddleDirection } from './events.js'; // event listeners for window resize events and keyboard input
 
 export function updateLighting() {
     g.renderer.toneMappingExposure = Math.pow(params.exposure, 5.0);  // Update the tone mapping exposure (brightness of the scene)
@@ -24,6 +24,37 @@ export function updateLighting() {
 export function movePlayerPaddle() {
     g.paddleMesh.position.x += paddleDirection.x * params.paddleSpeed * 0.016; // Move the paddle in the x direction
     g.paddleMesh.position.z += paddleDirection.z * params.paddleSpeed * 0.016; // Move the paddle in the z direction
+
+    // Create bounding boxes for the paddle and ball
+    const paddleBox = new THREE.Box3().setFromObject(g.paddleMesh);
+    const ballBox = new THREE.Box3().setFromObject(g.bulbLight);
+
+    // If the paddle intersects with the ball, prevent the paddle from moving further
+    // if (paddleBox.intersectsBox(ballBox)) {
+    //     g.paddleMesh.position.x -= paddleDirection.x * params.paddleSpeed * 0.012; // when it's 0.016, the ball does change direction
+    //     g.paddleMesh.position.z -= paddleDirection.z * params.paddleSpeed * 0.012; // when it's 0.016, the ball does change direction
+    // }
+}
+
+export function movePlayer2Paddle() {
+    const speed = 0.1;  // Adjust speed as needed
+
+    // Move player 2 paddle based on player2PaddleDirection
+    g.aiPaddleMesh.position.z += player2PaddleDirection.z * speed;
+    g.aiPaddleMesh.position.x += player2PaddleDirection.x * speed;
+
+    // Limit paddle movement within boundaries (adjust as per your game's logic)
+    const paddleHalfSize = 10;  // Adjust based on paddle size
+    g.aiPaddleMesh.position.z = THREE.MathUtils.clamp(
+        g.aiPaddleMesh.position.z,
+        -paddleHalfSize,
+        paddleHalfSize
+    );
+    g.aiPaddleMesh.position.x = THREE.MathUtils.clamp(
+        g.aiPaddleMesh.position.x,
+        -paddleHalfSize,
+        paddleHalfSize
+    );
 }
 
 export function moveAIPaddle() {

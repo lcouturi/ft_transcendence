@@ -26,8 +26,8 @@ export const hemiLuminousIrradiances = {
 export const params = {
     paddleBoundary: 10,
     wallBoundary: 10,
-    paddleSpeed: 10,
-    aiPaddleSpeed: 10,
+    paddleSpeed: 8,
+    aiPaddleSpeed: 8,
     tolerance: 0.5,
     easingFactor: 0.5,
     shadows: true,
