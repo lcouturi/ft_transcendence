@@ -1,0 +1,369 @@
+{% load static %}
+<!doctype html>
+<html class="h-100" lang="en-US">
+	<title>
+		The Great Avocado War of '24
+	</title>
+	<body class="d-flex flex-column h-100">
+		<head>
+			<link href='{% static "../static/ft_transcendence.css" %}' rel="stylesheet" />
+			<link href='{% static "../static/bootstrap/css/bootstrap.css" %}' rel="stylesheet">
+			<script src='{% static "../static/popper/popper.min.js" %}'>
+			</script>
+			<script src='{% static "../static/bootstrap/js/bootstrap.js" %}'>
+			</script>
+		</head>
+		<nav class="bg-body-tertiary border-bottom navbar navbar-expand-lg py-0 shadow-sm">
+			<div class="container-fluid px-0">
+				<ul class="flex-row me-auto navbar-nav">
+					<li class="border d-flex nav-item py-1 rounded text-nowrap" title="Leaderboard">
+						<img class="icon" height="22" src="icons/games-highscores.svg">
+						<a aria-current="page" class="active ms-1 my-auto nav-link p-0">
+							Leaderboard
+						</a>
+					</li>
+					<li class="border d-flex nav-item py-1 rounded text-nowrap" data-bs-target="#tournament" data-bs-toggle="modal" title="Tournament">
+						<img class="icon" height="22" src="icons/view-list-tree.svg">
+						<a aria-current="page" class="active ms-1 my-auto nav-link p-0">
+							Tournament
+						</a>
+					</li>
+					<li class="border d-flex nav-item py-1 rounded text-nowrap" data-bs-target="#about" data-bs-toggle="modal" title="About">
+						<img class="icon" height="22" src="icons/help-about.svg">
+						<a aria-current="page" class="active ms-1 my-auto nav-link p-0">
+							About
+						</a>
+					</li>
+				</ul>
+				<ul class="navbar-nav">
+					<li class="border d-flex nav-item py-1 rounded text-nowrap" data-bs-target="#login" data-bs-toggle="modal" title="Log in">
+						<img class="icon" height="22" src="icons/im-user.svg">
+						<a aria-current="page" class="active ms-1 my-auto nav-link p-0">
+							Log in
+						</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+		<div class="content d-flex m-auto mh-100 mw-100" id="content">
+			<img class="border content-body m-1 rounded w-100" id="content-body" src="icons/placeholder.png">
+		</div>
+		<div aria-hidden="true" aria-labelledby="about" class="modal fade" id="about" tabindex="-1">
+			<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+				<div class="bg-body border modal-content p-1 rounded">
+					<div class="modal-header p-1">
+						<h2 class="m-1 pe-none">
+							The Great Avocado War of '24
+						</h2>
+					</div>
+					<div class="d-flex flex-column m-1 modal-body overflow-hidden p-0">
+						<ul class="border-bottom-0 flex-nowrap ms-1 mt-1 nav nav-tabs position-relative rounded-top" id="myTab" role="tablist">
+							<li class="nav-item" role="presentation">
+								<button aria-controls="about-tab-pane" aria-selected="true" class="active border-bottom-0 first m-0 nav-link position-relative px-1 text-dark" data-bs-target="#about-tab-pane" data-bs-toggle="tab" id="about-tab" role="tab" type="button">
+									About
+								</button>
+							</li>
+							<li class="nav-item" role="presentation">
+								<button aria-controls="components-tab-pane" aria-selected="false" class="border-bottom-0 m-0 nav-link position-relative px-1 rounded-0 text-dark" data-bs-target="#components-tab-pane" data-bs-toggle="tab" id="components-tab" role="tab" type="button">
+									Components
+								</button>
+							</li>
+							<li class="nav-item" role="presentation">
+								<button aria-controls="authors-tab-pane" aria-selected="false" class="border-bottom-0 m-0 last nav-link position-relative px-1 text-dark" data-bs-target="#authors-tab-pane" data-bs-toggle="tab" id="authors-tab" role="tab" type="button">
+									Authors
+								</button>
+							</li>
+						</ul>
+						<div class="d-flex overflow-hidden tab-content" id="myTabContent">
+							<div aria-labelledby="about-tab" class="active border mb-1 mx-1 overflow-y-auto p-1 position-relative rounded show tab-pane" id="about-tab-pane" role="tabpanel" tabindex="0">
+								<div class="d-flex">
+									<img class="inline-img" src="icons/openart-image_yBIl3nIg_1717776713014_raw.jpg">
+								</div>
+								<br>
+								On February 30th 2024, something happened that would forever change the course of history. Tired of being treated as little more than food, the avocados waged war against the animal kingdom as a whole.
+								<br>
+								<br>
+								At first, the war went well for the avocados and they made short work of the weak human forces. With the humans out of the picture, the avocados thought they had won the war.
+								<br>
+								<br>
+								They were wrong.
+								<br>
+								<br>
+								They were not prepared for the onslaught from the pangolins. The pangolins were ruthless. The avocados found themselves evenly matched.
+								<br>
+								<br>
+								This website exists to serve as an accurate retelling of the Great Avocado War of '24. As for who won the war? You will have to play to find out.
+							</div>
+							<div aria-labelledby="components-tab" class="border mb-1 mx-1 overflow-y-auto p-1 position-relative rounded tab-pane w-100" id="components-tab-pane" role="tabpanel" tabindex="0">
+								<b>
+									Bootstrap
+								</b>
+								<br>
+								<i>
+									Version 5.3.3
+								</i>
+								<br>
+								<button class="border borderless-button d-flex m-1 p-0 rounded" title="Visit component's homepage&#013;https://getbootstrap.com" type="button">
+									<a href="https://getbootstrap.com" target="_blank">
+										<img class="icon m-1" height="22" src="icons/globe.svg">
+									</a>
+								</button>
+								<b>
+									Django
+								</b>
+								<br>
+								<i>
+									Version 5.0.6
+								</i>
+								<br>
+								<button class="border borderless-button d-flex m-1 p-0 rounded" title="Visit component's homepage&#013;https://www.djangoproject.com" type="button">
+									<a href="https://www.djangoproject.com" target="_blank">
+										<img class="icon m-1" height="22" src="icons/globe.svg">
+									</a>
+								</button>
+								<b>
+									PostgreSQL
+								</b>
+								<br>
+								<i>
+									Version 16.3
+								</i>
+								<br>
+								<button class="border borderless-button d-flex m-1 p-0 rounded" title="Visit component's homepage&#013;https://www.postgresql.org" type="button">
+									<a href="https://www.postgresql.org" target="_blank">
+										<img class="icon m-1" height="22" src="icons/globe.svg">
+									</a>
+								</button>
+								<b>
+									Three.js
+								</b>
+								<br>
+								<i>
+									Version r165
+								</i>
+								<br>
+								<button class="border borderless-button d-flex m-1 p-0 rounded" title="Visit component's homepage&#013;https://threejs.org" type="button">
+									<a href="https://threejs.org" target="_blank">
+										<img class="icon m-1" height="22" src="icons/globe.svg">
+									</a>
+								</button>
+							</div>
+							<div aria-labelledby="authors-tab" class="border mb-1 mx-1 overflow-y-auto p-1 position-relative rounded tab-pane w-100" id="authors-tab-pane" role="tabpanel" tabindex="0">
+								<b>
+									Bruno Pierre Bouchard
+								</b>
+								<br>
+								<i>
+									Database
+								</i>
+								<br>
+								<button class="border borderless-button d-flex m-1 p-0 rounded" title="Visit contributor's homepage&#013;https://github.com/Nyonyx" type="button">
+									<a href="https://github.com/Nyonyx" target="_blank">
+										<img class="icon m-1" height="22" src="icons/globe.svg">
+									</a>
+								</button>
+								<b>
+									Félix Barrette
+								</b>
+								<br>
+								<i>
+									???
+								</i>
+								<br>
+								<button class="border borderless-button d-flex m-1 p-0 rounded" title="Visit contributor's homepage&#013;https://github.com/ShroomySquid" type="button">
+									<a href="https://github.com/ShroomySquid" target="_blank">
+										<img class="icon m-1" height="22" src="icons/globe.svg">
+									</a>
+								</button>
+								<b>
+									George Zhukov
+								</b>
+								<br>
+								<i>
+									Game
+								</i>
+								<br>
+								<button class="border borderless-button d-flex m-1 p-0 rounded" title="Visit contributor's homepage&#013;https://github.com/joeroeg" type="button">
+									<a href="https://github.com/joeroeg" target="_blank">
+										<img class="icon m-1" height="22" src="icons/globe.svg">
+									</a>
+								</button>
+								<b>
+									Léopold Couturier-Otis
+								</b>
+								<br>
+								<i>
+									Interface
+								</i>
+								<br>
+								<button class="border borderless-button d-flex m-1 p-0 rounded" title="Visit contributor's homepage&#013;https://github.com/lcouturi" type="button">
+									<a href="https://github.com/lcouturi" target="_blank">
+										<img class="icon m-1" height="22" src="icons/globe.svg">
+									</a>
+								</button>
+								<b>
+									Pierre Olivier Paquet
+								</b>
+								<br>
+								<i>
+									Backend
+								</i>
+								<br>
+								<button class="border borderless-button d-flex m-1 p-0 rounded" title="Visit contributor's homepage&#013;https://github.com/pierreolivierpaquet" type="button">
+									<a href="https://github.com/pierreolivierpaquet" target="_blank">
+										<img class="icon m-1" height="22" src="icons/globe.svg">
+									</a>
+								</button>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer p-1">
+						<button class="border button d-flex m-1 ms-auto rounded shadow-sm" data-bs-dismiss="modal" type="button">
+							<img class="icon m-1" height="22" src="icons/window-close.svg">
+							<div class="my-auto">
+								Close
+							</div>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div aria-hidden="true" aria-labelledby="login" class="modal fade" id="login" tabindex="-1">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="bg-body border modal-content p-1 rounded">
+					<div class="modal-header p-1">
+						<h2 class="m-1 pe-none">
+							Log in
+						</h2>
+					</div>
+					<form>
+						<div class="m-1 modal-body p-0">
+							<div class="border d-flex frame m-1 rounded">
+								<div class="d-flex flex-column">
+									<div class="my-auto pe-none text-end">
+										Username:
+									</div>
+									<div class="my-auto pe-none text-end">
+										Password:
+									</div>
+								</div>
+								<div class="d-flex flex-column w-100">
+									<input class="border m-1 p-1 rounded w-100" required type="text">
+									<input class="border m-1 p-1 rounded w-100" required type="password">
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer p-1">
+							<button class="border button d-flex m-1 rounded shadow-sm text-nowrap" data-bs-target="#register" data-bs-toggle="modal" type="button">
+								<img class="icon m-1" height="22" src="icons/list-add-user.svg">
+								<div class="my-auto pe-none">
+									Register
+								</div>
+							</button>
+							<button class="border button d-flex m-1 ms-auto rounded shadow-sm" data-bs-dismiss="modal" type="button">
+								<img class="icon m-1" height="22" src="icons/dialog-cancel.svg">
+								<div class="my-auto">
+									Cancel
+								</div>
+							</button>
+							<button class="border button d-flex m-1 rounded shadow-sm" type="submit">
+								<img class="icon m-1" height="22" src="icons/dialog-ok-apply.svg">
+								<div class="my-auto">
+									OK
+								</div>
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div aria-hidden="true" aria-labelledby="register" class="modal fade" id="register" tabindex="-1">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="bg-body border modal-content p-1 rounded">
+					<div class="modal-header p-1">
+						<h2 class="m-1 pe-none">
+							Register
+						</h2>
+					</div>
+					<form>
+						<div class="m-1 modal-body p-0">
+							<div class="border d-flex frame m-1 rounded">
+								<div class="d-flex flex-column">
+									<div class="my-auto pe-none text-end">
+										Username:
+									</div>
+									<div class="my-auto pe-none text-end">
+										Password:
+									</div>
+									<div class="my-auto pe-none text-end text-nowrap">
+										Confirm password:
+									</div>
+								</div>
+								<div class="d-flex flex-column w-100">
+									<input class="border m-1 p-1 rounded w-100" required type="text">
+									<input class="border m-1 p-1 rounded w-100" required type="password">
+									<input class="border m-1 p-1 rounded w-100" required type="password">
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer p-1">
+							<button class="border button d-flex m-1 ms-auto rounded shadow-sm" data-bs-target="#login" data-bs-toggle="modal" type="button">
+								<img class="icon m-1" height="22" src="icons/dialog-cancel.svg">
+								<div class="my-auto">
+									Cancel
+								</div>
+							</button>
+							<button class="border button d-flex m-1 rounded shadow-sm" type="submit">
+								<img class="icon m-1" height="22" src="icons/dialog-ok-apply.svg">
+								<div class="my-auto">
+									OK
+								</div>
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div aria-hidden="true" aria-labelledby="tournament" class="modal fade" id="tournament" tabindex="-1">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="bg-body border modal-content p-1 rounded">
+					<div class="modal-header p-1">
+						<h2 class="m-1 pe-none">
+							Tournament
+						</h2>
+					</div>
+					<div class="m-1 modal-body p-0">
+						<div class="border frame m-1 rounded">
+							<div class="d-flex w-100">
+								<input  class="border m-1 p-1 rounded w-100" placeholder="Enter username" id="list_item" type="text"/>
+								<button class="border button d-flex m-1 rounded shadow-sm" id="list_add">
+									<img class="icon m-1" height="22" src="icons/list-add.svg">
+								</button>
+							</div>
+							<div class="list_container">
+								<div id="list">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer p-1">
+						<button class="border button d-flex m-1 ms-auto rounded shadow-sm" type="button">
+							<img class="icon m-1" height="22" src="icons/media-playback-start.svg">
+							<div class="my-auto">
+								Start tournament
+							</div>
+						</button>
+						<button class="border button d-flex m-1 rounded shadow-sm" data-bs-dismiss="modal" type="button">
+							<img class="icon m-1" height="22" src="icons/window-close.svg">
+							<div class="my-auto">
+								Close
+							</div>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src='{% static "../static/ft_transcendence.js" %}'>
+	</script>
+</html>
