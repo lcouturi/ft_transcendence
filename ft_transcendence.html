@@ -15,13 +15,7 @@
 		<nav class="bg-body-tertiary border-bottom navbar navbar-expand-lg py-0 shadow-sm">
 			<div class="container-fluid px-0">
 				<ul class="flex-row me-auto navbar-nav">
-					<li class="border d-flex nav-item py-1 rounded text-nowrap" title="Leaderboard">
-						<img height="22" src="icons/games-highscores.svg">
-						<a aria-current="page" class="active ms-1 my-auto nav-link p-0">
-							Leaderboard
-						</a>
-					</li>
-					<li class="border d-flex nav-item py-1 rounded text-nowrap" data-bs-target="#tournament" data-bs-toggle="modal" title="Tournament">
+					<li class="border d-flex nav-item py-1 rounded text-nowrap" onclick="tournament_open()" title="Tournament">
 						<img height="22" src="icons/view-list-tree.svg">
 						<a aria-current="page" class="active ms-1 my-auto nav-link p-0">
 							Tournament
@@ -36,20 +30,55 @@
 				</ul>
 				<ul class="navbar-nav">
 					<li class="border d-flex nav-item py-1 rounded text-nowrap" data-bs-target="#login" data-bs-toggle="modal" id="login-button" title="Log in">
-						<img height="22" src="icons/im-user.svg">
+						<img height="22" src="icons/network-connect.svg">
 						<a aria-current="page" class="active ms-1 my-auto nav-link p-0">
 							Log in
 						</a>
 					</li>
 					<li class="dropdown d-none" id="profile-button" title="Profile">
-						<button aria-expanded="false" class="bg-body-tertiary border d-flex nav-item py-1 rounded text-nowrap" data-bs-toggle="dropdown">
+						<button aria-expanded="false" class="bg-body-tertiary border d-flex nav-item py-1 rounded text-nowrap" data-bs-auto-close="outside" data-bs-toggle="dropdown">
 							<img height="22" src="icons/im-user.svg">
 							<a aria-current="page" class="active ms-1 my-auto nav-link p-0" id="profile-name">
 							</a>
 							<img class="ms-1 my-auto" height="16" src="icons/go-down.svg">
 						</button>
-						<ul class="border dropdown-menu frame rounded">
-							Stuff goes here.
+						<ul class="border dropdown-menu dropdown-menu-end frame rounded">
+							<div class="d-flex flex-column">
+								<img class="mx-auto" height="48" src="icons/im-user.svg">
+								<div class="mx-auto pe-none" id="profile-name-inside">
+								</div>
+								<progress id="profile-bar" max="100" value="50">
+								</progress>
+								<div class="d-flex">
+									<div class="pe-none m-1" id="profile-wins">
+										0 Wins
+									</div>
+									<div class="me-1 ms-auto my-1 pe-none" id="profile-losses">
+										0 Losses
+									</div>
+								</div>
+								<button class="border button d-flex m-1 ms-auto rounded shadow-sm w-100" type="button">
+									<img class="m-1 ms-auto" height="22" src="icons/appointment-new.svg">
+									<div class="me-auto my-auto text-nowrap">
+										Match history
+									</div>
+								</button>
+								<div class="d-flex mx-auto my-1 pe-none">
+									Friends: 0
+								</div>
+								<button class="border button d-flex m-1 ms-auto rounded shadow-sm w-100" type="button">
+									<img class="m-1 ms-auto" height="22" src="icons/address-book-new.svg">
+									<div class="me-auto my-auto text-nowrap">
+										Manage friends
+									</div>
+								</button>
+								<button class="border button d-flex m-1 ms-auto rounded shadow-sm w-100" type="button">
+									<img class="m-1 ms-auto" height="22" src="icons/system-log-out.svg">
+									<div class="me-auto my-auto text-nowrap">
+										Log out
+									</div>
+								</button>
+							</div>
 						</ul>
 					</li>
 				</ul>
@@ -57,10 +86,10 @@
 		</nav>
 		<div class="content d-flex flex-column m-auto mh-100 mw-100" id="content">
 			<div class="d-flex m-1" id="current-match">
-				<div class="d-flex m-1 me-auto">
+				<div class="d-flex m-1 w-50">
 					<img class="mx-1 my-auto" height="22" src="icons/im-user.svg">
 					<div class="mx-1 my-auto" id="contestant1">
-						Guest 1
+						Guest
 					</div>
 					<button class="border button d-flex m-1 rounded shadow-sm" onclick="result(1)" type="button">
 						<div class="my-auto">
@@ -68,13 +97,13 @@
 						</div>
 					</button>
 				</div>
-				<div class="m-1 my-auto">
+				<div class="my-auto">
 					VS
 				</div>
-				<div class="d-flex m-1 ms-auto">
-					<img class="mx-1 my-auto" height="22" src="icons/im-user.svg">
+				<div class="d-flex m-1 w-50">
+					<img class="me-1 ms-auto my-auto" height="22" src="icons/im-user.svg">
 					<div class="mx-1 my-auto" id="contestant2">
-						Guest 2
+						Guest
 					</div>
 					<button class="border button d-flex m-1 rounded shadow-sm" onclick="result(2)" type="button">
 						<div class="my-auto">
@@ -300,7 +329,7 @@
 					</div>
 					<div class="modal-footer p-1">
 						<button class="border button d-flex m-1 rounded shadow-sm text-nowrap" data-bs-dismiss="modal" onclick="register_open()" type="button">
-							<img class="m-1" height="22" src="icons/list-add-user.svg">
+							<img class="m-1" height="22" src="icons/list-add.svg">
 							<div class="my-auto pe-none">
 								Register
 							</div>
@@ -359,7 +388,7 @@
 									<input class="border m-1 p-1 rounded w-100" id="register-pass2" type="password">
 									<div class="d-flex" style="width: calc(100% + 0.5rem)">
 										<input class="border m-1 p-1 pe-none rounded w-100" id="avatar-name" type="text">
-										<label class="border button d-flex m-1 rounded shadow-sm" for="avatar" type="submit">
+										<label class="border button d-flex m-1 rounded shadow-sm" for="avatar" title="Open file dialog" type="submit">
 											<img class="m-1" height="22" src="icons/document-open.svg">
 										</label>
 									</div>
@@ -405,7 +434,7 @@
 							<div class="overflow-y-auto">
 								<div class="d-flex m-2">
 									<input class="border m-1 p-1 rounded w-100" id="list_item" placeholder="Enter username" type="text">
-									<button class="border button d-flex m-1 rounded shadow-sm" id="list_add" onclick="add_item()">
+									<button class="border button d-flex m-1 rounded shadow-sm" id="list_add" onclick="add_item(null)">
 										<img class="m-1" height="22" src="icons/list-add.svg">
 									</button>
 								</div>
