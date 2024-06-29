@@ -9,12 +9,15 @@ from mainapp.models import CustomUser
 from django import forms
 from django.contrib.auth.decorators import login_required
 import json
-
+from datetime import datetime
+from django.utils import timezone
 
 # Create your views here.
 def index(request):
     friends = None
     if request.user.is_authenticated:
+        request.user.latest_activity = timezone.now()
+        request.user.save()
         friends = request.user.friends_list.all()
 
     return render(request, "ft_transcendence.html", {
@@ -53,7 +56,7 @@ class ImageForm(forms.Form):
     imageFile = forms.ImageField()
     
 
-@login_required
+@login_required 
 def upload_image(request):
     if request.method == 'POST':
         form = ImageForm(request.POST, request.FILES)

@@ -81,6 +81,7 @@
 				<li>
 					<img src="{{ friend.get_image_profile_url }}" class="rounded-circle" alt="profile picture" width="30" height="30">
 					{{ friend.username }}
+					{% if friend.is_online %} (online) {% endif %}
 					<button type="submit" id="deleteButton" onclick="delete_friend('{{ friend.username }}')">
 						<img src='{% static "../static/icons/red_x_icon.jpg" %}' width="20" height="20">  
 					</button>
