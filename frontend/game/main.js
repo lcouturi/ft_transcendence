@@ -70,31 +70,31 @@ init();
 animate();
 
 // Load saved parameters from local storage
-function loadSavedParameters() {
-    const savedParameters = [
-        'hemiIrradiance', 'bulbPower', 'exposure', 'paddleSpeed', 'aiPaddleSpeed',
-        'tolerance', 'easingFactor', 'limitScore', 'numStars', 'starsSpeed', 'starColor',
-        'startSize', 'ballSpeed', 'shadows', 'floorMaterial', 'orbitSpeed', 'isOrbiting', 'isSinglePlayer'
-    ];
-
-    savedParameters.forEach(param => {
-        const savedValue = g.localStorage.getItem(param);
-        if (savedValue !== null) {
-            if (param === 'starColor') {
-                g.starColor.color = savedValue;
-            } else if (param in g) {
-                g[param] = parseFloat(savedValue);
-            } else if (param in params) {
-                params[param] = parseFloat(savedValue);
-            }
-        }
-    });
-
-    // g.localStorage.clear();
-}
+// function loadSavedParameters() {
+//     const savedParameters = [
+//         'hemiIrradiance', 'bulbPower', 'exposure', 'paddleSpeed', 'aiPaddleSpeed',
+//         'tolerance', 'easingFactor', 'limitScore', 'numStars', 'starsSpeed', 'starColor',
+//         'startSize', 'ballSpeed', 'shadows', 'floorMaterial', 'orbitSpeed', 'isOrbiting', 'isSinglePlayer'
+//     ];
+//
+//     savedParameters.forEach(param => {
+//         const savedValue = g.localStorage.getItem(param);
+//         if (savedValue !== null) {
+//             if (param === 'starColor') {
+//                 g.starColor.color = savedValue;
+//             } else if (param in g) {
+//                 g[param] = parseFloat(savedValue);
+//             } else if (param in params) {
+//                 params[param] = parseFloat(savedValue);
+//             }
+//         }
+//     });
+//
+//     // g.localStorage.clear();
+// }
 
 function init() {
-    loadSavedParameters();
+//    loadSavedParameters();
     g.container = document.getElementById('container');    // Get the container element from the HTML document
     initScene();                                           // Initialize the scene
     initCamera();                                          // Initialize the camera
@@ -110,8 +110,25 @@ function init() {
     initScoreDisplay();                                    // Initialize the score display
 }
 
+function resizeCanvasToDisplaySize() {
+  const canvas = g.renderer.domElement;
+  // look up the size the canvas is being displayed
+  const width = canvas.clientWidth;
+  const height = canvas.clientHeight;
+
+  // adjust displayBuffer size to match
+  if (canvas.width !== width || canvas.height !== height) {
+    // you must pass false here or three.js sadly fights the browser
+    g.renderer.setSize(width, height, false);
+    g.camera.aspect = width / height;
+    g.camera.updateProjectionMatrix();
+
+    // update any render target sizes here
+  }
+}
 
 function animate() {
+    resizeCanvasToDisplaySize();
     updateLighting();       // Update lighting in the scene
     movePlayerPaddle();     // Move player paddle
     if (!g.isSinglePlayer) {

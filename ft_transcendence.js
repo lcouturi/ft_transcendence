@@ -1,3 +1,13 @@
+import
+{
+	g
+} from './frontend/game/main.js';
+
+import
+{
+	params
+} from './frontend/game/utils.js';
+
 let	avatar;
 let	i = 0;
 let	in_tournament = false;
@@ -8,6 +18,90 @@ let	tournament_array = [];
 let	username = null;
 let	winners = [];
 let	wins = 0;
+
+document.querySelector("#contestant1-victory").addEventListener("click", function(e)
+{
+	e.preventDefault();
+	result(1);
+});
+
+document.querySelector("#contestant2-victory").addEventListener("click", function(e)
+{
+	e.preventDefault();
+	result(2);
+});
+
+document.querySelector("#list-add").addEventListener("click", function(e)
+{
+	e.preventDefault();
+	add_item(null);
+});
+
+document.querySelector("#login-banner-close").addEventListener("click", function(e)
+{
+	e.preventDefault();
+	banner_close('#login-banner');
+});
+
+document.querySelector("#login-ok").addEventListener("click", function(e)
+{
+	e.preventDefault();
+	login_validate();
+});
+
+document.querySelector("#pause").addEventListener("click", function(e)
+{
+	e.preventDefault();
+	pause();
+});
+
+document.querySelector("#profile-logout").addEventListener("click", function(e)
+{
+	e.preventDefault();
+	profile_logout();
+});
+
+document.querySelector("#register-banner-close").addEventListener("click", function(e)
+{
+	e.preventDefault();
+	banner_close('#register-banner');
+});
+
+document.querySelector("#register-button").addEventListener("click", function(e)
+{
+	e.preventDefault();
+	register_open();
+});
+
+document.querySelector("#register-ok").addEventListener("click", function(e)
+{
+	e.preventDefault();
+	register_validate();
+});
+
+document.querySelector("#tournament-banner-close").addEventListener("click", function(e)
+{
+	e.preventDefault();
+	banner_close('#tournament-banner');
+});
+
+document.querySelector("#tournament-button").addEventListener("click", function(e)
+{
+	e.preventDefault();
+	tournament_open();
+});
+
+document.querySelector("#tournament-start").addEventListener("click", function(e)
+{
+	e.preventDefault();
+	tournament_start();
+});
+
+document.querySelector("#tournament-start-match").addEventListener("click", function(e)
+{
+	e.preventDefault();
+	start_match();
+});
 
 document.getElementById('avatar').onchange = function ()
 {
@@ -48,7 +142,7 @@ function	add_item(value)
 		<div class="m-1 p-1 w-100">
 			${sanitize(item)}
 		</div>
-		<button class="border button d-flex delete m-1 rounded shadow-sm" id="list_add">
+		<button class="border button d-flex delete m-1 rounded shadow-sm">
 			<img class="icon m-1" height="22" src="icons/list-remove.svg">
 		</button>
 	</div>`;
@@ -109,6 +203,17 @@ function	login_validate()
 	document.querySelector("#login-name").value = "";
 	document.querySelector("#login-pass").value = "";
 	login_complete();
+}
+
+function	pause()
+{
+	g.aiPaddleSpeed = 0;
+	g.ballSpeed = 0;
+	g.orbitSpeed = 0;
+	g.player2PaddleSpeed = 0;
+	g.starsSpeed = 0;
+	params.aiPaddleSpeed = 0;
+	params.paddleSpeed = 0;
 }
 
 function	prepare_next_match()
@@ -288,14 +393,14 @@ function	tournament_open()
 
 function	tournament_start()
 {
-	contestant1 = null;
-	contestant2 = null;
-	in_tournament = true;
 	if (tournament_array.length <= 1)
 	{
 		banner_open("Tournament needs at least two users!", "#tournament-banner");
 		return ;
 	}
+	contestant1 = null;
+	contestant2 = null;
+	in_tournament = true;
 	document.querySelector("#list").innerHTML = "";
 	document.querySelector("#close").click();
 	winners = [];

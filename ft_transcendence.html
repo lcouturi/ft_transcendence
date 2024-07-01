@@ -24,7 +24,7 @@
 		<nav class="bg-body-tertiary border-bottom navbar navbar-expand-lg py-0 shadow-sm">
 			<div class="container-fluid px-0">
 				<ul class="flex-row me-auto navbar-nav">
-					<li class="border d-flex nav-item py-1 rounded text-nowrap" onclick="tournament_open()" title="Tournament">
+					<li class="border d-flex nav-item py-1 rounded text-nowrap" id="tournament-button" title="Tournament">
 						<img height="22" src="icons/view-list-tree.svg">
 						<a aria-current="page" class="active ms-1 my-auto nav-link p-0">
 							Tournament
@@ -34,6 +34,12 @@
 						<img height="22" src="icons/help-about.svg">
 						<a aria-current="page" class="active ms-1 my-auto nav-link p-0">
 							About
+						</a>
+					</li>
+					<li class="border d-flex nav-item py-1 rounded text-nowrap" id="pause" title="Pause">
+						<img height="22" src="icons/media-playback-pause.svg">
+						<a aria-current="page" class="active ms-1 my-auto nav-link p-0">
+							Pause
 						</a>
 					</li>
 				</ul>
@@ -81,7 +87,7 @@
 										Manage friends
 									</div>
 								</button>
-								<button class="border button d-flex m-1 ms-auto rounded shadow-sm w-100" onclick="profile_logout()" type="button">
+								<button class="border button d-flex m-1 ms-auto rounded shadow-sm w-100" id="profile-logout" type="button">
 									<img class="m-1 ms-auto" height="22" src="icons/system-log-out.svg">
 									<div class="me-auto my-auto text-nowrap">
 										Log out
@@ -93,14 +99,14 @@
 				</ul>
 			</div>
 		</nav>
-		<div class="content d-flex flex-column m-auto mh-100 mw-100" id="content">
+		<div class="content d-flex flex-column flex-grow-1 flex-shrink-1 m-auto mh-100 mw-100" id="content">
 			<div class="d-flex m-1" id="current-match">
 				<div class="d-flex m-1 w-50">
 					<img class="mx-1 my-auto rounded-circle" height="22" id="contestant1-avatar" src="icons/im-user.svg">
 					<div class="mx-1 my-auto" id="contestant1">
 						Guest
 					</div>
-					<button class="border button d-flex m-1 rounded shadow-sm" onclick="result(1)" type="button">
+					<button class="border button d-flex m-1 rounded shadow-sm" id="contestant1-victory" type="button">
 						<div class="my-auto">
 							Give victory
 						</div>
@@ -114,14 +120,14 @@
 					<div class="mx-1 my-auto" id="contestant2">
 						Guest
 					</div>
-					<button class="border button d-flex m-1 rounded shadow-sm" onclick="result(2)" type="button">
+					<button class="border button d-flex m-1 rounded shadow-sm" id="contestant2-victory" type="button">
 						<div class="my-auto">
 							Give victory
 						</div>
 					</button>
 				</div>
 			</div>
-			<div class="content-body m-1 mt-0" id="container">
+			<div class="content-body flex-grow-1 flex-shrink-1 m-1 mh-100 mt-0" id="container">
 			</div>
 		</div>
 		<div aria-hidden="true" aria-labelledby="about" class="modal fade" id="about" tabindex="-1">
@@ -317,7 +323,7 @@
 							<div class="d-flex overflow-hidden p-0 warning-banner" id="login-banner" style="max-height: 0">
 								<div class="m-auto pe-none" id="login-banner-text">
 								</div>
-								<button class="border borderless-button d-flex p-0 rounded" onclick="banner_close('#login-banner')" type="button">
+								<button class="border borderless-button d-flex p-0 rounded" id="login-banner-close" type="button">
 									<img class="m-1" height="22" src="icons/window-close.svg">
 								</button>
 							</div>
@@ -338,7 +344,7 @@
 						</div>
 					</div>
 					<div class="modal-footer p-1">
-						<button class="border button d-flex m-1 rounded shadow-sm text-nowrap" data-bs-dismiss="modal" onclick="register_open()" type="button">
+						<button class="border button d-flex m-1 rounded shadow-sm text-nowrap" data-bs-dismiss="modal" id="register-button" type="button">
 							<img class="m-1" height="22" src="icons/list-add.svg">
 							<div class="my-auto pe-none">
 								Register
@@ -350,7 +356,7 @@
 								Cancel
 							</div>
 						</button>
-						<button class="border button d-flex m-1 rounded shadow-sm" onclick="login_validate()">
+						<button class="border button d-flex m-1 rounded shadow-sm" id="login-ok">
 							<img class="m-1" height="22" src="icons/dialog-ok-apply.svg">
 							<div class="my-auto">
 								OK
@@ -373,7 +379,7 @@
 							<div class="d-flex overflow-hidden p-0 warning-banner" id="register-banner" style="max-height: 0">
 								<div class="m-auto pe-none" id="register-banner-text">
 								</div>
-								<button class="border borderless-button d-flex p-0 rounded" onclick="banner_close('#register-banner')" type="button">
+								<button class="border borderless-button d-flex p-0 rounded" id="register-banner-close" type="button">
 									<img class="m-1" height="22" src="icons/window-close.svg">
 								</button>
 							</div>
@@ -414,7 +420,7 @@
 								Cancel
 							</div>
 						</button>
-						<button class="border button d-flex m-1 rounded shadow-sm" onclick="register_validate()">
+						<button class="border button d-flex m-1 rounded shadow-sm" id="register-ok">
 							<img class="m-1" height="22" src="icons/dialog-ok-apply.svg">
 							<div class="my-auto">
 								OK
@@ -437,14 +443,14 @@
 							<div class="d-flex overflow-hidden p-0 warning-banner" id="tournament-banner" style="max-height: 0">
 								<div class="m-auto pe-none" id="tournament-banner-text">
 								</div>
-								<button class="border borderless-button d-flex p-0 rounded" onclick="banner_close('#tournament-banner')" type="button">
+								<button class="border borderless-button d-flex p-0 rounded" id="tournament-banner-close" type="button">
 									<img class="m-1" height="22" src="icons/window-close.svg">
 								</button>
 							</div>
 							<div class="overflow-y-auto">
 								<div class="d-flex m-2">
 									<input class="border m-1 p-1 rounded w-100" id="list_item" placeholder="Enter username" type="text">
-									<button class="border button d-flex m-1 rounded shadow-sm" id="list_add" onclick="add_item(null)">
+									<button class="border button d-flex m-1 rounded shadow-sm" id="list-add">
 										<img class="m-1" height="22" src="icons/list-add.svg">
 									</button>
 								</div>
@@ -456,7 +462,7 @@
 						</div>
 					</div>
 					<div class="modal-footer p-1">
-						<button class="border button d-flex m-1 ms-auto rounded shadow-sm" onclick="tournament_start()" type="button">
+						<button class="border button d-flex m-1 ms-auto rounded shadow-sm" id="tournament-start" type="button">
 							<img class="m-1" height="22" src="icons/media-playback-start.svg">
 							<div class="my-auto">
 								Start Tournament
@@ -489,7 +495,7 @@
 						</div>
 					</div>
 					<div class="modal-footer p-1">
-						<button class="border button d-flex m-1 ms-auto rounded shadow-sm" data-bs-dismiss="modal" onclick="start_match()" type="button">
+						<button class="border button d-flex m-1 ms-auto rounded shadow-sm" data-bs-dismiss="modal" id="tournament-start-match" type="button">
 							<img class="m-1" height="22" src="icons/media-playback-start.svg">
 							<div class="my-auto">
 								Next Match
@@ -498,8 +504,9 @@
 					</div>
 				</div>
 			</div>
+		</div>
 	</body>
-	<script src="ft_transcendence.js">
+	<script src="ft_transcendence.js" type="module">
 	</script>
 	<script src="frontend/game/main.js" type="module">
 	</script>
