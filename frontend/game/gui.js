@@ -6,10 +6,7 @@ import { createNeonBorder } from './geometry.js';
 
 export function initGUI() {
     const gui = new GUI();
-    // set initial values for GUI floor material options from local storage
-    const floorMaterialOptions = { floor: g.localStorage.getItem('floorMaterial') || 'wood' };
-
-
+    const floorMaterialOptions = { floor: g.localStorage.getItem('floorMaterial') || 'asphalt' };
     gui.add(params, 'hemiIrradiance', Object.keys(hemiLuminousIrradiances)).name('irradiance');
     gui.add(params, 'bulbPower', Object.keys(bulbLuminousPowers)).name('bulb power');
     gui.add(params, 'exposure', 0, 3);
@@ -21,11 +18,7 @@ export function initGUI() {
     gui.add(g, 'numStars', 0, 10000).name('number of stars').step(1).onChange(value => { initStarField(); saveParameter('numStars', value); });
     gui.add(g, 'starsSpeed', 0, 1).name('stars speed').onChange(value => saveParameter('starsSpeed', value));
     gui.addColor(g.starColor, 'color').name('star color').onChange(value => { g.starPool.forEach(star => { star.material.color.set(value); }); saveParameter('starColor', value); });
-    gui.addColor(g, 'borderColor').name('border color').onChange(value => {
-        g.borderColor = value;
-        updateNeonBorderColor();
-        saveParameter('borderColor', value);
-    });
+    gui.addColor(g, 'borderColor').name('border color').onChange(value => { g.borderColor = value; updateNeonBorderColor(); saveParameter('borderColor', value);    });
     gui.add(g, 'startSize', 0, 0.1).name('star size').step(0.001).onChange(value => { initStarField(); saveParameter('startSize', value); });
     gui.add(g, 'ballSpeed', 0, 0.1).name('ball speed').step(0.001).onChange(value => saveParameter('ballSpeed', value));
     gui.add(params, 'shadows').onChange(value => saveParameter('shadows', value));
@@ -33,20 +26,53 @@ export function initGUI() {
     gui.add(g, 'orbitSpeed', 0, 0.1).name('orbit speed').step(0.001).onChange(value => saveParameter('orbitSpeed', value));
     gui.add(g, 'isOrbiting').name('enable orbiting').onChange(value => saveParameter('isOrbiting', value));
     gui.add(g, 'isSinglePlayer').name('single player mode').onChange(value => { toggleGameMode(value); saveParameter('isSinglePlayer', value); });
-    gui.add(g, 'bloomStrength', 0, 3).name('Bloom Strength').step(0.1).onChange(value => {
-        g.bloomPass.strength = value;
-        saveParameter('bloomStrength', value);
-    });
-    gui.add(g, 'bloomRadius', 0, 1).name('Bloom Radius').step(0.1).onChange(value => {
-        g.bloomPass.radius = value;
-        saveParameter('bloomRadius', value);
-    });
-    gui.add(g, 'bloomThreshold', 0, 1).name('Bloom Threshold').step(0.1).onChange(value => {
-        g.bloomPass.threshold = value;
-        saveParameter('bloomThreshold', value);
-    });
+    gui.add(g, 'bloomStrength', 0, 3).name('bloom Strength').step(0.1).onChange(value => { g.bloomPass.strength = value; saveParameter('bloomStrength', value);});
+    gui.add(g, 'bloomRadius', 0, 1).name('bloom Radius').step(0.1).onChange(value => { g.bloomPass.radius = value; saveParameter('bloomRadius', value); });
+    gui.add(g, 'bloomThreshold', 0, 1).name('bloom threshold').step(0.1).onChange(value => { g.bloomPass.threshold = value; saveParameter('bloomThreshold', value); });
+    gui.addColor(g, 'playerPaddleColor').name('player paddle color').onChange(value => { updatePaddleColor(); saveParameter('playerPaddleColor', value); });
+    gui.addColor(g, 'aiPaddleColor').name('AI paddle color').onChange(value => { updatePaddleColor(); saveParameter('aiPaddleColor', value); });
+    gui.add(g, 'emissiveIntensity').name('disable glass effect').onChange(value => { updatePaddleColor(); saveParameter('emissiveIntensity', value); });
+    // gui.add(g, 'emissiveIntensity').name('glass paddles').onChange(value => { updatePaddleColor(); saveParameter('emissiveIntensity', value); }).listen();
+    gui.add({ reset: () => { localStorage.clear(); location.reload(); } }, 'reset').name('Reset Patameters');
     gui.open();
     return gui;
+}
+
+// Load saved parameters from local storage
+export function loadSavedParameters() {
+    const savedParameters = [
+        'hemiIrradiance', 'bulbPower', 'exposure', 'paddleSpeed', 'aiPaddleSpeed',
+        'tolerance', 'easingFactor', 'limitScore', 'numStars', 'starsSpeed', 'starColor',
+        'startSize', 'ballSpeed', 'shadows', 'floorMaterial', 'orbitSpeed', 'isOrbiting',
+        'isSinglePlayer', 'borderColor', 'bloomStrength', 'bloomRadius', 'bloomThreshold',
+        'playerPaddleColor', 'aiPaddleColor', 'emissiveIntensity'
+    ];
+
+    savedParameters.forEach(param => {
+        const savedValue = g.localStorage.getItem(param);
+        if (savedValue !== null) {
+            if (param === 'starColor') {
+                g.starColor.color = savedValue;
+            } else if (param === 'borderColor') {
+                g.borderColor = savedValue;
+            } else if (param in g) {
+                g[param] = parseFloat(savedValue);
+            } else if (param in params) {
+                params[param] = parseFloat(savedValue);
+            }
+        }
+    });
+
+    // g.localStorage.clear();
+}
+
+function updatePaddleColor() {
+    g.paddleMesh.material.color.set(g.playerPaddleColor);
+    g.paddleMesh.material.emissive.set(g.playerPaddleColor);
+    g.aiPaddleMesh.material.color.set(g.aiPaddleColor);
+    g.aiPaddleMesh.material.emissive.set(g.aiPaddleColor);
+    g.paddleMesh.material.emissiveIntensity = g.emissiveIntensity;
+    g.aiPaddleMesh.material.emissiveIntensity = g.emissiveIntensity;
 }
 
 function updateNeonBorderColor() {
@@ -74,33 +100,4 @@ function toggleGameMode(isSinglePlayer) {
 
 function saveParameter(name, value) {
     localStorage.setItem(name, value);
-}
-
-// Load saved parameters from local storage
-export function loadSavedParameters() {
-    const savedParameters = [
-        'hemiIrradiance', 'bulbPower', 'exposure', 'paddleSpeed', 'aiPaddleSpeed',
-        'tolerance', 'easingFactor', 'limitScore', 'numStars', 'starsSpeed', 'starColor',
-        'startSize', 'ballSpeed', 'shadows', 'floorMaterial', 'orbitSpeed', 'isOrbiting',
-        'isSinglePlayer', 'borderColor', 'bloomStrength', 'bloomRadius', 'bloomThreshold'
-    ];
-
-    savedParameters.forEach(param => {
-        const savedValue = g.localStorage.getItem(param);
-        if (savedValue !== null) {
-            if (param === 'starColor') {
-                g.starColor.color = savedValue;
-            }
-            else if (param === 'borderColor') {
-                g.borderColor = savedValue;
-                // updateNeonBorderColor();
-            } else if (param in g) {
-                g[param] = parseFloat(savedValue);
-            } else if (param in params) {
-                params[param] = parseFloat(savedValue);
-            }
-        }
-    });
-
-    // g.localStorage.clear();
 }

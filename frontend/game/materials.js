@@ -15,16 +15,12 @@ export function initMaterials() {
         asphalt: asphaltMaterials.floorMat,
         grass: grassMaterials.floorMat
     };
-
-    // load default material from local storage
-    // g.floorMat = g.floor.wood; // default material
     g.floorMat = g.localStorage.getItem('floorMaterial');
     if (g.floorMat === null) {
-        g.floorMat = g.floor.wood;
+        g.floorMat = g.floor.asphalt; // load default material
     } else {
         g.floorMat = g.floor[g.floorMat];
     }
-    // console.log(g.floorMat);
 }
 
 export function initWoodMaterials() {

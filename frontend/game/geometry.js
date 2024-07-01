@@ -9,12 +9,10 @@ export function initGeometry() {
 
 function initializeFloor() {
     const floorMaterial = g.floorMat;
+    const neonBorder = createNeonBorder();
     const floorMesh = createFloorMesh(floorMaterial);
     g.floorMesh = floorMesh;
     g.scene.add(floorMesh);
-
-    // Add neon border around the floor
-    const neonBorder = createNeonBorder();
     g.scene.add(neonBorder);
 }
 
@@ -70,27 +68,33 @@ function createFloorMesh(floorMat) {
 }
 
 function initializePaddles() {
-    const paddleMaterial = new THREE.MeshStandardMaterial({
-        color: 0x00ff00,
+    const playerPaddleMaterial = new THREE.MeshPhysicalMaterial({
+        color: new THREE.Color(g.playerPaddleColor),  // Default green color
+        roughness: 0,
+        transmission: 1,  // Full transparency
+        thickness: 1.5,   // Adjust thickness as needed
+        clearcoat: 1,     // Add a clear coat to simulate reflection
+        clearcoatRoughness: 0.1,
+        opacity: 0.9,
         transparent: true,
-        opacity: 0.8,
-        roughness: 0.05,
-        metalness: 0.1,
-        emissive: 0x00ff00,
-        // emissiveIntensity: 0.9,
+        emissive: new THREE.Color(g.playerPaddleColor),
+        emissiveIntensity: g.emissiveIntensity,
     });
 
-    const aiPaddleMaterial = new THREE.MeshStandardMaterial({
-        color: 0xff0000,
+    const aiPaddleMaterial = new THREE.MeshPhysicalMaterial({
+        color: new THREE.Color(g.aiPaddleColor),  // Default red color
+        roughness: 0,
+        transmission: 1,  // Full transparency
+        thickness: 1.5,   // Adjust thickness as needed
+        clearcoat: 1,     // Add a clear coat to simulate reflection
+        clearcoatRoughness: 0.1,
+        opacity: 0.5,
         transparent: true,
-        opacity: 0.8,
-        roughness: 0.05,
-        metalness: 0.1,
-        emissive: 0xff0000,
-        // emissiveIntensity: 0.9,
+        emissive: new THREE.Color(g.aiPaddleColor),
+        emissiveIntensity: g.emissiveIntensity,
     });
 
-    const paddleMesh = createPaddleMesh(paddleMaterial, 8);
+    const paddleMesh = createPaddleMesh(playerPaddleMaterial, 8);
     g.paddleMesh = paddleMesh;
     g.player2PaddleMesh = paddleMesh.clone();
     g.scene.add(paddleMesh);
@@ -110,3 +114,4 @@ function createPaddleMesh(material, zPosition) {
     paddleMesh.castShadow = true;
     return paddleMesh;
 }
+

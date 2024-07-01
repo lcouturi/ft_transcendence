@@ -36,7 +36,7 @@ export const g = {
     stats: null,                              // Stats object (monitors performance stats)
     floorMat: null,                           // Floor material object
     floorMesh: null,                          // Floor mesh object
-    borderColor: '0x00ff00',                  // Border color object
+    borderColor: 0x00ff00,                  // Border color object
     paddleMesh: null,                         // Player paddle mesh object
     aiPaddleMesh: null,                       // AI paddle mesh object
     ballVelocity: new THREE.Vector3(0, 0, 5), // Ball velocity vector
@@ -68,9 +68,12 @@ export const g = {
     aiPaddleVelocity: new THREE.Vector3(0, 0, 0),// AI paddle velocity vector
     composer: null,
     bloomPass: null,
-    bloomStrength: 1.5,
-    bloomRadius: 0.4,
-    bloomThreshold: 0.85,
+    bloomStrength: 0,
+    bloomRadius: 0,
+    bloomThreshold: 0,
+    playerPaddleColor: 0x00ff00,
+    aiPaddleColor: 0xff0000,
+    emissiveIntensity: true,
 };
 
 // Initialize the scene
@@ -126,7 +129,7 @@ function animate() {
     checkBounds();          // Check bounds
     orbitalRotation();      // Orbit the camera
     g.renderer.render(g.scene, g.camera); // Render the scene
-    g.composer.render();    // Render the scene with the effect composer
+    // g.composer.render();    // Render the scene with the effect composer
     updateStars();          // Update the star field
     g.stats.update();       // Update performance stats
 }
