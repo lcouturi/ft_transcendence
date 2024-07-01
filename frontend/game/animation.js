@@ -4,23 +4,49 @@ import { bulbLuminousPowers, hemiLuminousIrradiances } from './utils.js';   // u
 import { paddleDirection, aiPaddleDirection, player2PaddleDirection } from './events.js'; // event listeners for window resize events and keyboard input
 
 export function updateLighting() {
-    g.renderer.toneMappingExposure = Math.pow(g.exposure, 5.0);  // Update the tone mapping exposure (brightness of the scene)
-    g.renderer.shadowMap.enabled = g.shadows;                    // Enable or disable shadows
-    g.bulbLight.castShadow = g.shadows;                          // Enable or disable shadow casting for the bulb light
+    g.renderer.toneMappingExposure = Math.pow(g.exposure, 5.0);
+    g.renderer.shadowMap.enabled = g.shadows;
+    g.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-    // Update the floor material if the shadow map state has changed
+    g.bulbLight.castShadow = g.shadows;
+
     if (g.shadows !== g.previousShadowMap) {
         if (g.shadows) {
-            // g.floorMat.shadowSide = THREE.FrontSide; // Set the shadow side of the floor material
+            g.floorMat.side = THREE.FrontSide;
+            g.floorMat.needsUpdate = true;
         }
-        // g.floorMat.needsUpdate = true;
         g.previousShadowMap = g.shadows;
     }
 
-    // Update the bulb light power, bulb material emissive intensity, and hemisphere light intensity
-    g.bulbLight.power = bulbLuminousPowers[g.bulbPower];                 // Update the bulb light power
-    g.bulbMat.emissiveIntensity = g.bulbLight.intensity / Math.pow(0.02, 2.0);  // Update the bulb material emissive intensity
-    g.hemiLight.intensity = hemiLuminousIrradiances[g.hemiIrradiance];   // Update the hemisphere light intensity
+    if (g.shadows) {
+        g.bulbLight.shadow.mapSize.width = 1024;
+        g.bulbLight.shadow.mapSize.height = 1024;
+        g.bulbLight.shadow.camera.near = 0.2;
+        g.bulbLight.shadow.camera.far = 100; // Adjust based on your scene size
+        g.bulbLight.shadow.bias = -0.0001; // Adjust this value as needed
+    }
+
+    g.bulbLight.power = bulbLuminousPowers[g.bulbPower];
+    g.bulbMat.emissiveIntensity = g.bulbLight.intensity / Math.pow(0.02, 2.0);
+    g.hemiLight.intensity = hemiLuminousIrradiances[g.hemiIrradiance];
+
+    updateObjectShadows();
+}
+
+function updateObjectShadows() {
+    g.scene.traverse(function(object) {
+        if (object.isMesh) {
+            if (object.name === 'floor') {
+                object.receiveShadow = g.shadows;
+            } else {
+                object.castShadow = g.shadows;
+                // Slightly raise non-floor objects
+                if (object.position.y === 0) {
+                    object.position.y += 0.01;
+                }
+            }
+        }
+    });
 }
 
 // export function movePlayerPaddle() {

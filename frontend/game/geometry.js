@@ -63,6 +63,7 @@ function createFloorMesh(floorMat) {
     const floorGeometry = new THREE.PlaneGeometry(20, 20);
     const floorMesh = new THREE.Mesh(floorGeometry, floorMat);
     floorMesh.receiveShadow = true;
+    floorMesh.wireframe = true;
     floorMesh.rotation.x = -Math.PI / 2.0;
     return floorMesh;
 }
