@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { initMaterials } from './materials.js';               // Import materials initialization
 import { initGeometry } from './geometry.js';                 // Import geometry initialization
 import { initRenderer } from './renderer.js';                 // Import renderer initialization
-import { initGUI } from './gui.js';                           // Import GUI setup
+import { initGUI, loadSavedParameters} from './gui.js';                           // Import GUI setup
 import { initScene, initCamera, initLights, initStats } from './initialize.js'; // Import scene, camera, lights, and stats initialization
 import { initEventListeners, initControls, player2PaddleDirection } from './events.js'; // Import event listeners and controls
 import { initStarField, updateStars } from './objects.js';    // Import star field initialization and update
@@ -19,6 +19,10 @@ import {
     initScoreDisplay,
     orbitalRotation,
 } from './animation.js'; // Import animation-related functions
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+
 
 // Initialization of global variables
 export const g = {
@@ -32,6 +36,7 @@ export const g = {
     stats: null,                              // Stats object (monitors performance stats)
     floorMat: null,                           // Floor material object
     floorMesh: null,                          // Floor mesh object
+    borderColor: '0x00ff00',                  // Border color object
     paddleMesh: null,                         // Player paddle mesh object
     aiPaddleMesh: null,                       // AI paddle mesh object
     ballVelocity: new THREE.Vector3(0, 0, 5), // Ball velocity vector
@@ -61,6 +66,11 @@ export const g = {
     prevAIPaddlePosition: new THREE.Vector3(),// Previous AI paddle position
     paddleVelocity: new THREE.Vector3(0, 0, 0),// Paddle velocity vector
     aiPaddleVelocity: new THREE.Vector3(0, 0, 0),// AI paddle velocity vector
+    composer: null,
+    bloomPass: null,
+    bloomStrength: 1.5,
+    bloomRadius: 0.4,
+    bloomThreshold: 0.85,
 };
 
 // Initialize the scene
@@ -69,29 +79,7 @@ init();
 // Start animation loop
 animate();
 
-// Load saved parameters from local storage
-function loadSavedParameters() {
-    const savedParameters = [
-        'hemiIrradiance', 'bulbPower', 'exposure', 'paddleSpeed', 'aiPaddleSpeed',
-        'tolerance', 'easingFactor', 'limitScore', 'numStars', 'starsSpeed', 'starColor',
-        'startSize', 'ballSpeed', 'shadows', 'floorMaterial', 'orbitSpeed', 'isOrbiting', 'isSinglePlayer'
-    ];
 
-    savedParameters.forEach(param => {
-        const savedValue = g.localStorage.getItem(param);
-        if (savedValue !== null) {
-            if (param === 'starColor') {
-                g.starColor.color = savedValue;
-            } else if (param in g) {
-                g[param] = parseFloat(savedValue);
-            } else if (param in params) {
-                params[param] = parseFloat(savedValue);
-            }
-        }
-    });
-
-    // g.localStorage.clear();
-}
 
 function init() {
     loadSavedParameters();
@@ -108,7 +96,20 @@ function init() {
     initControls();                                        // Setup the controls for the player paddle
     initEventListeners();                                  // Initialize event listeners
     initScoreDisplay();                                    // Initialize the score display
+
+    // Initialize Effect Composer and Bloom Pass
+    const renderPass = new RenderPass(g.scene, g.camera);
+    g.bloomPass = new UnrealBloomPass(
+        new THREE.Vector2(window.innerWidth, window.innerHeight),
+        g.bloomStrength,
+        g.bloomRadius,
+        g.bloomThreshold
+    );
+    g.composer = new EffectComposer(g.renderer);
+    g.composer.addPass(renderPass);
+    g.composer.addPass(g.bloomPass);
 }
+
 
 
 function animate() {
@@ -125,6 +126,7 @@ function animate() {
     checkBounds();          // Check bounds
     orbitalRotation();      // Orbit the camera
     g.renderer.render(g.scene, g.camera); // Render the scene
+    g.composer.render();    // Render the scene with the effect composer
     updateStars();          // Update the star field
     g.stats.update();       // Update performance stats
 }

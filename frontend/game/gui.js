@@ -2,6 +2,7 @@ import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
 import { bulbLuminousPowers, hemiLuminousIrradiances, params } from './utils.js';
 import { g } from './main.js';
 import { initStarField, updateStars } from './objects.js';
+import { createNeonBorder } from './geometry.js';
 
 export function initGUI() {
     const gui = new GUI();
@@ -20,6 +21,11 @@ export function initGUI() {
     gui.add(g, 'numStars', 0, 10000).name('number of stars').step(1).onChange(value => { initStarField(); saveParameter('numStars', value); });
     gui.add(g, 'starsSpeed', 0, 1).name('stars speed').onChange(value => saveParameter('starsSpeed', value));
     gui.addColor(g.starColor, 'color').name('star color').onChange(value => { g.starPool.forEach(star => { star.material.color.set(value); }); saveParameter('starColor', value); });
+    gui.addColor(g, 'borderColor').name('border color').onChange(value => {
+        g.borderColor = value;
+        updateNeonBorderColor();
+        saveParameter('borderColor', value);
+    });
     gui.add(g, 'startSize', 0, 0.1).name('star size').step(0.001).onChange(value => { initStarField(); saveParameter('startSize', value); });
     gui.add(g, 'ballSpeed', 0, 0.1).name('ball speed').step(0.001).onChange(value => saveParameter('ballSpeed', value));
     gui.add(params, 'shadows').onChange(value => saveParameter('shadows', value));
@@ -27,8 +33,33 @@ export function initGUI() {
     gui.add(g, 'orbitSpeed', 0, 0.1).name('orbit speed').step(0.001).onChange(value => saveParameter('orbitSpeed', value));
     gui.add(g, 'isOrbiting').name('enable orbiting').onChange(value => saveParameter('isOrbiting', value));
     gui.add(g, 'isSinglePlayer').name('single player mode').onChange(value => { toggleGameMode(value); saveParameter('isSinglePlayer', value); });
+    gui.add(g, 'bloomStrength', 0, 3).name('Bloom Strength').step(0.1).onChange(value => {
+        g.bloomPass.strength = value;
+        saveParameter('bloomStrength', value);
+    });
+    gui.add(g, 'bloomRadius', 0, 1).name('Bloom Radius').step(0.1).onChange(value => {
+        g.bloomPass.radius = value;
+        saveParameter('bloomRadius', value);
+    });
+    gui.add(g, 'bloomThreshold', 0, 1).name('Bloom Threshold').step(0.1).onChange(value => {
+        g.bloomPass.threshold = value;
+        saveParameter('bloomThreshold', value);
+    });
     gui.open();
     return gui;
+}
+
+function updateNeonBorderColor() {
+    // Remove the old border
+    const oldBorder = g.scene.getObjectByName('neonBorder');
+    if (oldBorder) {
+        g.scene.remove(oldBorder);
+    }
+
+    // Create a new border with the updated color
+    const neonBorder = createNeonBorder();
+    neonBorder.name = 'neonBorder'; // Name the object for easy removal later
+    g.scene.add(neonBorder);
 }
 
 function changeFloorMaterial(materialName) {
@@ -43,4 +74,33 @@ function toggleGameMode(isSinglePlayer) {
 
 function saveParameter(name, value) {
     localStorage.setItem(name, value);
+}
+
+// Load saved parameters from local storage
+export function loadSavedParameters() {
+    const savedParameters = [
+        'hemiIrradiance', 'bulbPower', 'exposure', 'paddleSpeed', 'aiPaddleSpeed',
+        'tolerance', 'easingFactor', 'limitScore', 'numStars', 'starsSpeed', 'starColor',
+        'startSize', 'ballSpeed', 'shadows', 'floorMaterial', 'orbitSpeed', 'isOrbiting',
+        'isSinglePlayer', 'borderColor', 'bloomStrength', 'bloomRadius', 'bloomThreshold'
+    ];
+
+    savedParameters.forEach(param => {
+        const savedValue = g.localStorage.getItem(param);
+        if (savedValue !== null) {
+            if (param === 'starColor') {
+                g.starColor.color = savedValue;
+            }
+            else if (param === 'borderColor') {
+                g.borderColor = savedValue;
+                // updateNeonBorderColor();
+            } else if (param in g) {
+                g[param] = parseFloat(savedValue);
+            } else if (param in params) {
+                params[param] = parseFloat(savedValue);
+            }
+        }
+    });
+
+    // g.localStorage.clear();
 }

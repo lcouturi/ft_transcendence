@@ -24,7 +24,7 @@ export function initMaterials() {
     } else {
         g.floorMat = g.floor[g.floorMat];
     }
-    console.log(g.floorMat);
+    // console.log(g.floorMat);
 }
 
 export function initWoodMaterials() {
@@ -238,7 +238,7 @@ function initIceMaterials() {
     // Create Material
     const floorMat = new THREE.MeshStandardMaterial({
         map: colorTexture,
-        // normalMap: normalTexture,
+        normalMap: normalTexture,
         roughnessMap: roughnessTexture,
     });
 

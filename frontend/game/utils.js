@@ -35,3 +35,5 @@ export const params = {
     bulbPower: Object.keys(bulbLuminousPowers)[6],
     hemiIrradiance: Object.keys(hemiLuminousIrradiances)[0],
 };
+
+

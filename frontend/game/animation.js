@@ -168,19 +168,20 @@ export function handleCollisions() {
 
     const increaseSpeed = (velocity, factor) => {
         velocity.multiplyScalar(factor);
-        const maxSpeed = 20; // maximum speed limit
+        const maxSpeed = 10; // maximum speed limit
         if (velocity.length() > maxSpeed) {
             velocity.setLength(maxSpeed); // velocity to the maximum speed
         }
         return velocity;
     };
 
-    const baseSpeedIncrease = 1.05; // Base speed increase factor for any paddle hit
-    const sideSpeedIncrease = 1.05;  // Extra speed increase factor for side hits
+    const baseSpeedIncrease = 1.00; // Base speed increase factor for any paddle hit
+    const sideSpeedIncrease = 1.00;  // Extra speed increase factor for side hits
 
     // Check for collision between the ball and the player paddle
     if (ballBox.intersectsBox(paddleBox)) {
         const impactX = g.bulbLight.position.x - g.paddleMesh.position.x;
+        const impactZ = g.bulbLight.position.z - g.paddleMesh.position.z;
 
         // Adjust ball's velocity
         g.ballVelocity.z = -Math.abs(g.ballVelocity.z); // Always move away from the paddle
