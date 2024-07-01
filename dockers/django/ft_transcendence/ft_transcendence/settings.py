@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import mimetypes
+import os
 
 mimetypes.add_type("text/css", ".css", True)
 
@@ -82,6 +83,14 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'bbouchar',
+    #     'USER': 'bbouchar',
+    #     'PASSWORD': 'ok',
+    #     'HOST': '127.0.0.1',   # ou l'adresse IP de votre serveur PostgreSQL
+    #     'PORT': '5432',        # port par défaut de PostgreSQL
+    # }
 }
 
 
@@ -120,10 +129,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'mainapp/static/'
-
+LOGIN_URL = ''
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+AUTH_USER_MODEL = 'mainapp.CustomUser'
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
