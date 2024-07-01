@@ -31,10 +31,9 @@ export function initGUI() {
     gui.add(g, 'bloomThreshold', 0, 1).name('bloom threshold').step(0.1).onChange(value => { g.bloomPass.threshold = value; saveParameter('bloomThreshold', value); });
     gui.addColor(g, 'playerPaddleColor').name('player paddle color').onChange(value => { updatePaddleColor(); saveParameter('playerPaddleColor', value); });
     gui.addColor(g, 'aiPaddleColor').name('AI paddle color').onChange(value => { updatePaddleColor(); saveParameter('aiPaddleColor', value); });
-    gui.add(g, 'emissiveIntensity').name('disable glass effect').onChange(value => { updatePaddleColor(); saveParameter('emissiveIntensity', value); });
-    // gui.add(g, 'emissiveIntensity').name('glass paddles').onChange(value => { updatePaddleColor(); saveParameter('emissiveIntensity', value); }).listen();
+    gui.add(g, 'emissiveIntensity').name('disable glass effect').onChange(value => { updatePaddleColor(); saveParameter('emissiveIntensity', value); }).listen();
     gui.add({ reset: () => { localStorage.clear(); location.reload(); } }, 'reset').name('Reset Patameters');
-    gui.open();
+    gui.open(); // Open the GUI by default
     return gui;
 }
 
@@ -51,10 +50,9 @@ export function loadSavedParameters() {
     savedParameters.forEach(param => {
         const savedValue = g.localStorage.getItem(param);
         if (savedValue !== null) {
-            if (param === 'starColor') {
-                g.starColor.color = savedValue;
-            } else if (param === 'borderColor') {
-                g.borderColor = savedValue;
+            if (param === 'starColor' || param === 'borderColor' || param === 'playerPaddleColor' || param === 'aiPaddleColor') {
+                // Color values need to be parsed as JSON
+                g[param] = JSON.parse(savedValue);
             } else if (param in g) {
                 g[param] = parseFloat(savedValue);
             } else if (param in params) {
@@ -62,9 +60,8 @@ export function loadSavedParameters() {
             }
         }
     });
-
-    // g.localStorage.clear();
 }
+
 
 function updatePaddleColor() {
     g.paddleMesh.material.color.set(g.playerPaddleColor);

@@ -73,7 +73,7 @@ export const g = {
     bloomThreshold: 0,
     playerPaddleColor: 0x00ff00,
     aiPaddleColor: 0xff0000,
-    emissiveIntensity: true,
+    emissiveIntensity: 1,
 };
 
 // Initialize the scene
