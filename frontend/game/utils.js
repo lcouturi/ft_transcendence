@@ -22,18 +22,3 @@ export const hemiLuminousIrradiances = {
     '18000 lx (Daylight)': 18000,
     '50000 lx (Direct Sun)': 50000
 };
-
-export const params = {
-    paddleBoundary: 10,
-    wallBoundary: 10,
-    paddleSpeed: 8,
-    aiPaddleSpeed: 8,
-    tolerance: 0.5,
-    easingFactor: 0.5,
-    shadows: true,
-    exposure: 3,
-    bulbPower: Object.keys(bulbLuminousPowers)[6],
-    hemiIrradiance: Object.keys(hemiLuminousIrradiances)[0],
-};
-
-

@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import Stats from 'three/addons/libs/stats.module.js';  // a library for monitoring performance stats (e.g., frames per second).
 import { initBulbLight } from './lights.js';            // lighting in the scene (e.g., ambient light, point light, etc.)
-import { g } from './main.js';                          // global variables
+import { g } from './globals.js';                          // global variables
 
 export function initScene() {
     g.scene = new THREE.Scene(); // Create a new scene object (holds all the objects, lights, and cameras)

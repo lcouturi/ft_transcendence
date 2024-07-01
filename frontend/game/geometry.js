@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { g } from './main.js';
+import { g } from './globals.js';
 
 export function initGeometry() {
     initializeFloor();

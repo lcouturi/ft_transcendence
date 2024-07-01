@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { g } from './main.js';
+import { g } from './globals.js';
 
 export function initMaterials() {
     const woodMaterials = initWoodMaterials();
@@ -72,6 +72,15 @@ export function initGlassMaterials() {
         ior: 1.4,              // Index of refraction for glass
         reflectivity: 1,       // High reflectivity for mirror-like effect
         side: THREE.DoubleSide // Render both sides to see through
+        // color: new THREE.Color(0xff0000),  // Default green color
+        // roughness: 0,
+        // transmission: 1,  // Full transparency
+        // thickness: 1.5,   // Adjust thickness as needed
+        // clearcoat: 1,     // Add a clear coat to simulate reflection
+        // clearcoatRoughness: 0.1,
+        // transparent: true,
+        // emissive: new THREE.Color(0xff0000),
+        // emissiveIntensity: 0,
     });
 
     // Environment Map for Reflections
