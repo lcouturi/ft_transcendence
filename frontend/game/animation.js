@@ -24,6 +24,7 @@ export function updateLighting() {
         g.bulbLight.shadow.camera.near = 0.2;
         g.bulbLight.shadow.camera.far = 100; // Adjust based on your scene size
         g.bulbLight.shadow.bias = -0.0001; // Adjust this value as needed
+        // glass floor is affected by shadows
     }
 
     g.bulbLight.power = bulbLuminousPowers[g.bulbPower];
