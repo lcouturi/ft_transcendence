@@ -1,6 +1,7 @@
 import
 {
-	g
+	g,
+	loadSavedParameters
 } from './frontend/game/main.js';
 
 import
@@ -19,6 +20,18 @@ let	username = null;
 let	winners = [];
 let	wins = 0;
 
+document.querySelector("#about").addEventListener("hidden.bs.modal", function(e)
+{
+	e.preventDefault();
+	loadSavedParameters();
+});
+
+document.querySelector("#about").addEventListener("shown.bs.modal", function(e)
+{
+	e.preventDefault();
+	pause();
+});
+
 document.querySelector("#contestant1-victory").addEventListener("click", function(e)
 {
 	e.preventDefault();
@@ -35,6 +48,18 @@ document.querySelector("#list-add").addEventListener("click", function(e)
 {
 	e.preventDefault();
 	add_item(null);
+});
+
+document.querySelector("#login").addEventListener("hidden.bs.modal", function(e)
+{
+	e.preventDefault();
+	loadSavedParameters();
+});
+
+document.querySelector("#login").addEventListener("shown.bs.modal", function(e)
+{
+	e.preventDefault();
+	pause();
 });
 
 document.querySelector("#login-banner-close").addEventListener("click", function(e)
@@ -55,10 +80,28 @@ document.querySelector("#pause").addEventListener("click", function(e)
 	pause();
 });
 
+document.querySelector("#play").addEventListener("click", function(e)
+{
+	e.preventDefault();
+	loadSavedParameters();
+});
+
 document.querySelector("#profile-logout").addEventListener("click", function(e)
 {
 	e.preventDefault();
 	profile_logout();
+});
+
+document.querySelector("#register").addEventListener("hidden.bs.modal", function(e)
+{
+	e.preventDefault();
+	loadSavedParameters();
+});
+
+document.querySelector("#register").addEventListener("shown.bs.modal", function(e)
+{
+	e.preventDefault();
+	pause();
 });
 
 document.querySelector("#register-banner-close").addEventListener("click", function(e)
@@ -77,6 +120,30 @@ document.querySelector("#register-ok").addEventListener("click", function(e)
 {
 	e.preventDefault();
 	register_validate();
+});
+
+document.querySelector("#results").addEventListener("hidden.bs.modal", function(e)
+{
+	e.preventDefault();
+	loadSavedParameters();
+});
+
+document.querySelector("#results").addEventListener("shown.bs.modal", function(e)
+{
+	e.preventDefault();
+	pause();
+});
+
+document.querySelector("#tournament").addEventListener("hidden.bs.modal", function(e)
+{
+	e.preventDefault();
+	loadSavedParameters();
+});
+
+document.querySelector("#tournament").addEventListener("shown.bs.modal", function(e)
+{
+	e.preventDefault();
+	pause();
 });
 
 document.querySelector("#tournament-banner-close").addEventListener("click", function(e)
@@ -198,7 +265,7 @@ function	login_validate()
 		banner_open("No password provided.", "#login-banner");
 		return ;
 	}
-	document.querySelector("#login-close").click();
+	bootstrap.Modal.getInstance(document.getElementById("login")).hide();
 	username = sanitize(document.querySelector("#login-name").value);
 	document.querySelector("#login-name").value = "";
 	document.querySelector("#login-pass").value = "";
@@ -243,7 +310,10 @@ function	prepare_next_match()
 			contestant1 = username;
 		else
 			contestant1 = "Guest";
-		contestant2 = "Guest";
+		if (g.isSinglePlayer == true)
+			contestant2 = "AI";
+		else
+			contestant2 = "Guest";
 		i = 0;
 		document.querySelector("#next-match").innerHTML = "";
 	}
@@ -278,7 +348,10 @@ function	profile_logout()
 	document.querySelector("#profile-name").innerHTML = "";
 	document.querySelector("#profile-name-inside").innerHTML = "";
 	if (in_tournament == false)
+	{
 		document.querySelector("#contestant1").innerText = "Guest";
+		document.querySelector("#contestant1-avatar").src = "icons/im-user.svg";
+	}
 	losses = 0;
 	wins = 0;
 	profile_bar_update(0);
@@ -402,7 +475,7 @@ function	tournament_start()
 	contestant2 = null;
 	in_tournament = true;
 	document.querySelector("#list").innerHTML = "";
-	document.querySelector("#close").click();
+	bootstrap.Modal.getInstance(document.getElementById("tournament")).hide();
 	winners = [];
 	i = 0;
 	prepare_next_match();

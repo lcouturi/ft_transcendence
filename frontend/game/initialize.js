@@ -9,7 +9,7 @@ export function initScene() {
 
 export function initCamera() {
     g.camera = new THREE.PerspectiveCamera(50, 2, 0.1, 100); // Create a new camera object
-    g.camera.position.set(0, 15, 25);                                                                // Add an event listener for window resize events(when the window is resized, the camera aspect ratio and projection matrix are updated)
+    g.camera.position.set(0, 15, 25);
 }
 
 export function initLights() {
