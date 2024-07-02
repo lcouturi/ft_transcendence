@@ -15,6 +15,7 @@ import mimetypes
 import os
 
 mimetypes.add_type("text/css", ".css", True)
+mimetypes.add_type("text/html", ".css", True)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-=eys@q%rly3wg%p02n0pv8**ltk^a#a05wnipq8o3dul=p3c5b'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -129,6 +130,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'mainapp/static/'
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'mainapp/static'),)
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 LOGIN_URL = ''
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

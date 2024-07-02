@@ -2,11 +2,11 @@
 # https://github.com/docker-library/python/blob/b968d488efc09fd34672fc6238182e1222ae005e/3.12/bullseye/Dockerfile
 FROM python:3.12-slim-bullseye
 
-WORKDIR /
+WORKDIR /django
 
 # UNCOMMENT to use the provided ./ft_transcendence application.
 # If !COMMENTED, make sure to COMMENT the VOLUME attributes in the docker-compose.yaml file.
-COPY ./ft_transcendence /
+COPY ./ft_transcendence .
 
 # Required package(s) installation.
 COPY ./tools/requirements.txt ./

@@ -33,7 +33,7 @@ def add_friend(request):
         try:
             f = CustomUser.objects.get(username=friend_to_add)
             request.user.friends_list.add(f)
-            print('add sucess')
+            print('add success')
         except:
             pass
     return redirect(reverse("accueil"))
