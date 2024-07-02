@@ -78,12 +78,20 @@ document.querySelector("#pause").addEventListener("click", function(e)
 {
 	e.preventDefault();
 	pause();
+	this.classList.remove("d-flex");
+	this.classList.add("d-none");
+	document.querySelector("#play").classList.remove("d-none");
+	document.querySelector("#play").classList.add("d-flex");
 });
 
 document.querySelector("#play").addEventListener("click", function(e)
 {
 	e.preventDefault();
 	loadSavedParameters();
+	this.classList.remove("d-flex");
+	this.classList.add("d-none");
+	document.querySelector("#pause").classList.remove("d-none");
+	document.querySelector("#pause").classList.add("d-flex");
 });
 
 document.querySelector("#profile-logout").addEventListener("click", function(e)
