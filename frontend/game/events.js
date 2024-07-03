@@ -16,28 +16,28 @@ export function initControls() {
 // keyboard input for both player and player 2 (or AI)
 function onKeyDown(event) {
     switch (event.code) {
-        case 'ArrowUp':
+        case 'KeyD':
             paddleDirection.z = -1;
             break;
-        case 'ArrowDown':
+        case 'KeyA':
             paddleDirection.z = 1;
             break;
-        case 'ArrowLeft':
+        case 'KeyW':
             paddleDirection.x = -1;
             break;
-        case 'ArrowRight':
+        case 'KeyS':
             paddleDirection.x = 1;
             break;
-        case 'KeyW':
+        case 'ArrowRight':
             player2PaddleDirection.z = -1;
             break;
-        case 'KeyS':
+        case 'ArrowLeft':
             player2PaddleDirection.z = 1;
             break;
-        case 'KeyA':
+        case 'ArrowUp':
             player2PaddleDirection.x = -1;
             break;
-        case 'KeyD':
+        case 'ArrowDown':
             player2PaddleDirection.x = 1;
             break;
     }
@@ -46,20 +46,20 @@ function onKeyDown(event) {
 // keyboard release for both player and player 2 (or AI)
 function onKeyUp(event) {
     switch (event.code) {
-        case 'ArrowUp':
-        case 'ArrowDown':
+        case 'KeyD':
+        case 'KeyA':
             paddleDirection.z = 0;
-            break;
-        case 'ArrowLeft':
-        case 'ArrowRight':
-            paddleDirection.x = 0;
             break;
         case 'KeyW':
         case 'KeyS':
+            paddleDirection.x = 0;
+            break;
+        case 'ArrowRight':
+        case 'ArrowLeft':
             player2PaddleDirection.z = 0;
             break;
-        case 'KeyA':
-        case 'KeyD':
+        case 'ArrowUp':
+        case 'ArrowDown':
             player2PaddleDirection.x = 0;
             break;
     }

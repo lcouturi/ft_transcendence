@@ -9,7 +9,7 @@ export function initScene() {
 
 export function initCamera() {
     g.camera = new THREE.PerspectiveCamera(50, 2, 0.1, 100); // Create a new camera object
-    g.camera.position.set(0, 15, 25);
+    g.camera.position.set(25, 15, 0);
 }
 
 export function initLights() {
