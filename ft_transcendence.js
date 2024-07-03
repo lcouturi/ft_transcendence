@@ -329,6 +329,57 @@ function	prepare_next_match()
 	}
 }
 
+function	profile_log_add(winner, loser, tournament)
+{
+	const	date = new Date();
+	const	div = document.createElement("div");
+	let		string = date.getFullYear() + "-" + String(date.getMonth()).padStart(2, '0') + "-" + String(date.getDate()).padStart(2, '0') + " " + String(date.getHours()).padStart(2, '0') + ":" + String(date.getMinutes()).padStart(2, '0') + ": ";
+	let		string2;
+
+	if (tournament == true)
+	{
+		string += "Won a tournament!"
+		div.innerHTML = `
+		<div class="d-flex m-1">
+			<div class="my-auto pe-none text-nowrap">
+				${string}
+			</div>
+		</div>`;
+	}
+	else
+	{
+		if (winner == username)
+		{
+			string += "Won ";
+			if (g.playerScore < g.aiScore)
+				string += g.aiScore + "-" + g.playerScore + " against";
+			else
+				string += g.playerScore + "-" + g.aiScore + " against";
+			string2 = loser;
+		}
+		else
+		{
+			string += "Lost ";
+			if (g.playerScore < g.aiScore)
+				string += g.playerScore + "-" + g.aiScore + " against";
+			else
+				string += g.aiScore + "-" + g.playerScore + " against";
+			string2 = winner;
+		}
+		div.innerHTML = `
+		<div class="d-flex m-1">
+			<div class="my-auto pe-none text-nowrap">
+				${string}
+			</div>
+			<img class="ms-1 my-auto rounded-circle" height="22" src="img/22/im-user.svg">
+			<div class="me-auto my-auto pe-none">
+				${string2}
+			</div>
+		</div>`;
+	}
+	document.querySelector("#profile-log").appendChild(div);
+}
+
 function	profile_logout()
 {
 	document.querySelector("#login-button").classList.add("d-flex");
@@ -429,40 +480,20 @@ export function	result(value)
 	}
 	if (in_tournament == true)
 		winners.push(winner);
-	const	div = document.createElement("div");
-	const	date = new Date();
 	if (winner == username)
 	{
 		profile_update(1);
-		div.innerHTML = `
-		<div class="d-flex m-1">
-			<div class="ms-auto my-auto pe-none text-nowrap">
-				${date.getFullYear() + "-" + String(date.getMonth()).padStart(2, '0') + "-" + String(date.getDate()).padStart(2, '0') + " " + String(date.getHours()).padStart(2, '0') + ":" + String(date.getMinutes()).padStart(2, '0') + ": Won " + g.playerScore + "-" + g.aiScore + " against"}
-			</div>
-			<img class="ms-1 my-auto rounded-circle" height="22" src="img/22/im-user.svg">
-			<div class="me-auto my-auto pe-none">
-				${loser}
-			</div>
-		</div>`;
+		profile_log_add(winner, loser, false);
 	}
 	else if (loser == username)
 	{
 		profile_update(-1);
-		div.innerHTML = `
-		<div class="d-flex m-1">
-			<div class="ms-auto my-auto pe-none text-nowrap">
-				${date.getFullYear() + "-" + String(date.getMonth()).padStart(2, '0') + "-" + String(date.getDate()).padStart(2, '0') + " " + String(date.getHours()).padStart(2, '0') + ":" + String(date.getMinutes()).padStart(2, '0') + ": Lost " + g.playerScore + "-" + g.aiScore + " against"}
-			</div>
-			<img class="ms-1 my-auto rounded-circle" height="22" src="img/22/im-user.svg">
-			<div class="me-auto my-auto pe-none">
-				${winner}
-			</div>
-		</div>`;
+		profile_log_add(winner, loser, false);
 	}
-	document.querySelector("#profile-log").appendChild(div);
 	if (in_tournament == true && tournament_array.length == 0 && winners.length == 1)
 	{
 		in_tournament = false;
+		profile_log_add(null, null, true);
 		document.querySelector("#result").innerHTML = winner + " won the tournament!";
 	}
 	else
