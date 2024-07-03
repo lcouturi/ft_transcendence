@@ -9,7 +9,7 @@ export function initScene() {
 
 export function initCamera() {
     g.camera = new THREE.PerspectiveCamera(50, 2, 0.1, 100); // Create a new camera object
-    g.camera.position.set(0, 15, 25);
+    g.camera.position.set(0, 15, 25);                                                                // Add an event listener for window resize events(when the window is resized, the camera aspect ratio and projection matrix are updated)
 }
 
 export function initLights() {
@@ -22,5 +22,5 @@ export function initLights() {
 export function initStats() {
     g.stats = new Stats();                   // Create a new Stats object
     g.stats.showPanel(0);                    // Show the first panel (frames per second)
-    document.body.appendChild(g.stats.dom);  // Add the stats to the document body
+    //document.body.appendChild(g.stats.dom);  // Add the stats to the document body
 }

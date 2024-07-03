@@ -9,12 +9,11 @@ import
 	params
 } from './frontend/game/utils.js';
 
-let	avatar;
-let	i = 0;
 let	in_tournament = false;
 let	contestant1;
 let	contestant2;
 let	losses = 0;
+let	paused = false;
 let	tournament_array = [];
 let	username = null;
 let	winners = [];
@@ -23,7 +22,8 @@ let	wins = 0;
 document.querySelector("#about").addEventListener("hidden.bs.modal", function(e)
 {
 	e.preventDefault();
-	loadSavedParameters();
+	if (paused == false)
+		loadSavedParameters();
 });
 
 document.querySelector("#about").addEventListener("shown.bs.modal", function(e)
@@ -53,7 +53,8 @@ document.querySelector("#list-add").addEventListener("click", function(e)
 document.querySelector("#login").addEventListener("hidden.bs.modal", function(e)
 {
 	e.preventDefault();
-	loadSavedParameters();
+	if (paused == false)
+		loadSavedParameters();
 });
 
 document.querySelector("#login").addEventListener("shown.bs.modal", function(e)
@@ -77,6 +78,7 @@ document.querySelector("#login-ok").addEventListener("click", function(e)
 document.querySelector("#pause").addEventListener("click", function(e)
 {
 	e.preventDefault();
+	paused = true;
 	pause();
 	this.classList.remove("d-flex");
 	this.classList.add("d-none");
@@ -87,6 +89,7 @@ document.querySelector("#pause").addEventListener("click", function(e)
 document.querySelector("#play").addEventListener("click", function(e)
 {
 	e.preventDefault();
+	paused = false;
 	loadSavedParameters();
 	this.classList.remove("d-flex");
 	this.classList.add("d-none");
@@ -103,7 +106,8 @@ document.querySelector("#profile-logout").addEventListener("click", function(e)
 document.querySelector("#register").addEventListener("hidden.bs.modal", function(e)
 {
 	e.preventDefault();
-	loadSavedParameters();
+	if (paused == false)
+		loadSavedParameters();
 });
 
 document.querySelector("#register").addEventListener("shown.bs.modal", function(e)
@@ -133,7 +137,8 @@ document.querySelector("#register-ok").addEventListener("click", function(e)
 document.querySelector("#results").addEventListener("hidden.bs.modal", function(e)
 {
 	e.preventDefault();
-	loadSavedParameters();
+	if (paused == false)
+		loadSavedParameters();
 });
 
 document.querySelector("#results").addEventListener("shown.bs.modal", function(e)
@@ -145,7 +150,8 @@ document.querySelector("#results").addEventListener("shown.bs.modal", function(e
 document.querySelector("#tournament").addEventListener("hidden.bs.modal", function(e)
 {
 	e.preventDefault();
-	loadSavedParameters();
+	if (paused == false)
+		loadSavedParameters();
 });
 
 document.querySelector("#tournament").addEventListener("shown.bs.modal", function(e)
@@ -187,9 +193,8 @@ document.getElementById('avatar').onchange = function ()
 		document.querySelector("#profile-avatar").src = e.target.result;
 		document.querySelector("#profile-avatar-mini").src = e.target.result;
 	};
-	avatar = this.files[0];
-	reader.readAsDataURL(avatar);
-	document.querySelector("#avatar-name").value = avatar.name;
+	reader.readAsDataURL(this.files[0]);
+	document.querySelector("#avatar-name").value = this.files[0].name;
 };
 
 function	add_item(value)
@@ -295,7 +300,6 @@ function	prepare_next_match()
 {
 	if (in_tournament == true)
 	{
-		i++;
 		if (tournament_array.length == 0)
 		{
 			tournament_array = [...winners];
@@ -322,7 +326,6 @@ function	prepare_next_match()
 			contestant2 = "AI";
 		else
 			contestant2 = "Guest";
-		i = 0;
 		document.querySelector("#next-match").innerHTML = "";
 	}
 }
@@ -461,7 +464,6 @@ function	start_match()
 		document.querySelector("#contestant2-avatar").src = document.querySelector("#profile-avatar").src;
 	else
 		document.querySelector("#contestant2-avatar").src = "icons/im-user.svg";
-	console.log("match %i: %s vs %s", i, contestant1, contestant2);
 }
 
 function	tournament_open()
@@ -485,7 +487,6 @@ function	tournament_start()
 	document.querySelector("#list").innerHTML = "";
 	bootstrap.Modal.getInstance(document.getElementById("tournament")).hide();
 	winners = [];
-	i = 0;
 	prepare_next_match();
 	start_match();
 }

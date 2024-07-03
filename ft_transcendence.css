@@ -225,7 +225,7 @@ progress, ::-webkit-progress-bar
 /* Custom scrollbar widget styling. Only works in WebKit-based browsers.
  *
  * I wanted to make it work in Firefox, but the available options were too
- * limited (unless you made a fully custom JavaScript scrollbar).
+ * limited (unless you make a fully custom JavaScript scrollbar).
  *
  * I wanted to use transition for background-color and border-color, but that
  * unfortunately seems to be impossible. */
