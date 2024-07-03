@@ -1,5 +1,10 @@
 import
 {
+	saveParameter
+} from './frontend/game/gui.js';
+
+import
+{
 	g,
 	loadSavedParameters
 } from './frontend/game/main.js';
@@ -22,8 +27,7 @@ let	wins = 0;
 document.querySelector("#about").addEventListener("hidden.bs.modal", function(e)
 {
 	e.preventDefault();
-	if (paused == false)
-		loadSavedParameters();
+	unpause();
 });
 
 document.querySelector("#about").addEventListener("shown.bs.modal", function(e)
@@ -53,8 +57,7 @@ document.querySelector("#list-add").addEventListener("click", function(e)
 document.querySelector("#login").addEventListener("hidden.bs.modal", function(e)
 {
 	e.preventDefault();
-	if (paused == false)
-		loadSavedParameters();
+	unpause();
 });
 
 document.querySelector("#login").addEventListener("shown.bs.modal", function(e)
@@ -90,7 +93,7 @@ document.querySelector("#play").addEventListener("click", function(e)
 {
 	e.preventDefault();
 	paused = false;
-	loadSavedParameters();
+	unpause();
 	this.classList.remove("d-flex");
 	this.classList.add("d-none");
 	document.querySelector("#pause").classList.remove("d-none");
@@ -106,8 +109,7 @@ document.querySelector("#profile-logout").addEventListener("click", function(e)
 document.querySelector("#register").addEventListener("hidden.bs.modal", function(e)
 {
 	e.preventDefault();
-	if (paused == false)
-		loadSavedParameters();
+	unpause();
 });
 
 document.querySelector("#register").addEventListener("shown.bs.modal", function(e)
@@ -137,8 +139,7 @@ document.querySelector("#register-ok").addEventListener("click", function(e)
 document.querySelector("#results").addEventListener("hidden.bs.modal", function(e)
 {
 	e.preventDefault();
-	if (paused == false)
-		loadSavedParameters();
+	unpause();
 });
 
 document.querySelector("#results").addEventListener("shown.bs.modal", function(e)
@@ -150,8 +151,7 @@ document.querySelector("#results").addEventListener("shown.bs.modal", function(e
 document.querySelector("#tournament").addEventListener("hidden.bs.modal", function(e)
 {
 	e.preventDefault();
-	if (paused == false)
-		loadSavedParameters();
+	unpause();
 });
 
 document.querySelector("#tournament").addEventListener("shown.bs.modal", function(e)
@@ -287,7 +287,6 @@ function	login_validate()
 
 function	pause()
 {
-	g.aiPaddleSpeed = 0;
 	g.ballSpeed = 0;
 	g.orbitSpeed = 0;
 	g.player2PaddleSpeed = 0;
@@ -406,7 +405,7 @@ function	register_validate()
 	login_complete();
 }
 
-function	result(value)
+export function	result(value)
 {
 	let	loser;
 	let	winner;
@@ -454,6 +453,12 @@ function	sanitize(string)
 
 function	start_match()
 {
+	g.aiPaddleMesh.position.set(0, 1.1 / 2, -8);
+	g.aiScore = 0;
+	g.bulbLight.position.set(0, 0.2, 0);
+	g.paddleMesh.position.set(0, 1.1 / 2, 8);
+	g.playerScore = 0;
+	update_score();
 	document.querySelector("#contestant1").innerHTML = contestant1;
 	if (contestant1 == username)
 		document.querySelector("#contestant1-avatar").src = document.querySelector("#profile-avatar").src;
@@ -489,4 +494,32 @@ function	tournament_start()
 	winners = [];
 	prepare_next_match();
 	start_match();
+}
+
+function	unpause()
+{
+	if (paused == false)
+	{
+		loadSavedParameters();
+		if (g.aiPaddleSpeed == 0)
+			params.aiPaddleSpeed = 0;
+		if (g.ballSpeed == 0)
+			g.ballSpeed = 0.016;
+		if (g.orbitSpeed == 0)
+			g.orbitSpeed = 0.002;
+		if (g.player2PaddleSpeed == 0)
+			g.player2PaddleSpeed = 0.016;
+		if (g.starsSpeed == 0)
+			g.starsSpeed = 0.2;
+		if (params.aiPaddleSpeed == 0)
+			params.aiPaddleSpeed = 8;
+		if (params.paddleSpeed == 0)
+			params.paddleSpeed = 8;
+	}
+}
+
+export function	update_score()
+{
+	document.querySelector("#contestant1-score").innerHTML = ": " + g.playerScore;
+	document.querySelector("#contestant2-score").innerHTML = ": " + g.aiScore;
 }

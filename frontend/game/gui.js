@@ -41,6 +41,6 @@ function toggleGameMode(isSinglePlayer) {
     g.isSinglePlayer = isSinglePlayer;
 }
 
-function saveParameter(name, value) {
+export function saveParameter(name, value) {
     localStorage.setItem(name, value);
 }

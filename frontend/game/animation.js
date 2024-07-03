@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { result, update_score } from '../../ft_transcendence.js'
 import { g } from './main.js';
 import { params } from './utils.js';
 import { bulbLuminousPowers, hemiLuminousIrradiances } from './utils.js';   // utility functions and parameters used in the scene
@@ -271,11 +272,11 @@ export function initScoreDisplay() {
 export function updateScoreDisplay() {
     // Check the scoreLimit to determine if a player has won
     if (g.playerScore >= g.limitScore) {
-        alert('Player wins!');
+        result(1);
         g.playerScore = 0;
         g.aiScore = 0;
     } else if (g.aiScore >= g.limitScore) {
-        alert('AI wins!');
+        result(2);
         g.playerScore = 0;
         g.aiScore = 0;
     }
@@ -305,6 +306,7 @@ export function updateScoreDisplay() {
 
     g.playerScoreText.textContent = `Player Score: ${g.playerScore}`;
     g.aiScoreText.textContent = `AI Score: ${g.aiScore}`;
+	update_score();
 }
 
 export function checkBounds() {
