@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { g } from './main.js';
+import { g } from './globals.js';
 
 export function initRenderer(animate) {
     g.renderer = new THREE.WebGLRenderer({ antialias: true}); // Create a new WebGLRenderer object

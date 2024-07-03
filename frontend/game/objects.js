@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { g } from './main.js';
+import { g } from './globals.js';
 
 export function initStarField() {
     // Reset star pool if it already exists (when changing star settings in the GUI)

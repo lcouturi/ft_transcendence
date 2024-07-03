@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { g } from './main.js';
+import { g } from './globals.js';
 
 export function initMaterials() {
     const woodMaterials = initWoodMaterials();
@@ -15,16 +15,12 @@ export function initMaterials() {
         asphalt: asphaltMaterials.floorMat,
         grass: grassMaterials.floorMat
     };
-
-    // load default material from local storage
-    // g.floorMat = g.floor.wood; // default material
     g.floorMat = g.localStorage.getItem('floorMaterial');
     if (g.floorMat === null) {
-        g.floorMat = g.floor.wood;
+        g.floorMat = g.floor.asphalt; // load default material
     } else {
         g.floorMat = g.floor[g.floorMat];
     }
-    console.log(g.floorMat);
 }
 
 export function initWoodMaterials() {
@@ -76,6 +72,15 @@ export function initGlassMaterials() {
         ior: 1.4,              // Index of refraction for glass
         reflectivity: 1,       // High reflectivity for mirror-like effect
         side: THREE.DoubleSide // Render both sides to see through
+        // color: new THREE.Color(0xff0000),  // Default green color
+        // roughness: 0,
+        // transmission: 1,  // Full transparency
+        // thickness: 1.5,   // Adjust thickness as needed
+        // clearcoat: 1,     // Add a clear coat to simulate reflection
+        // clearcoatRoughness: 0.1,
+        // transparent: true,
+        // emissive: new THREE.Color(0xff0000),
+        // emissiveIntensity: 0,
     });
 
     // Environment Map for Reflections
@@ -238,7 +243,7 @@ function initIceMaterials() {
     // Create Material
     const floorMat = new THREE.MeshStandardMaterial({
         map: colorTexture,
-        // normalMap: normalTexture,
+        normalMap: normalTexture,
         roughnessMap: roughnessTexture,
     });
 
