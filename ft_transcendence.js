@@ -223,7 +223,7 @@ function	add_item(value)
 			${sanitize(item)}
 		</div>
 		<button class="border button d-flex delete m-1 rounded shadow-sm">
-			<img class="icon m-1" height="22" src="icons/list-remove.svg">
+			<img class="icon m-1" height="22" src="img/22/list-remove.svg">
 		</button>
 	</div>`;
 	div.innerHTML = divContainer;
@@ -329,7 +329,27 @@ function	prepare_next_match()
 	}
 }
 
-function	profile_bar_update(value)
+function	profile_logout()
+{
+	document.querySelector("#login-button").classList.add("d-flex");
+	document.querySelector("#login-button").classList.remove("d-none");
+	document.querySelector("#profile-avatar").src = "img/22/im-user.svg";
+	document.querySelector("#profile-button").classList.add("d-none");
+	document.querySelector("#profile-log").innerHTML = "";
+	document.querySelector("#profile-name").innerHTML = "";
+	document.querySelector("#profile-name-inside").innerHTML = "";
+	losses = 0;
+	wins = 0;
+	profile_update(0);
+	username = null;
+	if (in_tournament == false)
+	{
+		prepare_next_match();
+		start_match()
+	}
+}
+
+function	profile_update(value)
 {
 	if (value == -1)
 		losses++;
@@ -348,25 +368,6 @@ function	profile_bar_update(value)
 	document.querySelector("#profile-losses").innerHTML = losses + " Losses";
 	document.querySelector("#profile-wins").innerHTML = wins + " Wins";
 
-}
-
-function	profile_logout()
-{
-	document.querySelector("#login-button").classList.add("d-flex");
-	document.querySelector("#login-button").classList.remove("d-none");
-	document.querySelector("#profile-avatar").src = "";
-	document.querySelector("#profile-button").classList.add("d-none");
-	document.querySelector("#profile-name").innerHTML = "";
-	document.querySelector("#profile-name-inside").innerHTML = "";
-	losses = 0;
-	wins = 0;
-	profile_bar_update(0);
-	username = null;
-	if (in_tournament == false)
-	{
-		prepare_next_match();
-		start_match()
-	}
 }
 
 function	register_open()
@@ -428,10 +429,37 @@ export function	result(value)
 	}
 	if (in_tournament == true)
 		winners.push(winner);
+	const	div = document.createElement("div");
+	const	date = new Date();
 	if (winner == username)
-		profile_bar_update(1);
+	{
+		profile_update(1);
+		div.innerHTML = `
+		<div class="d-flex m-1">
+			<div class="ms-auto my-auto pe-none text-nowrap">
+				${date.getFullYear() + "-" + String(date.getMonth()).padStart(2, '0') + "-" + String(date.getDate()).padStart(2, '0') + " " + String(date.getHours()).padStart(2, '0') + ":" + String(date.getMinutes()).padStart(2, '0') + ": Won " + g.playerScore + "-" + g.aiScore + " against"}
+			</div>
+			<img class="ms-1 my-auto rounded-circle" height="22" src="img/22/im-user.svg">
+			<div class="me-auto my-auto pe-none">
+				${loser}
+			</div>
+		</div>`;
+	}
 	else if (loser == username)
-		profile_bar_update(-1);
+	{
+		profile_update(-1);
+		div.innerHTML = `
+		<div class="d-flex m-1">
+			<div class="ms-auto my-auto pe-none text-nowrap">
+				${date.getFullYear() + "-" + String(date.getMonth()).padStart(2, '0') + "-" + String(date.getDate()).padStart(2, '0') + " " + String(date.getHours()).padStart(2, '0') + ":" + String(date.getMinutes()).padStart(2, '0') + ": Lost " + g.playerScore + "-" + g.aiScore + " against"}
+			</div>
+			<img class="ms-1 my-auto rounded-circle" height="22" src="img/22/im-user.svg">
+			<div class="me-auto my-auto pe-none">
+				${winner}
+			</div>
+		</div>`;
+	}
+	document.querySelector("#profile-log").appendChild(div);
 	if (in_tournament == true && tournament_array.length == 0 && winners.length == 1)
 	{
 		in_tournament = false;
@@ -464,12 +492,12 @@ function	start_match()
 	if (contestant1 == username)
 		document.querySelector("#contestant1-avatar").src = document.querySelector("#profile-avatar").src;
 	else
-		document.querySelector("#contestant1-avatar").src = "icons/im-user.svg";
+		document.querySelector("#contestant1-avatar").src = "img/22/im-user.svg";
 	document.querySelector("#contestant2").innerHTML = contestant2;
 	if (contestant2 == username)
 		document.querySelector("#contestant2-avatar").src = document.querySelector("#profile-avatar").src;
 	else
-		document.querySelector("#contestant2-avatar").src = "icons/im-user.svg";
+		document.querySelector("#contestant2-avatar").src = "img/22/im-user.svg";
 }
 
 function	tournament_open()
