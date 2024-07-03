@@ -353,7 +353,7 @@ function	profile_bar_update(value)
 function	profile_logout()
 {
 	document.querySelector("#login-button").classList.add("d-flex");
-	document.querySelector("#login-button").classList.remove("d-none")
+	document.querySelector("#login-button").classList.remove("d-none");
 	document.querySelector("#profile-avatar").src = "";
 	document.querySelector("#profile-button").classList.add("d-none");
 	document.querySelector("#profile-name").innerHTML = "";
@@ -502,14 +502,12 @@ function	unpause()
 	if (paused == false)
 	{
 		loadSavedParameters();
-		if (g.aiPaddleSpeed == 0)
-			params.aiPaddleSpeed = 0;
 		if (g.ballSpeed == 0)
 			g.ballSpeed = 0.016;
 		if (g.orbitSpeed == 0)
 			g.orbitSpeed = 0.002;
 		if (g.player2PaddleSpeed == 0)
-			g.player2PaddleSpeed = 0.016;
+			g.player2PaddleSpeed = 0.1;
 		if (g.starsSpeed == 0)
 			g.starsSpeed = 0.2;
 		if (params.aiPaddleSpeed == 0)

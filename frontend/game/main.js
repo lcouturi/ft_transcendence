@@ -55,7 +55,7 @@ export const g = {
     isOrbiting: false,                        // Flag to enable/disable orbiting
     isSinglePlayer: true,                     // Flag to track if the game is single-player or multiplayer
     player2PaddleMesh: null,                  // Player 2 paddle mesh object
-    player2PaddleSpeed: 0.016,                // Player 2 paddle speed
+    player2PaddleSpeed: 0.1,                // Player 2 paddle speed
     localStorage: window.localStorage,        // Local storage object
     prevPaddlePosition: new THREE.Vector3(),  // Previous paddle position
     prevAIPaddlePosition: new THREE.Vector3(),// Previous AI paddle position

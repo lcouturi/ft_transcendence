@@ -70,7 +70,7 @@ export function movePlayerPaddle() {
 
 
 export function movePlayer2Paddle() {
-    const speed = 0.1;  // Adjust speed as needed
+    const speed = g.player2PaddleSpeed;  // Adjust speed as needed
 
     // Move player 2 paddle based on player2PaddleDirection
     g.aiPaddleMesh.position.z += player2PaddleDirection.z * speed;
