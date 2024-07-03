@@ -261,8 +261,8 @@ function	login_complete()
 	document.querySelector("#profile-button").classList.remove("d-none");
 	if (in_tournament == false)
 	{
-		document.querySelector("#contestant1").innerHTML = username;
-		document.querySelector("#contestant1-avatar").src = document.querySelector("#profile-avatar").src;
+		prepare_next_match();
+		start_match();
 	}
 }
 
@@ -353,19 +353,20 @@ function	profile_bar_update(value)
 function	profile_logout()
 {
 	document.querySelector("#login-button").classList.add("d-flex");
-	document.querySelector("#login-button").classList.remove("d-none");
+	document.querySelector("#login-button").classList.remove("d-none")
+	document.querySelector("#profile-avatar").src = "";
 	document.querySelector("#profile-button").classList.add("d-none");
 	document.querySelector("#profile-name").innerHTML = "";
 	document.querySelector("#profile-name-inside").innerHTML = "";
-	if (in_tournament == false)
-	{
-		document.querySelector("#contestant1").innerText = "Guest";
-		document.querySelector("#contestant1-avatar").src = "icons/im-user.svg";
-	}
 	losses = 0;
 	wins = 0;
 	profile_bar_update(0);
 	username = null;
+	if (in_tournament == false)
+	{
+		prepare_next_match();
+		start_match()
+	}
 }
 
 function	register_open()
