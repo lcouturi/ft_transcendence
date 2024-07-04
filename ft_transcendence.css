@@ -199,11 +199,36 @@ body
 	padding-bottom: 100px;
 }
 
-/* Custom progress bar widget styling. Works in all browsers. */
+/* Custom drop down widget style. */
+
+select
+{
+	appearance: unset;
+	background-color: #fcfcfc;
+	border: 1px solid #bbbcbd;
+	border-radius: 3px;
+	box-shadow: 0px 1px 0px 0px rgba(209,210,211,1);
+	font-size: 13px;
+	padding: 5px;
+	padding-right: 1rem;
+	background-image: url('https://invent.kde.org/frameworks/breeze-icons/-/raw/master/icons/actions/16/go-down.svg');
+	background-position: calc(100% - 3px);
+	background-repeat: no-repeat;
+	background-size: 14px 15px;
+}
+
+select:hover
+{
+	border-color: #00b0ef;
+}
+
+/* Custom progress bar widget style. Works in all browsers. */
 
 progress, ::-webkit-progress-bar
 {
 	background-color: #e2e3e3;
+	border: 0;
+	border-radius: 3px;
 	box-shadow: inset 0 0 0 1px #cacbcb;
 	height: 6px;
 }
@@ -222,7 +247,7 @@ progress, ::-webkit-progress-bar
 	border-radius: 3px;
 }
 
-/* Custom scrollbar widget styling. Only works in WebKit-based browsers.
+/* Custom scrollbar widget style. Only works in WebKit-based browsers.
  *
  * I wanted to make it work in Firefox, but the available options were too
  * limited (unless you make a fully custom JavaScript scrollbar).
