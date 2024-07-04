@@ -1,18 +1,13 @@
 import
 {
+	loadSavedParameters,
 	saveParameter
 } from './frontend/game/gui.js';
 
 import
 {
-	g,
-	loadSavedParameters
-} from './frontend/game/main.js';
-
-import
-{
-	params
-} from './frontend/game/utils.js';
+	g
+} from './frontend/game/globals.js';
 
 let	in_tournament = false;
 let	contestant1;
@@ -291,8 +286,8 @@ function	pause()
 	g.orbitSpeed = 0;
 	g.player2PaddleSpeed = 0;
 	g.starsSpeed = 0;
-	params.aiPaddleSpeed = 0;
-	params.paddleSpeed = 0;
+	g.aiPaddleSpeed = 0;
+	g.paddleSpeed = 0;
 }
 
 function	prepare_next_match()
@@ -569,10 +564,10 @@ function	unpause()
 			g.player2PaddleSpeed = 0.1;
 		if (g.starsSpeed == 0)
 			g.starsSpeed = 0.2;
-		if (params.aiPaddleSpeed == 0)
-			params.aiPaddleSpeed = 8;
-		if (params.paddleSpeed == 0)
-			params.paddleSpeed = 8;
+		if (g.aiPaddleSpeed == 0)
+			g.aiPaddleSpeed = 8;
+		if (g.paddleSpeed == 0)
+			g.paddleSpeed = 8;
 	}
 }
 

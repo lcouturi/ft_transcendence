@@ -1,34 +1,60 @@
 import * as THREE from 'three';
-import { result, update_score } from '../../ft_transcendence.js'
-import { g } from './main.js';
-import { params } from './utils.js';
+import { g } from './globals.js';
 import { bulbLuminousPowers, hemiLuminousIrradiances } from './utils.js';   // utility functions and parameters used in the scene
 import { paddleDirection, aiPaddleDirection, player2PaddleDirection } from './events.js'; // event listeners for window resize events and keyboard input
+import { result, update_score } from '../../ft_transcendence.js';
 
 export function updateLighting() {
-    g.renderer.toneMappingExposure = Math.pow(params.exposure, 5.0);  // Update the tone mapping exposure (brightness of the scene)
-    g.renderer.shadowMap.enabled = params.shadows;                    // Enable or disable shadows
-    g.bulbLight.castShadow = params.shadows;                          // Enable or disable shadow casting for the bulb light
+    g.renderer.toneMappingExposure = Math.pow(g.exposure, 5.0);
+    g.renderer.shadowMap.enabled = g.shadows;
+    g.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-    // Update the floor material if the shadow map state has changed
-    if (params.shadows !== g.previousShadowMap) {
-        if (params.shadows) {
-            // g.floorMat.shadowSide = THREE.FrontSide; // Set the shadow side of the floor material
+    g.bulbLight.castShadow = g.shadows;
+
+    if (g.shadows !== g.previousShadowMap) {
+        if (g.shadows) {
+            g.floorMat.side = THREE.FrontSide;
+            g.floorMat.needsUpdate = true;
         }
-        // g.floorMat.needsUpdate = true;
-        g.previousShadowMap = params.shadows;
+        g.previousShadowMap = g.shadows;
     }
 
-    // Update the bulb light power, bulb material emissive intensity, and hemisphere light intensity
-    g.bulbLight.power = bulbLuminousPowers[params.bulbPower];                 // Update the bulb light power
-    g.bulbMat.emissiveIntensity = g.bulbLight.intensity / Math.pow(0.02, 2.0);  // Update the bulb material emissive intensity
-    g.hemiLight.intensity = hemiLuminousIrradiances[params.hemiIrradiance];   // Update the hemisphere light intensity
+    if (g.shadows) {
+        g.bulbLight.shadow.mapSize.width = 1024;
+        g.bulbLight.shadow.mapSize.height = 1024;
+        g.bulbLight.shadow.camera.near = 0.2;
+        g.bulbLight.shadow.camera.far = 100; // Adjust based on your scene size
+        g.bulbLight.shadow.bias = -0.0001; // Adjust this value as needed
+        // glass floor is affected by shadows
+    }
+
+    g.bulbLight.power = bulbLuminousPowers[g.bulbPower];
+    g.bulbMat.emissiveIntensity = g.bulbLight.intensity / Math.pow(0.02, 2.0);
+    g.hemiLight.intensity = hemiLuminousIrradiances[g.hemiIrradiance];
+
+    updateObjectShadows();
+}
+
+function updateObjectShadows() {
+    g.scene.traverse(function(object) {
+        if (object.isMesh) {
+            if (object.name === 'floor') {
+                object.receiveShadow = g.shadows;
+            } else {
+                object.castShadow = g.shadows;
+                // Slightly raise non-floor objects
+                if (object.position.y === 0) {
+                    object.position.y += 0.01;
+                }
+            }
+        }
+    });
 }
 
 // export function movePlayerPaddle() {
 //     let delta = 0.008; // Time delta between frames (60 frames per second)
-//     g.paddleMesh.position.x += paddleDirection.x * params.paddleSpeed * 0.016; // Move the paddle in the x direction
-//     g.paddleMesh.position.z += paddleDirection.z * params.paddleSpeed * 0.016; // Move the paddle in the z direction
+//     g.paddleMesh.position.x += paddleDirection.x * g.paddleSpeed * 0.016; // Move the paddle in the x direction
+//     g.paddleMesh.position.z += paddleDirection.z * g.paddleSpeed * 0.016; // Move the paddle in the z direction
 
 //     // Create bounding boxes for the paddle and ball
 //     const paddleBox = new THREE.Box3().setFromObject(g.paddleMesh);
@@ -36,14 +62,14 @@ export function updateLighting() {
 
 //     // If the paddle intersects with the ball, prevent the paddle from moving further
 //     if (paddleBox.intersectsBox(ballBox)) {
-//         g.paddleMesh.position.x -= paddleDirection.x * params.paddleSpeed * delta; // when it's 0.016, the ball does change direction
-//         g.paddleMesh.position.z -= paddleDirection.z * params.paddleSpeed * delta; // when it's 0.016, the ball does change direction
+//         g.paddleMesh.position.x -= paddleDirection.x * g.paddleSpeed * delta; // when it's 0.016, the ball does change direction
+//         g.paddleMesh.position.z -= paddleDirection.z * g.paddleSpeed * delta; // when it's 0.016, the ball does change direction
 //     }
 // }
 
 export function movePlayerPaddle() {
     const delta = 0.016; // Time delta between frames (60 frames per second)
-    const paddleSpeed = params.paddleSpeed * delta;
+    const paddleSpeed = g.paddleSpeed * delta;
 
     // Calculate paddle velocity
     const paddleVelocity = new THREE.Vector3(
@@ -70,7 +96,7 @@ export function movePlayerPaddle() {
 
 
 export function movePlayer2Paddle() {
-    const speed = g.player2PaddleSpeed;  // Adjust speed as needed
+    const speed = 0.1;  // Adjust speed as needed
 
     // Move player 2 paddle based on player2PaddleDirection
     g.aiPaddleMesh.position.z += player2PaddleDirection.z * speed;
@@ -92,7 +118,7 @@ export function movePlayer2Paddle() {
 
 export function moveAIPaddle() {
     const { bulbLight, aiPaddleMesh } = g; // Destructuring for clarity
-    const { paddleBoundary, easingFactor, tolerance, aiPaddleSpeed } = params;
+    const { paddleBoundary, easingFactor, tolerance, aiPaddleSpeed } = g;
 
     // Calculate target position and clamp to boundaries
     const targetX = Math.max(-paddleBoundary, Math.min(bulbLight.position.x, paddleBoundary));
@@ -157,7 +183,7 @@ export function moveBall() {
 //     }
 
 //     // Check collision with left and right walls
-//     if (g.bulbLight.position.x < -params.wallBoundary || g.bulbLight.position.x > params.wallBoundary) {
+//     if (g.bulbLight.position.x < -g.wallBoundary || g.bulbLight.position.x > g.wallBoundary) {
 //         g.ballVelocity.x = -g.ballVelocity.x; // Reverse x velocity
 //     }
 // }
@@ -169,19 +195,20 @@ export function handleCollisions() {
 
     const increaseSpeed = (velocity, factor) => {
         velocity.multiplyScalar(factor);
-        const maxSpeed = 20; // maximum speed limit
+        const maxSpeed = 10; // maximum speed limit
         if (velocity.length() > maxSpeed) {
             velocity.setLength(maxSpeed); // velocity to the maximum speed
         }
         return velocity;
     };
 
-    const baseSpeedIncrease = 1.05; // Base speed increase factor for any paddle hit
-    const sideSpeedIncrease = 1.05;  // Extra speed increase factor for side hits
+    const baseSpeedIncrease = 1.00; // Base speed increase factor for any paddle hit
+    const sideSpeedIncrease = 1.00;  // Extra speed increase factor for side hits
 
     // Check for collision between the ball and the player paddle
     if (ballBox.intersectsBox(paddleBox)) {
         const impactX = g.bulbLight.position.x - g.paddleMesh.position.x;
+        const impactZ = g.bulbLight.position.z - g.paddleMesh.position.z;
 
         // Adjust ball's velocity
         g.ballVelocity.z = -Math.abs(g.ballVelocity.z); // Always move away from the paddle
@@ -218,7 +245,7 @@ export function handleCollisions() {
     }
 
     // Check collision with left and right walls
-    if (g.bulbLight.position.x < -params.wallBoundary || g.bulbLight.position.x > params.wallBoundary) {
+    if (g.bulbLight.position.x < -g.wallBoundary || g.bulbLight.position.x > g.wallBoundary) {
         g.ballVelocity.x = -g.ballVelocity.x; // Reverse x velocity
     }
 }
@@ -229,12 +256,12 @@ export function handleCollisions() {
 
 export function checkMissedBall() {
     // Check if the ball has missed the player paddle
-    if (g.bulbLight.position.z > params.wallBoundary) {
+    if (g.bulbLight.position.z > g.wallBoundary) {
         g.aiScore++;
         g.bulbLight.position.set(0, 0.2, 0);
         g.ballVelocity.set(0, 0, 5);
         updateScoreDisplay(g);
-    } else if (g.bulbLight.position.z < -params.wallBoundary) {
+    } else if (g.bulbLight.position.z < -g.wallBoundary) {
         g.playerScore++;
         g.bulbLight.position.set(0, 0.2, 0);
         g.ballVelocity.set(0, 0, -5);
@@ -245,7 +272,7 @@ export function checkMissedBall() {
 export function initScoreDisplay() {
     // Create player score text element
     g.playerScoreText = document.createElement('div');
-    g.playerScoreText.style.display = 'none';
+	g.playerScoreText.style.display = 'none';
     g.playerScoreText.style.position = 'absolute';
     g.playerScoreText.style.top = '10px';
     g.playerScoreText.style.left = '300px';
@@ -256,8 +283,8 @@ export function initScoreDisplay() {
 
     // Create AI score text element
     g.aiScoreText = document.createElement('div');
-    g.aiScoreText.style.position = 'absolute';
 	g.aiScoreText.style.display = 'none';
+    g.aiScoreText.style.position = 'absolute';
     g.aiScoreText.style.top = '10px';
     g.aiScoreText.style.right = '300px';
     g.aiScoreText.style.color = '#ffffff';
@@ -284,6 +311,7 @@ export function updateScoreDisplay() {
     // Update the player and AI score text elements
     if (!g.playerScoreText) {
         g.playerScoreText = document.createElement('div');
+		g.playerScoreText.style.display = 'none';
         g.playerScoreText.style.position = 'absolute';
         g.playerScoreText.style.top = '10px';
         g.playerScoreText.style.left = '200px';
@@ -295,6 +323,7 @@ export function updateScoreDisplay() {
 
     if (!g.aiScoreText) {
         g.aiScoreText = document.createElement('div');
+		g.aiScoreText.style.display = 'none';
         g.aiScoreText.style.position = 'absolute';
         g.aiScoreText.style.top = '10px';
         g.aiScoreText.style.right = '400px';
@@ -312,16 +341,16 @@ export function updateScoreDisplay() {
 export function checkBounds() {
     // Check if the paddle has reached the boundaries
 
-    if (g.paddleMesh.position.x < -params.paddleBoundary) {
-        g.paddleMesh.position.x = -params.paddleBoundary; // Reset paddle position
-    } else if (g.paddleMesh.position.x > params.paddleBoundary) {
-        g.paddleMesh.position.x = params.paddleBoundary; // Reset paddle position
+    if (g.paddleMesh.position.x < -g.paddleBoundary) {
+        g.paddleMesh.position.x = -g.paddleBoundary; // Reset paddle position
+    } else if (g.paddleMesh.position.x > g.paddleBoundary) {
+        g.paddleMesh.position.x = g.paddleBoundary; // Reset paddle position
     }
 
-    if (g.paddleMesh.position.z < -params.paddleBoundary) {
-        g.paddleMesh.position.z = -params.paddleBoundary; // Reset paddle position
-    } else if (g.paddleMesh.position.z > params.paddleBoundary) {
-        g.paddleMesh.position.z = params.paddleBoundary; // Reset paddle position
+    if (g.paddleMesh.position.z < -g.paddleBoundary) {
+        g.paddleMesh.position.z = -g.paddleBoundary; // Reset paddle position
+    } else if (g.paddleMesh.position.z > g.paddleBoundary) {
+        g.paddleMesh.position.z = g.paddleBoundary; // Reset paddle position
     }
 }
 

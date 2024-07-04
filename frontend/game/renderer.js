@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { g } from './main.js';
+import { g } from './globals.js';
 
 export function initRenderer(animate) {
     g.renderer = new THREE.WebGLRenderer({ antialias: true}); // Create a new WebGLRenderer object
@@ -14,4 +14,21 @@ export function initRenderer(animate) {
     controls.minDistance = 1;                                   // Set the minimum distance for the camera
     controls.maxDistance = 40;                                  // Set the maximum distance for the camera
     return g.renderer;                                          // Return the renderer object
+}
+
+export function resizeCanvasToDisplaySize() {
+  const canvas = g.renderer.domElement;
+  // look up the size the canvas is being displayed
+  const width = canvas.clientWidth;
+  const height = canvas.clientHeight;
+
+  // adjust displayBuffer size to match
+  if (canvas.width !== width || canvas.height !== height) {
+    // you must pass false here or three.js sadly fights the browser
+    g.renderer.setSize(width, height, false);
+    g.camera.aspect = width / height;
+    g.camera.updateProjectionMatrix();
+
+    // update any render target sizes here
+  }
 }
