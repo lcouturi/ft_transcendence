@@ -51,7 +51,7 @@ export const g = {
     playerPaddleColor: 0x00ff00,                 // Player paddle color
     aiPaddleColor: 0xff0000,                     // AI paddle color
     emissiveIntensity: 1,                        // Emissive intensity
-    paddleBoundary: 10,                          // Paddle boundary
+    paddleBoundary: 9,                          // Paddle boundary
     wallBoundary: 10,                                        // Wall boundary
     paddleSpeed: 8,                                          // Paddle speed
     aiPaddleSpeed: 8,                                        // AI paddle speed

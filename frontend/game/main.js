@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { initMaterials } from './materials.js';
 import { initGeometry } from './geometry.js';
-import { initRenderer, resizeCanvasToDisplaySize } from './renderer.js';
+import { initRenderer } from './renderer.js';
 import { initGUI, loadSavedParameters} from './gui.js';
 import { initScene, initCamera, initLights, initStats } from './initialize.js';
 import { initEventListeners, initControls, player2PaddleDirection } from './events.js';
@@ -44,7 +44,6 @@ function init() {
 }
 
 function animate() {
-    resizeCanvasToDisplaySize();
     updateLighting();
     movePlayerPaddle();
     if (!g.isSinglePlayer) {
