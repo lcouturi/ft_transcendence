@@ -32,7 +32,7 @@ export function initGUI() {
     gui.addColor(g, 'playerPaddleColor').name('player paddle color').onChange(value => { updatePaddleColor(); saveParameter('playerPaddleColor', value); });
     gui.addColor(g, 'aiPaddleColor').name('AI paddle color').onChange(value => { updatePaddleColor(); saveParameter('aiPaddleColor', value); });
     gui.add(g, 'emissiveIntensity').name('disable glass effect').onChange(value => { updatePaddleColor(); saveParameter('emissiveIntensity', value); }).listen();
-    gui.add({ reset: () => { localStorage.clear(); location.reload(); } }, 'reset').name('Reset Patameters');
+    gui.add({ reset: () => { localStorage.clear(); location.reload(); } }, 'reset').name('Reset Parameters');
     gui.open(); // Open the GUI by default
     return gui;
 }

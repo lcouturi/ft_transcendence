@@ -38,15 +38,8 @@ export function updateLighting() {
 function updateObjectShadows() {
     g.scene.traverse(function(object) {
         if (object.isMesh) {
-            if (object.name === 'floor') {
+            if (object.name === 'floor')
                 object.receiveShadow = g.shadows;
-            } else {
-                object.castShadow = g.shadows;
-                // Slightly raise non-floor objects
-                if (object.position.y === 0) {
-                    object.position.y += 0.01;
-                }
-            }
         }
     });
 }

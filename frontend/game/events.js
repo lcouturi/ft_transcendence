@@ -1,13 +1,7 @@
 import * as THREE from 'three';
-import { onWindowResize } from './initialize.js';
 export let paddleDirection = new THREE.Vector3();
 export let player2PaddleDirection = new THREE.Vector3();
 export let aiPaddleDirection = new THREE.Vector3();
-
-
-export function initEventListeners() {
-    onWindowResize();
-}
 
 
 export function initControls() {

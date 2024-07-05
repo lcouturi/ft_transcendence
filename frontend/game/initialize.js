@@ -9,13 +9,10 @@ export function initScene() {
 
 export function initCamera() {
     g.camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 100); // Create a new camera object
-    g.camera.position.set(25, 15, 0);                                                             // Set the camera position
-    window.addEventListener('resize', onWindowResize());                                            // Add an event listener for window resize events(when the window is resized, the camera aspect ratio and projection matrix are updated)
+    g.camera.position.set(25, 15, 0);
 }
 
 export function onWindowResize() {
-    if (!g.renderer) return; // Ensure the renderer is initialized
-    console.log('Window resized');
     const canvas = g.renderer.domElement;
     // look up the size the canvas is being displayed
     const width = canvas.clientWidth;
@@ -23,29 +20,14 @@ export function onWindowResize() {
 
     // adjust displayBuffer size to match
     if (canvas.width !== width || canvas.height !== height) {
-        // you must pass false here or three.js sadly fights the browser
-        g.renderer.setSize(width, height, false);
-        g.camera.aspect = width / height;
-        g.camera.updateProjectionMatrix();
+      // you must pass false here or three.js sadly fights the browser
+      g.renderer.setSize(width, height, false);
+      g.camera.aspect = width / height;
+      g.camera.updateProjectionMatrix();
+
+      // update any render target sizes here
     }
 }
-
-// export function onWindowResize() {
-//     const canvas = g.renderer.domElement;
-//     // look up the size the canvas is being displayed
-//     const width = canvas.clientWidth;
-//     const height = canvas.clientHeight;
-
-//     // adjust displayBuffer size to match
-//     if (canvas.width !== width || canvas.height !== height) {
-//       // you must pass false here or three.js sadly fights the browser
-//       g.renderer.setSize(width, height, false);
-//       g.camera.aspect = width / height;
-//       g.camera.updateProjectionMatrix();
-
-//       // update any render target sizes here
-//     }
-// }
 
 export function initLights() {
     const lights = initBulbLight(g.scene);
