@@ -233,6 +233,13 @@ progress, ::-webkit-progress-bar
 	height: 6px;
 }
 
+.over
+{
+	max-height: calc(100vh - 102px);
+	overflow: hidden;
+	width: 270px;
+}
+
 ::-moz-progress-bar /* Gecko-specific portion. */
 {
 	background-color: #a5d8f1;

@@ -237,14 +237,15 @@ function	add_item(prefix, value)
 	banner_close("#" + prefix + "-banner");
 	const	div = document.createElement("div");
 	let	divContainer = `
-	<div class="d-flex">
-		<div class="m-1 p-1 w-100">
+	<div class="d-flex" style="min-width: min-content;">
+		<div class="m-1 p-1 w-100" style="min-width: min-content;">
 			${sanitize(item)}
 		</div>
 		<button class="border button d-flex delete m-1 rounded shadow-sm">
 			<img class="icon m-1" height="22" src="img/22/list-remove.svg">
 		</button>
 	</div>`;
+	div.style.minWidth = "min-content";
 	div.innerHTML = divContainer;
 	div.querySelector(".delete").addEventListener("click", (e) =>
 	{
