@@ -13,6 +13,8 @@ import {
     updateLighting,
     movePlayerPaddle,
     movePlayer2Paddle,
+    movePlayer3Paddle,
+    movePlayer4Paddle,
     moveAIPaddle,
     moveBall,
     handleCollisions,
@@ -48,6 +50,8 @@ function animate() {
     movePlayerPaddle();
     if (!g.isSinglePlayer) {
         movePlayer2Paddle();
+        movePlayer3Paddle();
+        movePlayer4Paddle();
     } else {
         moveAIPaddle();
     }
@@ -61,3 +65,12 @@ function animate() {
     updateStars();
     g.stats.update();
 }
+
+/*
+Multiplayer mode ToDo
+- Fix speed of 2nd player (AI parameters)
+- Add colors to paddles
+- Fix boundaries for 2nd player
+- Add GUI for multiplayer mode
+    - When enabled and disabled player 2 and 3 paddles should be hidden
+*/

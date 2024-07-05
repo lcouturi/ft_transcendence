@@ -3,62 +3,99 @@ import { bulbLuminousPowers, hemiLuminousIrradiances } from './utils.js';       
 
 // Initialization of global variables
 export const g = {
-    container: null,                          // Container object (holds the renderer's DOM element)
-    camera: null,                             // Camera object (controls the view of the scene)
-    scene: null,                              // Scene object (holds all the objects, lights, and cameras)
-    renderer: null,                           // Renderer object (renders the scene using WebGL)
-    bulbLight: null,                          // Bulb light object (light source)
-    bulbMat: null,                            // Bulb material object (material for the bulb light)
-    hemiLight: null,                          // Hemisphere light object (ambient light source)
-    stats: null,                              // Stats object (monitors performance stats)
-    floorMat: null,                           // Floor material object
-    floorMesh: null,                          // Floor mesh object
-    borderColor: 0x00ff00,                  // Border color object
-    paddleMesh: null,                         // Player paddle mesh object
-    aiPaddleMesh: null,                       // AI paddle mesh object
-    ballVelocity: new THREE.Vector3(0, 0, 5),    // Ball velocity vector
-    previousShadowMap: 0,                    // Previous shadow map state
-    starPool: [],                                // Pool of star objects
-    numStars: 5000,                              // Number of stars
-    starsSpeed: 0.2,                             // Speed of stars
-    startSize: 0.01,                             // Size of stars
-    starColor: { color: "#ffffff" },             // Color of stars
-    floor: null,                                 // Floor object
-    playerScore: 0,                              // Player score
-    aiScore: 0,                                  // AI score
-    playerScoreText: null,                       // Player score text
-    aiScoreText: null,                           // AI score text
-    limitScore: 9999,                            // Score limit
-    ballSpeed: 0.016,                            // Ball speed
-    orbitRadius: 20,                             // Radius of the orbit
-    orbitSpeed: 0.002,                           // Speed of the orbit
-    orbitCenter: new THREE.Vector3(0, 0, 0),     // Center point of the orbit (table position)
-    orbitAngle: 0,                               // Current angle in the orbit
-    isOrbiting: false,                           // Flag to enable/disable orbiting
-    isSinglePlayer: true,                        // Flag to track if the game is single-player or multiplayer
-    player2PaddleMesh: null,                     // Player 2 paddle mesh object
-    player2PaddleSpeed: 0.016,                   // Player 2 paddle speed
-    localStorage: window.localStorage,           // Local storage object
-    prevPaddlePosition: new THREE.Vector3(),     // Previous paddle position
-    prevAIPaddlePosition: new THREE.Vector3(),   // Previous AI paddle position
-    paddleVelocity: new THREE.Vector3(0, 0, 0),  // Paddle velocity vector
-    aiPaddleVelocity: new THREE.Vector3(0, 0, 0),// AI paddle velocity vector
-    composer: null,                              // Effect composer object
-    bloomPass: null,                             // Bloom pass object
-    bloomStrength: 0,                            // Bloom strength
-    bloomRadius: 0,                              // Bloom radius
-    bloomThreshold: 0,                           // Bloom threshold
-    playerPaddleColor: 0x00ff00,                 // Player paddle color
-    aiPaddleColor: 0xff0000,                     // AI paddle color
-    emissiveIntensity: 1,                        // Emissive intensity
-    paddleBoundary: 9,                          // Paddle boundary
-    wallBoundary: 10,                                        // Wall boundary
-    paddleSpeed: 8,                                          // Paddle speed
-    aiPaddleSpeed: 8,                                        // AI paddle speed
-    tolerance: 0,                                          // Tolerance for AI movement
-    easingFactor: 1,                                       // Easing factor for AI movement
-    shadows: true,                                           // Shadow flag
-    exposure: 3,                                             // Exposure value
-    bulbPower: Object.keys(bulbLuminousPowers)[6],           // Bulb power
-    hemiIrradiance: Object.keys(hemiLuminousIrradiances)[0], // Hemispheric irradiance
+    // Rendering and Scene
+    container: null,
+    camera: null,
+    scene: null,
+    renderer: null,
+    composer: null,
+    stats: null,
+
+    // Lighting
+    bulbLight: null,
+    bulbMat: null,
+    hemiLight: null,
+    bulbPower: Object.keys(bulbLuminousPowers)[6],
+    hemiIrradiance: Object.keys(hemiLuminousIrradiances)[0],
+
+    // Visual Effects
+    bloomPass: null,
+    bloomStrength: 0,
+    bloomRadius: 0,
+    bloomThreshold: 0,
+    shadows: true,
+    exposure: 3,
+    emissiveIntensity: 1,
+
+    // Game Environment
+    floorMat: null,
+    floorMesh: null,
+    floor: null,
+    borderColor: 0x00ff00,
+    wallBoundary: 10,
+
+    // Star Field
+    starPool: [],
+    numStars: 5000,
+    starsSpeed: 0.2,
+    startSize: 0.01,
+    starColor: { color: "#ffffff" },
+
+    // Game State
+    playerScore: 0,
+    aiScore: 0,
+    playerScoreText: null,
+    aiScoreText: null,
+    limitScore: 9999,
+    isSinglePlayer: true,
+    isMultiplayer: false,
+
+    // Ball Properties
+    ballVelocity: new THREE.Vector3(0, 0, 5),
+    ballSpeed: 0.016,
+
+    // Player 1 Properties
+    paddleMesh: null,
+    paddleSpeed: 8,
+    paddleBoundary: 9,
+    playerPaddleColor: 0x00ff00,
+    prevPaddlePosition: new THREE.Vector3(),
+    paddleVelocity: new THREE.Vector3(0, 0, 0),
+
+
+    // Player 3 Properties
+    Player3PaddleMesh: null,
+    Player3PaddleSpeed: 8,
+    Player3PaddleBoundary: 9,
+    Player3PaddleColor: 0x0f000f,
+    Player3PrevPaddlePosition: new THREE.Vector3(),
+    Player3PaddleVelocity: new THREE.Vector3(0, 0, 0),
+
+    // Player 4 Properties
+    Player4PaddleMesh: null,
+    Player4PaddleSpeed: 8,
+    Player4PaddleBoundary: 9,
+    Player4PaddleColor: 0x0000ff,
+    Player4PrevPaddlePosition: new THREE.Vector3(),
+    Player4PaddleVelocity: new THREE.Vector3(0, 0, 0),
+
+    // Player AI Properties
+    aiPaddleMesh: null,
+    aiPaddleSpeed: 8,
+    aiPaddleColor: 0xff0000,
+    prevAIPaddlePosition: new THREE.Vector3(),
+    aiPaddleVelocity: new THREE.Vector3(0, 0, 0),
+    tolerance: 0,
+    easingFactor: 1,
+
+    // Camera Orbit
+    orbitRadius: 20,
+    orbitSpeed: 0.002,
+    orbitCenter: new THREE.Vector3(0, 0, 0),
+    orbitAngle: 0,
+    isOrbiting: false,
+
+    // Miscellaneous
+    previousShadowMap: 0,
+    localStorage: window.localStorage,
 };

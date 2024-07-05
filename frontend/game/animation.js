@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { g } from './globals.js';
 import { bulbLuminousPowers, hemiLuminousIrradiances } from './utils.js';   // utility functions and parameters used in the scene
-import { paddleDirection, aiPaddleDirection, player2PaddleDirection } from './events.js'; // event listeners for window resize events and keyboard input
+import { paddleDirection, aiPaddleDirection, player2PaddleDirection, player3PaddleDirection, player4PaddleDirection } from './events.js'; // event listeners for window resize events and keyboard input
 import { result, update_score } from '../../ft_transcendence.js';
 
 export function updateLighting() {
@@ -89,7 +89,7 @@ export function movePlayerPaddle() {
 
 
 export function movePlayer2Paddle() {
-    const speed = 0.1;  // Adjust speed as needed
+    const speed = 0.16;  // Adjust speed as needed
 
     // Move player 2 paddle based on player2PaddleDirection
     g.aiPaddleMesh.position.z += player2PaddleDirection.z * speed;
@@ -109,6 +109,61 @@ export function movePlayer2Paddle() {
     );
 }
 
+export function movePlayer3Paddle() {
+    const delta = 0.016; // Time delta between frames (60 frames per second)
+    const paddleSpeed = g.Player3PaddleSpeed * delta;
+
+    // Calculate paddle velocity
+    const paddleVelocity = new THREE.Vector3(
+        (g.Player3PaddleMesh.position.x - g.Player3PrevPaddlePosition.x) / delta, 0, (g.Player3PaddleMesh.position.z - g.Player3PrevPaddlePosition.z) / delta );
+
+    // Update previous paddle position
+    g.Player3PrevPaddlePosition.copy(g.Player3PaddleMesh.position);
+
+    g.Player3PaddleMesh.position.x += player3PaddleDirection.x * paddleSpeed;
+    g.Player3PaddleMesh.position.z += player3PaddleDirection.z * paddleSpeed;
+
+    // Create bounding boxes for the paddle and ball
+    const paddleBox = new THREE.Box3().setFromObject(g.Player3PaddleMesh);
+    const ballBox = new THREE.Box3().setFromObject(g.bulbLight);
+
+    // If the paddle intersects with the ball, prevent the paddle from moving further
+    if (paddleBox.intersectsBox(ballBox)) {
+        g.Player3PaddleMesh.position.x -= player3PaddleDirection.x * paddleSpeed * delta;
+        g.Player3PaddleMesh.position.z -= player3PaddleDirection.z * paddleSpeed * delta;
+    }
+
+    g.Player3PaddleVelocity = paddleVelocity; // Store paddle velocity for collision handling
+}
+
+
+export function movePlayer4Paddle() {
+    const delta = 0.016; // Time delta between frames (60 frames per second)
+    const paddleSpeed = g.Player4PaddleSpeed * delta;
+
+    // Calculate paddle velocity
+    const paddleVelocity = new THREE.Vector3(
+        (g.Player4PaddleMesh.position.x - g.Player4PrevPaddlePosition.x) / delta, 0, (g.Player4PaddleMesh.position.z - g.Player4PrevPaddlePosition.z) / delta );
+
+    // Update previous paddle position
+    g.Player4PrevPaddlePosition.copy(g.Player4PaddleMesh.position);
+
+    g.Player4PaddleMesh.position.x += player4PaddleDirection.x * paddleSpeed;
+    g.Player4PaddleMesh.position.z += player4PaddleDirection.z * paddleSpeed;
+
+    // Create bounding boxes for the paddle and ball
+    const paddleBox = new THREE.Box3().setFromObject(g.Player4PaddleMesh);
+    const ballBox = new THREE.Box3().setFromObject(g.bulbLight);
+
+    // If the paddle intersects with the ball, prevent the paddle from moving further
+    if (paddleBox.intersectsBox(ballBox)) {
+        g.Player4PaddleMesh.position.x -= player4PaddleDirection.x * paddleSpeed * delta;
+        g.Player4PaddleMesh.position.z -= player4PaddleDirection.z * paddleSpeed * delta;
+    }
+
+    g.Player4PaddleVelocity = paddleVelocity; // Store paddle velocity for collision handling
+}
+
 export function moveAIPaddle() {
     const { bulbLight, aiPaddleMesh } = g; // Destructuring for clarity
     const { paddleBoundary, easingFactor, tolerance, aiPaddleSpeed } = g;
@@ -120,7 +175,7 @@ export function moveAIPaddle() {
     const distanceToTarget = targetX - aiPaddleMesh.position.x;
     const absDistance = Math.abs(distanceToTarget);
 
-    // Move towards target with easing or stop if within tolerance
+    // Move towards target with easing or stop if within tolerance if isSinglePlayer is true (AI mode) else move linearly
     aiPaddleDirection.x = absDistance > tolerance ? distanceToTarget * easingFactor : 0;
 
     // Calculate AI paddle velocity
@@ -135,7 +190,6 @@ export function moveAIPaddle() {
     // Store AI paddle velocity for collision handling
     g.aiPaddleVelocity = aiPaddleVelocity;
 }
-
 
 export function moveBall() {
     const maxSpeed = 20; // maximum speed limit
@@ -179,6 +233,8 @@ export function moveBall() {
 export function handleCollisions() {
     const ballBox = new THREE.Box3().setFromObject(g.bulbLight);
     const paddleBox = new THREE.Box3().setFromObject(g.paddleMesh);
+    const player3PaddleBox = new THREE.Box3().setFromObject(g.Player3PaddleMesh);
+    const player4PaddleBox = new THREE.Box3().setFromObject(g.Player4PaddleMesh);
     const aiPaddleBox = new THREE.Box3().setFromObject(g.aiPaddleMesh);
 
     const increaseSpeed = (velocity, factor) => {
@@ -193,10 +249,9 @@ export function handleCollisions() {
     const baseSpeedIncrease = 1.00; // Base speed increase factor for any paddle hit
     const sideSpeedIncrease = 1.00;  // Extra speed increase factor for side hits
 
-    // Check for collision between the ball and the player paddle
+    // Check collision with player 1 paddle
     if (ballBox.intersectsBox(paddleBox)) {
         const impactX = g.bulbLight.position.x - g.paddleMesh.position.x;
-        const impactZ = g.bulbLight.position.z - g.paddleMesh.position.z;
 
         // Adjust ball's velocity
         g.ballVelocity.z = -Math.abs(g.ballVelocity.z); // Always move away from the paddle
@@ -204,6 +259,45 @@ export function handleCollisions() {
 
         // Incorporate paddle's velocity into ball's redirection
         g.ballVelocity.add(g.paddleVelocity.clone().multiplyScalar(1.5));
+
+        // Increase ball speed
+        if (Math.abs(impactX) > 1) {
+            g.ballVelocity = increaseSpeed(g.ballVelocity, sideSpeedIncrease);
+        } else {
+            g.ballVelocity = increaseSpeed(g.ballVelocity, baseSpeedIncrease);
+        }
+    }
+
+    // Check collision with player 3 paddle
+    if (ballBox.intersectsBox(player3PaddleBox)) {
+        const impactX = g.bulbLight.position.x - g.Player3PaddleMesh.position.x;
+        const impactZ = g.bulbLight.position.z - g.Player3PaddleMesh.position.z;
+
+        // Adjust ball's velocity
+        g.ballVelocity.z = -Math.abs(g.ballVelocity.z); // Always move away from the paddle
+        g.ballVelocity.x += impactX * 0.2; // Adjust x velocity based on impact point
+
+        // Incorporate paddle's velocity into ball's redirection
+        g.ballVelocity.add(g.Player3PaddleVelocity.clone().multiplyScalar(1.5));
+
+        // Increase ball speed
+        if (Math.abs(impactX) > 1) {
+            g.ballVelocity = increaseSpeed(g.ballVelocity, sideSpeedIncrease);
+        } else {
+            g.ballVelocity = increaseSpeed(g.ballVelocity, baseSpeedIncrease);
+        }
+    }
+
+    // Check collision with player 4 paddle
+    if (ballBox.intersectsBox(player4PaddleBox)) {
+        const impactX = g.bulbLight.position.x - g.Player4PaddleMesh.position.x;
+
+        // Adjust ball's velocity
+        g.ballVelocity.z = Math.abs(g.ballVelocity.z); // Always move away from the paddle
+        g.ballVelocity.x += impactX * 0.2; // Adjust x velocity based on impact point
+
+        // Incorporate paddle's velocity into ball's redirection
+        g.ballVelocity.add(g.Player4PaddleVelocity.clone().multiplyScalar(1.5));
 
         // Increase ball speed
         if (Math.abs(impactX) > 1) {
@@ -237,9 +331,6 @@ export function handleCollisions() {
         g.ballVelocity.x = -g.ballVelocity.x; // Reverse x velocity
     }
 }
-
-
-
 
 
 export function checkMissedBall() {
@@ -327,8 +418,6 @@ export function updateScoreDisplay() {
 }
 
 export function checkBounds() {
-    // Check if the paddle has reached the boundaries
-
     if (g.paddleMesh.position.x < -g.paddleBoundary) {
         g.paddleMesh.position.x = -g.paddleBoundary; // Reset paddle position
     } else if (g.paddleMesh.position.x > g.paddleBoundary) {
@@ -340,6 +429,37 @@ export function checkBounds() {
     } else if (g.paddleMesh.position.z > g.paddleBoundary) {
         g.paddleMesh.position.z = g.paddleBoundary; // Reset paddle position
     }
+
+    if (g.Player3PaddleMesh.position.x < -g.Player3PaddleBoundary) {
+        g.Player3PaddleMesh.position.x = -g.Player3PaddleBoundary; // Reset paddle position
+    } else if (g.Player3PaddleMesh.position.x > g.Player3PaddleBoundary) {
+        g.Player3PaddleMesh.position.x = g.Player3PaddleBoundary; // Reset paddle position
+    }
+
+    if (g.Player3PaddleMesh.position.z < -g.Player3PaddleBoundary) {
+        g.Player3PaddleMesh.position.z = -g.Player3PaddleBoundary; // Reset paddle position
+    } else if (g.Player3PaddleMesh.position.z > g.Player3PaddleBoundary) {
+        g.Player3PaddleMesh.position.z = g.Player3PaddleBoundary; // Reset paddle position
+    }
+
+    if (g.Player4PaddleMesh.position.x < -g.Player4PaddleBoundary) {
+        g.Player4PaddleMesh.position.x = -g.Player4PaddleBoundary; // Reset paddle position
+    } else if (g.Player4PaddleMesh.position.x > g.Player4PaddleBoundary) {
+        g.Player4PaddleMesh.position.x = g.Player4PaddleBoundary; // Reset paddle position
+    }
+
+    if (g.Player4PaddleMesh.position.z < -g.Player4PaddleBoundary) {
+        g.Player4PaddleMesh.position.z = -g.Player4PaddleBoundary; // Reset paddle position
+    } else if (g.Player4PaddleMesh.position.z > g.Player4PaddleBoundary) {
+        g.Player4PaddleMesh.position.z = g.Player4PaddleBoundary; // Reset paddle position
+    }
+
+    if (g.aiPaddleMesh.position.x < -g.paddleBoundary) {
+        g.aiPaddleMesh.position.x = -g.paddleBoundary; // Reset paddle position
+    } else if (g.aiPaddleMesh.position.x > g.paddleBoundary) {
+        g.aiPaddleMesh.position.x = g.paddleBoundary; // Reset paddle position
+    }
+
 }
 
 export function orbitalRotation() {

@@ -82,6 +82,32 @@ function initializePaddles() {
         emissiveIntensity: g.emissiveIntensity,
     });
 
+    const player3PaddleMaterial = new THREE.MeshPhysicalMaterial({
+        color: new THREE.Color(g.Player3PaddleColor),  // Default green color
+        roughness: 0,
+        transmission: 1,  // Full transparency
+        thickness: 1.5,   // Adjust thickness as needed
+        clearcoat: 1,     // Add a clear coat to simulate reflection
+        clearcoatRoughness: 0.1,
+        opacity: 0.9,
+        transparent: true,
+        emissive: new THREE.Color(g.Player3PaddleColor),
+        emissiveIntensity: g.emissiveIntensity,
+    });
+
+    const player4PaddleMaterial = new THREE.MeshPhysicalMaterial({
+        color: new THREE.Color(g.Player4PaddleColor),  // Default green color
+        roughness: 0,
+        transmission: 1,  // Full transparency
+        thickness: 1.5,   // Adjust thickness as needed
+        clearcoat: 1,     // Add a clear coat to simulate reflection
+        clearcoatRoughness: 0.1,
+        opacity: 0.9,
+        transparent: true,
+        emissive: new THREE.Color(g.Player4PaddleColor),
+        emissiveIntensity: g.emissiveIntensity,
+    });
+
     const aiPaddleMaterial = new THREE.MeshPhysicalMaterial({
         color: new THREE.Color(g.aiPaddleColor),  // Default red color
         roughness: 0,
@@ -97,8 +123,16 @@ function initializePaddles() {
 
     const paddleMesh = createPaddleMesh(playerPaddleMaterial, 8);
     g.paddleMesh = paddleMesh;
-    g.player2PaddleMesh = paddleMesh.clone();
+    // g.player2PaddleMesh = paddleMesh.clone(); // I don't think this is necessary
     g.scene.add(paddleMesh);
+
+    const Player3PaddleMesh = createPaddleMesh(player3PaddleMaterial, 8);
+    g.Player3PaddleMesh = Player3PaddleMesh;
+    g.scene.add(Player3PaddleMesh);
+
+    const Player4PaddleMesh = createPaddleMesh(player4PaddleMaterial, -8);
+    g.Player4PaddleMesh = Player4PaddleMesh;
+    g.scene.add(Player4PaddleMesh);
 
     const aiPaddleMesh = createPaddleMesh(aiPaddleMaterial, -8);
     g.aiPaddleMesh = aiPaddleMesh;
