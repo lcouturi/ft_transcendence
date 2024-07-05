@@ -22,7 +22,7 @@ export const g = {
     numStars: 5000,                              // Number of stars
     starsSpeed: 0.2,                             // Speed of stars
     startSize: 0.01,                             // Size of stars
-    starColor: { color: '#ffffff' },             // Color of stars
+    starColor: { color: "#ffffff" },             // Color of stars
     floor: null,                                 // Floor object
     playerScore: 0,                              // Player score
     aiScore: 0,                                  // AI score

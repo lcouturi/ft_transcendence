@@ -17,6 +17,7 @@ export function initRenderer(animate) {
 }
 
 export function resizeCanvasToDisplaySize() {
+  console.log('resizeCanvasToDisplaySize');
   const canvas = g.renderer.domElement;
   // look up the size the canvas is being displayed
   const width = canvas.clientWidth;

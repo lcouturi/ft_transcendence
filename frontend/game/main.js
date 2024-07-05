@@ -40,7 +40,7 @@ function init() {
     initControls();                                        // Setup the controls for the player paddle
     initEventListeners();                                  // Initialize event listeners
     initScoreDisplay();                                    // Initialize the score display
-    initEffectComposer();                                  // Initialize the effect composer
+    // initEffectComposer();                                  // Initialize the effect composer
 }
 
 function animate() {

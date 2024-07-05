@@ -40,6 +40,7 @@ function onKeyDown(event) {
         case 'ArrowDown':
             player2PaddleDirection.x = 1;
             break;
+        // add more cases for additional keys for player 3(IJKL) and player 4(8456)
     }
 }
 
