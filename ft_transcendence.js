@@ -100,6 +100,7 @@ document.querySelector("#profile-list-add").addEventListener("click", function(e
 {
 	e.preventDefault();
 	add_item("profile", null);
+	document.querySelector("#profile-friends-count").innerHTML = "Friends: " + friends_array.length;
 });
 
 document.querySelector("#profile-logout").addEventListener("click", function(e)
@@ -249,6 +250,7 @@ function	add_item(prefix, value)
 	{
 		array.splice(array.indexOf(e.currentTarget.closest("div").innerText), 1);
 		e.currentTarget.closest("div").remove();
+		document.querySelector("#profile-friends-count").innerHTML = "Friends: " + friends_array.length;
 	});
 	document.querySelector("#" + prefix + "-list").appendChild(div);
 	array.push(item);
@@ -552,7 +554,7 @@ function	start_match()
 
 function	tournament_open()
 {
-	document.querySelector("#list_item").value = "";
+	document.querySelector("#tournament-list-item").value = "";
 	new bootstrap.Modal(document.querySelector("#tournament")).show();
 	if (username != null)
 		add_item("tournament", username);
