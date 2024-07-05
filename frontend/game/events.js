@@ -1,10 +1,12 @@
 import * as THREE from 'three';
+import { onWindowResize } from './initialize.js';
 export let paddleDirection = new THREE.Vector3();
 export let player2PaddleDirection = new THREE.Vector3();
 export let aiPaddleDirection = new THREE.Vector3();
 
-export function initEventListeners() {
 
+export function initEventListeners() {
+    onWindowResize();
 }
 
 
@@ -40,6 +42,7 @@ function onKeyDown(event) {
         case 'ArrowDown':
             player2PaddleDirection.x = 1;
             break;
+        // add more cases for additional keys for player 3(IJKL) and player 4(8456)
     }
 }
 

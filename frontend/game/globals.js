@@ -22,7 +22,7 @@ export const g = {
     numStars: 5000,                              // Number of stars
     starsSpeed: 0.2,                             // Speed of stars
     startSize: 0.01,                             // Size of stars
-    starColor: { color: '#ffffff' },             // Color of stars
+    starColor: { color: "#ffffff" },             // Color of stars
     floor: null,                                 // Floor object
     playerScore: 0,                              // Player score
     aiScore: 0,                                  // AI score
@@ -51,7 +51,7 @@ export const g = {
     playerPaddleColor: 0x00ff00,                 // Player paddle color
     aiPaddleColor: 0xff0000,                     // AI paddle color
     emissiveIntensity: 1,                        // Emissive intensity
-    paddleBoundary: 10,                          // Paddle boundary
+    paddleBoundary: 9,                          // Paddle boundary
     wallBoundary: 10,                                        // Wall boundary
     paddleSpeed: 8,                                          // Paddle speed
     aiPaddleSpeed: 8,                                        // AI paddle speed

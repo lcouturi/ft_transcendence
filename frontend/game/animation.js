@@ -128,16 +128,11 @@ export function moveAIPaddle() {
     const absDistance = Math.abs(distanceToTarget);
 
     // Move towards target with easing or stop if within tolerance
-    aiPaddleDirection.x = absDistance > tolerance
-        ? distanceToTarget * easingFactor
-        : 0;
+    aiPaddleDirection.x = absDistance > tolerance ? distanceToTarget * easingFactor : 0;
 
     // Calculate AI paddle velocity
     const aiPaddleVelocity = new THREE.Vector3(
-        (aiPaddleMesh.position.x - g.prevAIPaddlePosition.x) / 0.016,
-        0,
-        0
-    );
+        (aiPaddleMesh.position.x - g.prevAIPaddlePosition.x) / 0.016, 0, 0);
 
     // Update previous AI paddle position
     g.prevAIPaddlePosition.copy(aiPaddleMesh.position);

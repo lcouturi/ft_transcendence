@@ -18,7 +18,7 @@ export function initGUI() {
     gui.add(g, 'numStars', 0, 10000).name('number of stars').step(1).onChange(value => { initStarField(); saveParameter('numStars', value); });
     gui.add(g, 'starsSpeed', 0, 1).name('stars speed').onChange(value => saveParameter('starsSpeed', value));
     gui.addColor(g.starColor, 'color').name('star color').onChange(value => { g.starPool.forEach(star => { star.material.color.set(value); }); saveParameter('starColor', value); });
-    gui.addColor(g, 'borderColor').name('border color').onChange(value => { g.borderColor = value; updateNeonBorderColor(); saveParameter('borderColor', value);    });
+    gui.addColor(g, 'borderColor').name('border color').onChange(value =>   { g.borderColor = value; updateNeonBorderColor(); saveParameter('borderColor', value);    });
     gui.add(g, 'startSize', 0, 0.1).name('star size').step(0.001).onChange(value => { initStarField(); saveParameter('startSize', value); });
     gui.add(g, 'ballSpeed', 0, 0.1).name('ball speed').step(0.001).onChange(value => saveParameter('ballSpeed', value));
     gui.add(g, 'shadows').onChange(value => saveParameter('shadows', value));
