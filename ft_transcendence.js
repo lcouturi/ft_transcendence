@@ -12,6 +12,7 @@ import
 let	in_tournament = false;
 let	contestant1;
 let	contestant2;
+let	friends_array = [];
 let	losses = 0;
 let	paused = false;
 let	tournament_array = [];
@@ -41,12 +42,6 @@ document.querySelector("#contestant2-victory").addEventListener("click", functio
 {
 	e.preventDefault();
 	result(2);
-});
-
-document.querySelector("#list-add").addEventListener("click", function(e)
-{
-	e.preventDefault();
-	add_item(null);
 });
 
 document.querySelector("#login").addEventListener("hidden.bs.modal", function(e)
@@ -93,6 +88,18 @@ document.querySelector("#play").addEventListener("click", function(e)
 	this.classList.add("d-none");
 	document.querySelector("#pause").classList.remove("d-none");
 	document.querySelector("#pause").classList.add("d-flex");
+});
+
+document.querySelector("#profile-banner-close").addEventListener("click", function(e)
+{
+	e.preventDefault();
+	banner_close('#profile-banner');
+});
+
+document.querySelector("#profile-list-add").addEventListener("click", function(e)
+{
+	e.preventDefault();
+	add_item("profile", null);
 });
 
 document.querySelector("#profile-logout").addEventListener("click", function(e)
@@ -167,6 +174,12 @@ document.querySelector("#tournament-button").addEventListener("click", function(
 	tournament_open();
 });
 
+document.querySelector("#tournament-list-add").addEventListener("click", function(e)
+{
+	e.preventDefault();
+	add_item("tournament", null);
+});
+
 document.querySelector("#tournament-start").addEventListener("click", function(e)
 {
 	e.preventDefault();
@@ -192,25 +205,35 @@ document.getElementById('avatar').onchange = function ()
 	document.querySelector("#avatar-name").value = this.files[0].name;
 };
 
-function	add_item(value)
+function	add_item(prefix, value)
 {
+	let	array;
 	let	item;
 
+	if (prefix == "tournament")
+		array = tournament_array;
+	else
+		array = friends_array;
 	if (value == null)
-		item = document.querySelector("#list_item").value;
+		item = document.querySelector("#" + prefix + "-list-item").value;
 	else
 		item = value;
-	if (item == "")
+	if (prefix == "profile" && item == username)
 	{
-		banner_open("Cannot add user: empty input.", "#tournament-banner");
+		banner_open("Cannot add self to friends list.", "#profile-banner");
 		return ;
 	}
-	else if (tournament_array.indexOf(item) != -1)
+	else if (item == "")
 	{
-		banner_open("Cannot add user: already in list.", "#tournament-banner");
+		banner_open("Cannot add user: empty input.", "#" + prefix + "-banner");
 		return ;
 	}
-	banner_close("#tournament-banner");
+	else if (array.indexOf(item) != -1)
+	{
+		banner_open("Cannot add user: already in list.", "#" + prefix + "-banner");
+		return ;
+	}
+	banner_close("#" + prefix + "-banner");
 	const	div = document.createElement("div");
 	let	divContainer = `
 	<div class="d-flex">
@@ -224,12 +247,16 @@ function	add_item(value)
 	div.innerHTML = divContainer;
 	div.querySelector(".delete").addEventListener("click", (e) =>
 	{
-		tournament_array.splice(tournament_array.indexOf(e.currentTarget.closest("div").innerText), 1);
+		array.splice(array.indexOf(e.currentTarget.closest("div").innerText), 1);
 		e.currentTarget.closest("div").remove();
 	});
-	document.querySelector("#list").appendChild(div);
-	tournament_array.push(item);
-	document.querySelector("#list_item").value = "";
+	document.querySelector("#" + prefix + "-list").appendChild(div);
+	array.push(item);
+	document.querySelector("#" + prefix + "-list-item").value = "";
+	if (prefix == "tournament")
+		tournament_array = array;
+	else
+		friends_array = array;
 }
 
 function	banner_close(id)
@@ -316,10 +343,7 @@ function	prepare_next_match()
 			contestant1 = username;
 		else
 			contestant1 = "Guest";
-		if (g.isSinglePlayer == true)
-			contestant2 = "AI";
-		else
-			contestant2 = "Guest";
+		contestant2 = "Guest";
 		document.querySelector("#next-match").innerHTML = "";
 	}
 }
@@ -531,7 +555,7 @@ function	tournament_open()
 	document.querySelector("#list_item").value = "";
 	new bootstrap.Modal(document.querySelector("#tournament")).show();
 	if (username != null)
-		add_item(username);
+		add_item("tournament", username);
 }
 
 function	tournament_start()
