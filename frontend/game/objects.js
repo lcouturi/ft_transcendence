@@ -12,7 +12,7 @@ export function initStarField() {
         g.starPool = [];
     }
     const starGeometry = new THREE.SphereGeometry(g.startSize, 24, 24);
-    const starMaterial = new THREE.MeshBasicMaterial({ color: g.starColor.color });
+    const starMaterial = new THREE.MeshBasicMaterial({ color: g.starColor });
 
     for (let i = 0; i < g.numStars; i++) {
         const star = new THREE.Mesh(starGeometry, starMaterial);

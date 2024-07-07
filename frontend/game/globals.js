@@ -39,7 +39,7 @@ export const g = {
     numStars: 5000,
     starsSpeed: 0.2,
     startSize: 0.01,
-    starColor: { color: "#ffffff" },
+    starColor: 0xffffff,
 
     // Game State
     playerScore: 0,

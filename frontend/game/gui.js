@@ -53,7 +53,7 @@ export function initGUI() {
     gui.add(g, 'limitScore', 1, 9999).name('score limit').step(1).onChange(value => saveParameter('limitScore', value));
     gui.add(g, 'numStars', 0, 10000).name('number of stars').step(1).onChange(value => { initStarField(); saveParameter('numStars', value); });
     gui.add(g, 'starsSpeed', 0, 1).name('stars speed').onChange(value => saveParameter('starsSpeed', value));
-    gui.addColor(g.starColor, 'color').name('star color').onChange(value => { g.starPool.forEach(star => { star.material.color.set(value); }); saveParameter('starColor', value); });
+    gui.addColor(g, 'starColor').name('star color').onChange(value => { g.starPool.forEach(star => { star.material.color.set(value); }); saveParameter('starColor', value); });
     gui.addColor(g, 'borderColor').name('border color').onChange(value =>   { g.borderColor = value; updateNeonBorderColor(); saveParameter('borderColor', value);    });
     gui.add(g, 'startSize', 0, 0.1).name('star size').step(0.001).onChange(value => { initStarField(); saveParameter('startSize', value); });
     gui.add(g, 'ballSpeed', 0, 0.1).name('ball speed').step(0.001).onChange(value => saveParameter('ballSpeed', value));
@@ -87,7 +87,6 @@ export function loadSavedParameters() {
         const savedValue = g.localStorage.getItem(param);
         if (savedValue !== null) {
             if (param === 'starColor' || param === 'borderColor' || param === 'playerPaddleColor' || param === 'aiPaddleColor') {
-                // Color values need to be parsed as JSON
                 g[param] = JSON.parse(savedValue);
             } else if (param in g) {
                 g[param] = parseFloat(savedValue);
