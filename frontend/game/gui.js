@@ -5,42 +5,38 @@ import { initStarField, updateStars } from './objects.js';
 import { createNeonBorder } from './geometry.js';
 
 function updateGUIPosition() {
-    const container = document.getElementById('container');
-    const containerRect = container.getBoundingClientRect();
-    const gui = document.querySelector('.lil-gui'); // assuming lil-gui adds this class
+    const gui = document.querySelector('.lil-gui');
     if (gui) {
-        gui.style.top = `${containerRect.top}px`;
-        gui.style.left = `${containerRect.right}px`;
+        const gameContainer = document.getElementById('container');
+        const rect = gameContainer.getBoundingClientRect();
+        const padding = 10; // Adjust as needed
+        gui.style.top = `${rect.top + padding}px`;
+        gui.style.left = `${rect.right - gui.offsetWidth - padding}px`;
     }
 }
 
 window.addEventListener('resize', updateGUIPosition);
 
 export function initGUI() {
-    const gui = new GUI();
-    const container = document.getElementById('container');
-    const containerRect = container.getBoundingClientRect();
-    console.log('containerRect:', containerRect);
+    const gui = new GUI({autoPlace: false});
+    const gameContainer = document.getElementById('container');
+    document.body.appendChild(gui.domElement);
+    const rect = gameContainer.getBoundingClientRect();
+    const padding = 5;
 
-
-
-    // Set the position of the GUI to the right of the container element
     gui.domElement.style.position = 'absolute';
-    gui.domElement.style.top = `${containerRect.top}px`;
-    gui.domElement.style.left = `${containerRect.right}px`;
-    gui.domElement.style.zIndex = 100;
-
-    // Transparent black background
-    gui.domElement.style.backgroundColor = 'rgba(1, 1, 1, 1)';
+    gui.domElement.style.top = `${rect.top + padding}px`;
+    gui.domElement.style.left = `${rect.right - gui.domElement.offsetWidth - padding}px`;
+    gui.domElement.style.backgroundColor = 'rgba(0, 0, 0, 0)';
     gui.domElement.style.borderRadius = '10px';
     gui.domElement.style.padding = '10px';
     gui.domElement.style.color = 'white';
     gui.domElement.style.fontFamily = 'Arial, sans-serif';
     gui.domElement.style.fontSize = '12px';
+    gui.domElement.style.cursor = 'default';
+    g.renderer.setSize(gameContainer.clientWidth, gameContainer.clientHeight);
+    gameContainer.appendChild(g.renderer.domElement);
 
-
-    container.style.position = 'absolute';
-    container.appendChild(gui.domElement);
 
     const floorMaterialOptions = { floor: g.localStorage.getItem('floorMaterial') || 'asphalt' };
     gui.add(g, 'hemiIrradiance', Object.keys(hemiLuminousIrradiances)).name('irradiance');
@@ -59,17 +55,17 @@ export function initGUI() {
     gui.add(g, 'ballSpeed', 0, 0.1).name('ball speed').step(0.001).onChange(value => saveParameter('ballSpeed', value));
     gui.add(g, 'shadows').onChange(value => saveParameter('shadows', value));
     gui.add(floorMaterialOptions, 'floor', ['wood', 'ice', 'glass', 'asphalt', 'grass']).name('floor material').onChange(value => { changeFloorMaterial(value); saveParameter('floorMaterial', value); });
-    gui.add(g, 'orbitSpeed', 0, 0.1).name('orbit speed').step(0.001).onChange(value => saveParameter('orbitSpeed', value));
     gui.add(g, 'isOrbiting').name('enable orbiting').onChange(value => saveParameter('isOrbiting', value));
+    gui.add(g, 'orbitSpeed', 0, 0.1).name('orbit speed').step(0.001).onChange(value => saveParameter('orbitSpeed', value));
     gui.add(g, 'isSinglePlayer').name('enable AI').onChange(value => { toggleGameMode(value); saveParameter('isSinglePlayer', value); });
-    gui.add(g, 'bloomStrength', 0, 3).name('bloom Strength').step(0.1).onChange(value => { g.bloomPass.strength = value; saveParameter('bloomStrength', value);});
-    gui.add(g, 'bloomRadius', 0, 1).name('bloom Radius').step(0.1).onChange(value => { g.bloomPass.radius = value; saveParameter('bloomRadius', value); });
-    gui.add(g, 'bloomThreshold', 0, 1).name('bloom threshold').step(0.1).onChange(value => { g.bloomPass.threshold = value; saveParameter('bloomThreshold', value); });
-    gui.addColor(g, 'playerPaddleColor').name('player paddle color').onChange(value => { updatePaddleColor(); saveParameter('playerPaddleColor', value); });
-    gui.addColor(g, 'aiPaddleColor').name('AI paddle color').onChange(value => { updatePaddleColor(); saveParameter('aiPaddleColor', value); });
-    gui.add(g, 'emissiveIntensity').name('disable glass effect').onChange(value => { updatePaddleColor(); saveParameter('emissiveIntensity', value); }).listen();
+    // gui.add(g, 'bloomStrength', 0, 3).name('bloom Strength').step(0.1).onChange(value => { g.bloomPass.strength = value; saveParameter('bloomStrength', value);});
+    // gui.add(g, 'bloomRadius', 0, 1).name('bloom Radius').step(0.1).onChange(value => { g.bloomPass.radius = value; saveParameter('bloomRadius', value); });
+    // gui.add(g, 'bloomThreshold', 0, 1).name('bloom threshold').step(0.1).onChange(value => { g.bloomPass.threshold = value; saveParameter('bloomThreshold', value); });
+    gui.addColor(g, 'playerPaddleColor').name('user color').onChange(value => { updatePaddleColor(); saveParameter('playerPaddleColor', value); });
+    gui.addColor(g, 'aiPaddleColor').name('AI color').onChange(value => { updatePaddleColor(); saveParameter('aiPaddleColor', value); });
+    gui.add(g, 'emissiveIntensity').name('glass effect').onChange(value => { updatePaddleColor(); saveParameter('emissiveIntensity', value); }).listen();
     gui.add({ reset: () => { localStorage.clear(); location.reload(); } }, 'reset').name('Reset Parameters');
-    gui.open(); // Open the GUI by default
+    gui.close(); // Open the GUI by default
     return gui;
 }
 

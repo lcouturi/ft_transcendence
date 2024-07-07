@@ -15,7 +15,7 @@ export const g = {
     bulbLight: null,
     bulbMat: null,
     hemiLight: null,
-    bulbPower: Object.keys(bulbLuminousPowers)[6],
+    bulbPower: Object.keys(bulbLuminousPowers)[5],
     hemiIrradiance: Object.keys(hemiLuminousIrradiances)[0],
 
     // Visual Effects
@@ -24,7 +24,7 @@ export const g = {
     bloomRadius: 0,
     bloomThreshold: 0,
     shadows: true,
-    exposure: 3,
+    exposure: 2,
     emissiveIntensity: 1,
 
     // Game Environment
@@ -37,9 +37,9 @@ export const g = {
     // Star Field
     starPool: [],
     numStars: 5000,
-    starsSpeed: 0.2,
+    starsSpeed: 0.05,
     startSize: 0.01,
-    starColor: 0xffffff,
+    starColor: 0x0011ff,
 
     // Game State
     playerScore: 0,

@@ -28,9 +28,7 @@ init();
 animate();
 
 function init() {
-    console.log('Setting g.container');
     g.container = document.getElementById('container');    // Get the container element from the HTML document
-    console.log('g.container set to:', g.container);
     loadSavedParameters();
     initScene();                                           // Initialize the scene
     initCamera();                                          // Initialize the camera
