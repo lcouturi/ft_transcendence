@@ -4,8 +4,44 @@ import { g } from './globals.js';
 import { initStarField, updateStars } from './objects.js';
 import { createNeonBorder } from './geometry.js';
 
+function updateGUIPosition() {
+    const container = document.getElementById('container');
+    const containerRect = container.getBoundingClientRect();
+    const gui = document.querySelector('.lil-gui'); // assuming lil-gui adds this class
+    if (gui) {
+        gui.style.top = `${containerRect.top}px`;
+        gui.style.left = `${containerRect.right}px`;
+    }
+}
+
+window.addEventListener('resize', updateGUIPosition);
+
 export function initGUI() {
     const gui = new GUI();
+    const container = document.getElementById('container');
+    const containerRect = container.getBoundingClientRect();
+    console.log('containerRect:', containerRect);
+
+
+
+    // Set the position of the GUI to the right of the container element
+    gui.domElement.style.position = 'absolute';
+    gui.domElement.style.top = `${containerRect.top}px`;
+    gui.domElement.style.left = `${containerRect.right}px`;
+    gui.domElement.style.zIndex = 100;
+
+    // Transparent black background
+    gui.domElement.style.backgroundColor = 'rgba(1, 1, 1, 1)';
+    gui.domElement.style.borderRadius = '10px';
+    gui.domElement.style.padding = '10px';
+    gui.domElement.style.color = 'white';
+    gui.domElement.style.fontFamily = 'Arial, sans-serif';
+    gui.domElement.style.fontSize = '12px';
+
+
+    container.style.position = 'absolute';
+    container.appendChild(gui.domElement);
+
     const floorMaterialOptions = { floor: g.localStorage.getItem('floorMaterial') || 'asphalt' };
     gui.add(g, 'hemiIrradiance', Object.keys(hemiLuminousIrradiances)).name('irradiance');
     gui.add(g, 'bulbPower', Object.keys(bulbLuminousPowers)).name('bulb power');
