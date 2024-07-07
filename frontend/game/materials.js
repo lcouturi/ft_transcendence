@@ -151,8 +151,8 @@ function initAsphaltMaterials() {
 
 function initGrassMaterials() {
     const textureLoader = new THREE.TextureLoader();
-    let repeatX = 15;
-    let repeatY = 15;
+    let repeatX = 5;
+    let repeatY = 5;
     let anisotropyNum = 4;
     const colorTexture = textureLoader.load('frontend/game/textures/Grass004_2K-JPG/Grass004_2K-JPG_Color.jpg', function (map) {
         map.wrapS = THREE.RepeatWrapping;
@@ -204,7 +204,7 @@ function initGrassMaterials() {
     // Set Texture Repeat
     colorTexture.wrapS = THREE.RepeatWrapping;
     colorTexture.wrapT = THREE.RepeatWrapping;
-    colorTexture.repeat.set(2, 2);
+    colorTexture.repeat.set(repeatX, repeatY);
 
     return { floorMat };
 }

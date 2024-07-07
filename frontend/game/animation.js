@@ -89,24 +89,30 @@ export function movePlayerPaddle() {
 
 
 export function movePlayer2Paddle() {
-    const speed = 0.16;  // Adjust speed as needed
+    const delta = 0.016; // Time delta between frames (60 frames per second)
+    const paddleSpeed = g.Player2PaddleSpeed * delta;
 
-    // Move player 2 paddle based on player2PaddleDirection
-    g.aiPaddleMesh.position.z += player2PaddleDirection.z * speed;
-    g.aiPaddleMesh.position.x += player2PaddleDirection.x * speed;
+    // Calculate paddle velocity
+    const paddleVelocity = new THREE.Vector3(
+        (g.Player2PaddleMesh.position.x - g.Player2PrevPaddlePosition.x) / delta, 0, (g.Player2PaddleMesh.position.z - g.Player2PrevPaddlePosition.z) / delta );
 
-    // Limit paddle movement within boundaries (adjust as per your game's logic)
-    const paddleHalfSize = 10;  // Adjust based on paddle size
-    g.aiPaddleMesh.position.z = THREE.MathUtils.clamp(
-        g.aiPaddleMesh.position.z,
-        -paddleHalfSize,
-        paddleHalfSize
-    );
-    g.aiPaddleMesh.position.x = THREE.MathUtils.clamp(
-        g.aiPaddleMesh.position.x,
-        -paddleHalfSize,
-        paddleHalfSize
-    );
+    // Update previous paddle position
+    g.Player2PrevPaddlePosition.copy(g.Player2PaddleMesh.position);
+
+    g.Player2PaddleMesh.position.x += player2PaddleDirection.x * paddleSpeed;
+    g.Player2PaddleMesh.position.z += player2PaddleDirection.z * paddleSpeed;
+
+    // Create bounding boxes for the paddle and ball
+    const paddleBox = new THREE.Box3().setFromObject(g.Player2PaddleMesh);
+    const ballBox = new THREE.Box3().setFromObject(g.bulbLight);
+
+    // If the paddle intersects with the ball, prevent the paddle from moving further
+    if (paddleBox.intersectsBox(ballBox)) {
+        g.Player2PaddleMesh.position.x -= player2PaddleDirection.x * paddleSpeed * delta;
+        g.Player2PaddleMesh.position.z -= player2PaddleDirection.z * paddleSpeed * delta;
+    }
+
+    g.Player2PaddleVelocity = paddleVelocity; // Store paddle velocity for collision handling
 }
 
 export function movePlayer3Paddle() {
@@ -199,6 +205,7 @@ export function moveBall() {
     g.bulbLight.position.add(g.ballVelocity.clone().multiplyScalar(g.ballSpeed));
 }
 
+// Old version of handleCollisions
 // export function handleCollisions() {
 //     // Ball and paddle collision detection
 //     const ballBox = new THREE.Box3().setFromObject(g.bulbLight);        // Create a bounding box for the ball
@@ -230,18 +237,117 @@ export function moveBall() {
 //     }
 // }
 
-export function handleCollisions() {
-    const ballBox = new THREE.Box3().setFromObject(g.bulbLight);
-    const paddleBox = new THREE.Box3().setFromObject(g.paddleMesh);
-    const player3PaddleBox = new THREE.Box3().setFromObject(g.Player3PaddleMesh);
-    const player4PaddleBox = new THREE.Box3().setFromObject(g.Player4PaddleMesh);
-    const aiPaddleBox = new THREE.Box3().setFromObject(g.aiPaddleMesh);
 
+// Current working version of handleCollisions
+// export function handleCollisions() {
+//     const ballBox = new THREE.Box3().setFromObject(g.bulbLight);
+//     const paddleBox = new THREE.Box3().setFromObject(g.paddleMesh);
+//     const player3PaddleBox = new THREE.Box3().setFromObject(g.Player3PaddleMesh);
+//     const player4PaddleBox = new THREE.Box3().setFromObject(g.Player4PaddleMesh);
+//     const aiPaddleBox = new THREE.Box3().setFromObject(g.aiPaddleMesh);
+
+//     const increaseSpeed = (velocity, factor) => {
+//         velocity.multiplyScalar(factor);
+//         const maxSpeed = 10; // maximum speed limit
+//         if (velocity.length() > maxSpeed) {
+//             velocity.setLength(maxSpeed); // velocity to the maximum speed
+//         }
+//         return velocity;
+//     };
+
+//     const baseSpeedIncrease = 1.00; // Base speed increase factor for any paddle hit
+//     const sideSpeedIncrease = 1.00;  // Extra speed increase factor for side hits
+
+//     // Check collision with player 1 paddle
+//     if (ballBox.intersectsBox(paddleBox)) {
+//         const impactX = g.bulbLight.position.x - g.paddleMesh.position.x;
+
+//         // Adjust ball's velocity
+//         g.ballVelocity.z = -Math.abs(g.ballVelocity.z); // Always move away from the paddle
+//         g.ballVelocity.x += impactX * 0.2; // Adjust x velocity based on impact point
+
+//         // Incorporate paddle's velocity into ball's redirection
+//         g.ballVelocity.add(g.paddleVelocity.clone().multiplyScalar(1.5));
+
+//         // Increase ball speed
+//         if (Math.abs(impactX) > 1) {
+//             g.ballVelocity = increaseSpeed(g.ballVelocity, sideSpeedIncrease);
+//         } else {
+//             g.ballVelocity = increaseSpeed(g.ballVelocity, baseSpeedIncrease);
+//         }
+//     }
+
+//     // Check collision with player 3 paddle
+//     if (ballBox.intersectsBox(player3PaddleBox)) {
+//         const impactX = g.bulbLight.position.x - g.Player3PaddleMesh.position.x;
+//         const impactZ = g.bulbLight.position.z - g.Player3PaddleMesh.position.z;
+
+//         // Adjust ball's velocity
+//         g.ballVelocity.z = -Math.abs(g.ballVelocity.z); // Always move away from the paddle
+//         g.ballVelocity.x += impactX * 0.2; // Adjust x velocity based on impact point
+
+//         // Incorporate paddle's velocity into ball's redirection
+//         g.ballVelocity.add(g.Player3PaddleVelocity.clone().multiplyScalar(1.5));
+
+//         // Increase ball speed
+//         if (Math.abs(impactX) > 1) {
+//             g.ballVelocity = increaseSpeed(g.ballVelocity, sideSpeedIncrease);
+//         } else {
+//             g.ballVelocity = increaseSpeed(g.ballVelocity, baseSpeedIncrease);
+//         }
+//     }
+
+//     // Check collision with player 4 paddle
+//     if (ballBox.intersectsBox(player4PaddleBox)) {
+//         const impactX = g.bulbLight.position.x - g.Player4PaddleMesh.position.x;
+
+//         // Adjust ball's velocity
+//         g.ballVelocity.z = Math.abs(g.ballVelocity.z); // Always move away from the paddle
+//         g.ballVelocity.x += impactX * 0.2; // Adjust x velocity based on impact point
+
+//         // Incorporate paddle's velocity into ball's redirection
+//         g.ballVelocity.add(g.Player4PaddleVelocity.clone().multiplyScalar(1.5));
+
+//         // Increase ball speed
+//         if (Math.abs(impactX) > 1) {
+//             g.ballVelocity = increaseSpeed(g.ballVelocity, sideSpeedIncrease);
+//         } else {
+//             g.ballVelocity = increaseSpeed(g.ballVelocity, baseSpeedIncrease);
+//         }
+//     }
+
+//     // Check collision with AI paddle
+//     if (ballBox.intersectsBox(aiPaddleBox)) {
+//         const impactX = g.bulbLight.position.x - g.aiPaddleMesh.position.x;
+
+//         // Adjust ball's velocity
+//         g.ballVelocity.z = Math.abs(g.ballVelocity.z); // Always move away from the paddle
+//         g.ballVelocity.x += impactX * 0.2; // Adjust x velocity based on impact point
+
+//         // Incorporate AI paddle's velocity into ball's redirection
+//         g.ballVelocity.add(g.aiPaddleVelocity.clone().multiplyScalar(0.5));
+
+//         // Increase ball speed
+//         if (Math.abs(impactX) > 0.1) {
+//             g.ballVelocity = increaseSpeed(g.ballVelocity, sideSpeedIncrease);
+//         } else {
+//             g.ballVelocity = increaseSpeed(g.ballVelocity, baseSpeedIncrease);
+//         }
+//     }
+
+//     // Check collision with left and right walls
+//     if (g.bulbLight.position.x < -g.wallBoundary || g.bulbLight.position.x > g.wallBoundary) {
+//         g.ballVelocity.x = -g.ballVelocity.x; // Reverse x velocity
+//     }
+// }
+
+function handlePaddleCollision(ballBox, paddleMesh, paddleVelocity, direction = 1) {
+    const paddleBox = new THREE.Box3().setFromObject(paddleMesh);
     const increaseSpeed = (velocity, factor) => {
         velocity.multiplyScalar(factor);
-        const maxSpeed = 10; // maximum speed limit
+        const maxSpeed = 10; // Maximum speed limit
         if (velocity.length() > maxSpeed) {
-            velocity.setLength(maxSpeed); // velocity to the maximum speed
+            velocity.setLength(maxSpeed);
         }
         return velocity;
     };
@@ -249,16 +355,16 @@ export function handleCollisions() {
     const baseSpeedIncrease = 1.00; // Base speed increase factor for any paddle hit
     const sideSpeedIncrease = 1.00;  // Extra speed increase factor for side hits
 
-    // Check collision with player 1 paddle
     if (ballBox.intersectsBox(paddleBox)) {
-        const impactX = g.bulbLight.position.x - g.paddleMesh.position.x;
+        const impactX = g.bulbLight.position.x - paddleMesh.position.x;
+        const impactZ = g.bulbLight.position.z - paddleMesh.position.z;
 
         // Adjust ball's velocity
-        g.ballVelocity.z = -Math.abs(g.ballVelocity.z); // Always move away from the paddle
+        g.ballVelocity.z = direction * Math.abs(g.ballVelocity.z); // Always move away from the paddle
         g.ballVelocity.x += impactX * 0.2; // Adjust x velocity based on impact point
 
         // Incorporate paddle's velocity into ball's redirection
-        g.ballVelocity.add(g.paddleVelocity.clone().multiplyScalar(1.5));
+        g.ballVelocity.add(paddleVelocity.clone().multiplyScalar(1.5));
 
         // Increase ball speed
         if (Math.abs(impactX) > 1) {
@@ -267,69 +373,28 @@ export function handleCollisions() {
             g.ballVelocity = increaseSpeed(g.ballVelocity, baseSpeedIncrease);
         }
     }
+}
 
-    // Check collision with player 3 paddle
-    if (ballBox.intersectsBox(player3PaddleBox)) {
-        const impactX = g.bulbLight.position.x - g.Player3PaddleMesh.position.x;
-        const impactZ = g.bulbLight.position.z - g.Player3PaddleMesh.position.z;
-
-        // Adjust ball's velocity
-        g.ballVelocity.z = -Math.abs(g.ballVelocity.z); // Always move away from the paddle
-        g.ballVelocity.x += impactX * 0.2; // Adjust x velocity based on impact point
-
-        // Incorporate paddle's velocity into ball's redirection
-        g.ballVelocity.add(g.Player3PaddleVelocity.clone().multiplyScalar(1.5));
-
-        // Increase ball speed
-        if (Math.abs(impactX) > 1) {
-            g.ballVelocity = increaseSpeed(g.ballVelocity, sideSpeedIncrease);
-        } else {
-            g.ballVelocity = increaseSpeed(g.ballVelocity, baseSpeedIncrease);
-        }
-    }
-
-    // Check collision with player 4 paddle
-    if (ballBox.intersectsBox(player4PaddleBox)) {
-        const impactX = g.bulbLight.position.x - g.Player4PaddleMesh.position.x;
-
-        // Adjust ball's velocity
-        g.ballVelocity.z = Math.abs(g.ballVelocity.z); // Always move away from the paddle
-        g.ballVelocity.x += impactX * 0.2; // Adjust x velocity based on impact point
-
-        // Incorporate paddle's velocity into ball's redirection
-        g.ballVelocity.add(g.Player4PaddleVelocity.clone().multiplyScalar(1.5));
-
-        // Increase ball speed
-        if (Math.abs(impactX) > 1) {
-            g.ballVelocity = increaseSpeed(g.ballVelocity, sideSpeedIncrease);
-        } else {
-            g.ballVelocity = increaseSpeed(g.ballVelocity, baseSpeedIncrease);
-        }
-    }
-
-    // Check collision with AI paddle
-    if (ballBox.intersectsBox(aiPaddleBox)) {
-        const impactX = g.bulbLight.position.x - g.aiPaddleMesh.position.x;
-
-        // Adjust ball's velocity
-        g.ballVelocity.z = Math.abs(g.ballVelocity.z); // Always move away from the paddle
-        g.ballVelocity.x += impactX * 0.2; // Adjust x velocity based on impact point
-
-        // Incorporate AI paddle's velocity into ball's redirection
-        g.ballVelocity.add(g.aiPaddleVelocity.clone().multiplyScalar(0.5));
-
-        // Increase ball speed
-        if (Math.abs(impactX) > 0.1) {
-            g.ballVelocity = increaseSpeed(g.ballVelocity, sideSpeedIncrease);
-        } else {
-            g.ballVelocity = increaseSpeed(g.ballVelocity, baseSpeedIncrease);
-        }
-    }
-
-    // Check collision with left and right walls
+function handleWallCollision() {
     if (g.bulbLight.position.x < -g.wallBoundary || g.bulbLight.position.x > g.wallBoundary) {
         g.ballVelocity.x = -g.ballVelocity.x; // Reverse x velocity
     }
+}
+
+
+// New version of handleCollisions
+export function handleCollisions() {
+    const ballBox = new THREE.Box3().setFromObject(g.bulbLight);
+
+    handlePaddleCollision(ballBox, g.paddleMesh, g.paddleVelocity, -1); // Player 1
+    if (!g.isSinglePlayer) {
+        handlePaddleCollision(ballBox, g.Player2PaddleMesh, g.Player2PaddleVelocity, 1); // PLayer 2
+        handlePaddleCollision(ballBox, g.Player3PaddleMesh, g.Player3PaddleVelocity, -1); // Player 3
+        handlePaddleCollision(ballBox, g.Player4PaddleMesh, g.Player4PaddleVelocity, 1);  // Player 4
+    } else {
+        handlePaddleCollision(ballBox, g.Player2PaddleMesh, g.Player2PaddleVelocity, 1); // PLayer 2
+    }
+    handleWallCollision();
 }
 
 
@@ -417,50 +482,31 @@ export function updateScoreDisplay() {
 	update_score();
 }
 
-export function checkBounds() {
-    if (g.paddleMesh.position.x < -g.paddleBoundary) {
-        g.paddleMesh.position.x = -g.paddleBoundary; // Reset paddle position
-    } else if (g.paddleMesh.position.x > g.paddleBoundary) {
-        g.paddleMesh.position.x = g.paddleBoundary; // Reset paddle position
+function checkPaddleBounds(paddleMesh, paddleBoundary) {
+    if (paddleMesh.position.x < -paddleBoundary) {
+        paddleMesh.position.x = -paddleBoundary; // Reset paddle position
+    } else if (paddleMesh.position.x > paddleBoundary) {
+        paddleMesh.position.x = paddleBoundary; // Reset paddle position
     }
 
-    if (g.paddleMesh.position.z < -g.paddleBoundary) {
-        g.paddleMesh.position.z = -g.paddleBoundary; // Reset paddle position
-    } else if (g.paddleMesh.position.z > g.paddleBoundary) {
-        g.paddleMesh.position.z = g.paddleBoundary; // Reset paddle position
+    if (paddleMesh.position.z < -paddleBoundary) {
+        paddleMesh.position.z = -paddleBoundary; // Reset paddle position
+    } else if (paddleMesh.position.z > paddleBoundary) {
+        paddleMesh.position.z = paddleBoundary; // Reset paddle position
     }
-
-    if (g.Player3PaddleMesh.position.x < -g.Player3PaddleBoundary) {
-        g.Player3PaddleMesh.position.x = -g.Player3PaddleBoundary; // Reset paddle position
-    } else if (g.Player3PaddleMesh.position.x > g.Player3PaddleBoundary) {
-        g.Player3PaddleMesh.position.x = g.Player3PaddleBoundary; // Reset paddle position
-    }
-
-    if (g.Player3PaddleMesh.position.z < -g.Player3PaddleBoundary) {
-        g.Player3PaddleMesh.position.z = -g.Player3PaddleBoundary; // Reset paddle position
-    } else if (g.Player3PaddleMesh.position.z > g.Player3PaddleBoundary) {
-        g.Player3PaddleMesh.position.z = g.Player3PaddleBoundary; // Reset paddle position
-    }
-
-    if (g.Player4PaddleMesh.position.x < -g.Player4PaddleBoundary) {
-        g.Player4PaddleMesh.position.x = -g.Player4PaddleBoundary; // Reset paddle position
-    } else if (g.Player4PaddleMesh.position.x > g.Player4PaddleBoundary) {
-        g.Player4PaddleMesh.position.x = g.Player4PaddleBoundary; // Reset paddle position
-    }
-
-    if (g.Player4PaddleMesh.position.z < -g.Player4PaddleBoundary) {
-        g.Player4PaddleMesh.position.z = -g.Player4PaddleBoundary; // Reset paddle position
-    } else if (g.Player4PaddleMesh.position.z > g.Player4PaddleBoundary) {
-        g.Player4PaddleMesh.position.z = g.Player4PaddleBoundary; // Reset paddle position
-    }
-
-    if (g.aiPaddleMesh.position.x < -g.paddleBoundary) {
-        g.aiPaddleMesh.position.x = -g.paddleBoundary; // Reset paddle position
-    } else if (g.aiPaddleMesh.position.x > g.paddleBoundary) {
-        g.aiPaddleMesh.position.x = g.paddleBoundary; // Reset paddle position
-    }
-
 }
+
+export function checkBounds() {
+    checkPaddleBounds(g.paddleMesh, g.paddleBoundary); // Player 1
+
+    if (!g.isSinglePlayer) {
+        checkPaddleBounds(g.Player3PaddleMesh, g.Player3PaddleBoundary); // Player 3
+        checkPaddleBounds(g.Player4PaddleMesh, g.Player4PaddleBoundary); // Player 4
+    } else {
+        checkPaddleBounds(g.Player2PaddleMesh, g.paddleBoundary); // AI
+    }
+}
+
 
 export function orbitalRotation() {
     if (g.isOrbiting) {

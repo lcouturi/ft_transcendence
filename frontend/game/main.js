@@ -1,10 +1,9 @@
-import * as THREE from 'three';
 import { initMaterials } from './materials.js';
 import { initGeometry } from './geometry.js';
 import { initRenderer } from './renderer.js';
 import { initGUI, loadSavedParameters} from './gui.js';
 import { initScene, initCamera, initLights, initStats, onWindowResize } from './initialize.js';
-import { initControls, player2PaddleDirection } from './events.js';
+import { initControls } from './events.js';
 import { initStarField, updateStars } from './objects.js';
 import { initEffectComposer } from './composer.js';
 import { g } from './globals.js';
@@ -53,7 +52,8 @@ function animate() {
         movePlayer3Paddle();
         movePlayer4Paddle();
     } else {
-        moveAIPaddle();
+        movePlayer2Paddle();
+        // moveAIPaddle();
     }
     moveBall();
     handleCollisions();
@@ -61,9 +61,9 @@ function animate() {
     checkBounds();
     orbitalRotation();
     g.renderer.render(g.scene, g.camera);
-    // g.composer.render(); // Uncomment this line to enable post-processing effects
     updateStars();
     g.stats.update();
+    // g.composer.render(); // Uncomment this line to enable post-processing effects
 }
 
 /*

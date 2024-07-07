@@ -68,76 +68,92 @@ function createFloorMesh(floorMat) {
     return floorMesh;
 }
 
-function initializePaddles() {
-    const playerPaddleMaterial = new THREE.MeshPhysicalMaterial({
-        color: new THREE.Color(g.playerPaddleColor),  // Default green color
+function createPaddleMaterial(color) {
+    return new THREE.MeshPhysicalMaterial({
+        color: new THREE.Color(color),
         roughness: 0,
-        transmission: 1,  // Full transparency
-        thickness: 1.5,   // Adjust thickness as needed
-        clearcoat: 1,     // Add a clear coat to simulate reflection
+        transmission: 1,
+        thickness: 1.5,
+        clearcoat: 1,
         clearcoatRoughness: 0.1,
         opacity: 0.9,
         transparent: true,
-        emissive: new THREE.Color(g.playerPaddleColor),
+        emissive: new THREE.Color(color),
         emissiveIntensity: g.emissiveIntensity,
     });
-
-    const player3PaddleMaterial = new THREE.MeshPhysicalMaterial({
-        color: new THREE.Color(g.Player3PaddleColor),  // Default green color
-        roughness: 0,
-        transmission: 1,  // Full transparency
-        thickness: 1.5,   // Adjust thickness as needed
-        clearcoat: 1,     // Add a clear coat to simulate reflection
-        clearcoatRoughness: 0.1,
-        opacity: 0.9,
-        transparent: true,
-        emissive: new THREE.Color(g.Player3PaddleColor),
-        emissiveIntensity: g.emissiveIntensity,
-    });
-
-    const player4PaddleMaterial = new THREE.MeshPhysicalMaterial({
-        color: new THREE.Color(g.Player4PaddleColor),  // Default green color
-        roughness: 0,
-        transmission: 1,  // Full transparency
-        thickness: 1.5,   // Adjust thickness as needed
-        clearcoat: 1,     // Add a clear coat to simulate reflection
-        clearcoatRoughness: 0.1,
-        opacity: 0.9,
-        transparent: true,
-        emissive: new THREE.Color(g.Player4PaddleColor),
-        emissiveIntensity: g.emissiveIntensity,
-    });
-
-    const aiPaddleMaterial = new THREE.MeshPhysicalMaterial({
-        color: new THREE.Color(g.aiPaddleColor),  // Default red color
-        roughness: 0,
-        transmission: 1,  // Full transparency
-        thickness: 1.5,   // Adjust thickness as needed
-        clearcoat: 1,     // Add a clear coat to simulate reflection
-        clearcoatRoughness: 0.1,
-        opacity: 0.5,
-        transparent: true,
-        emissive: new THREE.Color(g.aiPaddleColor),
-        emissiveIntensity: g.emissiveIntensity,
-    });
-
-    const paddleMesh = createPaddleMesh(playerPaddleMaterial, 8);
-    g.paddleMesh = paddleMesh;
-    // g.player2PaddleMesh = paddleMesh.clone(); // I don't think this is necessary
-    g.scene.add(paddleMesh);
-
-    const Player3PaddleMesh = createPaddleMesh(player3PaddleMaterial, 8);
-    g.Player3PaddleMesh = Player3PaddleMesh;
-    g.scene.add(Player3PaddleMesh);
-
-    const Player4PaddleMesh = createPaddleMesh(player4PaddleMaterial, -8);
-    g.Player4PaddleMesh = Player4PaddleMesh;
-    g.scene.add(Player4PaddleMesh);
-
-    const aiPaddleMesh = createPaddleMesh(aiPaddleMaterial, -8);
-    g.aiPaddleMesh = aiPaddleMesh;
-    g.scene.add(aiPaddleMesh);
 }
+
+export function initializePaddles() {
+    // Player 1 paddle
+    if (!g.paddleMesh) {
+        g.paddleMesh = createPaddleMesh(createPaddleMaterial(g.playerPaddleColor), 8);
+        g.scene.add(g.paddleMesh);
+    }
+
+    if (g.isSinglePlayer) {
+        if (!g.Player2PaddleMesh) {
+            g.Player2PaddleMesh = createPaddleMesh(createPaddleMaterial(g.Player2PaddleColor), -8);
+            g.scene.add(g.Player2PaddleMesh);
+        }
+        removePaddles(); // Remove player 3 and player 4 paddles if they exist
+    } else {
+        if (!g.Player2PaddleMesh) {
+            g.Player2PaddleMesh = createPaddleMesh(createPaddleMaterial(g.Player2PaddleColor), -8);
+            g.scene.add(g.Player2PaddleMesh);
+        }
+        // Player 3 paddle
+        if (!g.Player3PaddleMesh) {
+            g.Player3PaddleMesh = createPaddleMesh(createPaddleMaterial(g.Player3PaddleColor), 8);
+            g.scene.add(g.Player3PaddleMesh);
+        }
+
+        // Player 4 paddle
+        if (!g.Player4PaddleMesh) {
+            g.Player4PaddleMesh = createPaddleMesh(createPaddleMaterial(g.Player4PaddleColor), -8);
+            g.scene.add(g.Player4PaddleMesh);
+        }
+    }
+
+    // // AI paddle
+    // if (!g.aiPaddleMesh) {
+    //     const aiPaddleMaterial = createPaddleMaterial(g.aiPaddleColor);
+    //     aiPaddleMaterial.opacity = 0.5; // Specific property for AI paddle
+
+    //     g.aiPaddleMesh = createPaddleMesh(aiPaddleMaterial, -8);
+    //     g.scene.add(g.aiPaddleMesh);
+    // }
+}
+
+export function removeAIPaddle() {
+    if (g.aiPaddleMesh) {
+        g.scene.remove(g.aiPaddleMesh);
+        g.aiPaddleMesh = null;
+    }
+}
+
+
+export function removePaddles() {
+    if (g.Player3PaddleMesh) {
+        g.scene.remove(g.Player3PaddleMesh);
+        g.Player3PaddleMesh = null;
+    }
+    if (g.Player4PaddleMesh) {
+        g.scene.remove(g.Player4PaddleMesh);
+        g.Player4PaddleMesh = null;
+    }
+}
+
+export function addPaddles() {
+    if (!g.Player3PaddleMesh) {
+        g.Player3PaddleMesh = createPaddleMesh(createPaddleMaterial(g.Player3PaddleColor), 8);
+        g.scene.add(g.Player3PaddleMesh);
+    }
+    if (!g.Player4PaddleMesh) {
+        g.Player4PaddleMesh = createPaddleMesh(createPaddleMaterial(g.Player4PaddleColor), -8);
+        g.scene.add(g.Player4PaddleMesh);
+    }
+}
+
 
 function createPaddleMesh(material, zPosition) {
     const paddleWidth = 1.5;

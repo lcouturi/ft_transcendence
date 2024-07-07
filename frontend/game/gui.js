@@ -2,7 +2,7 @@ import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
 import { bulbLuminousPowers, hemiLuminousIrradiances } from './utils.js';
 import { g } from './globals.js';
 import { initStarField, updateStars } from './objects.js';
-import { createNeonBorder } from './geometry.js';
+import { createNeonBorder, removePaddles, addPaddles, removeAIPaddle, initializePaddles } from './geometry.js';
 
 function updateGUIPosition() {
     const gui = document.querySelector('.lil-gui');
@@ -30,10 +30,11 @@ export function initGUI() {
     gui.domElement.style.backgroundColor = 'rgba(0, 0, 0, 0)';
     gui.domElement.style.borderRadius = '10px';
     gui.domElement.style.padding = '10px';
-    gui.domElement.style.color = 'white';
-    gui.domElement.style.fontFamily = 'Arial, sans-serif';
+    gui.domElement.style.color = 'grey';
+    gui.domElement.style.fontFamily = 'Arial';
     gui.domElement.style.fontSize = '12px';
-    gui.domElement.style.cursor = 'default';
+
+    // Add the GUI to the game container
     g.renderer.setSize(gameContainer.clientWidth, gameContainer.clientHeight);
     gameContainer.appendChild(g.renderer.domElement);
 
@@ -42,8 +43,8 @@ export function initGUI() {
     gui.add(g, 'hemiIrradiance', Object.keys(hemiLuminousIrradiances)).name('irradiance');
     gui.add(g, 'bulbPower', Object.keys(bulbLuminousPowers)).name('bulb power');
     gui.add(g, 'exposure', 0, 3);
-    gui.add(g, 'paddleSpeed', 0, 20).name('user paddle speed').step(1).onChange(value => saveParameter('paddleSpeed', value));
-    gui.add(g, 'aiPaddleSpeed', 0, 20).name('AI paddle speed').step(1).onChange(value => saveParameter('aiPaddleSpeed', value));
+    gui.add(g, 'paddleSpeed', 0, 20).name('user speed').step(1).onChange(value => saveParameter('paddleSpeed', value));
+    gui.add(g, 'aiPaddleSpeed', 0, 20).name('AI speed').step(1).onChange(value => saveParameter('aiPaddleSpeed', value));
     gui.add(g, 'tolerance', 0, 1).name('tolerance').onChange(value => saveParameter('tolerance', value));
     gui.add(g, 'easingFactor', 0, 1).name('easing factor').onChange(value => saveParameter('easingFactor', value));
     gui.add(g, 'limitScore', 1, 9999).name('score limit').step(1).onChange(value => saveParameter('limitScore', value));
@@ -57,7 +58,7 @@ export function initGUI() {
     gui.add(floorMaterialOptions, 'floor', ['wood', 'ice', 'glass', 'asphalt', 'grass']).name('floor material').onChange(value => { changeFloorMaterial(value); saveParameter('floorMaterial', value); });
     gui.add(g, 'isOrbiting').name('enable orbiting').onChange(value => saveParameter('isOrbiting', value));
     gui.add(g, 'orbitSpeed', 0, 0.1).name('orbit speed').step(0.001).onChange(value => saveParameter('orbitSpeed', value));
-    gui.add(g, 'isSinglePlayer').name('enable AI').onChange(value => { toggleGameMode(value); saveParameter('isSinglePlayer', value); });
+    gui.add(g, 'isSinglePlayer').name('enable 2 player').onChange(value => { toggleGameMode(value); saveParameter('isSinglePlayer', value); });
     // gui.add(g, 'bloomStrength', 0, 3).name('bloom Strength').step(0.1).onChange(value => { g.bloomPass.strength = value; saveParameter('bloomStrength', value);});
     // gui.add(g, 'bloomRadius', 0, 1).name('bloom Radius').step(0.1).onChange(value => { g.bloomPass.radius = value; saveParameter('bloomRadius', value); });
     // gui.add(g, 'bloomThreshold', 0, 1).name('bloom threshold').step(0.1).onChange(value => { g.bloomPass.threshold = value; saveParameter('bloomThreshold', value); });
@@ -65,7 +66,7 @@ export function initGUI() {
     gui.addColor(g, 'aiPaddleColor').name('AI color').onChange(value => { updatePaddleColor(); saveParameter('aiPaddleColor', value); });
     gui.add(g, 'emissiveIntensity').name('glass effect').onChange(value => { updatePaddleColor(); saveParameter('emissiveIntensity', value); }).listen();
     gui.add({ reset: () => { localStorage.clear(); location.reload(); } }, 'reset').name('Reset Parameters');
-    gui.close(); // Open the GUI by default
+    gui.open(); // Open the GUI by default
     return gui;
 }
 
@@ -124,7 +125,16 @@ function changeFloorMaterial(materialName) {
 
 function toggleGameMode(isSinglePlayer) {
     g.isSinglePlayer = isSinglePlayer;
+
+    if (isSinglePlayer) {
+        removePaddles();
+        initializePaddles(); // This will initialize only AI paddle and Player 1 paddle
+    } else {
+        // removeAIPaddle();
+        initializePaddles(); // This will initialize player 3 and player 4 paddles
+    }
 }
+
 
 export function saveParameter(name, value) {
     localStorage.setItem(name, value);

@@ -40,6 +40,7 @@ export function initStats() {
     g.stats = new Stats();                   // Create a new Stats object
     g.stats.showPanel(0);                    // Show the first panel (frames per second)
     document.body.appendChild(g.stats.dom);  // Add the stats to the document body
+
 }
 
 
