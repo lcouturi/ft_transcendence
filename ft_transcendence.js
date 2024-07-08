@@ -12,8 +12,8 @@ import
 from './frontend/game/globals.js';
 
 let	in_tournament = false;
-let	contestant1;
-let	contestant2;
+let	contestant1 = "Guest";
+let	contestant2 = "Guest";
 let	friends_array = [];
 let	losses = 0;
 let	paused = false;
@@ -21,6 +21,11 @@ let	tournament_array = [];
 let	username = null;
 let	winners = [];
 let	wins = 0;
+
+window.onload = function()
+{
+	start_match();
+};
 
 document.querySelector("#about").addEventListener("hidden.bs.modal", function(e)
 {
@@ -392,13 +397,15 @@ function	profile_log_add(winner, loser, tournament)
 				string += g.aiScore + "-" + g.playerScore + " against";
 			string2 = winner;
 		}
+		if (g.isSinglePlayer == false)
+			string2 += " Team";
 		div.innerHTML = `
 		<div class="d-flex m-1">
 			<div class="my-auto pe-none text-nowrap">
 				${string}
 			</div>
 			<img class="ms-1 my-auto rounded-circle" height="22" src="img/22/im-user.svg">
-			<div class="me-auto my-auto pe-none">
+			<div class="me-auto my-auto pe-none text-nowrap">
 				${string2}
 			</div>
 		</div>`;
@@ -489,11 +496,6 @@ export function	result(value)
 	let	loser;
 	let	winner;
 
-	if (in_tournament == false)
-	{
-		contestant1 = document.querySelector("#contestant1").innerText;
-		contestant2 = document.querySelector("#contestant2").innerText;
-	}
 	if (value == 1)
 	{
 		winner = contestant1;
@@ -516,14 +518,22 @@ export function	result(value)
 		profile_update(-1);
 		profile_log_add(winner, loser, false);
 	}
+	document.querySelector("#result").innerHTML = winner;
+	if (g.isSinglePlayer == false)
+		document.querySelector("#result").innerHTML += " Team";
 	if (in_tournament == true && tournament_array.length == 0 && winners.length == 1)
 	{
 		in_tournament = false;
 		profile_log_add(null, null, true);
-		document.querySelector("#result").innerHTML = winner + " won the tournament!";
+		document.querySelector("#result").innerHTML +=  " won the tournament!";
 	}
 	else
-		document.querySelector("#result").innerHTML = winner + " won the match against " + loser + "!";
+	{
+		document.querySelector("#result").innerHTML += " won the match against " + loser;
+		if (g.isSinglePlayer == false)
+			document.querySelector("#result").innerHTML += " Team";
+		document.querySelector("#result").innerHTML += "!";
+	}
 	prepare_next_match();
 	new bootstrap.Modal(document.querySelector("#results")).show();
 }
@@ -537,7 +547,7 @@ function	sanitize(string)
 	return (string.replace(/=/g, "&#x3D;"));
 }
 
-function	start_match()
+export function	start_match()
 {
 	g.aiScore = 0;
 	g.playerScore = 0;
@@ -554,11 +564,15 @@ function	start_match()
 	g.ballVelocity.set(0, 0, 5);
 	update_score();
 	document.querySelector("#contestant1").innerHTML = contestant1;
+	if (g.isSinglePlayer == false)
+		document.querySelector("#contestant1").innerHTML += " Team";
 	if (contestant1 == username)
 		document.querySelector("#contestant1-avatar").src = document.querySelector("#profile-avatar").src;
 	else
 		document.querySelector("#contestant1-avatar").src = "img/22/im-user.svg";
 	document.querySelector("#contestant2").innerHTML = contestant2;
+	if (g.isSinglePlayer == false)
+		document.querySelector("#contestant2").innerHTML += " Team";
 	if (contestant2 == username)
 		document.querySelector("#contestant2-avatar").src = document.querySelector("#profile-avatar").src;
 	else

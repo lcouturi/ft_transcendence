@@ -46,7 +46,7 @@ export const g = {
     aiScore: 0,
     playerScoreText: null,
     aiScoreText: null,
-    limitScore: 9999,
+    limitScore: 10,
     isSinglePlayer: true,
     isMultiplayer: false,
 

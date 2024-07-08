@@ -3,6 +3,7 @@ import { bulbLuminousPowers, hemiLuminousIrradiances } from './utils.js';
 import { g } from './globals.js';
 import { initStarField, updateStars } from './objects.js';
 import { createNeonBorder, removePaddles, addPaddles, removeAIPaddle, initializePaddles } from './geometry.js';
+import { start_match } from '../../ft_transcendence.js'
 
 function updateGUIPosition() {
     const gui = document.querySelector('.lil-gui');
@@ -154,6 +155,7 @@ function toggleGameMode(isSinglePlayer) {
         // removeAIPaddle();
         initializePaddles(); // This will initialize player 3 and player 4 paddles
     }
+    start_match();
 }
 
 
