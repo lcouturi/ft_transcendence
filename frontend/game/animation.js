@@ -500,10 +500,11 @@ export function checkBounds() {
     checkPaddleBounds(g.paddleMesh, g.paddleBoundary); // Player 1
 
     if (!g.isSinglePlayer) {
+        checkPaddleBounds(g.Player2PaddleMesh, g.Player2PaddleBoundary); // Player 2
         checkPaddleBounds(g.Player3PaddleMesh, g.Player3PaddleBoundary); // Player 3
         checkPaddleBounds(g.Player4PaddleMesh, g.Player4PaddleBoundary); // Player 4
     } else {
-        checkPaddleBounds(g.Player2PaddleMesh, g.paddleBoundary); // AI
+        checkPaddleBounds(g.Player2PaddleMesh, g.Player2PaddleBoundary); // Player 2
     }
 }
 
