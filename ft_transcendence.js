@@ -208,6 +208,10 @@ document.getElementById('avatar').onchange = function ()
 	{
 		document.querySelector("#profile-avatar").src = e.target.result;
 		document.querySelector("#profile-avatar-mini").src = e.target.result;
+		if (contestant1 == username)
+			document.querySelector("#contestant1-avatar").src = e.target.result;;
+		if (contestant2 == username)
+			document.querySelector("#contestant2-avatar").src = e.target.result;;
 	};
 	reader.readAsDataURL(this.files[0]);
 	document.querySelector("#avatar-name").value = this.files[0].name;

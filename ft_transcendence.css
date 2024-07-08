@@ -313,6 +313,11 @@ progress, ::-webkit-progress-bar
 	box-shadow: inset 0 0 0 1px #b5b8b8;
 }
 
+#profile-avatar-container:hover label
+{
+	display: flex !important;
+}
+
 table
 {
   border-collapse: collapse;
