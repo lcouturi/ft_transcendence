@@ -363,54 +363,61 @@ function	prepare_next_match()
 function	profile_log_add(winner, loser, tournament)
 {
 	const	date = new Date();
-	const	div = document.createElement("div");
-	let		string = date.getFullYear() + "-" + String(date.getMonth()).padStart(2, '0') + "-" + String(date.getDate()).padStart(2, '0') + " " + String(date.getHours()).padStart(2, '0') + ":" + String(date.getMinutes()).padStart(2, '0') + ": ";
-	let		string2;
+	const	tr = document.createElement("tr");
+	let		opponent = "";
+	let		result;
+	let		score = "";
+	let		type;
 
 	if (tournament == true)
 	{
-		string += "Won a tournament!"
-		div.innerHTML = `
-		<div class="d-flex m-1">
-			<div class="my-auto pe-none text-nowrap">
-				${string}
-			</div>
-		</div>`;
+		result = "Victory";
+		type = "Tournament";
 	}
 	else
 	{
+		type = "Match";
 		if (winner == username)
 		{
-			string += "Won ";
+			result = "Victory";
 			if (g.playerScore < g.aiScore)
-				string += g.aiScore + "-" + g.playerScore + " against";
+				score = g.aiScore + "-" + g.playerScore;
 			else
-				string += g.playerScore + "-" + g.aiScore + " against";
-			string2 = loser;
+				score = g.playerScore + "-" + g.aiScore;
+			opponent = loser;
 		}
 		else
 		{
-			string += "Lost ";
+			result = "Defeat";
 			if (g.playerScore < g.aiScore)
-				string += g.playerScore + "-" + g.aiScore + " against";
+				score = g.playerScore + "-" + g.aiScore;
 			else
-				string += g.aiScore + "-" + g.playerScore + " against";
-			string2 = winner;
+				score = g.aiScore + "-" + g.playerScore;
+			opponent = winner;
 		}
 		if (g.isSinglePlayer == false)
-			string2 += " Team";
-		div.innerHTML = `
-		<div class="d-flex m-1">
-			<div class="my-auto pe-none text-nowrap">
-				${string}
-			</div>
-			<img class="ms-1 my-auto rounded-circle" height="22" src="img/22/im-user.svg">
-			<div class="me-auto my-auto pe-none text-nowrap">
-				${string2}
-			</div>
-		</div>`;
+			opponent += " Team";
 	}
-	document.querySelector("#profile-log").appendChild(div);
+	tr.innerHTML = `
+	<th scope="row">
+		${date.getFullYear() + "-" + String(date.getMonth()).padStart(2, '0') + "-" + String(date.getDate()).padStart(2, '0')}
+	</th>
+	<td>
+		${String(date.getHours()).padStart(2, '0') + ":" + String(date.getMinutes()).padStart(2, '0')}
+	</td>
+	<td>
+		${result}
+	</td>
+	<td>
+		${type}
+	</td>
+	<td>
+		${score}
+	</td>
+	<td>
+		${opponent}
+	</td>`
+	document.querySelector("#profile-log").appendChild(tr);
 }
 
 function	profile_logout()
