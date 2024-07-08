@@ -548,9 +548,9 @@ function	start_match()
 	if (g.Player2PaddleMesh)
 		g.Player2PaddleMesh.position.set(0, 1.1 / 2, -8);
 	if (g.Player3PaddleMesh)
-		g.Player3PaddleMesh.position.set(0, 1.1 / 2, 8);
+		g.Player3PaddleMesh.position.set(0, 1.1 / 2, 4);
 	if (g.Player4PaddleMesh)
-		g.Player4PaddleMesh.position.set(0, 1.1 / 2, -8);
+		g.Player4PaddleMesh.position.set(0, 1.1 / 2, -4);
 	g.ballVelocity.set(0, 0, 5);
 	update_score();
 	document.querySelector("#contestant1").innerHTML = contestant1;
