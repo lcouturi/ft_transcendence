@@ -537,11 +537,18 @@ function	sanitize(string)
 
 function	start_match()
 {
-	g.aiPaddleMesh.position.set(0, 1.1 / 2, -8);
 	g.aiScore = 0;
+	g.playerScore = 0;
 	g.bulbLight.position.set(0, 0.2, 0);
 	g.paddleMesh.position.set(0, 1.1 / 2, 8);
-	g.playerScore = 0;
+	if (g.aiPaddleMesh)
+		g.aiPaddleMesh.position.set(0, 1.1 / 2, -8);
+	if (g.Player2PaddleMesh)
+		g.Player2PaddleMesh.position.set(0, 1.1 / 2, -8);
+	if (g.Player3PaddleMesh)
+		g.Player3PaddleMesh.position.set(0, 1.1 / 2, 8);
+	if (g.Player4PaddleMesh)
+		g.Player4PaddleMesh.position.set(0, 1.1 / 2, -8);
 	update_score();
 	document.querySelector("#contestant1").innerHTML = contestant1;
 	if (contestant1 == username)
