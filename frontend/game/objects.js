@@ -16,6 +16,8 @@ export function initStarField() {
 
     for (let i = 0; i < g.numStars; i++) {
         const star = new THREE.Mesh(starGeometry, starMaterial);
+        star.renderOrder = -1;
+        star.material.depthTest = false;
         resetStarPosition(star);
         g.starPool.push(star);
         g.scene.add(star);

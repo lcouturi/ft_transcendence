@@ -13,7 +13,7 @@ export function updateLighting() {
 
     if (g.shadows !== g.previousShadowMap) {
         if (g.shadows) {
-            g.floorMat.side = THREE.FrontSide;
+            g.floorMat.side = THREE.DoubleSide;
             g.floorMat.needsUpdate = true;
         }
         g.previousShadowMap = g.shadows;

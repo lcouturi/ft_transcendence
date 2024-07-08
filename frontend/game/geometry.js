@@ -159,6 +159,12 @@ function createPaddleMesh(material, zPosition) {
     const paddleHeight = 1.1;
     const paddleDepth = 0.3;
     const paddleGeometry = new THREE.BoxGeometry(paddleWidth, paddleHeight, paddleDepth);
+    paddleGeometry.index.array[18] = 0;
+    paddleGeometry.index.array[19] = 0;
+    paddleGeometry.index.array[20] = 0;
+    paddleGeometry.index.array[21] = 0;
+    paddleGeometry.index.array[22] = 0;
+    paddleGeometry.index.array[23] = 0;
     const paddleMesh = new THREE.Mesh(paddleGeometry, material);
     paddleMesh.position.set(0, paddleHeight / 2, zPosition);
     paddleMesh.castShadow = true;

@@ -2,12 +2,14 @@ import
 {
 	loadSavedParameters,
 	saveParameter
-} from './frontend/game/gui.js';
+}
+from './frontend/game/gui.js';
 
 import
 {
 	g
-} from './frontend/game/globals.js';
+}
+from './frontend/game/globals.js';
 
 let	in_tournament = false;
 let	contestant1;
@@ -549,6 +551,7 @@ function	start_match()
 		g.Player3PaddleMesh.position.set(0, 1.1 / 2, 8);
 	if (g.Player4PaddleMesh)
 		g.Player4PaddleMesh.position.set(0, 1.1 / 2, -8);
+	g.ballVelocity.set(0, 0, 5);
 	update_score();
 	document.querySelector("#contestant1").innerHTML = contestant1;
 	if (contestant1 == username)
