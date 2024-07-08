@@ -164,6 +164,11 @@ input[type=password]:focus, input[type=password]:hover, input[type=text]:focus, 
 	--bs-border-color: #aeb2b4;
 }
 
+.position-relative:hover label
+{
+	display: flex !important;
+}
+
 .navbar-nav .nav-item, .navbar-nav .dropdown .nav-item
 {
 	--bs-nav-link-font-size: 10px;
@@ -311,11 +316,6 @@ progress, ::-webkit-progress-bar
 {
 	background-color: #dbdcdc;
 	box-shadow: inset 0 0 0 1px #b5b8b8;
-}
-
-#profile-avatar-container:hover label
-{
-	display: flex !important;
 }
 
 table

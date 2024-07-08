@@ -67,14 +67,25 @@
 							<div class="carousel slide" id="profile">
 								<div class="carousel-inner">
 									<div class="active carousel-item p-2">
-										<div id="profile-avatar-container">
+										<div class="position-relative">
 											<img class="mx-auto mw-100 rounded-circle" id="profile-avatar" src="img/22/im-user.svg">
-											<label class="border button d-none m-1 position-absolute end-0 rounded shadow-sm top-0" for="avatar" type="submit">
+											<label class="border button d-none position-absolute end-0 rounded shadow-sm top-0" for="avatar" type="submit">
 												<img class="m-1" height="22" src="img/22/document-edit.svg">
 											</label>
 										</div>
-										<h3 class="mx-auto pe-none" id="profile-name-inside">
-										</h3>
+										<div class="position-relative" id="profile-name-container">
+											<h3 class="mx-auto pe-none" id="profile-name-inside">
+											</h3>
+											<div class="d-flex d-none" id="profile-name-input-container">
+												<input class="border me-1 my-1 p-1 rounded w-100" id="profile-name-input" type="text">
+												<label class="border button ms-1 my-1 rounded shadow-sm" id="profile-name-input-button">
+													<img class="m-1" height="22" src="img/22/dialog-ok-apply.svg">
+												</label>
+											</div>
+											<label class="border button d-none position-absolute end-0 rounded shadow-sm top-0" id="profile-name-edit">
+												<img class="m-1" height="22" src="img/22/document-edit.svg">
+											</label>
+										</div>
 										<progress class="border-0 rounded w-100" id="profile-bar" max="100" value="50">
 										</progress>
 										<div class="d-flex">

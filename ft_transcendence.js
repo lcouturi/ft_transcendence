@@ -116,6 +116,35 @@ document.querySelector("#profile-logout").addEventListener("click", function(e)
 	profile_logout();
 });
 
+document.querySelector("#profile-name-edit").addEventListener("click", function(e)
+{
+	e.preventDefault();
+	document.querySelector("#profile-name-container").classList.remove("position-relative");
+	document.querySelector("#profile-name-inside").classList.add("d-none");
+	document.querySelector("#profile-name-input").value = username;
+	document.querySelector("#profile-name-input-container").classList.remove("d-none");
+});
+
+document.querySelector("#profile-name-input-button").addEventListener("click", function(e)
+{
+	e.preventDefault();
+	document.querySelector("#profile-name-inside").innerHTML = document.querySelector("#profile-name-input").value;
+	if (contestant1 == username)
+	{
+		contestant1 = document.querySelector("#profile-name-input").value;
+		document.querySelector("#contestant1").innerHTML = contestant1;
+	}
+	if (contestant2 == username)
+	{
+		contestant2 = document.querySelector("#profile-name-input").value;
+		document.querySelector("#contestant2").innerHTML = contestant2;
+	}
+	username = document.querySelector("#profile-name-input").value;
+	document.querySelector("#profile-name-container").classList.add("position-relative");
+	document.querySelector("#profile-name-inside").classList.remove("d-none");
+	document.querySelector("#profile-name-input-container").classList.add("d-none");
+});
+
 document.querySelector("#register").addEventListener("hidden.bs.modal", function(e)
 {
 	e.preventDefault();
