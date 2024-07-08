@@ -62,8 +62,11 @@ export function initGUI() {
     // gui.add(g, 'bloomStrength', 0, 3).name('bloom Strength').step(0.1).onChange(value => { g.bloomPass.strength = value; saveParameter('bloomStrength', value);});
     // gui.add(g, 'bloomRadius', 0, 1).name('bloom Radius').step(0.1).onChange(value => { g.bloomPass.radius = value; saveParameter('bloomRadius', value); });
     // gui.add(g, 'bloomThreshold', 0, 1).name('bloom threshold').step(0.1).onChange(value => { g.bloomPass.threshold = value; saveParameter('bloomThreshold', value); });
-    gui.addColor(g, 'playerPaddleColor').name('user color').onChange(value => { updatePaddleColor(); saveParameter('playerPaddleColor', value); });
-    gui.addColor(g, 'aiPaddleColor').name('AI color').onChange(value => { updatePaddleColor(); saveParameter('aiPaddleColor', value); });
+    gui.addColor(g, 'playerPaddleColor').name('user 1 color').onChange(value => { updatePaddleColor(); saveParameter('playerPaddleColor', value); });
+    gui.addColor(g, 'Player2PaddleColor').name('user 2 color').onChange(value => { updatePaddleColor(); saveParameter('Player2PaddleColor', value); });
+    gui.addColor(g, 'Player3PaddleColor').name('user 3 color').onChange(value => { updatePaddleColor(); saveParameter('Player3PaddleColor', value); });
+    gui.addColor(g, 'Player4PaddleColor').name('user 4 color').onChange(value => { updatePaddleColor(); saveParameter('Player4PaddleColor', value); });
+    // gui.addColor(g, 'aiPaddleColor').name('AI color').onChange(value => { updatePaddleColor(); saveParameter('aiPaddleColor', value); });
     gui.add(g, 'emissiveIntensity').name('glass effect').onChange(value => { updatePaddleColor(); saveParameter('emissiveIntensity', value); }).listen();
     gui.add({ reset: () => { localStorage.clear(); location.reload(); } }, 'reset').name('Reset Parameters');
     gui.open(); // Open the GUI by default
@@ -77,13 +80,14 @@ export function loadSavedParameters() {
         'tolerance', 'easingFactor', 'limitScore', 'numStars', 'starsSpeed', 'starColor',
         'startSize', 'ballSpeed', 'shadows', 'floorMaterial', 'orbitSpeed', 'isOrbiting',
         'isSinglePlayer', 'borderColor', 'bloomStrength', 'bloomRadius', 'bloomThreshold',
-        'playerPaddleColor', 'aiPaddleColor', 'emissiveIntensity'
+        'playerPaddleColor', 'aiPaddleColor', 'emissiveIntensity', 'Player2PaddleColor',
+        'Player3PaddleColor', 'Player4PaddleColor'
     ];
 
     savedParameters.forEach(param => {
         const savedValue = g.localStorage.getItem(param);
         if (savedValue !== null) {
-            if (param === 'starColor' || param === 'borderColor' || param === 'playerPaddleColor' || param === 'aiPaddleColor') {
+            if (param === 'starColor' || param === 'borderColor' || param === 'playerPaddleColor' || param === 'aiPaddleColor' || param === 'Player2PaddleColor' || param === 'Player3PaddleColor' || param === 'Player4PaddleColor') {
                 g[param] = JSON.parse(savedValue);
             } else if (param in g) {
                 g[param] = parseFloat(savedValue);
@@ -98,10 +102,24 @@ export function loadSavedParameters() {
 function updatePaddleColor() {
     g.paddleMesh.material.color.set(g.playerPaddleColor);
     g.paddleMesh.material.emissive.set(g.playerPaddleColor);
-    g.aiPaddleMesh.material.color.set(g.aiPaddleColor);
-    g.aiPaddleMesh.material.emissive.set(g.aiPaddleColor);
     g.paddleMesh.material.emissiveIntensity = g.emissiveIntensity;
-    g.aiPaddleMesh.material.emissiveIntensity = g.emissiveIntensity;
+
+    g.Player2PaddleMesh.material.color.set(g.Player2PaddleColor);
+    g.Player2PaddleMesh.material.emissive.set(g.Player2PaddleColor);
+    g.Player2PaddleMesh.material.emissiveIntensity = g.emissiveIntensity;
+
+    g.Player3PaddleMesh.material.color.set(g.Player3PaddleColor);
+    g.Player3PaddleMesh.material.emissive.set(g.Player3PaddleColor);
+    g.Player3PaddleMesh.material.emissiveIntensity = g.emissiveIntensity;
+
+    g.Player4PaddleMesh.material.color.set(g.Player4PaddleColor);
+    g.Player4PaddleMesh.material.emissive.set(g.Player4PaddleColor);
+    g.Player4PaddleMesh.material.emissiveIntensity = g.emissiveIntensity;
+
+    // g.aiPaddleMesh.material.color.set(g.aiPaddleColor);
+    // g.aiPaddleMesh.material.emissive.set(g.aiPaddleColor);
+    // g.aiPaddleMesh.material.emissiveIntensity = g.emissiveIntensity;
+
 }
 
 function updateNeonBorderColor() {

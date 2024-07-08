@@ -26,7 +26,6 @@ export function createNeonBorder() {
         color: g.borderColor, // Neon color
         opacity: 0.8,
         transparent: false,
-        wireframe: false,
     });
 
     // Create the four sides of the border

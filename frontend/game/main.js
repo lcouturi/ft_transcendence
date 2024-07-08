@@ -65,12 +65,3 @@ function animate() {
     g.stats.update();
     // g.composer.render(); // Uncomment this line to enable post-processing effects
 }
-
-/*
-Multiplayer mode ToDo
-- Fix speed of 2nd player (AI parameters)
-- Add colors to paddles
-- Fix boundaries for 2nd player
-- Add GUI for multiplayer mode
-    - When enabled and disabled player 2 and 3 paddles should be hidden
-*/

@@ -58,7 +58,7 @@ export const g = {
     paddleMesh: null,
     paddleSpeed: 8,
     paddleBoundary: 9,
-    playerPaddleColor: 0x00ff00, // Green
+    playerPaddleColor: 0x00ff00,
     prevPaddlePosition: new THREE.Vector3(),
     paddleVelocity: new THREE.Vector3(0, 0, 0),
 
@@ -75,7 +75,7 @@ export const g = {
     Player3PaddleMesh: null,
     Player3PaddleSpeed: 8,
     Player3PaddleBoundary: 9,
-    Player3PaddleColor: 0x0f000f, // Purple
+    Player3PaddleColor: 0x0000ff, // Blue
     Player3PrevPaddlePosition: new THREE.Vector3(),
     Player3PaddleVelocity: new THREE.Vector3(0, 0, 0),
 
@@ -83,14 +83,14 @@ export const g = {
     Player4PaddleMesh: null,
     Player4PaddleSpeed: 8,
     Player4PaddleBoundary: 9,
-    Player4PaddleColor: 0x0000ff, // Blue
+    Player4PaddleColor: 0xffff00, // Yellow
     Player4PrevPaddlePosition: new THREE.Vector3(),
     Player4PaddleVelocity: new THREE.Vector3(0, 0, 0),
 
     // Player AI Properties
     aiPaddleMesh: null,
     aiPaddleSpeed: 8,
-    aiPaddleColor: 0xff0000,
+    aiPaddleColor: 0xff0000, // Red
     prevAIPaddlePosition: new THREE.Vector3(),
     aiPaddleVelocity: new THREE.Vector3(0, 0, 0),
     tolerance: 0,
