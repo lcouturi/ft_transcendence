@@ -69,7 +69,7 @@ export function initGUI() {
     // gui.addColor(g, 'aiPaddleColor').name('AI color').onChange(value => { updatePaddleColor(); saveParameter('aiPaddleColor', value); });
     gui.add(g, 'emissiveIntensity').name('glass effect').onChange(value => { updatePaddleColor(); saveParameter('emissiveIntensity', value); }).listen();
     gui.add({ reset: () => { localStorage.clear(); location.reload(); } }, 'reset').name('Reset Parameters');
-    gui.open(); // Open the GUI by default
+    gui.close(); // Open the GUI by default
     return gui;
 }
 

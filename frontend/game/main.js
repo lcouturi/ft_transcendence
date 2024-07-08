@@ -32,7 +32,7 @@ function init() {
     initScene();                                           // Initialize the scene
     initCamera();                                          // Initialize the camera
     initLights();                                          // Initialize the lights
-    initStats();                                           // Initialize the stats
+    // initStats();                                           // Initialize the stats
     initMaterials();                                       // Initialize the materials
     initGeometry();                                        // Initialize the geometry
     initStarField();                                       // Initialize the star field
@@ -62,6 +62,6 @@ function animate() {
     orbitalRotation();
     g.renderer.render(g.scene, g.camera);
     updateStars();
-    g.stats.update();
+    // g.stats.update();
     // g.composer.render(); // Uncomment this line to enable post-processing effects
 }
