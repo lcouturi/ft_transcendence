@@ -36,9 +36,9 @@ export const g = {
 
     // Star Field
     starPool: [],
-    numStars: 5000,
+    numStars: 2500,
     starsSpeed: 0.05,
-    startSize: 0.01,
+    startSize: 0.015,
     starColor: 0x0011ff,
 
     // Game State

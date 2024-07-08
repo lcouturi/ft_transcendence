@@ -32,7 +32,6 @@ function init() {
     initScene();                                           // Initialize the scene
     initCamera();                                          // Initialize the camera
     initLights();                                          // Initialize the lights
-    // initStats();                                           // Initialize the stats
     initMaterials();                                       // Initialize the materials
     initGeometry();                                        // Initialize the geometry
     initStarField();                                       // Initialize the star field
@@ -40,6 +39,7 @@ function init() {
     initGUI();                                             // Initialize the GUI
     initControls();                                        // Setup the controls for the player paddle
     initScoreDisplay();                                    // Initialize the score display
+    // initStats();                                           // Initialize the stats
     // initEffectComposer();                                  // Initialize the effect composer
 }
 
