@@ -312,12 +312,14 @@ function	login_validate()
 
 function	pause()
 {
+	g.aiPaddleSpeed = 0;
 	g.ballSpeed = 0;
 	g.orbitSpeed = 0;
-	g.player2PaddleSpeed = 0;
-	g.starsSpeed = 0;
-	g.aiPaddleSpeed = 0;
 	g.paddleSpeed = 0;
+	g.Player2PaddleSpeed = 0;
+	g.Player3PaddleSpeed = 0;
+	g.Player4PaddleSpeed = 0;
+	g.starsSpeed = 0;
 }
 
 function	prepare_next_match()
@@ -571,7 +573,7 @@ function	tournament_start()
 	contestant1 = null;
 	contestant2 = null;
 	in_tournament = true;
-	document.querySelector("#list").innerHTML = "";
+	document.querySelector("#tournament-list").innerHTML = "";
 	bootstrap.Modal.getInstance(document.getElementById("tournament")).hide();
 	winners = [];
 	prepare_next_match();
@@ -583,18 +585,22 @@ function	unpause()
 	if (paused == false)
 	{
 		loadSavedParameters();
+		if (g.aiPaddleSpeed == 0)
+			g.aiPaddleSpeed = 8;
 		if (g.ballSpeed == 0)
 			g.ballSpeed = 0.016;
 		if (g.orbitSpeed == 0)
 			g.orbitSpeed = 0.002;
-		if (g.player2PaddleSpeed == 0)
-			g.player2PaddleSpeed = 0.1;
-		if (g.starsSpeed == 0)
-			g.starsSpeed = 0.2;
-		if (g.aiPaddleSpeed == 0)
-			g.aiPaddleSpeed = 8;
 		if (g.paddleSpeed == 0)
 			g.paddleSpeed = 8;
+		if (g.Player2PaddleSpeed == 0)
+			g.Player2PaddleSpeed = 8;
+		if (g.Player3PaddleSpeed == 0)
+			g.Player3PaddleSpeed = 8;
+		if (g.Player4PaddleSpeed == 0)
+			g.Player4PaddleSpeed = 8;
+		if (g.starsSpeed == 0)
+			g.starsSpeed = 0.05;
 	}
 }
 
