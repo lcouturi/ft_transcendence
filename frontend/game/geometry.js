@@ -102,13 +102,13 @@ export function initializePaddles() {
         }
         // Player 3 paddle
         if (!g.Player3PaddleMesh) {
-            g.Player3PaddleMesh = createPaddleMesh(createPaddleMaterial(g.Player3PaddleColor), 8);
+            g.Player3PaddleMesh = createPaddleMesh(createPaddleMaterial(g.Player3PaddleColor), 4);
             g.scene.add(g.Player3PaddleMesh);
         }
 
         // Player 4 paddle
         if (!g.Player4PaddleMesh) {
-            g.Player4PaddleMesh = createPaddleMesh(createPaddleMaterial(g.Player4PaddleColor), -8);
+            g.Player4PaddleMesh = createPaddleMesh(createPaddleMaterial(g.Player4PaddleColor), -4);
             g.scene.add(g.Player4PaddleMesh);
         }
     }
@@ -144,11 +144,11 @@ export function removePaddles() {
 
 export function addPaddles() {
     if (!g.Player3PaddleMesh) {
-        g.Player3PaddleMesh = createPaddleMesh(createPaddleMaterial(g.Player3PaddleColor), 8);
+        g.Player3PaddleMesh = createPaddleMesh(createPaddleMaterial(g.Player3PaddleColor), 4);
         g.scene.add(g.Player3PaddleMesh);
     }
     if (!g.Player4PaddleMesh) {
-        g.Player4PaddleMesh = createPaddleMesh(createPaddleMaterial(g.Player4PaddleColor), -8);
+        g.Player4PaddleMesh = createPaddleMesh(createPaddleMaterial(g.Player4PaddleColor), -4);
         g.scene.add(g.Player4PaddleMesh);
     }
 }
