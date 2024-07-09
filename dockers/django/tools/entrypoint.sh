@@ -1,22 +1,17 @@
 #!/bin/bash
 
-# while true
-# 	do echo "Bash running"
-# done
+echo "Waiting for postgres..."
+sleep 5
+echo "PostgreSQL started"
 
-# ls
-# cd ../../..
-# echo "after cd ../../.."
-# ls
-# echo "find ../../.. : "
-# find ../../.. -name "ft_transcendence"
-# echo "find ../.. : "
-# find ../.. -name "ft_transcendence"
-# echo "find ../ : "
-# find ../ -name "ft_transcendence"
-# echo "find : "
-# find -name "ft_transcendence"
-# echo "find done."
+echo "Migrating database..."
+python manage.py makemigrations --noinput
+python manage.py migrate --noinput
+echo "Migration done"
 
+echo "Creating superuser"
+python manage.py createsuperuser --noinput
+
+echo "Collecting static files"
 
 exec $@

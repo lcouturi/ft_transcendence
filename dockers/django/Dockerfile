@@ -8,14 +8,15 @@ WORKDIR /django
 # If !COMMENTED, make sure to COMMENT the VOLUME attributes in the docker-compose.yaml file.
 COPY ./ft_transcendence .
 
-# Required package(s) installation.
-COPY ./tools/requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
-
 # Container's dependencie(s) installations.
 COPY ./tools/dependencies.sh /usr/local/bin
 RUN chmod +x /usr/local/bin/dependencies.sh && \
 	/usr/local/bin/dependencies.sh
+# RUN exec $@
+
+# Required package(s) installation.
+COPY ./tools/requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
 
 # # Specify the application source code to copy into the container.
 # COPY . .

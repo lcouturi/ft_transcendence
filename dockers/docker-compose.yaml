@@ -8,6 +8,21 @@ volumes:
       #      device: ${HOME}/data/volume-django
 
 services:
+  database:
+    build:
+      context: ./postgre
+      dockerfile: Dockerfile
+      args:
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
+        - POSTGRES_DB=postgres
+    image: postgresql:transcendence
+    container_name: postgre
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+  
   django:
     build:
       context: ./django
@@ -21,9 +36,11 @@ services:
     ports:
       - "8080:8000"
     environment:
-      - POSTGRES_DB=${POSTGRES_DB}
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    depends_on:
+      - database
 
   nginx:
     build:
@@ -33,20 +50,9 @@ services:
     container_name: nginx
     restart: on-failure:10
     ports:
-    - "10000:80"
-    volumes: ./static
-
-  postgre:
-    build:
-      context: ./postgre
-      dockerfile: Dockerfile
-      args:
-        - POSTGRES_USER=${POSTGRES_USER}
-        - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-        - POSTGRES_DB=${POSTGRES_DB}
-    image: postgresql:transcendence
-    container_name: postgre
-    environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
+     - "443:443"
+     - "80:80"
+    volumes: 
+     - /static
+    depends_on:
+     - django
