@@ -103,6 +103,12 @@ document.querySelector("#profile-banner-close").addEventListener("click", functi
 	banner_close('#profile-banner');
 });
 
+document.querySelector("#profile-delete").addEventListener("click", function(e)
+{
+	e.preventDefault();
+	profile_logout();
+});
+
 document.querySelector("#profile-list-add").addEventListener("click", function(e)
 {
 	e.preventDefault();
@@ -277,7 +283,13 @@ function	add_item(prefix, value)
 	banner_close("#" + prefix + "-banner");
 	const	div = document.createElement("div");
 	let	divContainer = `
-	<div class="d-flex" style="min-width: min-content;">
+	<div class="d-flex" style="min-width: min-content;">`
+	if (prefix == "profile")
+	{
+		divContainer += `
+		<img class="mx-1 my-auto" height="22" src="img/22/im-user-away.svg" title="Away">`
+	}
+	divContainer += `
 		<div class="m-1 p-1 w-100" style="min-width: min-content;">
 			${sanitize(item)}
 		</div>
@@ -432,12 +444,9 @@ function	profile_log_add(winner, loser, tournament)
 			opponent += " Team";
 	}
 	tr.innerHTML = `
-	<th scope="row">
-		${date.getFullYear() + "-" + String(date.getMonth()).padStart(2, '0') + "-" + String(date.getDate()).padStart(2, '0')}
+	<th class="text-nowrap" scope="row">
+		${date.getFullYear() + "-" + String(date.getMonth()).padStart(2, '0') + "-" + String(date.getDate()).padStart(2, '0') + " " + String(date.getHours()).padStart(2, '0') + ":" + String(date.getMinutes()).padStart(2, '0')}
 	</th>
-	<td>
-		${String(date.getHours()).padStart(2, '0') + ":" + String(date.getMinutes()).padStart(2, '0')}
-	</td>
 	<td>
 		${result}
 	</td>

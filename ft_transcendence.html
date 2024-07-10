@@ -24,17 +24,34 @@
 		<nav class="bg-body-tertiary border-bottom navbar navbar-expand-lg py-0 shadow-sm">
 			<div class="container-fluid px-0">
 				<ul class="flex-row me-auto navbar-nav">
-					<li class="border d-flex nav-item py-1 rounded text-nowrap" id="tournament-button" title="Tournament">
-						<img height="22" src="img/22/view-list-tree.svg">
-						<a aria-current="page" class="active ms-1 my-auto nav-link p-0">
-							Tournament
-						</a>
-					</li>
 					<li class="border d-flex nav-item py-1 rounded text-nowrap" data-bs-target="#about" data-bs-toggle="modal" id="about-button" title="About">
 						<img height="22" src="img/22/help-about.svg">
 						<a aria-current="page" class="active ms-1 my-auto nav-link p-0">
 							About
 						</a>
+					</li>
+					<li class="dropdown" id="language-button">
+						<button aria-expanded="false" class="bg-body-tertiary border d-flex nav-item py-1 rounded text-nowrap" data-bs-toggle="dropdown" title="Language">
+							<img height="22" src="img/22/preferences-desktop-locale.svg">
+							<a aria-current="page" class="active ms-1 my-auto nav-link p-0">
+								Language
+							</a>
+							<img class="ms-1 my-auto" height="16" src="img/16/go-down.svg">
+						</button>
+						<ul class="border dropdown-menu frame position-absolute rounded" style="padding: 3px !important;">
+							<label class="d-flex form-check m-0 p-0 rounded" for="english">
+								<input checked id="english" name="language" type="radio">
+								<label class="form-check-label" for="english">
+									English
+								</label>
+							</label>
+							<label class="d-flex form-check m-0 p-0 rounded" for="french">
+								<input id="french" name="language" type="radio">
+								<label class="form-check-label" for="french">
+									Français
+								</label>
+							</label>
+						</ul>
 					</li>
 					<li class="border d-flex nav-item py-1 rounded text-nowrap" id="pause" title="Pause">
 						<img height="22" src="img/22/media-playback-pause.svg">
@@ -46,6 +63,12 @@
 						<img height="22" src="img/22/media-playback-start.svg">
 						<a aria-current="page" class="active ms-1 my-auto nav-link p-0">
 							Play
+						</a>
+					</li>
+					<li class="border d-flex nav-item py-1 rounded text-nowrap" id="tournament-button" title="Tournament">
+						<img height="22" src="img/22/view-list-tree.svg">
+						<a aria-current="page" class="active ms-1 my-auto nav-link p-0">
+							Tournament
 						</a>
 					</li>
 				</ul>
@@ -63,7 +86,7 @@
 							</a>
 							<img class="ms-1 my-auto" height="16" src="img/16/go-down.svg">
 						</button>
-						<ul class="border dropdown-menu dropdown-menu-end frame p-0 rounded">
+						<ul class="border dropdown-menu dropdown-menu-end frame p-0 position-absolute rounded">
 							<div class="carousel slide" id="profile">
 								<div class="carousel-inner">
 									<div class="active carousel-item p-2">
@@ -74,11 +97,11 @@
 											</label>
 										</div>
 										<div class="position-relative" id="profile-name-container">
-											<h3 class="mx-auto pe-none" id="profile-name-inside">
+											<h3 class="mx-auto my-0 pe-none" id="profile-name-inside">
 											</h3>
 											<div class="d-flex d-none" id="profile-name-input-container">
-												<input class="border me-1 my-1 p-1 rounded w-100" id="profile-name-input" type="text">
-												<label class="border button ms-1 my-1 rounded shadow-sm" id="profile-name-input-button">
+												<input class="border me-1 p-1 rounded w-100" id="profile-name-input" type="text">
+												<label class="border button ms-1 rounded shadow-sm" id="profile-name-input-button">
 													<img class="m-1" height="22" src="img/22/dialog-ok-apply.svg">
 												</label>
 											</div>
@@ -119,6 +142,12 @@
 												Log out
 											</div>
 										</button>
+										<button class="border button d-flex m-1 ms-auto rounded shadow-sm w-100" id="profile-delete" type="button">
+											<img class="m-1 ms-auto" height="22" src="img/22/edit-delete.svg">
+											<div class="me-auto my-auto text-nowrap">
+												Delete Account
+											</div>
+										</button>
 									</div>
 									<div class="carousel-item">
 										<div class="bg-body-tertiary border-bottom d-flex p-2">
@@ -132,9 +161,6 @@
 										<table class="overflow-y-auto pe-3" style="max-height: calc(100vh - 102px);">
 											<thead>
 												<tr>
-													<th scope="col">
-														Date
-													</th>
 													<th scope="col">
 														Time
 													</th>
