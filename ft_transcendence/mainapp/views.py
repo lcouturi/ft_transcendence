@@ -5,39 +5,75 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.urls import reverse
-from mainapp.models import CustomUser
+from mainapp.models import CustomUser,FriendRequest
 from django import forms
 from django.contrib.auth.decorators import login_required
 import json
 from datetime import datetime
 from django.utils import timezone
+from .friend_request import *
 
 # Create your views here.
 def index(request):
     friends = None
+    friend_requests = None
+    friend_requesters = None
+
     if request.user.is_authenticated:
         request.user.latest_activity = timezone.now()
-        request.user.save()
         friends = request.user.friends_list.all()
-
+        friend_requests = request.user.friends_requests.all()
+        friend_requesters = request.user.friend_requesters.all()
+        request.user.save()
+        
     return render(request, "ft_transcendence.html", {
         "user":request.user,
-        "friends": friends
+        "friends": friends,
+        "friend_requests":friend_requests,
+        "friend_requesters":friend_requesters
     })
 
+# ------------- FRIEND REQUEST VIEWS ----------------
 
 @login_required
 def add_friend(request):
     if request.method == 'POST':
-        friend_to_add = request.POST['friend_to_add']
+        data = json.loads(request.body)
+        friend_to_add = data.get('friend_to_add')
         try:
-            f = CustomUser.objects.get(username=friend_to_add)
-            request.user.friends_list.add(f)
-            print('add sucess')
+            friend = CustomUser.objects.get(username=friend_to_add)
+            accept_friend_request(friend, request.user)
         except:
             pass
+
     return redirect(reverse("accueil"))
 
+@login_required
+def request_friend(request):
+    if request.method == 'POST':
+        friend_to_add = request.POST['friend_to_add']
+        try:
+            friend = CustomUser.objects.get(username=friend_to_add)
+            send_friend_request(request.user, friend)
+        except:
+            pass
+
+    return redirect(reverse("accueil"))
+
+@login_required
+def delete_friend_request(request):
+    if request.method == 'DELETE':
+        data = json.loads(request.body)
+        friend_to_del = data.get('friend_to_delete')
+        try:
+            friend = CustomUser.objects.get(username=friend_to_del)
+            reject_friend_request(friend, request.user)
+        except:
+            pass
+
+    return redirect(reverse("accueil"))
+
+####################################################
 
 @login_required
 def delete_friend(request):

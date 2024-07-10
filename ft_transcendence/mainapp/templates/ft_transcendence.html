@@ -76,6 +76,29 @@
 				<input type="submit" value="Envoyer">
 			</form>
 
+			<h4>Friend request</h4>
+			{% for friend in friend_requests %}
+				<li>
+					<img src="{{ friend.get_image_profile_url }}" class="rounded-circle" alt="profile picture" width="30" height="30">
+					{{ friend.username }} (waiting to accept...)
+				</li>
+			{% endfor %}
+
+			{% for friend in friend_requesters %}
+				<li>
+					<img src="{{ friend.get_image_profile_url }}" class="rounded-circle" alt="profile picture" width="30" height="30">
+					{{ friend.username }}
+
+					<button type="submit" id="acceptButton" onclick="accept_friend_request('{{ friend.username }}')">
+						<img src='{% static "../static/icons/green_check_mark.png" %}' width="20" height="20">  
+					</button>
+
+					<button type="submit" id="deleteButton" onclick="delete_friend_request('{{ friend.username }}')">
+						<img src='{% static "../static/icons/red_x_icon.jpg" %}' width="20" height="20">  
+					</button>
+				</li>
+			{% endfor %}
+
 			<h4>All friends</h4>
 			{% for friend in friends %}
 				<li>
@@ -87,8 +110,9 @@
 					</button>
 				</li>
 			{% endfor %}
+			
 
-			<form action="/add_friend" method="post">
+			<form action="/send_friend_request" method="post">
 				{% csrf_token %}
 				<input type="text" id="info" name="friend_to_add" placeholder="Add a friend" required><br><br>
 				<button type="submit">Add</button>
@@ -497,7 +521,6 @@
 
 
 		function delete_friend(friend) {
-			let bouton = document.getElementById('deleteButton');
             var url = `/delete_friend`; 
             fetch(url, {
                 method: 'DELETE',
@@ -505,6 +528,49 @@
 					'X-CSRFToken': getCookie('csrftoken')
 				},
 				body: JSON.stringify( { friend_to_delete: friend })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erreur lors de la suppression de l\'élément');
+                }
+				window.location.href = "{% url 'accueil' %}";
+                console.log('Élément supprimé avec succès');
+            })
+            .catch(error => {
+                console.error('Erreur :', error);
+            });
+        }
+
+		function delete_friend_request(friend) {
+            var url = `/delete_friend_request`; 
+            fetch(url, {
+                method: 'DELETE',
+				headers: {
+					'X-CSRFToken': getCookie('csrftoken')
+				},
+				body: JSON.stringify( { friend_to_delete: friend })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erreur lors de la suppression de l\'élément');
+                }
+				window.location.href = "{% url 'accueil' %}";
+                console.log('Élément supprimé avec succès');
+            })
+            .catch(error => {
+                console.error('Erreur :', error);
+            });
+        }
+
+		function accept_friend_request(friend) {
+            var url = `/add_friend`; 
+            fetch(url, {
+                method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'X-CSRFToken': getCookie('csrftoken')
+				},
+				body: JSON.stringify( { friend_to_add: friend })
             })
             .then(response => {
                 if (!response.ok) {
