@@ -26,19 +26,19 @@
 				<ul class="flex-row me-auto navbar-nav">
 					<li class="border d-flex nav-item py-1 rounded text-nowrap" data-bs-target="#about" data-bs-toggle="modal" id="about-button" title="About">
 						<img height="22" src="img/22/help-about.svg">
-						<a aria-current="page" class="active ms-1 my-auto nav-link p-0">
+						<a aria-current="page" class="active ms-1 my-auto nav-link p-0" id="about-label">
 							About
 						</a>
 					</li>
-					<li class="dropdown" id="language-button">
-						<button aria-expanded="false" class="bg-body-tertiary border d-flex nav-item py-1 rounded text-nowrap" data-bs-toggle="dropdown" title="Language">
+					<li class="dropdown">
+						<button aria-expanded="false" class="bg-body-tertiary border d-flex nav-item py-1 rounded text-nowrap" data-bs-toggle="dropdown" id="language-button" title="Language">
 							<img height="22" src="img/22/preferences-desktop-locale.svg">
-							<a aria-current="page" class="active ms-1 my-auto nav-link p-0">
+							<a aria-current="page" class="active ms-1 my-auto nav-link p-0" id="language-label">
 								Language
 							</a>
 							<img class="ms-1 my-auto" height="16" src="img/16/go-down.svg">
 						</button>
-						<ul class="border dropdown-menu frame position-absolute rounded" style="padding: 3px !important;">
+						<ul class="border dropdown-menu frame position-absolute rounded" id="language-select" style="padding: 3px !important;">
 							<label class="d-flex form-check m-0 p-0 rounded" for="english">
 								<input checked id="english" name="language" type="radio">
 								<label class="form-check-label" for="english">
@@ -61,13 +61,13 @@
 					</li>
 					<li class="border d-none nav-item py-1 rounded text-nowrap" id="play" title="Play">
 						<img height="22" src="img/22/media-playback-start.svg">
-						<a aria-current="page" class="active ms-1 my-auto nav-link p-0">
+						<a aria-current="page" class="active ms-1 my-auto nav-link p-0" id="play-label">
 							Play
 						</a>
 					</li>
 					<li class="border d-flex nav-item py-1 rounded text-nowrap" id="tournament-button" title="Tournament">
 						<img height="22" src="img/22/view-list-tree.svg">
-						<a aria-current="page" class="active ms-1 my-auto nav-link p-0">
+						<a aria-current="page" class="active ms-1 my-auto nav-link p-0" id="tournament-label">
 							Tournament
 						</a>
 					</li>
@@ -75,7 +75,7 @@
 				<ul class="navbar-nav">
 					<li class="border d-flex nav-item py-1 rounded text-nowrap" data-bs-target="#login" data-bs-toggle="modal" id="login-button" title="Log in">
 						<img height="22" src="img/22/network-connect.svg">
-						<a aria-current="page" class="active ms-1 my-auto nav-link p-0">
+						<a aria-current="page" class="active ms-1 my-auto nav-link p-0" id="login-label">
 							Log in
 						</a>
 					</li>
@@ -254,14 +254,14 @@
 			<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
 				<div class="bg-body border modal-content p-1 rounded">
 					<div class="modal-header p-1">
-						<h2 class="m-1 pe-none">
+						<h2 class="m-1 pe-none" id="about-title">
 							The Great Avocado War of '24
 						</h2>
 					</div>
 					<div class="d-flex flex-column m-1 modal-body overflow-hidden p-0">
 						<ul class="border-bottom-0 flex-nowrap ms-1 mt-1 nav nav-tabs position-relative rounded-top" id="myTab" role="tablist">
 							<li class="nav-item" role="presentation">
-								<button aria-controls="about-tab-pane" aria-selected="true" class="active border-bottom-0 first m-0 nav-link position-relative px-1 text-dark" data-bs-target="#about-tab-pane" data-bs-toggle="tab" id="about-tab" role="tab" type="button">
+								<button aria-controls="about-tab-pane" aria-selected="true" class="active border-bottom-0 first m-0 nav-link position-relative px-1 text-dark text-nowrap" data-bs-target="#about-tab-pane" data-bs-toggle="tab" id="about-tab" role="tab" type="button">
 									About
 								</button>
 							</li>
@@ -422,7 +422,7 @@
 					<div class="modal-footer p-1">
 						<button class="border button d-flex m-1 ms-auto rounded shadow-sm" data-bs-dismiss="modal" type="button">
 							<img class="m-1" height="22" src="img/22/window-close.svg">
-							<div class="my-auto">
+							<div class="my-auto" id="about-close">
 								Close
 							</div>
 						</button>
@@ -434,7 +434,7 @@
 			<div class="modal-dialog modal-dialog-centered">
 				<div class="bg-body border modal-content p-1 rounded">
 					<div class="modal-header p-1">
-						<h2 class="m-1 pe-none">
+						<h2 class="m-1 pe-none" id="login-title">
 							Log in
 						</h2>
 					</div>
@@ -449,10 +449,10 @@
 							</div>
 							<div class="d-flex m-3">
 								<div class="d-flex flex-column">
-									<div class="my-auto pe-none text-end">
+									<div class="my-auto pe-none text-end text-nowrap" id="login-name-label">
 										Username:
 									</div>
-									<div class="my-auto pe-none text-end">
+									<div class="my-auto pe-none text-end" id="login-pass-label">
 										Password:
 									</div>
 								</div>
@@ -466,13 +466,13 @@
 					<div class="modal-footer p-1">
 						<button class="border button d-flex m-1 rounded shadow-sm text-nowrap" data-bs-dismiss="modal" id="register-button" type="button">
 							<img class="m-1" height="22" src="img/22/list-add.svg">
-							<div class="my-auto pe-none">
+							<div class="my-auto pe-none" id="register-button-label">
 								Register
 							</div>
 						</button>
 						<button class="border button d-flex m-1 ms-auto rounded shadow-sm" data-bs-dismiss="modal" id="login-close" type="button">
 							<img class="m-1" height="22" src="img/22/dialog-cancel.svg">
-							<div class="my-auto">
+							<div class="my-auto" id="login-close-label">
 								Cancel
 							</div>
 						</button>
@@ -490,7 +490,7 @@
 			<div class="modal-dialog modal-dialog-centered">
 				<div class="bg-body border modal-content p-1 rounded">
 					<div class="modal-header p-1">
-						<h2 class="m-1 pe-none">
+						<h2 class="m-1 pe-none" id="register-title">
 							Register
 						</h2>
 					</div>
@@ -505,13 +505,13 @@
 							</div>
 							<div class="d-flex m-3">
 								<div class="d-flex flex-column">
-									<div class="my-auto pe-none text-end">
+									<div class="my-auto pe-none text-end" id="register-name-label">
 										Username:
 									</div>
-									<div class="my-auto pe-none text-end">
+									<div class="my-auto pe-none text-end" id="register-pass-label">
 										Password:
 									</div>
-									<div class="my-auto pe-none text-end text-nowrap">
+									<div class="my-auto pe-none text-end text-nowrap" id="register-pass2-label">
 										Confirm password:
 									</div>
 									<div class="my-auto pe-none text-end">
@@ -524,7 +524,7 @@
 									<input class="border m-1 p-1 rounded w-100" id="register-pass2" type="password">
 									<div class="d-flex" style="width: calc(100% + 0.5rem)">
 										<input class="border m-1 p-1 pe-none rounded w-100" id="avatar-name" type="text">
-										<label class="border button d-flex m-1 rounded shadow-sm" for="avatar" title="Open file dialog" type="submit">
+										<label class="border button d-flex m-1 rounded shadow-sm" for="avatar" id="avatar-button" title="Open file dialog" type="submit">
 											<img class="m-1" height="22" src="img/22/document-open.svg">
 										</label>
 									</div>
@@ -536,7 +536,7 @@
 					<div class="modal-footer p-1">
 						<button class="border button d-flex m-1 ms-auto rounded shadow-sm" data-bs-target="#login" data-bs-toggle="modal" type="button">
 							<img class="m-1" height="22" src="img/22/dialog-cancel.svg">
-							<div class="my-auto">
+							<div class="my-auto" id="register-close">
 								Cancel
 							</div>
 						</button>
@@ -554,7 +554,7 @@
 			<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 				<div class="bg-body border modal-content p-1 rounded">
 					<div class="modal-header p-1">
-						<h2 class="m-1 pe-none">
+						<h2 class="m-1 pe-none" id="tournament-title">
 							Tournament
 						</h2>
 					</div>
@@ -584,13 +584,13 @@
 					<div class="modal-footer p-1">
 						<button class="border button d-flex m-1 ms-auto rounded shadow-sm" id="tournament-start" type="button">
 							<img class="m-1" height="22" src="img/22/media-playback-start.svg">
-							<div class="my-auto">
+							<div class="my-auto" id="tournament-start-label">
 								Start Tournament
 							</div>
 						</button>
 						<button class="border button d-flex m-1 rounded shadow-sm" data-bs-dismiss="modal" id="close" type="button">
 							<img class="m-1" height="22" src="img/22/window-close.svg">
-							<div class="my-auto">
+							<div class="my-auto" id="tournament-close">
 								Close
 							</div>
 						</button>
@@ -602,7 +602,7 @@
 			<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 				<div class="bg-body border modal-content p-1 rounded">
 					<div class="modal-header p-1">
-						<h2 class="m-1 pe-none">
+						<h2 class="m-1 pe-none" id="results-title">
 							Results
 						</h2>
 					</div>
