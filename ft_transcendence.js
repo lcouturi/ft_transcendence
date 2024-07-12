@@ -216,7 +216,7 @@ document.querySelector("#english").addEventListener("change", function(e)
 	document.querySelector("#profile-friends-count").innerHTML = "Friends: " + friends_array.length;
 	document.querySelector("#profile-friends-name").innerHTML = "Friends";
 	document.querySelector("#profile-history").innerHTML = "Match History";
-	document.querySelector("#profile-history-name").innerHTML = "Historique des matchs";
+	document.querySelector("#profile-history-name").innerHTML = "Match History";
 	document.querySelector("#profile-history-opponent").innerHTML = "Opponent";
 	document.querySelector("#profile-history-result").innerHTML = "Result";
 	document.querySelector("#profile-history-time").innerHTML = "Time";
@@ -239,9 +239,9 @@ document.querySelector("#english").addEventListener("change", function(e)
 	document.querySelector("#tournament-start-match-label").innerHTML = "Next Match";
 	document.querySelector("#tournament-title").innerHTML = "Tournament";
 	document.title = "The Great Avocado War of '24";
-	if (contestant1 == "Invité")
+	if (contestant1 == "Invité" || contestant1 == "Гість")
 		contestant1 = "Guest";
-	if (contestant2 == "Invité")
+	if (contestant2 == "Invité" || contestant2 == "Гість")
 		contestant2 = "Guest";
 	document.querySelector("#contestant1").innerHTML = contestant1;
 	document.querySelector("#contestant2").innerHTML = contestant2;
@@ -439,9 +439,9 @@ document.querySelector("#french").addEventListener("change", function(e)
 	document.querySelector("#tournament-start-match-label").innerHTML = "Match suivant";
 	document.querySelector("#tournament-title").innerHTML = "Tournoi";
 	document.title = "La grande guerre des avocats de 2024";
-	if (contestant1 == "Guest")
+	if (contestant1 == "Guest" || contestant1 == "Гість")
 		contestant1 = "Invité";
-	if (contestant2 == "Guest")
+	if (contestant2 == "Guest" || contestant2 == "Гість")
 		contestant2 = "Invité";
 	document.querySelector("#contestant1").innerHTML = contestant1;
 	document.querySelector("#contestant2").innerHTML = contestant2;
@@ -449,6 +449,206 @@ document.querySelector("#french").addEventListener("change", function(e)
 	{
 		document.querySelector("#contestant1").innerHTML = "Équipe " + contestant1;
 		document.querySelector("#contestant2").innerHTML = "Équipe " + contestant2;
+	}
+});
+
+document.querySelector("#ukrainian").addEventListener("change", function(e)
+{
+	e.preventDefault();
+	language = "ukrainian";
+	document.querySelector("#about-button").title = "Про";
+	document.querySelector("#about-close").innerHTML = "Закрити";
+	document.querySelector("#about-label").innerHTML = "Про";
+	document.querySelector("#about-tab").innerHTML = "Про";
+	document.querySelector("#about-tab-pane").innerHTML = `
+	<div class="d-flex">
+		<img class="inline-img" src="img/openart-image_yBIl3nIg_1717776713014_raw.jpg">
+	</div>
+	<br>
+	30 лютого 2024 року сталося те, що назавжди змінило хід історії. Втомившись від того, що до них ставляться лише як до їжі, авокадо почали війну проти тваринного світу в цілому.
+	<br>
+	<br>
+	Спочатку війна йшла добре для авокадо, і вони обходили слабкі людські сили. Коли людей не було, авокадо думали, що виграли війну.
+	<br>
+	<br>
+	Вони помилилися.
+	<br>
+	<br>
+	Вони не були готові до натиску панголінів. Панголіни були безжальними. Авокадо виявилися рівномірними.
+	<br>
+	<br>
+	Цей веб-сайт існує, щоб служити точним переказом Великої війни за авокадо 24 року. А хто виграв війну? Вам доведеться пограти, щоб дізнатися.`;
+	document.querySelector("#about-title").innerHTML = "Велика авокадо війна 24 року";
+	document.querySelector("#authors-tab").innerHTML = "Автори";
+	document.querySelector("#authors-tab-pane").innerHTML = `
+	<b>
+		Bruno Pierre Bouchard
+	</b>
+	<br>
+	<i>
+		База даних
+	</i>
+	<br>
+	<button class="border borderless-button d-flex m-1 p-0 rounded" title="Відвідайте домашню сторінку розробника&#013;https://github.com/Nyonyx" type="button">
+		<a href="https://github.com/Nyonyx" target="_blank">
+			<img class="m-1" height="22" src="img/22/globe.svg">
+		</a>
+	</button>
+	<b>
+		Félix Barrette
+	</b>
+	<br>
+	<i>
+		Бекенд
+	</i>
+	<br>
+	<button class="border borderless-button d-flex m-1 p-0 rounded" title="Відвідайте домашню сторінку розробника&#013;https://github.com/ShroomySquid" type="button">
+		<a href="https://github.com/ShroomySquid" target="_blank">
+			<img class="m-1" height="22" src="img/22/globe.svg">
+		</a>
+	</button>
+	<b>
+		George Zhukov
+	</b>
+	<br>
+	<i>
+		Гра
+	</i>
+	<br>
+	<button class="border borderless-button d-flex m-1 p-0 rounded" title="Відвідайте домашню сторінку розробника&#013;https://github.com/joeroeg" type="button">
+		<a href="https://github.com/joeroeg" target="_blank">
+			<img class="m-1" height="22" src="img/22/globe.svg">
+		</a>
+	</button>
+	<b>
+		Léopold Couturier-Otis
+	</b>
+	<br>
+	<i>
+		Інтерфейс
+	</i>
+	<br>
+	<button class="border borderless-button d-flex m-1 p-0 rounded" title="Відвідайте домашню сторінку розробника&#013;https://github.com/lcouturi" type="button">
+		<a href="https://github.com/lcouturi" target="_blank">
+			<img class="m-1" height="22" src="img/22/globe.svg">
+		</a>
+	</button>
+	<b>
+		Pierre Olivier Paquet
+	</b>
+	<br>
+	<i>
+		MIA
+	</i>
+	<br>
+	<button class="border borderless-button d-flex m-1 p-0 rounded" title="Відвідайте домашню сторінку розробника&#013;https://github.com/pierreolivierpaquet" type="button">
+		<a href="https://github.com/pierreolivierpaquet" target="_blank">
+			<img class="m-1" height="22" src="img/22/globe.svg">
+		</a>
+	</button>`;
+	document.querySelector("#avatar-button").title = "Діалогове вікно відкриття файлів";
+	document.querySelector("#components-tab").innerHTML = "Компоненти";
+	document.querySelector("#components-tab-pane").innerHTML = `
+	<b>
+		Bootstrap
+	</b>
+	<br>
+	<i>
+		Версія 5.3.3
+	</i>
+	<br>
+	<button class="border borderless-button d-flex m-1 p-0 rounded" title="Відвідайте домашню сторінку компонента&#013;https://getbootstrap.com" type="button">
+		<a href="https://getbootstrap.com" target="_blank">
+			<img class="m-1" height="22" src="img/22/globe.svg">
+		</a>
+	</button>
+	<b>
+		Django
+	</b>
+	<br>
+	<i>
+		Версія 5.0.6
+	</i>
+	<br>
+	<button class="border borderless-button d-flex m-1 p-0 rounded" title="Відвідайте домашню сторінку компонента&#013;https://www.djangoproject.com" type="button">
+		<a href="https://www.djangoproject.com" target="_blank">
+			<img class="m-1" height="22" src="img/22/globe.svg">
+		</a>
+	</button>
+	<b>
+		PostgreSQL
+	</b>
+	<br>
+	<i>
+		Версія 16.3
+	</i>
+	<br>
+	<button class="border borderless-button d-flex m-1 p-0 rounded" title="Відвідайте домашню сторінку компонента&#013;https://www.postgresql.org" type="button">
+		<a href="https://www.postgresql.org" target="_blank">
+			<img class="m-1" height="22" src="img/22/globe.svg">
+		</a>
+	</button>
+	<b>
+		Three.js
+	</b>
+	<br>
+	<i>
+		Версія r165
+	</i>
+	<br>
+	<button class="border borderless-button d-flex m-1 p-0 rounded" title="Відвідайте домашню сторінку компонента&#013;https://threejs.org" type="button">
+		<a href="https://threejs.org" target="_blank">
+			<img class="m-1" height="22" src="img/22/globe.svg">
+		</a>
+	</button>`;
+	document.querySelector("#language-button").title = "Мова";
+	document.querySelector("#language-label").innerHTML = "Мова";
+	document.querySelector("#login-button").title = "Авторизуватися";
+	document.querySelector("#login-close-label").innerHTML = "Скасувати";
+	document.querySelector("#login-label").innerHTML = "Авторизуватися";
+	document.querySelector("#login-name-label").innerHTML = "Ім'я користувача:";
+	document.querySelector("#login-pass-label").innerHTML = "Пароль:";
+	document.querySelector("#login-title").innerHTML = "Авторизуватися";
+	document.querySelector("#play").title = "Грати";
+	document.querySelector("#play-label").innerHTML = "Грати";
+	document.querySelector("#profile-delete-label").innerHTML = "Видалити аккаунт";
+	document.querySelector("#profile-friends").innerHTML = "Керуйте друзями";
+	document.querySelector("#profile-friends-count").innerHTML = "Друзі: " + friends_array.length;
+	document.querySelector("#profile-friends-name").innerHTML = "Друзі";
+	document.querySelector("#profile-history").innerHTML = "Історія матчів";
+	document.querySelector("#profile-history-name").innerHTML = "Історія матчів";
+	document.querySelector("#profile-history-opponent").innerHTML = "Суперник";
+	document.querySelector("#profile-history-result").innerHTML = "Результат";
+	document.querySelector("#profile-history-time").innerHTML = "Час";
+	document.querySelector("#profile-list-item").placeholder = "Введіть ім'я користувача";
+	document.querySelector("#profile-logout-label").innerHTML = "Вийти";
+	document.querySelector("#profile-losses").innerHTML = losses + " втрати";
+	document.querySelector("#profile-wins").innerHTML = wins + " виграє";
+	document.querySelector("#register-button-label").innerHTML = "Зареєструватися";
+	document.querySelector("#register-close").innerHTML = "Скасувати";
+	document.querySelector("#register-name-label").innerHTML = "Ім'я користувача:";
+	document.querySelector("#register-pass-label").innerHTML = "Пароль:";
+	document.querySelector("#register-pass2-label").innerHTML = "Підтвердьте пароль:";
+	document.querySelector("#register-title").innerHTML = "Зареєструватися";
+	document.querySelector("#results-title").innerHTML = "Результати";
+	document.querySelector("#tournament-button").title = "Турнір";
+	document.querySelector("#tournament-close").innerHTML = "Закрити";
+	document.querySelector("#tournament-label").innerHTML = "Турнір";
+	document.querySelector("#tournament-list-item").placeholder = "Введіть ім'я користувача";
+	document.querySelector("#tournament-start-label").innerHTML = "Початок турніру";
+	document.querySelector("#tournament-start-match-label").innerHTML = "Наступний матч";
+	document.querySelector("#tournament-title").innerHTML = "Турнір";
+	document.title = "Велика авокадо війна 24 року";
+	if (contestant1 == "Invité" || contestant1 == "Guest")
+		contestant1 = "Гість";
+	if (contestant2 == "Invité" || contestant2 == "Guest")
+		contestant2 = "Гість";
+	document.querySelector("#contestant1").innerHTML = contestant1;
+	document.querySelector("#contestant2").innerHTML = contestant2;
+	if (g.isSinglePlayer == false)
+	{
+		document.querySelector("#contestant1").innerHTML = "Командний " + contestant1;
+		document.querySelector("#contestant2").innerHTML = "Командний " + contestant2;
 	}
 });
 
