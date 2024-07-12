@@ -121,7 +121,7 @@
 										</div>
 										<button class="border button d-flex m-1 ms-auto rounded shadow-sm w-100" data-bs-slide-to="1" data-bs-target="#profile" type="button">
 											<img class="m-1 ms-auto" height="22" src="img/22/appointment-new.svg">
-											<div class="me-auto my-auto text-nowrap">
+											<div class="me-auto my-auto text-nowrap" id="profile-history">
 												Match History
 											</div>
 											<img class="ms-1 my-auto" height="16" src="img/16/go-next.svg">
@@ -131,20 +131,20 @@
 										</div>
 										<button class="border button d-flex m-1 ms-auto rounded shadow-sm w-100" data-bs-slide-to="2" data-bs-target="#profile" type="button">
 											<img class="m-1 ms-auto" height="22" src="img/22/address-book-new.svg">
-											<div class="me-auto my-auto text-nowrap">
+											<div class="me-auto my-auto text-nowrap" id="profile-friends">
 												Manage Friends
 											</div>
 											<img class="ms-1 my-auto" height="16" src="img/16/go-next.svg">
 										</button>
 										<button class="border button d-flex m-1 ms-auto rounded shadow-sm w-100" id="profile-logout" type="button">
 											<img class="m-1 ms-auto" height="22" src="img/22/system-log-out.svg">
-											<div class="me-auto my-auto text-nowrap">
+											<div class="me-auto my-auto text-nowrap" id="profile-logout-label">
 												Log out
 											</div>
 										</button>
 										<button class="border button d-flex m-1 ms-auto rounded shadow-sm w-100" id="profile-delete" type="button">
 											<img class="m-1 ms-auto" height="22" src="img/22/edit-delete.svg">
-											<div class="me-auto my-auto text-nowrap">
+											<div class="me-auto my-auto text-nowrap" id="profile-delete-label">
 												Delete Account
 											</div>
 										</button>
@@ -158,13 +158,13 @@
 												Match History
 											</h3>
 										</div>
-										<table class="overflow-y-auto pe-3" style="max-height: calc(100vh - 102px);">
+										<table class="overflow-y-auto pe-3 w-100" style="max-height: calc(100vh - 102px);">
 											<thead>
 												<tr>
-													<th scope="col">
+													<th id="profile-history-time" scope="col">
 														Time
 													</th>
-													<th scope="col">
+													<th id="profile-history-result" scope="col">
 														Result
 													</th>
 													<th scope="col">
@@ -173,7 +173,7 @@
 													<th scope="col">
 														Score
 													</th>
-													<th scope="col">
+													<th id="profile-history-opponent" scope="col">
 														Opponent
 													</th>
 												</tr>
@@ -182,7 +182,7 @@
 											</tbody>
 										</table>
 									</div>
-									<div class="carousel-item">
+									<div class="carousel-item" style="width: max-content;">
 										<div class="bg-body-tertiary border-bottom d-flex p-2">
 											<button class="border borderless-button d-flex mx-1 my-auto p-0 rounded" data-bs-slide-to="0" data-bs-target="#profile" type="button">
 												<img class="m-1" height="22" src="img/22/go-previous.svg">
@@ -617,7 +617,7 @@
 					<div class="modal-footer p-1">
 						<button class="border button d-flex m-1 ms-auto rounded shadow-sm" data-bs-dismiss="modal" id="tournament-start-match" type="button">
 							<img class="m-1" height="22" src="img/22/media-playback-start.svg">
-							<div class="my-auto">
+							<div class="my-auto" id="tournament-start-match-label">
 								Next Match
 							</div>
 						</button>

@@ -211,6 +211,19 @@ document.querySelector("#english").addEventListener("change", function(e)
 	document.querySelector("#login-title").innerHTML = "Log in";
 	document.querySelector("#play").title = "Play";
 	document.querySelector("#play-label").innerHTML = "Play";
+	document.querySelector("#profile-delete-label").innerHTML = "Delete Account";
+	document.querySelector("#profile-friends").innerHTML = "Manage Friends";
+	document.querySelector("#profile-friends-count").innerHTML = "Friends: " + friends_array.length;
+	document.querySelector("#profile-friends-name").innerHTML = "Friends";
+	document.querySelector("#profile-history").innerHTML = "Match History";
+	document.querySelector("#profile-history-name").innerHTML = "Historique des matchs";
+	document.querySelector("#profile-history-opponent").innerHTML = "Opponent";
+	document.querySelector("#profile-history-result").innerHTML = "Result";
+	document.querySelector("#profile-history-time").innerHTML = "Time";
+	document.querySelector("#profile-list-item").placeholder = "Enter username";
+	document.querySelector("#profile-logout-label").innerHTML = "Log out";
+	document.querySelector("#profile-losses").innerHTML = losses + " Losses";
+	document.querySelector("#profile-wins").innerHTML = wins + " Wins";
 	document.querySelector("#register-button-label").innerHTML = "Register";
 	document.querySelector("#register-close").innerHTML = "Cancel";
 	document.querySelector("#register-name-label").innerHTML = "Username:";
@@ -221,7 +234,9 @@ document.querySelector("#english").addEventListener("change", function(e)
 	document.querySelector("#tournament-button").title = "Tournament";
 	document.querySelector("#tournament-close").innerHTML = "Close";
 	document.querySelector("#tournament-label").innerHTML = "Tournament";
+	document.querySelector("#tournament-list-item").placeholder = "Enter username";
 	document.querySelector("#tournament-start-label").innerHTML = "Tournament Start";
+	document.querySelector("#tournament-start-match-label").innerHTML = "Next Match";
 	document.querySelector("#tournament-title").innerHTML = "Tournament";
 	document.title = "The Great Avocado War of '24";
 	if (contestant1 == "Invité")
@@ -396,6 +411,19 @@ document.querySelector("#french").addEventListener("change", function(e)
 	document.querySelector("#login-title").innerHTML = "Connexion";
 	document.querySelector("#play").title = "Jouer";
 	document.querySelector("#play-label").innerHTML = "Jouer";
+	document.querySelector("#profile-delete-label").innerHTML = "Supprimer le compte";
+	document.querySelector("#profile-friends").innerHTML = "Gérer les amis";
+	document.querySelector("#profile-friends-count").innerHTML = "Amis: " + friends_array.length;
+	document.querySelector("#profile-friends-name").innerHTML = "Amis";
+	document.querySelector("#profile-history").innerHTML = "Historique des matchs";
+	document.querySelector("#profile-history-name").innerHTML = "Historique des matchs";
+	document.querySelector("#profile-history-opponent").innerHTML = "Adversaire";
+	document.querySelector("#profile-history-result").innerHTML = "Résultat";
+	document.querySelector("#profile-history-time").innerHTML = "Temps";
+	document.querySelector("#profile-list-item").placeholder = "Entrez le nom d’utilisateur";
+	document.querySelector("#profile-logout-label").innerHTML = "Déconnexion";
+	document.querySelector("#profile-losses").innerHTML = losses + " défaites";
+	document.querySelector("#profile-wins").innerHTML = wins + " victoires";
 	document.querySelector("#register-button-label").innerHTML = "Inscription";
 	document.querySelector("#register-close").innerHTML = "Annuler";
 	document.querySelector("#register-name-label").innerHTML = "Nom d’utilisateur:";
@@ -408,6 +436,7 @@ document.querySelector("#french").addEventListener("change", function(e)
 	document.querySelector("#tournament-label").innerHTML = "Tournoi";
 	document.querySelector("#tournament-list-item").placeholder = "Entrez le nom d’utilisateur";
 	document.querySelector("#tournament-start-label").innerHTML = "Commencer le tournoi";
+	document.querySelector("#tournament-start-match-label").innerHTML = "Match suivant";
 	document.querySelector("#tournament-title").innerHTML = "Tournoi";
 	document.title = "La grande guerre des avocats de 2024";
 	if (contestant1 == "Guest")
@@ -485,7 +514,10 @@ document.querySelector("#profile-list-add").addEventListener("click", function(e
 {
 	e.preventDefault();
 	add_item("profile", null);
-	document.querySelector("#profile-friends-count").innerHTML = "Friends: " + friends_array.length;
+	if (language == "english")
+		document.querySelector("#profile-friends-count").innerHTML = "Friends: " + friends_array.length;
+	else if (language == "french")
+		document.querySelector("#profile-friends-count").innerHTML = "Amis: " + friends_array.length;
 });
 
 document.querySelector("#profile-logout").addEventListener("click", function(e)
@@ -506,6 +538,8 @@ document.querySelector("#profile-name-edit").addEventListener("click", function(
 document.querySelector("#profile-name-input-button").addEventListener("click", function(e)
 {
 	e.preventDefault();
+	if (document.querySelector("#profile-name-input").value == "")
+		return ;
 	document.querySelector("#profile-name-inside").innerHTML = document.querySelector("#profile-name-input").value;
 	if (contestant1 == username)
 	{
@@ -684,7 +718,10 @@ function	add_item(prefix, value)
 	{
 		array.splice(array.indexOf(e.currentTarget.closest("div").innerText), 1);
 		e.currentTarget.closest("div").remove();
-		document.querySelector("#profile-friends-count").innerHTML = "Friends: " + friends_array.length;
+		if (language == "english")
+			document.querySelector("#profile-friends-count").innerHTML = "Friends: " + friends_array.length;
+		else if (language == "french")
+			document.querySelector("#profile-friends-count").innerHTML = "Amis: " + friends_array.length;
 	});
 	document.querySelector("#" + prefix + "-list").appendChild(div);
 	array.push(item);
@@ -697,6 +734,7 @@ function	add_item(prefix, value)
 
 function	banner_close(id)
 {
+	document.querySelector(id + "-text").innerHTML = "";
 	document.querySelector(id).classList.add("p-0", "overflow-hidden");
 	document.querySelector(id).classList.remove("p-1");
 	document.querySelector(id).style.maxHeight = "0";
@@ -811,15 +849,26 @@ function	profile_log_add(winner, loser, tournament)
 
 	if (tournament == true)
 	{
-		result = "Victory";
-		type = "Tournament";
+		if (language == "english")
+		{
+			result = "Victory";
+			type = "Tournament";
+		}
+		else if (language == "french")
+		{
+			result = "Victoire";
+			type = "Tournoi";
+		}
 	}
 	else
 	{
 		type = "Match";
 		if (winner == username)
 		{
-			result = "Victory";
+			if (language == "english")
+				result = "Victory";
+			else if (language == "french")
+				result = "Defeat";
 			if (g.playerScore < g.aiScore)
 				score = g.aiScore + "-" + g.playerScore;
 			else
@@ -828,7 +877,10 @@ function	profile_log_add(winner, loser, tournament)
 		}
 		else
 		{
-			result = "Defeat";
+			if (language == "english")
+				result = "Defeat";
+			else if (language == "french")
+				result = "Défaite";
 			if (g.playerScore < g.aiScore)
 				score = g.playerScore + "-" + g.aiScore;
 			else
@@ -836,7 +888,12 @@ function	profile_log_add(winner, loser, tournament)
 			opponent = winner;
 		}
 		if (g.isSinglePlayer == false)
-			opponent += " Team";
+		{
+			if (language == "english")
+				opponent += " Team";
+			else if (language == "french")
+				opponent = "Équipe " + opponent;
+		}
 	}
 	tr.innerHTML = `
 	<th class="text-nowrap" scope="row">
@@ -893,9 +950,16 @@ function	profile_update(value)
 		document.querySelector("#profile-bar").max = losses + wins;
 		document.querySelector("#profile-bar").value = wins;
 	}
-	document.querySelector("#profile-losses").innerHTML = losses + " Losses";
-	document.querySelector("#profile-wins").innerHTML = wins + " Wins";
-
+	if (language == "english")
+	{
+		document.querySelector("#profile-losses").innerHTML = losses + " Losses";
+		document.querySelector("#profile-wins").innerHTML = wins + " Wins";
+	}
+	else if (language == "french")
+	{
+		document.querySelector("#profile-losses").innerHTML = losses + " défaites";
+		document.querySelector("#profile-wins").innerHTML = wins + " victoires";
+	}
 }
 
 function	register_open()
@@ -913,17 +977,26 @@ function	register_validate()
 {
 	if (document.querySelector("#register-name").value == "")
 	{
-		banner_open("No username provided.", "#register-banner");
+		if (language == "english")
+			banner_open("No username provided.", "#register-banner");
+		else if (language == "french")
+			banner_open("Aucun nom d’utilisateur fourni.", "#register-banner");
 		return ;
 	}
 	else if (document.querySelector("#register-pass").value == "")
 	{
-		banner_open("No password provided.", "#register-banner");
+		if (language == "english")
+			banner_open("No password provided.", "#register-banner");
+		else if (language == "french")
+			banner_open("Aucun mot de pass fourni.", "#register-banner");
 		return ;
 	}
 	else if (document.querySelector("#register-pass").value != document.querySelector("#register-pass2").value)
 	{
-		banner_open("Passwords do not match.", "#register-banner");
+		if (language == "english")
+			banner_open("Passwords do not match.", "#register-banner");
+		else (language == "french")
+			banner_open("Vos mots de passes ne correspondent pas.", "#register-banner");
 		return ;
 	}
 	bootstrap.Modal.getInstance(document.getElementById("register")).hide();
