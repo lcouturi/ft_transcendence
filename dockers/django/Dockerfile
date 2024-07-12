@@ -30,11 +30,7 @@ ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
 # Runs the DAPHNE Asynchronous Server Gateway Interface (ASGI).
 # https://docs.djangoproject.com/en/5.0/howto/deployment/asgi/daphne/
-# CMD ["daphne", "-b", "0.0.0.0", "-p", "8000", "ft_transcendence.asgi:application"]
 CMD ["daphne", "ft_transcendence.asgi:application"]
-
-# # UNCOMMENT to run the default server, for development purposes.
-# CMD ["python", "./ft_transcendence/manage.py", "runserver", "0.0.0.0:8000"]
 
 # # UNCOMMENT for debugging purposes.
 # CMD ["tail", "-f", "/dev/urandom"]

@@ -15,5 +15,6 @@ python manage.py createsuperuser --username bob --email bob@gmail.com --noinput
 
 echo "Collecting static files"
 
+# Not ideal for production? What replacement?
 python manage.py runserver 0.0.0.0:8000
 # exec $@
