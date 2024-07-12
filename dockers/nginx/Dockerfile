@@ -5,7 +5,7 @@ RUN apk update && apk add openssl
 
 EXPOSE 443
 
-COPY ./config/ /etc/nginx/conf.d/
+COPY ./nginx/config/ /etc/nginx/conf.d/
 
 # If you need the html file in nginx, uncomment
 # COPY ./static/ ./usr/share/nginx/html

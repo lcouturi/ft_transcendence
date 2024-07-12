@@ -139,8 +139,13 @@ USE_TZ = True
 
 # stack-overflow solution
 STATIC_URL = '/static/'
-STATICFILES_DIRS = ('static',)
-STATIC_ROOT = ''
+# STATICFILES_DIRS = ('static',)
+# STATICFILES_DIRS = [ os.path.join(BASE_DIR, '../static'), ]
+# STATIC_ROOT = ''
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATIC_ROOT = "/static"
+
+
 
 LOGIN_URL = ''
 # Default primary key field type

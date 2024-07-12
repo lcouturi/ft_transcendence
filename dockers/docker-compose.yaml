@@ -22,7 +22,7 @@ services:
   
   django:
     build:
-      context: ./django
+      context: ./django/
       dockerfile: Dockerfile
     image: django:transcendence
     container_name: django
@@ -43,8 +43,8 @@ services:
 
   nginx:
     build:
-      context: ./nginx
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./nginx/Dockerfile
     image: nginx:transcendence
     container_name: nginx
     restart: on-failure:10

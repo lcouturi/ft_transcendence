@@ -21,6 +21,7 @@ EXPOSE 8000
 # UNCOMMENT to use the provided ./ft_transcendence application.
 # If !COMMENTED, make sure to COMMENT the VOLUME attributes in the docker-compose.yaml file.
 COPY ./ft_transcendence .
+COPY ./static /static
 
 # Setting up ENTRYPOINT script.
 COPY ./tools/entrypoint.sh /usr/local/bin
