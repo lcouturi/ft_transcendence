@@ -26,7 +26,7 @@ def index(request):
         friend_requesters = request.user.friend_requesters.all()
         request.user.save()
         
-    return render(request, "ft_transcendence.html", {
+    return render(request, "index.html", {
         "user":request.user,
         "friends": friends,
         "friend_requests":friend_requests,
