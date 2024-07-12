@@ -146,12 +146,14 @@
 											</div>
 											<img class="ms-1 my-auto" height="16" src='{% static "img/16/go-next.svg" %}'>
 										</button>
-										<button class="border button d-flex m-1 ms-auto rounded shadow-sm w-100" id="profile-logout" type="button">
-											<img class="m-1 ms-auto" height="22" src='{% static "img/22/system-log-out.svg" %}'>
-											<div class="me-auto my-auto text-nowrap" id="profile-logout-label">
-												Log out
-											</div>
-										</button>
+										<form method="get" action="{% url 'logout' %}">
+											<button class="border button d-flex m-1 ms-auto rounded shadow-sm w-100" id="profile-logout" type="submit">
+												<img class="m-1 ms-auto" height="22" src='{% static "img/22/system-log-out.svg" %}'>
+												<div class="me-auto my-auto text-nowrap" id="profile-logout-label">
+													Log out
+												</div>
+											</button>
+										</form>
 										<button class="border button d-flex m-1 ms-auto rounded shadow-sm w-100" id="profile-delete" type="button">
 											<img class="m-1 ms-auto" height="22" src='{% static "img/22/edit-delete.svg" %}'>
 											<div class="me-auto my-auto text-nowrap" id="profile-delete-label">
