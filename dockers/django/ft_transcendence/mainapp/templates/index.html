@@ -107,15 +107,16 @@
 										</div>
 										<div class="position-relative" id="profile-name-container">
 											<h3 class="mx-auto my-0 pe-none" id="profile-name-inside">
+												{{ user.username }}
 											</h3>
 											<div class="d-flex d-none" id="profile-name-input-container">
 												<input class="border me-1 p-1 rounded w-100" id="profile-name-input" type="text">
 												<label class="border button ms-1 rounded shadow-sm" id="profile-name-input-button">
-													<img class="m-1" height="22" src="img/22/dialog-ok-apply.svg">
+													<img class="m-1" height="22" src='{% static "img/22/dialog-ok-apply.svg" %}'>
 												</label>
 											</div>
 											<label class="border button d-none position-absolute end-0 rounded shadow-sm top-0" id="profile-name-edit">
-												<img class="m-1" height="22" src="img/22/document-edit.svg">
+												<img class="m-1" height="22" src='{% static "img/22/document-edit.svg" %}'>
 											</label>
 										</div>
 										<progress class="border-0 rounded w-100" id="profile-bar" max="100" value="50">
@@ -129,30 +130,30 @@
 											</div>
 										</div>
 										<button class="border button d-flex m-1 ms-auto rounded shadow-sm w-100" data-bs-slide-to="1" data-bs-target="#profile" type="button">
-											<img class="m-1 ms-auto" height="22" src="img/22/appointment-new.svg">
+											<img class="m-1 ms-auto" height="22" src='{% static "img/22/appointment-new.svg" %}'>
 											<div class="me-auto my-auto text-nowrap" id="profile-history">
 												Match History
 											</div>
-											<img class="ms-1 my-auto" height="16" src="img/16/go-next.svg">
+											<img class="ms-1 my-auto" height="16" src='{% static "img/16/go-next.svg" %}'>
 										</button>
 										<div class="d-flex mx-auto my-1 pe-none" id="profile-friends-count">
 											Friends: 0
 										</div>
 										<button class="border button d-flex m-1 ms-auto rounded shadow-sm w-100" data-bs-slide-to="2" data-bs-target="#profile" type="button">
-											<img class="m-1 ms-auto" height="22" src="img/22/address-book-new.svg">
+											<img class="m-1 ms-auto" height="22" src='{% static "img/22/address-book-new.svg" %}'>
 											<div class="me-auto my-auto text-nowrap" id="profile-friends">
 												Manage Friends
 											</div>
-											<img class="ms-1 my-auto" height="16" src="img/16/go-next.svg">
+											<img class="ms-1 my-auto" height="16" src='{% static "img/16/go-next.svg" %}'>
 										</button>
 										<button class="border button d-flex m-1 ms-auto rounded shadow-sm w-100" id="profile-logout" type="button">
-											<img class="m-1 ms-auto" height="22" src="img/22/system-log-out.svg">
+											<img class="m-1 ms-auto" height="22" src='{% static "img/22/system-log-out.svg" %}'>
 											<div class="me-auto my-auto text-nowrap" id="profile-logout-label">
 												Log out
 											</div>
 										</button>
 										<button class="border button d-flex m-1 ms-auto rounded shadow-sm w-100" id="profile-delete" type="button">
-											<img class="m-1 ms-auto" height="22" src="img/22/edit-delete.svg">
+											<img class="m-1 ms-auto" height="22" src='{% static "img/22/edit-delete.svg" %}'>
 											<div class="me-auto my-auto text-nowrap" id="profile-delete-label">
 												Delete Account
 											</div>
@@ -161,7 +162,7 @@
 									<div class="carousel-item">
 										<div class="bg-body-tertiary border-bottom d-flex p-2">
 											<button class="border borderless-button d-flex mx-1 my-auto p-0 rounded" data-bs-slide-to="0" data-bs-target="#profile" type="button">
-												<img class="m-1" height="22" src="img/22/go-previous.svg">
+												<img class="m-1" height="22" src='{% static "img/22/go-previous.svg" %}'>
 											</button>
 											<h3 class="m-auto pe-none text-nowrap" id="profile-history-name">
 												Match History
@@ -194,7 +195,7 @@
 									<div class="carousel-item" style="width: max-content;">
 										<div class="bg-body-tertiary border-bottom d-flex p-2">
 											<button class="border borderless-button d-flex mx-1 my-auto p-0 rounded" data-bs-slide-to="0" data-bs-target="#profile" type="button">
-												<img class="m-1" height="22" src="img/22/go-previous.svg">
+												<img class="m-1" height="22" src='{% static "img/22/go-previous.svg" %}'>
 											</button>
 											<h3 class="m-auto pe-none text-nowrap" id="profile-friends-name">
 												Friends
@@ -204,7 +205,7 @@
 											<div class="m-auto pe-none text-nowrap" id="profile-banner-text">
 											</div>
 											<button class="border borderless-button d-flex p-0 rounded" id="profile-banner-close" type="button">
-												<img class="m-1" height="22" src="img/22/window-close.svg">
+												<img class="m-1" height="22" src='{% static "img/22/window-close.svg" %}'>
 											</button>
 										</div>
 										<div class="overflow-y-auto over pe-2" style="min-width: min-content;" tabindex="-1">
@@ -212,7 +213,7 @@
 												<div class= "d-flex">
 													<input class="border m-1 p-1 rounded w-100" id="profile-list-item" placeholder="Enter username" type="text">
 													<button class="border button d-flex m-1 rounded shadow-sm" id="profile-list-add">
-														<img class="m-1" height="22" src="img/22/list-add.svg">
+														<img class="m-1" height="22" src='{% static "img/22/list-add.svg" %}'>
 													</button>
 												</div>
 												<div id="profile-list" style="min-width: min-content;">
