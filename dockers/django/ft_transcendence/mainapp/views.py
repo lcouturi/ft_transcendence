@@ -20,7 +20,7 @@ def index(request):
         request.user.save()
         friends = request.user.friends_list.all()
 
-    return render(request, "ft_transcendence.html", {
+    return render(request, "index.html", {
         "user":request.user,
         "friends": friends
     })
@@ -67,6 +67,7 @@ def upload_image(request):
     return redirect(reverse("accueil"))
 
 def login_check(request):
+    print("hello")
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']

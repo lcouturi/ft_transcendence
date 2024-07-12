@@ -1,3 +1,5 @@
 #!/bin/bash
 
-exec #@
+curl -s -o /dev/null "http://django:8000"
+
+# exec #@

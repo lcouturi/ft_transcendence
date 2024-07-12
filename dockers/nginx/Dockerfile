@@ -25,10 +25,16 @@
 
 FROM nginx:1.26-alpine-slim
 
-EXPOSE 80
-# EXPOSE 443
+RUN apk update && apk add openssl
 
-# COPY ./config/ /etc/nginx/conf.d/
-COPY ./static/ ./usr/share/nginx/html
+# EXPOSE 80
+EXPOSE 443
+
+COPY ./config/ /etc/nginx/conf.d/
+# COPY ./static/ ./usr/share/nginx/html
+
+# SSL configuration
+RUN mkdir -p /etc/nginx/ssl
+RUN openssl req -x509 -newkey rsa:4096 -keyout /etc/nginx/ssl/key.key -out /etc/nginx/ssl/cert.crt -sha256 -days 3650 -nodes -subj "/C=CA/ST=Quebec/L=Quebec/O=42/OU=dude/CN=localhost"
 
 CMD ["nginx", "-g", "daemon off;"]

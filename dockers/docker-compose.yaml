@@ -1,11 +1,6 @@
 volumes:
   volume-django:
-    # name: volume-django
-    # driver: local
-    # driver_opts:
-    # type: 'none'
-    # o: 'bind'
-      #      device: ${HOME}/data/volume-django
+  static:
 
 services:
   database:
@@ -22,6 +17,8 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=postgres
+    networks:
+      - default_network
   
   django:
     build:
@@ -30,17 +27,21 @@ services:
     image: django:transcendence
     container_name: django
     restart: on-failure:10
-  # Binds the HOST ~/data/volume-django -> CONTAINER /usr/src/app/ft_transcendence folder.
+    env_file:
+      - .env
     volumes:
       - volume-django:/usr/src/app
-    ports:
-      - "8080:8000"
+      - static:/static
+        # ports:
+        # - "8000:8000"
     environment:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     depends_on:
       - database
+    networks:
+      - default_network
 
   nginx:
     build:
@@ -53,6 +54,12 @@ services:
      - "443:443"
      - "80:80"
     volumes: 
-     - /static
+     - static:/static
     depends_on:
      - django
+    networks:
+      - default_network
+
+networks:
+  default_network:
+    driver: bridge
