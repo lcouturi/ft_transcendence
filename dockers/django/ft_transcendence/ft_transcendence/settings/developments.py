@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+
+from .base import *
 from pathlib import Path
 import mimetypes
 import os
@@ -20,17 +22,17 @@ mimetypes.add_type("text/html", ".html", True)
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = 'django-insecure-=eys@q%rly3wg%p02n0pv8**ltk^a#a05wnipq8o3dul=p3c5b'
+SECRET_KEY = 'django-insecure-=eys@q%rly3wg%p02n0pv8**ltk^a#a05wnipq8o3dul=p3c5b'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG')
+#DEBUG = os.getenv('DEBUG')
+DEBUG = True
 
-SECRET_KEY = os.getenv('SECRET_KEY')
+#SECRET_KEY = os.getenv('SECRET_KEY')
 
 ALLOWED_HOSTS = [
         '*',
@@ -87,19 +89,19 @@ WSGI_APPLICATION = 'ft_transcendence.wsgi.application'
 
 DATABASES = {
     # Default database sqlite that come with django
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3',
-    # }
-    # Postgres database
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': 'database',   # ou l'adresse IP de votre serveur PostgreSQL
-        'PORT': '5432',        # port par défaut de PostgreSQL
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
+    # Postgres database
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'postgres',
+    #     'USER': 'postgres',
+    #     'PASSWORD': 'postgres',
+    #     'HOST': 'database',   # ou l'adresse IP de votre serveur PostgreSQL
+    #     'PORT': '5432',        # port par défaut de PostgreSQL
+    # }
 }
 
 
