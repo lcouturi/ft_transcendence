@@ -1,6 +1,5 @@
 volumes:
   volume-django:
-  static:
 
 services:
   database:
@@ -33,7 +32,7 @@ services:
       - .env
     volumes:
       - volume-django:/usr/src/app
-      - static:/static
+      - ./django/static:/static:ro
     environment:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
@@ -56,7 +55,7 @@ services:
      - "443:443"
      - "80:80"
     volumes: 
-     - static:/static
+     - ./django/static:/static:ro
     depends_on:
      - django
     networks:
