@@ -89,6 +89,7 @@
 						<button aria-expanded="false" class="bg-body-tertiary border d-flex nav-item py-1 rounded text-nowrap" data-bs-auto-close="outside" data-bs-toggle="dropdown" title="Profile">
 							<img class="rounded-circle" height="22" id="profile-avatar-mini" src='{% static "img/22/im-user.svg" %}'>
 							<a aria-current="page" class="active ms-1 my-auto nav-link p-0" id="profile-name">
+								{{ user.username }}
 							</a>
 							<img class="ms-1 my-auto" height="16" src='{% static "img/16/go-down.svg" %}'>
 						</button>

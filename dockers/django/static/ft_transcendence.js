@@ -670,11 +670,11 @@ document.querySelector("#login-banner-close").addEventListener("click", function
 	banner_close('#login-banner');
 });
 
-document.querySelector("#login-ok").addEventListener("click", function(e)
-{
-	e.preventDefault();
-	login_validate();
-});
+// document.querySelector("#login-ok").addEventListener("click", function(e)
+// {
+// 	e.preventDefault();
+// 	login_validate();
+// });
 
 document.querySelector("#pause").addEventListener("click", function(e)
 {
@@ -781,11 +781,11 @@ document.querySelector("#register-button").addEventListener("click", function(e)
 	register_open();
 });
 
-document.querySelector("#register-ok").addEventListener("click", function(e)
-{
-	e.preventDefault();
-	register_validate();
-});
+// document.querySelector("#register-ok").addEventListener("click", function(e)
+// {
+// 	e.preventDefault();
+// 	register_validate();
+// });
 
 document.querySelector("#results").addEventListener("hidden.bs.modal", function(e)
 {
