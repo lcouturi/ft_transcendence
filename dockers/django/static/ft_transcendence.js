@@ -61,8 +61,8 @@ document.querySelector("#english").addEventListener("change", function(e)
 	document.querySelector("#about-label").innerHTML = "About";
 	document.querySelector("#about-tab").innerHTML = "About";
 	document.querySelector("#about-tab-pane").innerHTML = `
-	div class="d-flex">
-		<img class="inline-img" src="img/openart-image_yBIl3nIg_1717776713014_raw.jpg">
+	<div class="d-flex">
+		<img class="inline-img" src="/static/img/openart-image_yBIl3nIg_1717776713014_raw.jpg" %}'>
 	</div>
 	<br>
 	On February 30th 2024, something happened that would forever change the course of history. Tired of being treated as little more than food, the avocados waged war against the animal kingdom as a whole.
@@ -91,7 +91,7 @@ document.querySelector("#english").addEventListener("change", function(e)
 	<br>
 	<button class="border borderless-button d-flex m-1 p-0 rounded" title="Visit contributor's homepage&#013;https://github.com/Nyonyx" type="button">
 		<a href="https://github.com/Nyonyx" target="_blank">
-			<img class="m-1" height="22" src="img/22/globe.svg">
+			<img class="m-1" height="22" src="/static/img/22/globe.svg">
 		</a>
 	</button>
 	<b>
@@ -104,7 +104,7 @@ document.querySelector("#english").addEventListener("change", function(e)
 	<br>
 	<button class="border borderless-button d-flex m-1 p-0 rounded" title="Visit contributor's homepage&#013;https://github.com/ShroomySquid" type="button">
 		<a href="https://github.com/ShroomySquid" target="_blank">
-			<img class="m-1" height="22" src="img/22/globe.svg">
+			<img class="m-1" height="22" src="/static/img/22/globe.svg">
 		</a>
 	</button>
 	<b>
@@ -117,7 +117,7 @@ document.querySelector("#english").addEventListener("change", function(e)
 	<br>
 	<button class="border borderless-button d-flex m-1 p-0 rounded" title="Visit contributor's homepage&#013;https://github.com/joeroeg" type="button">
 		<a href="https://github.com/joeroeg" target="_blank">
-			<img class="m-1" height="22" src="img/22/globe.svg">
+			<img class="m-1" height="22" src="/static/img/22/globe.svg">
 		</a>
 	</button>
 	<b>
@@ -130,7 +130,7 @@ document.querySelector("#english").addEventListener("change", function(e)
 	<br>
 	<button class="border borderless-button d-flex m-1 p-0 rounded" title="Visit contributor's homepage&#013;https://github.com/lcouturi" type="button">
 		<a href="https://github.com/lcouturi" target="_blank">
-			<img class="m-1" height="22" src="img/22/globe.svg">
+			<img class="m-1" height="22" src="/static/img/22/globe.svg">
 		</a>
 	</button>
 	<b>
@@ -143,7 +143,7 @@ document.querySelector("#english").addEventListener("change", function(e)
 	<br>
 	<button class="border borderless-button d-flex m-1 p-0 rounded" title="Visit contributor's homepage&#013;https://github.com/pierreolivierpaquet" type="button">
 		<a href="https://github.com/pierreolivierpaquet" target="_blank">
-			<img class="m-1" height="22" src="img/22/globe.svg">
+			<img class="m-1" height="22" src="/static/img/22/globe.svg">
 		</a>
 	</button>`;
 	document.querySelector("#avatar-button").title = "Open file dialog";
@@ -159,7 +159,7 @@ document.querySelector("#english").addEventListener("change", function(e)
 	<br>
 	<button class="border borderless-button d-flex m-1 p-0 rounded" title="Visit component's homepage&#013;https://getbootstrap.com" type="button">
 		<a href="https://getbootstrap.com" target="_blank">
-			<img class="m-1" height="22" src="img/22/globe.svg">
+			<img class="m-1" height="22" src="/static/img/22/globe.svg">
 		</a>
 	</button>
 	<b>
@@ -172,7 +172,7 @@ document.querySelector("#english").addEventListener("change", function(e)
 	<br>
 	<button class="border borderless-button d-flex m-1 p-0 rounded" title="Visit component's homepage&#013;https://www.djangoproject.com" type="button">
 		<a href="https://www.djangoproject.com" target="_blank">
-			<img class="m-1" height="22" src="img/22/globe.svg">
+			<img class="m-1" height="22" src="/static/img/22/globe.svg">
 		</a>
 	</button>
 	<b>
@@ -185,7 +185,7 @@ document.querySelector("#english").addEventListener("change", function(e)
 	<br>
 	<button class="border borderless-button d-flex m-1 p-0 rounded" title="Visit component's homepage&#013;https://www.postgresql.org" type="button">
 		<a href="https://www.postgresql.org" target="_blank">
-			<img class="m-1" height="22" src="img/22/globe.svg">
+			<img class="m-1" height="22" src="/static/img/22/globe.svg">
 		</a>
 	</button>
 	<b>
@@ -198,7 +198,7 @@ document.querySelector("#english").addEventListener("change", function(e)
 	<br>
 	<button class="border borderless-button d-flex m-1 p-0 rounded" title="Visit component's homepage&#013;https://threejs.org" type="button">
 		<a href="https://threejs.org" target="_blank">
-			<img class="m-1" height="22" src="img/22/globe.svg">
+			<img class="m-1" height="22" src="/static/img/22/globe.svg">
 		</a>
 	</button>`;
 	document.querySelector("#language-button").title = "Language";
@@ -262,7 +262,7 @@ document.querySelector("#french").addEventListener("change", function(e)
 	document.querySelector("#about-tab").innerHTML = "À propos";
 	document.querySelector("#about-tab-pane").innerHTML = `
 	<div class="d-flex">
-		<img class="inline-img" src="img/openart-image_yBIl3nIg_1717776713014_raw.jpg">
+		<img class="inline-img" src="/static/img/openart-image_yBIl3nIg_1717776713014_raw.jpg" %}'>
 	</div>
 	<br>
 	Le 30 février 2024, quelque chose c’est produit qui a de façon permanente changé le cours de l’histoire. Épuisés d’être traités comme rien de plus que de la nourriture, les avocats ont déclaré la guerre contre l’entièreté du royaume des animaux.
@@ -291,7 +291,7 @@ document.querySelector("#french").addEventListener("change", function(e)
 	<br>
 	<button class="border borderless-button d-flex m-1 p-0 rounded" title="Visiter la page d'accueil du contributeur&#013;https://github.com/Nyonyx" type="button">
 		<a href="https://github.com/Nyonyx" target="_blank">
-			<img class="m-1" height="22" src="img/22/globe.svg">
+			<img class="m-1" height="22" src="/static/img/22/globe.svg">
 		</a>
 	</button>
 	<b>
@@ -304,7 +304,7 @@ document.querySelector("#french").addEventListener("change", function(e)
 	<br>
 	<button class="border borderless-button d-flex m-1 p-0 rounded" title="Visiter la page d'accueil du contributeur&#013;https://github.com/ShroomySquid" type="button">
 		<a href="https://github.com/ShroomySquid" target="_blank">
-			<img class="m-1" height="22" src="img/22/globe.svg">
+			<img class="m-1" height="22" src="/static/img/22/globe.svg">
 		</a>
 	</button>
 	<b>
@@ -317,7 +317,7 @@ document.querySelector("#french").addEventListener("change", function(e)
 	<br>
 	<button class="border borderless-button d-flex m-1 p-0 rounded" title="Visiter la page d'accueil du contributeur&#013;https://github.com/joeroeg" type="button">
 		<a href="https://github.com/joeroeg" target="_blank">
-			<img class="m-1" height="22" src="img/22/globe.svg">
+			<img class="m-1" height="22" src="/static/img/22/globe.svg">
 		</a>
 	</button>
 	<b>
@@ -330,7 +330,7 @@ document.querySelector("#french").addEventListener("change", function(e)
 	<br>
 	<button class="border borderless-button d-flex m-1 p-0 rounded" title="Visiter la page d'accueil du contributeur&#013;https://github.com/lcouturi" type="button">
 		<a href="https://github.com/lcouturi" target="_blank">
-			<img class="m-1" height="22" src="img/22/globe.svg">
+			<img class="m-1" height="22" src="/static/img/22/globe.svg">
 		</a>
 	</button>
 	<b>
@@ -343,7 +343,7 @@ document.querySelector("#french").addEventListener("change", function(e)
 	<br>
 	<button class="border borderless-button d-flex m-1 p-0 rounded" title="Visiter la page d'accueil du contributeur&#013;https://github.com/pierreolivierpaquet" type="button">
 		<a href="https://github.com/pierreolivierpaquet" target="_blank">
-			<img class="m-1" height="22" src="img/22/globe.svg">
+			<img class="m-1" height="22" src="/static/img/22/globe.svg">
 		</a>
 	</button>`;
 	document.querySelector("#avatar-button").title = "Ouvrir le sélecteur de fichiers";
@@ -359,7 +359,7 @@ document.querySelector("#french").addEventListener("change", function(e)
 	<br>
 	<button class="border borderless-button d-flex m-1 p-0 rounded" title="Visiter la page d'accueil du composant&#013;https://getbootstrap.com" type="button">
 		<a href="https://getbootstrap.com" target="_blank">
-			<img class="m-1" height="22" src="img/22/globe.svg">
+			<img class="m-1" height="22" src="/static/img/22/globe.svg">
 		</a>
 	</button>
 	<b>
@@ -372,7 +372,7 @@ document.querySelector("#french").addEventListener("change", function(e)
 	<br>
 	<button class="border borderless-button d-flex m-1 p-0 rounded" title="Visiter la page d'accueil du composant&#013;https://www.djangoproject.com" type="button">
 		<a href="https://www.djangoproject.com" target="_blank">
-			<img class="m-1" height="22" src="img/22/globe.svg">
+			<img class="m-1" height="22" src="/static/img/22/globe.svg">
 		</a>
 	</button>
 	<b>
@@ -385,7 +385,7 @@ document.querySelector("#french").addEventListener("change", function(e)
 	<br>
 	<button class="border borderless-button d-flex m-1 p-0 rounded" title="Visiter la page d'accueil du composant&#013;https://www.postgresql.org" type="button">
 		<a href="https://www.postgresql.org" target="_blank">
-			<img class="m-1" height="22" src="img/22/globe.svg">
+			<img class="m-1" height="22" src="/static/img/22/globe.svg">
 		</a>
 	</button>
 	<b>
@@ -398,7 +398,7 @@ document.querySelector("#french").addEventListener("change", function(e)
 	<br>
 	<button class="border borderless-button d-flex m-1 p-0 rounded" title="Visiter la page d'accueil du composant&#013;https://threejs.org" type="button">
 		<a href="https://threejs.org" target="_blank">
-			<img class="m-1" height="22" src="img/22/globe.svg">
+			<img class="m-1" height="22" src="/static/img/22/globe.svg">
 		</a>
 	</button>`;
 	document.querySelector("#language-button").title = "Langue";
@@ -462,7 +462,7 @@ document.querySelector("#ukrainian").addEventListener("change", function(e)
 	document.querySelector("#about-tab").innerHTML = "Про";
 	document.querySelector("#about-tab-pane").innerHTML = `
 	<div class="d-flex">
-		<img class="inline-img" src="img/openart-image_yBIl3nIg_1717776713014_raw.jpg">
+		<img class="inline-img" src="/static/img/openart-image_yBIl3nIg_1717776713014_raw.jpg" %}'>
 	</div>
 	<br>
 	30 лютого 2024 року сталося те, що назавжди змінило хід історії. Втомившись від того, що до них ставляться лише як до їжі, авокадо почали війну проти тваринного світу в цілому.
@@ -491,7 +491,7 @@ document.querySelector("#ukrainian").addEventListener("change", function(e)
 	<br>
 	<button class="border borderless-button d-flex m-1 p-0 rounded" title="Відвідайте домашню сторінку розробника&#013;https://github.com/Nyonyx" type="button">
 		<a href="https://github.com/Nyonyx" target="_blank">
-			<img class="m-1" height="22" src="img/22/globe.svg">
+			<img class="m-1" height="22" src="/static/img/22/globe.svg">
 		</a>
 	</button>
 	<b>
@@ -504,7 +504,7 @@ document.querySelector("#ukrainian").addEventListener("change", function(e)
 	<br>
 	<button class="border borderless-button d-flex m-1 p-0 rounded" title="Відвідайте домашню сторінку розробника&#013;https://github.com/ShroomySquid" type="button">
 		<a href="https://github.com/ShroomySquid" target="_blank">
-			<img class="m-1" height="22" src="img/22/globe.svg">
+			<img class="m-1" height="22" src="/static/img/22/globe.svg">
 		</a>
 	</button>
 	<b>
@@ -517,7 +517,7 @@ document.querySelector("#ukrainian").addEventListener("change", function(e)
 	<br>
 	<button class="border borderless-button d-flex m-1 p-0 rounded" title="Відвідайте домашню сторінку розробника&#013;https://github.com/joeroeg" type="button">
 		<a href="https://github.com/joeroeg" target="_blank">
-			<img class="m-1" height="22" src="img/22/globe.svg">
+			<img class="m-1" height="22" src="/static/img/22/globe.svg">
 		</a>
 	</button>
 	<b>
@@ -530,7 +530,7 @@ document.querySelector("#ukrainian").addEventListener("change", function(e)
 	<br>
 	<button class="border borderless-button d-flex m-1 p-0 rounded" title="Відвідайте домашню сторінку розробника&#013;https://github.com/lcouturi" type="button">
 		<a href="https://github.com/lcouturi" target="_blank">
-			<img class="m-1" height="22" src="img/22/globe.svg">
+			<img class="m-1" height="22" src="/static/img/22/globe.svg">
 		</a>
 	</button>
 	<b>
@@ -543,7 +543,7 @@ document.querySelector("#ukrainian").addEventListener("change", function(e)
 	<br>
 	<button class="border borderless-button d-flex m-1 p-0 rounded" title="Відвідайте домашню сторінку розробника&#013;https://github.com/pierreolivierpaquet" type="button">
 		<a href="https://github.com/pierreolivierpaquet" target="_blank">
-			<img class="m-1" height="22" src="img/22/globe.svg">
+			<img class="m-1" height="22" src="/static/img/22/globe.svg">
 		</a>
 	</button>`;
 	document.querySelector("#avatar-button").title = "Діалогове вікно відкриття файлів";
@@ -559,7 +559,7 @@ document.querySelector("#ukrainian").addEventListener("change", function(e)
 	<br>
 	<button class="border borderless-button d-flex m-1 p-0 rounded" title="Відвідайте домашню сторінку компонента&#013;https://getbootstrap.com" type="button">
 		<a href="https://getbootstrap.com" target="_blank">
-			<img class="m-1" height="22" src="img/22/globe.svg">
+			<img class="m-1" height="22" src="/static/img/22/globe.svg">
 		</a>
 	</button>
 	<b>
@@ -572,7 +572,7 @@ document.querySelector("#ukrainian").addEventListener("change", function(e)
 	<br>
 	<button class="border borderless-button d-flex m-1 p-0 rounded" title="Відвідайте домашню сторінку компонента&#013;https://www.djangoproject.com" type="button">
 		<a href="https://www.djangoproject.com" target="_blank">
-			<img class="m-1" height="22" src="img/22/globe.svg">
+			<img class="m-1" height="22" src="/static/img/22/globe.svg">
 		</a>
 	</button>
 	<b>
@@ -585,7 +585,7 @@ document.querySelector("#ukrainian").addEventListener("change", function(e)
 	<br>
 	<button class="border borderless-button d-flex m-1 p-0 rounded" title="Відвідайте домашню сторінку компонента&#013;https://www.postgresql.org" type="button">
 		<a href="https://www.postgresql.org" target="_blank">
-			<img class="m-1" height="22" src="img/22/globe.svg">
+			<img class="m-1" height="22" src="/static/img/22/globe.svg">
 		</a>
 	</button>
 	<b>
@@ -598,7 +598,7 @@ document.querySelector("#ukrainian").addEventListener("change", function(e)
 	<br>
 	<button class="border borderless-button d-flex m-1 p-0 rounded" title="Відвідайте домашню сторінку компонента&#013;https://threejs.org" type="button">
 		<a href="https://threejs.org" target="_blank">
-			<img class="m-1" height="22" src="img/22/globe.svg">
+			<img class="m-1" height="22" src="/static/img/22/globe.svg">
 		</a>
 	</button>`;
 	document.querySelector("#language-button").title = "Мова";
@@ -670,11 +670,11 @@ document.querySelector("#login-banner-close").addEventListener("click", function
 	banner_close('#login-banner');
 });
 
-document.querySelector("#login-ok").addEventListener("click", function(e)
-{
-	e.preventDefault();
-	login_validate();
-});
+// document.querySelector("#login-ok").addEventListener("click", function(e)
+// {
+// 	e.preventDefault();
+// 	login_validate();
+// });
 
 document.querySelector("#pause").addEventListener("click", function(e)
 {
@@ -781,11 +781,11 @@ document.querySelector("#register-button").addEventListener("click", function(e)
 	register_open();
 });
 
-document.querySelector("#register-ok").addEventListener("click", function(e)
-{
-	e.preventDefault();
-	register_validate();
-});
+// document.querySelector("#register-ok").addEventListener("click", function(e)
+// {
+// 	e.preventDefault();
+// 	register_validate();
+// });
 
 document.querySelector("#results").addEventListener("hidden.bs.modal", function(e)
 {
@@ -902,14 +902,14 @@ function	add_item(prefix, value)
 	if (prefix == "profile")
 	{
 		divContainer += `
-		<img class="mx-1 my-auto" height="22" src="img/22/im-user-away.svg" title="Away">`
+		<img class="mx-1 my-auto" height="22" src="/static/img/22/im-user-away.svg" title="Away">`
 	}
 	divContainer += `
 		<div class="m-1 p-1 w-100" style="min-width: min-content;">
 			${sanitize(item)}
 		</div>
 		<button class="border button d-flex delete m-1 rounded shadow-sm">
-			<img class="icon m-1" height="22" src="img/22/list-remove.svg">
+			<img class="icon m-1" height="22" src="/static/img/22/list-remove.svg">
 		</button>
 	</div>`;
 	div.style.minWidth = "min-content";
@@ -1118,7 +1118,7 @@ function	profile_logout()
 {
 	document.querySelector("#login-button").classList.add("d-flex");
 	document.querySelector("#login-button").classList.remove("d-none");
-	document.querySelector("#profile-avatar").src = "img/22/im-user.svg";
+	document.querySelector("#profile-avatar").src = "/static/img/22/im-user.svg";
 	document.querySelector("#profile-button").classList.add("d-none");
 	document.querySelector("#profile-log").innerHTML = "";
 	document.querySelector("#profile-name").innerHTML = "";
@@ -1305,7 +1305,7 @@ export function	start_match()
 	if (contestant1 == username)
 		document.querySelector("#contestant1-avatar").src = document.querySelector("#profile-avatar").src;
 	else
-		document.querySelector("#contestant1-avatar").src = "img/22/im-user.svg";
+		document.querySelector("#contestant1-avatar").src = "/static/img/22/im-user.svg";
 	document.querySelector("#contestant2").innerHTML = contestant2;
 	if (g.isSinglePlayer == false)
 	{
@@ -1317,7 +1317,7 @@ export function	start_match()
 	if (contestant2 == username)
 		document.querySelector("#contestant2-avatar").src = document.querySelector("#profile-avatar").src;
 	else
-		document.querySelector("#contestant2-avatar").src = "img/22/im-user.svg";
+		document.querySelector("#contestant2-avatar").src = "/static/img/22/im-user.svg";
 }
 
 function	tournament_open()

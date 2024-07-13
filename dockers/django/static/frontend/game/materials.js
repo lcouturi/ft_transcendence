@@ -32,7 +32,7 @@ export function initWoodMaterials() {
     });
 
     const textureLoader = new THREE.TextureLoader();
-    textureLoader.load('frontend/game/textures/hardwood2_diffuse.jpg', function (map) {
+    textureLoader.load('/static/frontend/game/textures/hardwood2_diffuse.jpg', function (map) {
         map.wrapS = THREE.RepeatWrapping;
         map.wrapT = THREE.RepeatWrapping;
         map.anisotropy = 4;
@@ -41,7 +41,7 @@ export function initWoodMaterials() {
         floorMat.map = map;
         floorMat.needsUpdate = true;
     });
-    textureLoader.load('frontend/game/textures/hardwood2_bump.jpg', function (map) {
+    textureLoader.load('/static/frontend/game/textures/hardwood2_bump.jpg', function (map) {
         map.wrapS = THREE.RepeatWrapping;
         map.wrapT = THREE.RepeatWrapping;
         map.anisotropy = 4;
@@ -49,7 +49,7 @@ export function initWoodMaterials() {
         floorMat.bumpMap = map;
         floorMat.needsUpdate = true;
     });
-    textureLoader.load('frontend/game/textures/hardwood2_roughness.jpg', function (map) {
+    textureLoader.load('/static/frontend/game/textures/hardwood2_roughness.jpg', function (map) {
         map.wrapS = THREE.RepeatWrapping;
         map.wrapT = THREE.RepeatWrapping;
         map.anisotropy = 4;
@@ -95,7 +95,7 @@ function initAsphaltMaterials() {
     const textureLoader = new THREE.TextureLoader();
 
     // Load textures with callbacks to ensure they load correctly
-    const colorTexture = textureLoader.load('frontend/game/textures/Asphalt025C_2K-JPG/Asphalt025C_2K-JPG_Color.jpg', function (map) {
+    const colorTexture = textureLoader.load('/static/frontend/game/textures/Asphalt025C_2K-JPG/Asphalt025C_2K-JPG_Color.jpg', function (map) {
         map.wrapS = THREE.RepeatWrapping;
         map.wrapT = THREE.RepeatWrapping;
         map.anisotropy = 4;
@@ -105,7 +105,7 @@ function initAsphaltMaterials() {
         floorMat.needsUpdate = true;
     });
 
-    const aoTexture = textureLoader.load('frontend/game/textures/Asphalt025C_2K-JPG/Asphalt025C_2K-JPG_AmbientOcclusion.jpg', function (map) {
+    const aoTexture = textureLoader.load('/static/frontend/game/textures/Asphalt025C_2K-JPG/Asphalt025C_2K-JPG_AmbientOcclusion.jpg', function (map) {
         map.wrapS = THREE.RepeatWrapping;
         map.wrapT = THREE.RepeatWrapping;
         map.anisotropy = 4;
@@ -114,7 +114,7 @@ function initAsphaltMaterials() {
         floorMat.needsUpdate = true;
     });
 
-    const normalTexture = textureLoader.load('frontend/game/textures/Asphalt025C_2K-JPG/Asphalt025C_2K-JPG_NormalGL.jpg', function (map) {
+    const normalTexture = textureLoader.load('/static/frontend/game/textures/Asphalt025C_2K-JPG/Asphalt025C_2K-JPG_NormalGL.jpg', function (map) {
         map.wrapS = THREE.RepeatWrapping;
         map.wrapT = THREE.RepeatWrapping;
         map.anisotropy = 4;
@@ -123,7 +123,7 @@ function initAsphaltMaterials() {
         floorMat.needsUpdate = true;
     });
 
-    const roughnessTexture = textureLoader.load('frontend/game/textures/Asphalt025C_2K-JPG/Asphalt025C_2K-JPG_Roughness.jpg', function (map) {
+    const roughnessTexture = textureLoader.load('/static/frontend/game/textures/Asphalt025C_2K-JPG/Asphalt025C_2K-JPG_Roughness.jpg', function (map) {
         map.wrapS = THREE.RepeatWrapping;
         map.wrapT = THREE.RepeatWrapping;
         map.anisotropy = 4;
@@ -154,7 +154,7 @@ function initGrassMaterials() {
     let repeatX = 5;
     let repeatY = 5;
     let anisotropyNum = 4;
-    const colorTexture = textureLoader.load('frontend/game/textures/Grass004_2K-JPG/Grass004_2K-JPG_Color.jpg', function (map) {
+    const colorTexture = textureLoader.load('/static/frontend/game/textures/Grass004_2K-JPG/Grass004_2K-JPG_Color.jpg', function (map) {
         map.wrapS = THREE.RepeatWrapping;
         map.wrapT = THREE.RepeatWrapping;
         map.anisotropy = anisotropyNum;
@@ -164,7 +164,7 @@ function initGrassMaterials() {
         floorMat.needsUpdate = true;
     });
 
-    const normalTexture = textureLoader.load('frontend/game/textures/Grass004_2K-JPG/Grass004_2K-JPG_NormalGL.jpg', function (map) {
+    const normalTexture = textureLoader.load('/static/frontend/game/textures/Grass004_2K-JPG/Grass004_2K-JPG_NormalGL.jpg', function (map) {
         map.wrapS = THREE.RepeatWrapping;
         map.wrapT = THREE.RepeatWrapping;
         map.anisotropy = anisotropyNum;
@@ -174,7 +174,7 @@ function initGrassMaterials() {
     });
 
 
-    const roughnessTexture = textureLoader.load('frontend/game/textures/Grass004_2K-JPG/Grass004_2K-JPG_Roughness.jpg', function (map) {
+    const roughnessTexture = textureLoader.load('/static/frontend/game/textures/Grass004_2K-JPG/Grass004_2K-JPG_Roughness.jpg', function (map) {
         map.wrapS = THREE.RepeatWrapping;
         map.wrapT = THREE.RepeatWrapping;
         map.anisotropy = anisotropyNum;
@@ -183,7 +183,7 @@ function initGrassMaterials() {
         floorMat.needsUpdate = true;
     });
 
-    const aoTexture = textureLoader.load('frontend/game/textures/Grass004_2K-JPG/Grass004_2K-JPG_AmbientOcclusion.jpg', function (map) {
+    const aoTexture = textureLoader.load('/static/frontend/game/textures/Grass004_2K-JPG/Grass004_2K-JPG_AmbientOcclusion.jpg', function (map) {
         map.wrapS = THREE.RepeatWrapping;
         map.wrapT = THREE.RepeatWrapping;
         map.anisotropy = anisotropyNum;
@@ -211,7 +211,7 @@ function initGrassMaterials() {
 
 function initIceMaterials() {
     const textureLoader = new THREE.TextureLoader();
-    const colorTexture = textureLoader.load('frontend/game/textures/Ice003_4K-JPG/Ice003_4K-JPG_Color.jpg', function (map) {
+    const colorTexture = textureLoader.load('/static/frontend/game/textures/Ice003_4K-JPG/Ice003_4K-JPG_Color.jpg', function (map) {
         map.wrapS = THREE.RepeatWrapping;
         map.wrapT = THREE.RepeatWrapping;
         map.anisotropy = 4;
@@ -221,7 +221,7 @@ function initIceMaterials() {
         floorMat.needsUpdate = true;
     });
 
-    const normalTexture = textureLoader.load('frontend/game/textures/Ice003_4K-JPG/Ice003_4K-JPG_NormalGL.jpg', function (map) {
+    const normalTexture = textureLoader.load('/static/frontend/game/textures/Ice003_4K-JPG/Ice003_4K-JPG_NormalGL.jpg', function (map) {
         map.wrapS = THREE.RepeatWrapping;
         map.wrapT = THREE.RepeatWrapping;
         map.anisotropy = 4;
@@ -230,7 +230,7 @@ function initIceMaterials() {
         floorMat.needsUpdate = true;
     });
 
-    const roughnessTexture = textureLoader.load('frontend/game/textures/Ice003_4K-JPG/Ice003_4K-JPG_Roughness.jpg', function (map) {
+    const roughnessTexture = textureLoader.load('/static/frontend/game/textures/Ice003_4K-JPG/Ice003_4K-JPG_Roughness.jpg', function (map) {
         map.wrapS = THREE.RepeatWrapping;
         map.wrapT = THREE.RepeatWrapping;
         map.anisotropy = 4;
