@@ -20,7 +20,7 @@ mimetypes.add_type("text/css", ".css", True)
 mimetypes.add_type("text/html", ".html", True)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -144,10 +144,13 @@ STATIC_URL = '/static/'
 # STATICFILES_DIRS = ('static',)
 # STATICFILES_DIRS = [ os.path.join(BASE_DIR, '../static'), ]
 # STATIC_ROOT = ''
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-# STATIC_ROOT = "/static"
+#STATIC_ROOT = BASE_DIR / 'static'
 
+STATICFILES_DIRS = (
+  os.path.join(BASE_DIR, 'static'),
+)
 
+#STATIC_ROOT = "/static"
 
 LOGIN_URL = ''
 # Default primary key field type
