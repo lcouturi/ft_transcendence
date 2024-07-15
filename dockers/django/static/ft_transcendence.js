@@ -63,7 +63,7 @@ export function	prepare_next_match()
 	}
 }
 
-export function	profile_log_add(winner, loser, tournament)
+function	profile_log_add(winner, loser, tournament)
 {
 	const	date = new Date();
 	const	tr = document.createElement("tr");
