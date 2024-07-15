@@ -147,12 +147,14 @@
 												</div>
 												<img class="ms-1 my-auto" height="16" src='{% static "img/16/go-next.svg" %}'>
 											</button>
-											<button class="border button d-flex m-1 ms-auto rounded shadow-sm w-100" id="profile-logout" type="button">
-												<img class="m-1 ms-auto" height="22" src='{% static "img/22/system-log-out.svg" %}'>
-												<div class="me-auto my-auto text-nowrap" id="profile-logout-label">
-													Log out
-												</div>
-											</button>
+											<form action="{% url 'logout' %}" method="get">
+												<button class="border button d-flex m-1 ms-auto rounded shadow-sm w-100" type="submit">
+													<img class="m-1 ms-auto" height="22" src='{% static "img/22/system-log-out.svg" %}'>
+													<div class="me-auto my-auto text-nowrap" id="profile-logout-label">
+														Log out
+													</div>
+												</button>
+											</form>
 											<button class="border button d-flex m-1 ms-auto rounded shadow-sm w-100" id="profile-delete" type="button">
 												<img class="m-1 ms-auto" height="22" src='{% static "img/22/edit-delete.svg" %}'>
 												<div class="me-auto my-auto text-nowrap" id="profile-delete-label">
@@ -444,7 +446,7 @@
 		</div>
 		<div aria-hidden="true" aria-labelledby="login" class="modal fade" id="login" tabindex="-1">
 			<div class="modal-dialog modal-dialog-centered">
-				<form action="login_check" class="bg-body border modal-content p-1 rounded" method="post">
+				<form action="login_check" class="bg-body border modal-content p-1 rounded" id="login-form" method="post">
 					{% csrf_token %}
 					<div class="modal-header p-1">
 						<h2 class="m-1 pe-none" id="login-title">
@@ -489,7 +491,7 @@
 								Cancel
 							</div>
 						</button>
-						<button class="border button d-flex m-1 rounded shadow-sm" id="login-ok" type="submit">
+						<button class="border button d-flex m-1 rounded shadow-sm" id="login-ok">
 							<img class="m-1" height="22" src='{% static "img/22/dialog-ok-apply.svg" %}'>
 							<div class="my-auto">
 								OK
@@ -501,7 +503,7 @@
 		</div>
 		<div aria-hidden="true" aria-labelledby="register" class="modal fade" id="register" tabindex="-1">
 			<div class="modal-dialog modal-dialog-centered">
-				<form class="bg-body border modal-content p-1 rounded" id="myForm" method="post">
+				<form action="register_check" class="bg-body border modal-content p-1 rounded" id="myForm" method="post">
 					{% csrf_token %}
 					<div class="modal-header p-1">
 						<h2 class="m-1 pe-none" id="register-title">
@@ -538,7 +540,7 @@
 									<input class="border m-1 p-1 rounded w-100" id="register-pass2" name="confirm_password" type="password">
 									<div class="d-flex" style="width: calc(100% + 0.5rem)">
 										<input class="border m-1 p-1 pe-none rounded w-100" id="avatar-name" type="text">
-										<label class="border button d-flex m-1 rounded shadow-sm" for="avatar" id="avatar-button" title="Open file dialog" type="submit">
+										<label class="border button d-flex m-1 rounded shadow-sm" for="avatar" id="avatar-button" title="Open file dialog">
 											<img class="m-1" height="22" src='{% static "img/22/document-open.svg" %}'>
 										</label>
 									</div>
@@ -1313,38 +1315,10 @@
 			banner_close('#login-banner');
 		});
 
-		// document.querySelector("#login-ok").addEventListener("click", function(e)
-		// {
-		// 	e.preventDefault();
-		// 	login_validate();
-		// });
-
-		document.querySelector("#myForm").addEventListener("submit", function(e)
+		document.querySelector("#login-ok").addEventListener("click", function(e)
 		{
 			e.preventDefault();
-			console.log("ca marche");
-			var formData = new FormData(this);
-			fetch("{% url 'register' %}", {
-				method: 'POST',
-				body: formData,
-				headers: {
-					'X-Requested-With': 'XMLHttpRequest',
-					'X-CSRFToken': '{% csrf_token %}'
-				}
-			})
-			.then(response => response.json())
-			.then(data => {
-				if (data.error)
-					banner_open(data.error, "#register-banner");
-				else
-				{
-					console.log(" cest bon ");
-					banner_open(" cest bon ", "#register-banner");
-				}
-			})
-			.catch(error => {
-				console.error('Error:', error);
-			});
+			login_validate();
 		});
 
 		document.querySelector("#pause").addEventListener("click", function(e)
@@ -1458,11 +1432,14 @@
 			pause();
 		});
 
-		document.querySelector("#register-banner-close").addEventListener("click", function(e)
+		if (document.querySelector("#register-banner-close"))
 		{
-			e.preventDefault();
-			banner_close('#register-banner');
-		});
+			document.querySelector("#register-banner-close").addEventListener("click", function(e)
+			{
+				e.preventDefault();
+				banner_close('#register-banner');
+			});
+		}
 
 		document.querySelector("#register-button").addEventListener("click", function(e)
 		{
@@ -1470,11 +1447,14 @@
 			register_open();
 		});
 
-		document.querySelector("#register-ok").addEventListener("click", function(e)
+		if (document.querySelector("#register-ok"))
 		{
-			e.preventDefault();
-			register_validate();
-		});
+			document.querySelector("#register-ok").addEventListener("click", function(e)
+			{
+				e.preventDefault();
+				register_validate();
+			});
+		}
 
 		document.querySelector("#results").addEventListener("hidden.bs.modal", function(e)
 		{
@@ -1530,22 +1510,25 @@
 			start_match();
 		});
 
-		document.getElementById('avatar').onchange = function ()
+		if (document.getElementById('avatar'))
 		{
-			var	reader = new FileReader();
-
-			reader.onload = function (e)
+			document.getElementById('avatar').onchange = function ()
 			{
-				document.querySelector("#profile-avatar").src = e.target.result;
-				document.querySelector("#profile-avatar-mini").src = e.target.result;
-				if (contestant1 == username)
-					document.querySelector("#contestant1-avatar").src = e.target.result;;
-				if (contestant2 == username)
-					document.querySelector("#contestant2-avatar").src = e.target.result;;
+				var	reader = new FileReader();
+
+				reader.onload = function (e)
+				{
+					document.querySelector("#profile-avatar").src = e.target.result;
+					document.querySelector("#profile-avatar-mini").src = e.target.result;
+					if (contestant1 == username)
+						document.querySelector("#contestant1-avatar").src = e.target.result;;
+					if (contestant2 == username)
+						document.querySelector("#contestant2-avatar").src = e.target.result;;
+				};
+				reader.readAsDataURL(this.files[0]);
+				document.querySelector("#avatar-name").value = this.files[0].name;
 			};
-			reader.readAsDataURL(this.files[0]);
-			document.querySelector("#avatar-name").value = this.files[0].name;
-		};
+		}
 
 		function	add_item(prefix, value)
 		{
@@ -1672,10 +1655,7 @@
 					banner_open("Aucun mot de pass fourni.", "#login-banner");
 				return ;
 			}
-			bootstrap.Modal.getInstance(document.getElementById("login")).hide();
-			username = sanitize(document.querySelector("#login-name").value);
-			document.querySelector("#login-name").value = "";
-			document.querySelector("#login-pass").value = "";
+			document.querySelector("#login-form").submit;
 			login_complete();
 		}
 
@@ -1808,8 +1788,11 @@
 
 		function	profile_logout()
 		{
-			document.querySelector("#login-button").classList.add("d-flex");
-			document.querySelector("#login-button").classList.remove("d-none");
+			if (document.querySelector("#login-button"))
+			{
+				document.querySelector("#login-button").classList.add("d-flex");
+				document.querySelector("#login-button").classList.remove("d-none");
+			}
 			document.querySelector("#profile-avatar").src = "/static/img/22/im-user.svg";
 			document.querySelector("#profile-button").classList.add("d-none");
 			document.querySelector("#profile-log").innerHTML = "";
@@ -1856,12 +1839,16 @@
 
 		function	register_open()
 		{
-			document.querySelector("#avatar-name").value = "";
+			if (document.querySelector("#avatar-name"))
+				document.querySelector("#avatar-name").value = "";
 			document.querySelector("#login-name").value = "";
 			document.querySelector("#login-pass").value = "";
-			document.querySelector("#register-name").value = "";
-			document.querySelector("#register-pass").value = "";
-			document.querySelector("#register-pass2").value = "";
+			if (document.querySelector("#register-name"))
+				document.querySelector("#register-name").value = "";
+			if (document.querySelector("#register-pass"))
+				document.querySelector("#register-pass").value = "";
+			if (document.querySelector("#register-pass2"))
+				document.querySelector("#register-pass2").value = "";
 			new bootstrap.Modal(document.querySelector("#register")).show();
 		}
 

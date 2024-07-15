@@ -25,6 +25,7 @@ let	wins = 0;
 
 window.onload = function()
 {
+	console.log("allo");
 	start_match();
 };
 
@@ -787,11 +788,14 @@ document.querySelector("#register").addEventListener("shown.bs.modal", function(
 	pause();
 });
 
-document.querySelector("#register-banner-close").addEventListener("click", function(e)
+if (document.querySelector("#register-banner-close"))
 {
-	e.preventDefault();
-	banner_close('#register-banner');
-});
+	document.querySelector("#register-banner-close").addEventListener("click", function(e)
+	{
+		e.preventDefault();
+		banner_close('#register-banner');
+	});
+}
 
 document.querySelector("#register-button").addEventListener("click", function(e)
 {
@@ -859,22 +863,25 @@ document.querySelector("#tournament-start-match").addEventListener("click", func
 	start_match();
 });
 
-document.getElementById('avatar').onchange = function ()
+if (document.getElementById('avatar'))
 {
-	var	reader = new FileReader();
-
-	reader.onload = function (e)
+	document.getElementById('avatar').onchange = function ()
 	{
-		document.querySelector("#profile-avatar").src = e.target.result;
-		document.querySelector("#profile-avatar-mini").src = e.target.result;
-		if (contestant1 == username)
-			document.querySelector("#contestant1-avatar").src = e.target.result;;
-		if (contestant2 == username)
-			document.querySelector("#contestant2-avatar").src = e.target.result;;
+		var	reader = new FileReader();
+
+		reader.onload = function (e)
+		{
+			document.querySelector("#profile-avatar").src = e.target.result;
+			document.querySelector("#profile-avatar-mini").src = e.target.result;
+			if (contestant1 == username)
+				document.querySelector("#contestant1-avatar").src = e.target.result;;
+			if (contestant2 == username)
+				document.querySelector("#contestant2-avatar").src = e.target.result;;
+		};
+		reader.readAsDataURL(this.files[0]);
+		document.querySelector("#avatar-name").value = this.files[0].name;
 	};
-	reader.readAsDataURL(this.files[0]);
-	document.querySelector("#avatar-name").value = this.files[0].name;
-};
+}
 
 function	add_item(prefix, value)
 {
@@ -1134,8 +1141,11 @@ function	profile_log_add(winner, loser, tournament)
 
 function	profile_logout()
 {
-	document.querySelector("#login-button").classList.add("d-flex");
-	document.querySelector("#login-button").classList.remove("d-none");
+	if (document.querySelector("#login-button"))
+	{
+		document.querySelector("#login-button").classList.add("d-flex");
+		document.querySelector("#login-button").classList.remove("d-none");
+	}
 	document.querySelector("#profile-avatar").src = "/static/img/22/im-user.svg";
 	document.querySelector("#profile-button").classList.add("d-none");
 	document.querySelector("#profile-log").innerHTML = "";
@@ -1182,12 +1192,16 @@ function	profile_update(value)
 
 function	register_open()
 {
-	document.querySelector("#avatar-name").value = "";
+	if (document.querySelector("#avatar-name"))
+		document.querySelector("#avatar-name").value = "";
 	document.querySelector("#login-name").value = "";
 	document.querySelector("#login-pass").value = "";
-	document.querySelector("#register-name").value = "";
-	document.querySelector("#register-pass").value = "";
-	document.querySelector("#register-pass2").value = "";
+	if (document.querySelector("#register-name"))
+		document.querySelector("#register-name").value = "";
+	if (document.querySelector("#register-pass"))
+		document.querySelector("#register-pass").value = "";
+	if (document.querySelector("#register-pass2"))
+		document.querySelector("#register-pass2").value = "";
 	new bootstrap.Modal(document.querySelector("#register")).show();
 }
 
