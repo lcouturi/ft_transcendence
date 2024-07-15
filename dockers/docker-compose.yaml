@@ -33,6 +33,7 @@ services:
     volumes:
       - volume-django:/usr/src/app
       - ./django/static:/static
+      - ./django/ft_transcendence/mainapp/templates:/django/mainapp/templates
     environment:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
