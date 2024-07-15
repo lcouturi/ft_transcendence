@@ -670,6 +670,10 @@
 
 		window.onload = function()
 		{
+			/*{% if user.is_authenticated %}*/
+				username = "{{ user.username }}";
+				login_complete();
+			/*{% endif %}*/
 			start_match();
 		};
 
@@ -1655,8 +1659,7 @@
 					banner_open("Aucun mot de pass fourni.", "#login-banner");
 				return ;
 			}
-			document.querySelector("#login-form").submit;
-			login_complete();
+			document.querySelector("#login-form").submit();
 		}
 
 		function	pause()
@@ -1879,7 +1882,6 @@
 				return ;
 			}
 			document.querySelector("#myForm").submit();
-			login_complete();
 		}
 
 		export function	result(value)
