@@ -1,6 +1,5 @@
 volumes:
   volume-django:
-  static:
 
 services:
   database:
@@ -17,6 +16,8 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=postgres
+      - POSTGRES_HOST=database
+      - POSTGRES_PORT=5432
     networks:
       - default_network
   
@@ -31,11 +32,14 @@ services:
       - .env
     volumes:
       - volume-django:/usr/src/app
-      - static:/static
+      - ./django/static:/static
+      - ./django/ft_transcendence/mainapp/templates:/django/mainapp/templates
     environment:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+      - POSTGRES_HOST=database
+      - POSTGRES_PORT=5432
     depends_on:
       - database
     networks:
@@ -52,7 +56,7 @@ services:
      - "443:443"
      - "80:80"
     volumes: 
-     - static:/static
+     - ./django/static:/static
     depends_on:
      - django
     networks:

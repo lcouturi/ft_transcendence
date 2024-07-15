@@ -29,4 +29,5 @@ rm_volume:
 clean: rm_images
 
 nuke: clean rm_volume
+	@	docker compose -f docker-compose.yaml down
 	@	docker system prune --all --force --volumes
