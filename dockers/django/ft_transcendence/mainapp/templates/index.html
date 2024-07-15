@@ -1104,10 +1104,13 @@
 			}
 		});
 
-		document.querySelector("#imageFile").onchange = function ()
+		if (document.querySelector("#imageFile"))
 		{
-			document.querySelector("#profile-avatar-form").submit();
-		};
+			document.querySelector("#imageFile").onchange = function ()
+			{
+				document.querySelector("#profile-avatar-form").submit();
+			};
+		}
 
 		document.querySelector("#ukrainian").addEventListener("change", function(e)
 		{
