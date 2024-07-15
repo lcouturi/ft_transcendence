@@ -698,64 +698,82 @@ document.querySelector("#play").addEventListener("click", function(e)
 	document.querySelector("#pause").classList.add("d-flex");
 });
 
-document.querySelector("#profile-banner-close").addEventListener("click", function(e)
+if (document.querySelector("#profile-banner-close"))
 {
-	e.preventDefault();
-	banner_close('#profile-banner');
-});
-
-document.querySelector("#profile-delete").addEventListener("click", function(e)
-{
-	e.preventDefault();
-	profile_logout();
-});
-
-document.querySelector("#profile-list-add").addEventListener("click", function(e)
-{
-	e.preventDefault();
-	add_item("profile", null);
-	if (language == "english")
-		document.querySelector("#profile-friends-count").innerHTML = "Friends: " + friends_array.length;
-	else if (language == "french")
-		document.querySelector("#profile-friends-count").innerHTML = "Amis: " + friends_array.length;
-});
-
-document.querySelector("#profile-logout").addEventListener("click", function(e)
-{
-	e.preventDefault();
-	profile_logout();
-});
-
-document.querySelector("#profile-name-edit").addEventListener("click", function(e)
-{
-	e.preventDefault();
-	document.querySelector("#profile-name-container").classList.remove("position-relative");
-	document.querySelector("#profile-name-inside").classList.add("d-none");
-	document.querySelector("#profile-name-input").value = username;
-	document.querySelector("#profile-name-input-container").classList.remove("d-none");
-});
-
-document.querySelector("#profile-name-input-button").addEventListener("click", function(e)
-{
-	e.preventDefault();
-	if (document.querySelector("#profile-name-input").value == "")
-		return ;
-	document.querySelector("#profile-name-inside").innerHTML = document.querySelector("#profile-name-input").value;
-	if (contestant1 == username)
+	document.querySelector("#profile-banner-close").addEventListener("click", function(e)
 	{
-		contestant1 = document.querySelector("#profile-name-input").value;
-		document.querySelector("#contestant1").innerHTML = contestant1;
-	}
-	if (contestant2 == username)
+		e.preventDefault();
+		banner_close('#profile-banner');
+	});
+}
+
+if (document.querySelector("#profile-delete"))
+{
+	document.querySelector("#profile-delete").addEventListener("click", function(e)
 	{
-		contestant2 = document.querySelector("#profile-name-input").value;
-		document.querySelector("#contestant2").innerHTML = contestant2;
-	}
-	username = document.querySelector("#profile-name-input").value;
-	document.querySelector("#profile-name-container").classList.add("position-relative");
-	document.querySelector("#profile-name-inside").classList.remove("d-none");
-	document.querySelector("#profile-name-input-container").classList.add("d-none");
-});
+		e.preventDefault();
+		profile_logout();
+	});
+}
+
+if (document.querySelector("#profile-delete"))
+{
+	document.querySelector("#profile-list-add").addEventListener("click", function(e)
+	{
+		e.preventDefault();
+		add_item("profile", null);
+		if (language == "english")
+			document.querySelector("#profile-friends-count").innerHTML = "Friends: " + friends_array.length;
+		else if (language == "french")
+			document.querySelector("#profile-friends-count").innerHTML = "Amis: " + friends_array.length;
+	});
+}
+
+if (document.querySelector("#profile-logout"))
+{
+	document.querySelector("#profile-logout").addEventListener("click", function(e)
+	{
+		e.preventDefault();
+		profile_logout();
+	});
+}
+
+if (document.querySelector("#profile-name-edit"))
+{
+	document.querySelector("#profile-name-edit").addEventListener("click", function(e)
+	{
+		e.preventDefault();
+		document.querySelector("#profile-name-container").classList.remove("position-relative");
+		document.querySelector("#profile-name-inside").classList.add("d-none");
+		document.querySelector("#profile-name-input").value = username;
+		document.querySelector("#profile-name-input-container").classList.remove("d-none");
+	});
+}
+
+if (document.querySelector("#profile-name-input-button"))
+{
+	document.querySelector("#profile-name-input-button").addEventListener("click", function(e)
+	{
+		e.preventDefault();
+		if (document.querySelector("#profile-name-input").value == "")
+			return ;
+		document.querySelector("#profile-name-inside").innerHTML = document.querySelector("#profile-name-input").value;
+		if (contestant1 == username)
+		{
+			contestant1 = document.querySelector("#profile-name-input").value;
+			document.querySelector("#contestant1").innerHTML = contestant1;
+		}
+		if (contestant2 == username)
+		{
+			contestant2 = document.querySelector("#profile-name-input").value;
+			document.querySelector("#contestant2").innerHTML = contestant2;
+		}
+		username = document.querySelector("#profile-name-input").value;
+		document.querySelector("#profile-name-container").classList.add("position-relative");
+		document.querySelector("#profile-name-inside").classList.remove("d-none");
+		document.querySelector("#profile-name-input-container").classList.add("d-none");
+	});
+}
 
 document.querySelector("#register").addEventListener("hidden.bs.modal", function(e)
 {
