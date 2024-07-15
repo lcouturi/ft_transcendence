@@ -140,3 +140,11 @@ def register_check(request):
     else:
         form = UserCreationForm()
     return HttpResponse("vue de registration")
+
+@login_required 
+def delete_account(request):
+    if request.method == "POST":
+        user = request.user
+        user.delete()
+        print("account deleted !" + user.username)
+    return redirect(reverse("accueil"))
