@@ -88,12 +88,9 @@
 							</a>
 						</li>
 					{% else %}
-
-						
-
 						<li class="dropdown" id="profile-button">
 							<button aria-expanded="false" class="bg-body-tertiary border d-flex nav-item py-1 rounded text-nowrap" data-bs-auto-close="outside" data-bs-toggle="dropdown" title="Profile">
-								<img class="rounded-circle" height="22" id="profile-avatar-mini" src='{% static "img/22/im-user.svg" %}'>
+								<img class="rounded-circle" height="22" id="profile-avatar-mini" src='{{ user.get_image_profile_url }}'>
 								<a aria-current="page" class="active ms-1 my-auto nav-link p-0" id="profile-name">
 									{{ user.username }}
 								</a>
@@ -104,10 +101,14 @@
 									<div class="carousel-inner">
 										<div class="active carousel-item p-2">
 											<div class="position-relative">
-												<img class="mx-auto mw-100 rounded-circle" id="profile-avatar" src='{% static "img/22/im-user.svg" %}'>
-												<label class="border button d-none position-absolute end-0 rounded shadow-sm top-0" for="avatar" type="submit">
-													<img class="m-1" height="22" src='{% static "img/22/document-edit.svg" %}'>
-												</label>
+												<img class="mx-auto mw-100 rounded-circle" id="profile-avatar" src='{{ user.get_image_profile_url }}'>
+												<form action="/upload_image" enctype="multipart/form-data" id="profile-avatar-form" method="post">
+													{% csrf_token %}
+													<label class="border button d-none position-absolute end-0 rounded shadow-sm top-0" for="imageFile">
+														<img class="m-1" height="22" src='{% static "img/22/document-edit.svg" %}'>
+													</label>
+													<input accept="image/png, image/jpeg" class="d-none" id="imageFile" name="imageFile" type="file">
+												</form>
 											</div>
 											<div class="position-relative" id="profile-name-container">
 												<h3 class="mx-auto my-0 pe-none" id="profile-name-inside">
@@ -150,12 +151,14 @@
 												</div>
 												<img class="ms-1 my-auto" height="16" src='{% static "img/16/go-next.svg" %}'>
 											</button>
-											<button class="border button d-flex m-1 ms-auto rounded shadow-sm w-100" id="profile-logout" type="button">
-												<img class="m-1 ms-auto" height="22" src='{% static "img/22/system-log-out.svg" %}'>
-												<div class="me-auto my-auto text-nowrap" id="profile-logout-label">
-													Log out
-												</div>
-											</button>
+											<form action="{% url 'logout' %}" method="get">
+												<button class="border button d-flex m-1 ms-auto rounded shadow-sm w-100" type="submit">
+													<img class="m-1 ms-auto" height="22" src='{% static "img/22/system-log-out.svg" %}'>
+													<div class="me-auto my-auto text-nowrap" id="profile-logout-label">
+														Log out
+													</div>
+												</button>
+											</form>
 											<button class="border button d-flex m-1 ms-auto rounded shadow-sm w-100" id="profile-delete" type="button">
 												<img class="m-1 ms-auto" height="22" src='{% static "img/22/edit-delete.svg" %}'>
 												<div class="me-auto my-auto text-nowrap" id="profile-delete-label">
@@ -447,7 +450,7 @@
 		</div>
 		<div aria-hidden="true" aria-labelledby="login" class="modal fade" id="login" tabindex="-1">
 			<div class="modal-dialog modal-dialog-centered">
-				<form action="login_check" class="bg-body border modal-content p-1 rounded" method="post">
+				<form action="login_check" class="bg-body border modal-content p-1 rounded" id="login-form" method="post">
 					{% csrf_token %}
 					<div class="modal-header p-1">
 						<h2 class="m-1 pe-none" id="login-title">
@@ -492,7 +495,7 @@
 								Cancel
 							</div>
 						</button>
-						<button class="border button d-flex m-1 rounded shadow-sm" id="login-ok" type="submit">
+						<button class="border button d-flex m-1 rounded shadow-sm" id="login-ok">
 							<img class="m-1" height="22" src='{% static "img/22/dialog-ok-apply.svg" %}'>
 							<div class="my-auto">
 								OK
@@ -504,7 +507,7 @@
 		</div>
 		<div aria-hidden="true" aria-labelledby="register" class="modal fade" id="register" tabindex="-1">
 			<div class="modal-dialog modal-dialog-centered">
-				<form class="bg-body border modal-content p-1 rounded" id="myForm" method="post">
+				<form action="register_check" class="bg-body border modal-content p-1 rounded" id="myForm" method="post">
 					{% csrf_token %}
 					<div class="modal-header p-1">
 						<h2 class="m-1 pe-none" id="register-title">
@@ -541,7 +544,7 @@
 									<input class="border m-1 p-1 rounded w-100" id="register-pass2" name="confirm_password" type="password">
 									<div class="d-flex" style="width: calc(100% + 0.5rem)">
 										<input class="border m-1 p-1 pe-none rounded w-100" id="avatar-name" type="text">
-										<label class="border button d-flex m-1 rounded shadow-sm" for="avatar" id="avatar-button" title="Open file dialog" type="submit">
+										<label class="border button d-flex m-1 rounded shadow-sm" for="avatar" id="avatar-button" title="Open file dialog">
 											<img class="m-1" height="22" src='{% static "img/22/document-open.svg" %}'>
 										</label>
 									</div>
@@ -657,21 +660,24 @@
 		}
 		from '{% static "frontend/game/globals.js" %}';
 
-		let	in_tournament = false;
-		let	contestant1 = "Guest";
-		let	contestant2 = "Guest";
+		import
+		{
+			h,
+			prepare_next_match,
+			profile_update,
+			result,
+			start_match
+		} from '{% static "ft_transcendence.js" %}';
+
 		let	friends_array = [];
-		let	language = "english";
-		let	losses = 0;
 		let	paused = false;
-		let	tournament_array = [];
-		let	username = null;
-		let	winners = [];
-		let	wins = 0;
 
 		window.onload = function()
 		{
-			start_match();
+			/*{% if user.is_authenticated %}*/
+				h.username = "{{ user.username }}";
+				login_complete();
+			/*{% endif %}*/
 		};
 
 		document.querySelector("#about").addEventListener("hidden.bs.modal", function(e)
@@ -701,7 +707,7 @@
 		document.querySelector("#english").addEventListener("change", function(e)
 		{
 			e.preventDefault();
-			language = "english";
+			h.language = "english";
 			document.querySelector("#about-button").title = "About";
 			document.querySelector("#about-close").innerHTML = "Close";
 			document.querySelector("#about-label").innerHTML = "About";
@@ -868,8 +874,8 @@
 			document.querySelector("#profile-history-time").innerHTML = "Time";
 			document.querySelector("#profile-list-item").placeholder = "Enter username";
 			document.querySelector("#profile-logout-label").innerHTML = "Log out";
-			document.querySelector("#profile-losses").innerHTML = losses + " Losses";
-			document.querySelector("#profile-wins").innerHTML = wins + " Wins";
+			document.querySelector("#profile-losses").innerHTML = h.losses + " Losses";
+			document.querySelector("#profile-wins").innerHTML = h.wins + " Wins";
 			document.querySelector("#register-button-label").innerHTML = "Register";
 			document.querySelector("#register-close").innerHTML = "Cancel";
 			document.querySelector("#register-name-label").innerHTML = "Username:";
@@ -885,12 +891,12 @@
 			document.querySelector("#tournament-start-match-label").innerHTML = "Next Match";
 			document.querySelector("#tournament-title").innerHTML = "Tournament";
 			document.title = "The Great Avocado War of '24";
-			if (contestant1 == "Invité" || contestant1 == "Гість")
-				contestant1 = "Guest";
-			if (contestant2 == "Invité" || contestant2 == "Гість")
-				contestant2 = "Guest";
-			document.querySelector("#contestant1").innerHTML = contestant1;
-			document.querySelector("#contestant2").innerHTML = contestant2;
+			if (h.contestant1 == "Invité" || h.contestant1 == "Гість")
+				h.contestant1 = "Guest";
+			if (h.contestant2 == "Invité" || h.contestant2 == "Гість")
+				h.contestant2 = "Guest";
+			document.querySelector("#contestant1").innerHTML = h.contestant1;
+			document.querySelector("#contestant2").innerHTML = h.contestant2;
 			if (g.isSinglePlayer == false)
 			{
 				document.querySelector("#contestant1").innerHTML += " Team";
@@ -901,7 +907,7 @@
 		document.querySelector("#french").addEventListener("change", function(e)
 		{
 			e.preventDefault();
-			language = "french";
+			h.language = "french";
 			document.querySelector("#about-button").title = "À propos";
 			document.querySelector("#about-close").innerHTML = "Fermer";
 			document.querySelector("#about-label").innerHTML = "À propos";
@@ -1068,8 +1074,8 @@
 			document.querySelector("#profile-history-time").innerHTML = "Temps";
 			document.querySelector("#profile-list-item").placeholder = "Entrez le nom d’utilisateur";
 			document.querySelector("#profile-logout-label").innerHTML = "Déconnexion";
-			document.querySelector("#profile-losses").innerHTML = losses + " défaites";
-			document.querySelector("#profile-wins").innerHTML = wins + " victoires";
+			document.querySelector("#profile-losses").innerHTML = h.losses + " défaites";
+			document.querySelector("#profile-wins").innerHTML = h.wins + " victoires";
 			document.querySelector("#register-button-label").innerHTML = "Inscription";
 			document.querySelector("#register-close").innerHTML = "Annuler";
 			document.querySelector("#register-name-label").innerHTML = "Nom d’utilisateur:";
@@ -1085,23 +1091,31 @@
 			document.querySelector("#tournament-start-match-label").innerHTML = "Match suivant";
 			document.querySelector("#tournament-title").innerHTML = "Tournoi";
 			document.title = "La grande guerre des avocats de 2024";
-			if (contestant1 == "Guest" || contestant1 == "Гість")
+			if (h.contestant1 == "Guest" || h.contestant1 == "Гість")
 				contestant1 = "Invité";
-			if (contestant2 == "Guest" || contestant2 == "Гість")
-				contestant2 = "Invité";
-			document.querySelector("#contestant1").innerHTML = contestant1;
-			document.querySelector("#contestant2").innerHTML = contestant2;
+			if (h.contestant2 == "Guest" || h.contestant2 == "Гість")
+				h.contestant2 = "Invité";
+			document.querySelector("#contestant1").innerHTML = h.contestant1;
+			document.querySelector("#contestant2").innerHTML = h.contestant2;
 			if (g.isSinglePlayer == false)
 			{
-				document.querySelector("#contestant1").innerHTML = "Équipe " + contestant1;
-				document.querySelector("#contestant2").innerHTML = "Équipe " + contestant2;
+				document.querySelector("#contestant1").innerHTML = "Équipe " + h.contestant1;
+				document.querySelector("#contestant2").innerHTML = "Équipe " + h.contestant2;
 			}
 		});
+
+		if (document.querySelector("#imageFile"))
+		{
+			document.querySelector("#imageFile").onchange = function ()
+			{
+				document.querySelector("#profile-avatar-form").submit();
+			};
+		}
 
 		document.querySelector("#ukrainian").addEventListener("change", function(e)
 		{
 			e.preventDefault();
-			language = "ukrainian";
+			h.language = "ukrainian";
 			document.querySelector("#about-button").title = "Про";
 			document.querySelector("#about-close").innerHTML = "Закрити";
 			document.querySelector("#about-label").innerHTML = "Про";
@@ -1268,8 +1282,8 @@
 			document.querySelector("#profile-history-time").innerHTML = "Час";
 			document.querySelector("#profile-list-item").placeholder = "Введіть ім'я користувача";
 			document.querySelector("#profile-logout-label").innerHTML = "Вийти";
-			document.querySelector("#profile-losses").innerHTML = losses + " втрати";
-			document.querySelector("#profile-wins").innerHTML = wins + " виграє";
+			document.querySelector("#profile-losses").innerHTML = h.losses + " втрати";
+			document.querySelector("#profile-wins").innerHTML = h.wins + " виграє";
 			document.querySelector("#register-button-label").innerHTML = "Зареєструватися";
 			document.querySelector("#register-close").innerHTML = "Скасувати";
 			document.querySelector("#register-name-label").innerHTML = "Ім'я користувача:";
@@ -1285,16 +1299,16 @@
 			document.querySelector("#tournament-start-match-label").innerHTML = "Наступний матч";
 			document.querySelector("#tournament-title").innerHTML = "Турнір";
 			document.title = "Велика авокадо війна 24 року";
-			if (contestant1 == "Invité" || contestant1 == "Guest")
-				contestant1 = "Гість";
-			if (contestant2 == "Invité" || contestant2 == "Guest")
-				contestant2 = "Гість";
-			document.querySelector("#contestant1").innerHTML = contestant1;
-			document.querySelector("#contestant2").innerHTML = contestant2;
+			if (h.contestant1 == "Invité" || h.contestant1 == "Guest")
+				h.contestant1 = "Гість";
+			if (h.contestant2 == "Invité" || h.contestant2 == "Guest")
+				h.contestant2 = "Гість";
+			document.querySelector("#contestant1").innerHTML = h.contestant1;
+			document.querySelector("#contestant2").innerHTML = h.contestant2;
 			if (g.isSinglePlayer == false)
 			{
-				document.querySelector("#contestant1").innerHTML = "Командний " + contestant1;
-				document.querySelector("#contestant2").innerHTML = "Командний " + contestant2;
+				document.querySelector("#contestant1").innerHTML = "Командний " + h.contestant1;
+				document.querySelector("#contestant2").innerHTML = "Командний " + h.contestant2;
 			}
 		});
 
@@ -1316,38 +1330,10 @@
 			banner_close('#login-banner');
 		});
 
-		// document.querySelector("#login-ok").addEventListener("click", function(e)
-		// {
-		// 	e.preventDefault();
-		// 	login_validate();
-		// });
-
-		document.querySelector("#myForm").addEventListener("submit", function(e)
+		document.querySelector("#login-ok").addEventListener("click", function(e)
 		{
 			e.preventDefault();
-			console.log("ca marche");
-			var formData = new FormData(this);
-			fetch("{% url 'register' %}", {
-				method: 'POST',
-				body: formData,
-				headers: {
-					'X-Requested-With': 'XMLHttpRequest',
-					'X-CSRFToken': '{% csrf_token %}'
-				}
-			})
-			.then(response => response.json())
-			.then(data => {
-				if (data.error)
-					banner_open(data.error, "#register-banner");
-				else
-				{
-					console.log(" cest bon ");
-					banner_open(" cest bon ", "#register-banner");
-				}
-			})
-			.catch(error => {
-				console.error('Error:', error);
-			});
+			login_validate();
 		});
 
 		document.querySelector("#pause").addEventListener("click", function(e)
@@ -1396,9 +1382,9 @@
 			{
 				e.preventDefault();
 				add_item("profile", null);
-				if (language == "english")
+				if (h.language == "english")
 					document.querySelector("#profile-friends-count").innerHTML = "Friends: " + friends_array.length;
-				else if (language == "french")
+				else if (h.language == "french")
 					document.querySelector("#profile-friends-count").innerHTML = "Amis: " + friends_array.length;
 			});
 		}
@@ -1419,7 +1405,7 @@
 				e.preventDefault();
 				document.querySelector("#profile-name-container").classList.remove("position-relative");
 				document.querySelector("#profile-name-inside").classList.add("d-none");
-				document.querySelector("#profile-name-input").value = username;
+				document.querySelector("#profile-name-input").value = h.username;
 				document.querySelector("#profile-name-input-container").classList.remove("d-none");
 			});
 		}
@@ -1432,17 +1418,17 @@
 				if (document.querySelector("#profile-name-input").value == "")
 					return ;
 				document.querySelector("#profile-name-inside").innerHTML = document.querySelector("#profile-name-input").value;
-				if (contestant1 == username)
+				if (h.contestant1 == h.username)
 				{
-					contestant1 = document.querySelector("#profile-name-input").value;
-					document.querySelector("#contestant1").innerHTML = contestant1;
+					h.contestant1 = document.querySelector("#profile-name-input").value;
+					document.querySelector("#contestant1").innerHTML = h.contestant1;
 				}
-				if (contestant2 == username)
+				if (h.contestant2 == h.username)
 				{
-					contestant2 = document.querySelector("#profile-name-input").value;
-					document.querySelector("#contestant2").innerHTML = contestant2;
+					h.contestant2 = document.querySelector("#profile-name-input").value;
+					document.querySelector("#contestant2").innerHTML = h.contestant2;
 				}
-				username = document.querySelector("#profile-name-input").value;
+				h.username = document.querySelector("#profile-name-input").value;
 				document.querySelector("#profile-name-container").classList.add("position-relative");
 				document.querySelector("#profile-name-inside").classList.remove("d-none");
 				document.querySelector("#profile-name-input-container").classList.add("d-none");
@@ -1461,11 +1447,14 @@
 			pause();
 		});
 
-		document.querySelector("#register-banner-close").addEventListener("click", function(e)
+		if (document.querySelector("#register-banner-close"))
 		{
-			e.preventDefault();
-			banner_close('#register-banner');
-		});
+			document.querySelector("#register-banner-close").addEventListener("click", function(e)
+			{
+				e.preventDefault();
+				banner_close('#register-banner');
+			});
+		}
 
 		document.querySelector("#register-button").addEventListener("click", function(e)
 		{
@@ -1473,11 +1462,14 @@
 			register_open();
 		});
 
-		document.querySelector("#register-ok").addEventListener("click", function(e)
+		if (document.querySelector("#register-ok"))
 		{
-			e.preventDefault();
-			register_validate();
-		});
+			document.querySelector("#register-ok").addEventListener("click", function(e)
+			{
+				e.preventDefault();
+				register_validate();
+			});
+		}
 
 		document.querySelector("#results").addEventListener("hidden.bs.modal", function(e)
 		{
@@ -1533,22 +1525,25 @@
 			start_match();
 		});
 
-		document.getElementById('avatar').onchange = function ()
+		if (document.getElementById('avatar'))
 		{
-			var	reader = new FileReader();
-
-			reader.onload = function (e)
+			document.getElementById('avatar').onchange = function ()
 			{
-				document.querySelector("#profile-avatar").src = e.target.result;
-				document.querySelector("#profile-avatar-mini").src = e.target.result;
-				if (contestant1 == username)
-					document.querySelector("#contestant1-avatar").src = e.target.result;;
-				if (contestant2 == username)
-					document.querySelector("#contestant2-avatar").src = e.target.result;;
+				var	reader = new FileReader();
+
+				reader.onload = function (e)
+				{
+					document.querySelector("#profile-avatar").src = e.target.result;
+					document.querySelector("#profile-avatar-mini").src = e.target.result;
+					if (h.contestant1 == h.username)
+						document.querySelector("#contestant1-avatar").src = e.target.result;;
+					if (h.contestant2 == h.username)
+						document.querySelector("#contestant2-avatar").src = e.target.result;;
+				};
+				reader.readAsDataURL(this.files[0]);
+				document.querySelector("#avatar-name").value = this.files[0].name;
 			};
-			reader.readAsDataURL(this.files[0]);
-			document.querySelector("#avatar-name").value = this.files[0].name;
-		};
+		}
 
 		function	add_item(prefix, value)
 		{
@@ -1556,34 +1551,34 @@
 			let	item;
 
 			if (prefix == "tournament")
-				array = tournament_array;
+				array = h.tournament_array;
 			else
 				array = friends_array;
 			if (value == null)
 				item = document.querySelector("#" + prefix + "-list-item").value;
 			else
 				item = value;
-			if (prefix == "profile" && item == username)
+			if (prefix == "profile" && item == h.username)
 			{
-				if (language == "english")
+				if (h.language == "english")
 					banner_open("Cannot add self to friends list.", "#profile-banner");
-				else if (language == "french")
+				else if (h.language == "french")
 					banner_open("Vous ne pouvez pas vous rajouter à votre liste d’amis.", "#profile-banner");
 				return ;
 			}
 			else if (item == "")
 			{
-				if (language == "english")
+				if (h.language == "english")
 					banner_open("Cannot add user: empty input.", "#" + prefix + "-banner");
-				else if (language == "french")
+				else if (h.language == "french")
 					banner_open("La boite de texte est vide.", "#" + prefix + "-banner");
 				return ;
 			}
 			else if (array.indexOf(item) != -1)
 			{
-				if (language == "english")
+				if (h.language == "english")
 					banner_open("Cannot add user: already in list.", "#" + prefix + "-banner");
-				else if (language == "french")
+				else if (h.language == "french")
 					banner_open("L’utilisateur est déjà dans la liste.", "#" + prefix + "-banner");
 				return ;
 			}
@@ -1610,16 +1605,16 @@
 			{
 				array.splice(array.indexOf(e.currentTarget.closest("div").innerText), 1);
 				e.currentTarget.closest("div").remove();
-				if (language == "english")
+				if (h.language == "english")
 					document.querySelector("#profile-friends-count").innerHTML = "Friends: " + friends_array.length;
-				else if (language == "french")
+				else if (h.language == "french")
 					document.querySelector("#profile-friends-count").innerHTML = "Amis: " + friends_array.length;
 			});
 			document.querySelector("#" + prefix + "-list").appendChild(div);
 			array.push(item);
 			document.querySelector("#" + prefix + "-list-item").value = "";
 			if (prefix == "tournament")
-				tournament_array = array;
+				h.tournament_array = array;
 			else
 				friends_array = array;
 		}
@@ -1642,15 +1637,18 @@
 
 		function	login_complete()
 		{
-			document.querySelector("#login-button").classList.add("d-none");
-			document.querySelector("#login-button").classList.remove("d-flex");
+			if (document.querySelector("#login-button"))
+			{
+				document.querySelector("#login-button").classList.add("d-none");
+				document.querySelector("#login-button").classList.remove("d-flex");
+			}
 			if (document.querySelector("#profile-name"))
-				document.querySelector("#profile-name").innerHTML = username;
+				document.querySelector("#profile-name").innerHTML = h.username;
 			if (document.querySelector("#profile-name-inside"))
-				document.querySelector("#profile-name-inside").innerHTML = username;
+				document.querySelector("#profile-name-inside").innerHTML = h.username;
 			if (document.querySelector("#profile-button"))
 				document.querySelector("#profile-button").classList.remove("d-none");
-			if (in_tournament == false)
+			if (h.in_tournament == false)
 			{
 				prepare_next_match();
 				start_match();
@@ -1661,25 +1659,21 @@
 		{
 			if (document.querySelector("#login-name").value == "")
 			{
-				if (language == "english")
+				if (h.language == "english")
 					banner_open("No username provided.", "#login-banner");
-				else if (language == "french")
+				else if (h.language == "french")
 					banner_open("Aucun nom d’utilisateur fourni.", "#login-banner");
 				return ;
 			}
 			else if (document.querySelector("#login-pass").value == "")
 			{
-				if (language == "english")
+				if (h.language == "english")
 					banner_open("No password provided.", "#login-banner");
-				else if (language == "french")
+				else if (h.language == "french")
 					banner_open("Aucun mot de pass fourni.", "#login-banner");
 				return ;
 			}
-			bootstrap.Modal.getInstance(document.getElementById("login")).hide();
-			username = sanitize(document.querySelector("#login-name").value);
-			document.querySelector("#login-name").value = "";
-			document.querySelector("#login-pass").value = "";
-			login_complete();
+			document.querySelector("#login-form").submit();
 		}
 
 		function	pause()
@@ -1694,177 +1688,41 @@
 			g.starsSpeed = 0;
 		}
 
-		function	prepare_next_match()
-		{
-			if (in_tournament == true)
-			{
-				if (tournament_array.length == 0)
-				{
-					tournament_array = [...winners];
-					winners = [];
-				}
-				contestant1 = tournament_array[Math.floor(Math.random()*tournament_array.length)];
-				tournament_array.splice(tournament_array.indexOf(contestant1), 1);
-				if (tournament_array.length == 0)
-				{
-					tournament_array = [...winners];
-					winners = [];
-				}
-				contestant2 = tournament_array[Math.floor(Math.random()*tournament_array.length)];
-				tournament_array.splice(tournament_array.indexOf(contestant2), 1);
-				document.querySelector("#next-match").innerHTML = "The next match will be between " + contestant1 + " and " + contestant2 + ".";
-			}
-			else
-			{
-				if (username != null)
-					contestant1 = username;
-				else
-				{
-					if (language == "english")
-						contestant1 = "Guest";
-					else if (language == "french")
-						contestant1 = "Invité";
-				}
-				if (language == "english")
-					contestant2 = "Guest";
-				else if (language == "french")
-					contestant2 = "Invité";
-				document.querySelector("#next-match").innerHTML = "";
-			}
-		}
-
-		function	profile_log_add(winner, loser, tournament)
-		{
-			const	date = new Date();
-			const	tr = document.createElement("tr");
-			let		opponent = "";
-			let		result;
-			let		score = "";
-			let		type;
-
-			if (tournament == true)
-			{
-				if (language == "english")
-				{
-					result = "Victory";
-					type = "Tournament";
-				}
-				else if (language == "french")
-				{
-					result = "Victoire";
-					type = "Tournoi";
-				}
-			}
-			else
-			{
-				type = "Match";
-				if (winner == username)
-				{
-					if (language == "english")
-						result = "Victory";
-					else if (language == "french")
-						result = "Defeat";
-					if (g.playerScore < g.aiScore)
-						score = g.aiScore + "-" + g.playerScore;
-					else
-						score = g.playerScore + "-" + g.aiScore;
-					opponent = loser;
-				}
-				else
-				{
-					if (language == "english")
-						result = "Defeat";
-					else if (language == "french")
-						result = "Défaite";
-					if (g.playerScore < g.aiScore)
-						score = g.playerScore + "-" + g.aiScore;
-					else
-						score = g.aiScore + "-" + g.playerScore;
-					opponent = winner;
-				}
-				if (g.isSinglePlayer == false)
-				{
-					if (language == "english")
-						opponent += " Team";
-					else if (language == "french")
-						opponent = "Équipe " + opponent;
-				}
-			}
-			tr.innerHTML = `
-			<th class="text-nowrap" scope="row">
-				${date.getFullYear() + "-" + String(date.getMonth()).padStart(2, '0') + "-" + String(date.getDate()).padStart(2, '0') + " " + String(date.getHours()).padStart(2, '0') + ":" + String(date.getMinutes()).padStart(2, '0')}
-			</th>
-			<td>
-				${result}
-			</td>
-			<td>
-				${type}
-			</td>
-			<td>
-				${score}
-			</td>
-			<td>
-				${opponent}
-			</td>`
-			document.querySelector("#profile-log").appendChild(tr);
-		}
-
 		function	profile_logout()
 		{
-			document.querySelector("#login-button").classList.add("d-flex");
-			document.querySelector("#login-button").classList.remove("d-none");
+			if (document.querySelector("#login-button"))
+			{
+				document.querySelector("#login-button").classList.add("d-flex");
+				document.querySelector("#login-button").classList.remove("d-none");
+			}
 			document.querySelector("#profile-avatar").src = "/static/img/22/im-user.svg";
 			document.querySelector("#profile-button").classList.add("d-none");
 			document.querySelector("#profile-log").innerHTML = "";
 			document.querySelector("#profile-name").innerHTML = "";
 			document.querySelector("#profile-name-inside").innerHTML = "";
-			losses = 0;
-			wins = 0;
+			h.losses = 0;
+			h.wins = 0;
 			profile_update(0);
-			username = null;
-			if (in_tournament == false)
+			h.username = null;
+			if (h.in_tournament == false)
 			{
 				prepare_next_match();
 				start_match()
 			}
 		}
 
-		function	profile_update(value)
-		{
-			if (value == -1)
-				losses++;
-			else if (value == 1)
-				wins++;
-			if (losses + wins == 0)
-			{
-				document.querySelector("#profile-bar").max = 2;
-				document.querySelector("#profile-bar").value = 1;
-			}
-			else
-			{
-				document.querySelector("#profile-bar").max = losses + wins;
-				document.querySelector("#profile-bar").value = wins;
-			}
-			if (language == "english")
-			{
-				document.querySelector("#profile-losses").innerHTML = losses + " Losses";
-				document.querySelector("#profile-wins").innerHTML = wins + " Wins";
-			}
-			else if (language == "french")
-			{
-				document.querySelector("#profile-losses").innerHTML = losses + " défaites";
-				document.querySelector("#profile-wins").innerHTML = wins + " victoires";
-			}
-		}
-
 		function	register_open()
 		{
-			document.querySelector("#avatar-name").value = "";
+			if (document.querySelector("#avatar-name"))
+				document.querySelector("#avatar-name").value = "";
 			document.querySelector("#login-name").value = "";
 			document.querySelector("#login-pass").value = "";
-			document.querySelector("#register-name").value = "";
-			document.querySelector("#register-pass").value = "";
-			document.querySelector("#register-pass2").value = "";
+			if (document.querySelector("#register-name"))
+				document.querySelector("#register-name").value = "";
+			if (document.querySelector("#register-pass"))
+				document.querySelector("#register-pass").value = "";
+			if (document.querySelector("#register-pass2"))
+				document.querySelector("#register-pass2").value = "";
 			new bootstrap.Modal(document.querySelector("#register")).show();
 		}
 
@@ -1872,91 +1730,29 @@
 		{
 			if (document.querySelector("#register-name").value == "")
 			{
-				if (language == "english")
+				if (h.language == "english")
 					banner_open("No username provided.", "#register-banner");
-				else if (language == "french")
+				else if (h.language == "french")
 					banner_open("Aucun nom d’utilisateur fourni.", "#register-banner");
 				return ;
 			}
 			else if (document.querySelector("#register-pass").value == "")
 			{
-				if (language == "english")
+				if (h.language == "english")
 					banner_open("No password provided.", "#register-banner");
-				else if (language == "french")
+				else if (h.language == "french")
 					banner_open("Aucun mot de pass fourni.", "#register-banner");
 				return ;
 			}
 			else if (document.querySelector("#register-pass").value != document.querySelector("#register-pass2").value)
 			{
-				if (language == "english")
+				if (h.language == "english")
 					banner_open("Passwords do not match.", "#register-banner");
-				else (language == "french")
+				else (h.language == "french")
 					banner_open("Vos mots de passes ne correspondent pas.", "#register-banner");
 				return ;
 			}
 			document.querySelector("#myForm").submit();
-			login_complete();
-		}
-
-		export function	result(value)
-		{
-			let	loser;
-			let	winner;
-
-			if (value == 1)
-			{
-				winner = contestant1;
-				loser = contestant2;
-			}
-			else if (value == 2)
-			{
-				winner = contestant2;
-				loser = contestant1;
-			}
-			if (in_tournament == true)
-				winners.push(winner);
-			if (winner == username)
-			{
-				profile_update(1);
-				profile_log_add(winner, loser, false);
-			}
-			else if (loser == username)
-			{
-				profile_update(-1);
-				profile_log_add(winner, loser, false);
-			}
-			document.querySelector("#result").innerHTML = winner;
-			if (g.isSinglePlayer == false)
-			{
-				if (language == "english")
-					document.querySelector("#result").innerHTML += " Team";
-				else if (language == "french")
-					document.querySelector("#result").innerHTML = "Équipe " + document.querySelector("#result").innerHTML;
-			}
-			if (in_tournament == true && tournament_array.length == 0 && winners.length == 1)
-			{
-				in_tournament = false;
-				profile_log_add(null, null, true);
-				if (language == "english")
-					document.querySelector("#result").innerHTML +=  " won the tournament!";
-				else if (language == "french")
-					document.querySelector("#result").innerHTML +=  " a gagné le tournoi!";
-			}
-			else
-			{
-				if (language == "english")
-					document.querySelector("#result").innerHTML += " won the match against ";
-				else if (language == "french")
-					document.querySelector("#result").innerHTML += " a gagné le match contre ";
-				if (g.isSinglePlayer == false && language == "french")
-					document.querySelector("#result").innerHTML += "Équipe ";
-				document.querySelector("#result").innerHTML += loser;
-				if (g.isSinglePlayer == false && language == "english")
-					document.querySelector("#result").innerHTML += " Team";
-				document.querySelector("#result").innerHTML += "!";
-			}
-			prepare_next_match();
-			new bootstrap.Modal(document.querySelector("#results")).show();
 		}
 
 		function	sanitize(string)
@@ -1968,72 +1764,30 @@
 			return (string.replace(/=/g, "&#x3D;"));
 		}
 
-		export function	start_match()
-		{
-			g.aiScore = 0;
-			g.playerScore = 0;
-			g.bulbLight.position.set(0, 0.2, 0);
-			g.paddleMesh.position.set(0, 1.1 / 2, 8);
-			if (g.aiPaddleMesh)
-				g.aiPaddleMesh.position.set(0, 1.1 / 2, -8);
-			if (g.Player2PaddleMesh)
-				g.Player2PaddleMesh.position.set(0, 1.1 / 2, -8);
-			if (g.Player3PaddleMesh)
-				g.Player3PaddleMesh.position.set(0, 1.1 / 2, 4);
-			if (g.Player4PaddleMesh)
-				g.Player4PaddleMesh.position.set(0, 1.1 / 2, -4);
-			g.ballVelocity.set(0, 0, 5);
-			update_score();
-			document.querySelector("#contestant1").innerHTML = contestant1;
-			if (g.isSinglePlayer == false)
-			{
-				if (language == "english")
-					document.querySelector("#contestant1").innerHTML += " Team";
-				else if (language == "french")
-					document.querySelector("#contestant1").innerHTML = "Équipe " + document.querySelector("#contestant1").innerHTML;
-			}
-			if (contestant1 == username)
-				document.querySelector("#contestant1-avatar").src = document.querySelector("#profile-avatar").src;
-			else
-				document.querySelector("#contestant1-avatar").src = "/static/img/22/im-user.svg";
-			document.querySelector("#contestant2").innerHTML = contestant2;
-			if (g.isSinglePlayer == false)
-			{
-				if (language == "english")
-					document.querySelector("#contestant2").innerHTML += " Team";
-				else if (language == "french")
-					document.querySelector("#contestant2").innerHTML = "Équipe " + document.querySelector("#contestant2").innerHTML;
-			}
-			if (contestant2 == username)
-				document.querySelector("#contestant2-avatar").src = document.querySelector("#profile-avatar").src;
-			else
-				document.querySelector("#contestant2-avatar").src = "/static/img/22/im-user.svg";
-		}
-
 		function	tournament_open()
 		{
 			document.querySelector("#tournament-list-item").value = "";
 			new bootstrap.Modal(document.querySelector("#tournament")).show();
-			if (username != null)
-				add_item("tournament", username);
+			if (h.username != null)
+				add_item("tournament", h.username);
 		}
 
 		function	tournament_start()
 		{
-			if (tournament_array.length <= 1)
+			if (h.tournament_array.length <= 1)
 			{
-				if (language == "english")
+				if (h.language == "english")
 					banner_open("Tournament needs at least two users!", "#tournament-banner");
-				else if (language == "french")
+				else if (h.language == "french")
 					banner_open("Le tournoi a besoin d’au moins deux utilisateurs!", "#tournament-banner");
 				return ;
 			}
-			contestant1 = null;
-			contestant2 = null;
-			in_tournament = true;
+			h.contestant1 = null;
+			h.contestant2 = null;
+			h.in_tournament = true;
 			document.querySelector("#tournament-list").innerHTML = "";
 			bootstrap.Modal.getInstance(document.getElementById("tournament")).hide();
-			winners = [];
+			h.winners = [];
 			prepare_next_match();
 			start_match();
 		}
@@ -2060,12 +1814,6 @@
 				if (g.starsSpeed == 0)
 					g.starsSpeed = 0.05;
 			}
-		}
-
-		export function	update_score()
-		{
-			document.querySelector("#contestant1-score").innerHTML = ": " + g.playerScore;
-			document.querySelector("#contestant2-score").innerHTML = ": " + g.aiScore;
 		}
 	</script>
 	<script src='{% static "frontend/game/main.js" %}' type="module">

@@ -136,7 +136,7 @@ def register_check(request):
             new_user = CustomUser.objects.create_user(username=username, password=password)
             new_user.save()
             login(request, new_user)
-            return JsonResponse({'sucess': "login sucessfull !"})
+            return redirect(reverse("accueil"))
     else:
         form = UserCreationForm()
     return HttpResponse("vue de registration")
