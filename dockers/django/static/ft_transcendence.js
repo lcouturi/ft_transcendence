@@ -15,33 +15,191 @@ export const h =
 {
 	contestant1: "Guest",
 	contestant2: "Guest",
-	in_tournament: false,
+	friends_array: [],
 	language: "english",
 	losses: 0,
-	tournament_array: [],
+	paused: false,
 	username: null,
-	winners: [],
 	wins: 0
 };
 
-export function	prepare_next_match()
+let	in_tournament = false;
+let	tournament_array = [];
+let	winners = [];
+
+export function	add_item(prefix, value)
 {
-	if (h.in_tournament == true)
+		let	array;
+		let	item;
+
+		if (prefix == "tournament")
+			array = tournament_array;
+		else
+			array = h.friends_array;
+		if (value == null)
+			item = document.querySelector("#" + prefix + "-list-item").value;
+		else
+			item = value;
+		if (prefix == "profile" && item == h.username)
+		{
+			if (h.language == "english")
+				banner_open("Cannot add self to friends list.", "#profile-banner");
+			else if (h.language == "french")
+				banner_open("Vous ne pouvez pas vous rajouter à votre liste d’amis.", "#profile-banner");
+			else if (h.language == "ukrainian")
+				banner_open("Не можу додати себе до списку друзів.", "#profile-banner");
+			return ;
+		}
+		else if (item == "")
+		{
+			if (h.language == "english")
+				banner_open("Cannot add user: empty input.", "#" + prefix + "-banner");
+			else if (h.language == "french")
+				banner_open("La boite de texte est vide.", "#" + prefix + "-banner");
+			else if (h.language == "ukrainian")
+				banner_open("Неможливо додати користувача: порожній вхід.", "#" + prefix + "-banner");
+			return ;
+		}
+		else if (array.indexOf(item) != -1)
+		{
+			if (h.language == "english")
+				banner_open("Cannot add user: already in list.", "#" + prefix + "-banner");
+			else if (h.language == "french")
+				banner_open("L’utilisateur est déjà dans la liste.", "#" + prefix + "-banner");
+			else if (h.language == "ukrainian")
+				banner_open("Неможливо додати користувача: уже в списку.", "#" + prefix + "-banner");
+			return ;
+		}
+		banner_close("#" + prefix + "-banner");
+		const	div = document.createElement("div");
+		let	divContainer = `
+		<div class="d-flex" style="min-width: min-content;">`
+		if (prefix == "profile")
+		{
+			divContainer += `
+			<img class="mx-1 my-auto" height="22" src="/static/img/22/im-user-away.svg" title="Away">`
+		}
+		divContainer += `
+			<div class="m-1 p-1 w-100" style="min-width: min-content;">
+				${sanitize(item)}
+			</div>
+			<button class="border button d-flex delete m-1 rounded shadow-sm">
+				<img class="icon m-1" height="22" src="/static/img/22/list-remove.svg">
+			</button>
+		</div>`;
+		div.style.minWidth = "min-content";
+		div.innerHTML = divContainer;
+		div.querySelector(".delete").addEventListener("click", (e) =>
+		{
+			array.splice(array.indexOf(e.currentTarget.closest("div").innerText), 1);
+			e.currentTarget.closest("div").remove();
+			if (h.language == "english")
+				document.querySelector("#profile-friends-count").innerHTML = "Friends: " + h.friends_array.length;
+			else if (h.language == "french")
+				document.querySelector("#profile-friends-count").innerHTML = "Amis: " + h.friends_array.length;
+			else if (h.language == "ukrainian")
+				document.querySelector("#profile-friends-count").innerHTML = "Друзі: " + h.friends_array.length;
+		});
+		document.querySelector("#" + prefix + "-list").appendChild(div);
+		array.push(item);
+		document.querySelector("#" + prefix + "-list-item").value = "";
+		if (prefix == "tournament")
+			tournament_array = array;
+		else
+			g.friends_array = array;
+}
+
+export function	banner_close(id)
+{
+	document.querySelector(id + "-text").innerHTML = "";
+	document.querySelector(id).classList.add("p-0", "overflow-hidden");
+	document.querySelector(id).classList.remove("p-1");
+	document.querySelector(id).style.maxHeight = "0";
+}
+
+function	banner_open(value, id)
+{
+	document.querySelector(id).classList.add("p-1");
+	document.querySelector(id).classList.remove("overflow-hidden", "p-0");
+	document.querySelector(id + "-text").innerHTML = value;
+	document.querySelector(id).style.maxHeight = "500px";
+}
+
+export function	login_complete()
+{
+	if (document.querySelector("#login-button"))
 	{
-		if (h.tournament_array.length == 0)
+		document.querySelector("#login-button").classList.add("d-none");
+		document.querySelector("#login-button").classList.remove("d-flex");
+	}
+	if (document.querySelector("#profile-name"))
+		document.querySelector("#profile-name").innerHTML = h.username;
+	if (document.querySelector("#profile-name-inside"))
+		document.querySelector("#profile-name-inside").innerHTML = h.username;
+	if (document.querySelector("#profile-button"))
+		document.querySelector("#profile-button").classList.remove("d-none");
+	if (in_tournament == false)
+	{
+		prepare_next_match();
+		start_match();
+	}
+}
+
+export function	login_validate()
+{
+	if (document.querySelector("#login-name").value == "")
+	{
+		if (h.language == "english")
+			banner_open("No username provided.", "#login-banner");
+		else if (h.language == "french")
+			banner_open("Aucun nom d’utilisateur fourni.", "#login-banner");
+		else if (h.language == "ukrainian")
+			banner_open("Ім'я користувача не вказано.", "#login-banner");
+		return ;
+	}
+	else if (document.querySelector("#login-pass").value == "")
+	{
+		if (h.language == "english")
+			banner_open("No password provided.", "#login-banner");
+		else if (h.language == "french")
+			banner_open("Aucun mot de pass fourni.", "#login-banner");
+		else if (h.language == "ukrainian")
+			banner_open("Пароль не надано.", "#login-banner");
+		return ;
+	}
+	document.querySelector("#login-form").submit();
+}
+
+export function	pause()
+{
+	g.aiPaddleSpeed = 0;
+	g.ballSpeed = 0;
+	g.orbitSpeed = 0;
+	g.paddleSpeed = 0;
+	g.Player2PaddleSpeed = 0;
+	g.Player3PaddleSpeed = 0;
+	g.Player4PaddleSpeed = 0;
+	g.starsSpeed = 0;
+}
+
+function	prepare_next_match()
+{
+	if (in_tournament == true)
+	{
+		if (tournament_array.length == 0)
 		{
-			h.tournament_array = [...h.winners];
-			h.winners = [];
+			tournament_array = [...winners];
+			winners = [];
 		}
-		h.contestant1 = h.tournament_array[Math.floor(Math.random() * h.tournament_array.length)];
-		h.tournament_array.splice(h.tournament_array.indexOf(h.contestant1), 1);
-		if (h.tournament_array.length == 0)
+		h.contestant1 = tournament_array[Math.floor(Math.random() * tournament_array.length)];
+		tournament_array.splice(tournament_array.indexOf(h.contestant1), 1);
+		if (tournament_array.length == 0)
 		{
-			h.tournament_array = [...h.winners];
-			h.winners = [];
+			tournament_array = [...winners];
+			winners = [];
 		}
-		h.contestant2 = h.tournament_array[Math.floor(Math.random() * h.tournament_array.length)];
-		h.tournament_array.splice(h.tournament_array.indexOf(h.contestant2), 1);
+		h.contestant2 = tournament_array[Math.floor(Math.random() * tournament_array.length)];
+		tournament_array.splice(tournament_array.indexOf(h.contestant2), 1);
 		document.querySelector("#next-match").innerHTML = "The next match will be between " + h.contestant1 + " and " + h.contestant2 + ".";
 	}
 	else
@@ -157,7 +315,30 @@ function	profile_log_add(winner, loser, tournament)
 	document.querySelector("#profile-log").appendChild(tr);
 }
 
-export function	profile_update(value)
+export function	profile_logout()
+{
+	if (document.querySelector("#login-button"))
+	{
+		document.querySelector("#login-button").classList.add("d-flex");
+		document.querySelector("#login-button").classList.remove("d-none");
+	}
+	document.querySelector("#profile-avatar").src = "/static/img/22/im-user.svg";
+	document.querySelector("#profile-button").classList.add("d-none");
+	document.querySelector("#profile-log").innerHTML = "";
+	document.querySelector("#profile-name").innerHTML = "";
+	document.querySelector("#profile-name-inside").innerHTML = "";
+	h.losses = 0;
+	h.wins = 0;
+	profile_update(0);
+	h.username = null;
+	if (in_tournament == false)
+	{
+		prepare_next_match();
+		start_match()
+	}
+}
+
+function	profile_update(value)
 {
 	if (value == -1)
 		h.losses++;
@@ -190,6 +371,56 @@ export function	profile_update(value)
 	}
 }
 
+export function	register_open()
+{
+	if (document.querySelector("#avatar-name"))
+		document.querySelector("#avatar-name").value = "";
+	document.querySelector("#login-name").value = "";
+	document.querySelector("#login-pass").value = "";
+	if (document.querySelector("#register-name"))
+		document.querySelector("#register-name").value = "";
+	if (document.querySelector("#register-pass"))
+		document.querySelector("#register-pass").value = "";
+	if (document.querySelector("#register-pass2"))
+		document.querySelector("#register-pass2").value = "";
+	new bootstrap.Modal(document.querySelector("#register")).show();
+}
+
+export function	register_validate()
+{
+	if (document.querySelector("#register-name").value == "")
+	{
+		if (h.language == "english")
+			banner_open("No username provided.", "#register-banner");
+		else if (h.language == "french")
+			banner_open("Aucun nom d’utilisateur fourni.", "#register-banner");
+		else if (h.language == "ukrainian")
+			banner_open("Ім'я користувача не вказано.", "#register-banner");
+		return ;
+	}
+	else if (document.querySelector("#register-pass").value == "")
+	{
+		if (h.language == "english")
+			banner_open("No password provided.", "#register-banner");
+		else if (h.language == "french")
+			banner_open("Aucun mot de pass fourni.", "#register-banner");
+		else if (h.language == "ukrainian")
+			banner_open("Пароль не надано.", "#register-banner");
+		return ;
+	}
+	else if (document.querySelector("#register-pass").value != document.querySelector("#register-pass2").value)
+	{
+		if (h.language == "english")
+			banner_open("Passwords do not match.", "#register-banner");
+		else if (h.language == "french")
+			banner_open("Vos mots de passes ne correspondent pas.", "#register-banner");
+		else if (h.language == "ukrainian")
+			banner_open("Паролі не збігаються.", "#register-banner");
+		return ;
+	}
+	document.querySelector("#myForm").submit();
+}
+
 export function	result(value)
 {
 	let	loser;
@@ -205,8 +436,8 @@ export function	result(value)
 		winner = h.contestant2;
 		loser = h.contestant1;
 	}
-	if (h.in_tournament == true)
-		h.winners.push(winner);
+	if (in_tournament == true)
+		winners.push(winner);
 	if (winner == h.username)
 	{
 		profile_update(1);
@@ -227,9 +458,9 @@ export function	result(value)
 		else if (h.language == "ukrainian")
 			document.querySelector("#result").innerHTML = "Командний " + document.querySelector("#result").innerHTML;
 	}
-	if (h.in_tournament == true && h.tournament_array.length == 0 && h.winners.length == 1)
+	if (in_tournament == true && tournament_array.length == 0 && winners.length == 1)
 	{
-		h.in_tournament = false;
+		in_tournament = false;
 		profile_log_add(null, null, true);
 		if (h.language == "english")
 			document.querySelector("#result").innerHTML +=  " won the tournament!";
@@ -260,6 +491,15 @@ export function	result(value)
 	}
 	prepare_next_match();
 	new bootstrap.Modal(document.querySelector("#results")).show();
+}
+
+function	sanitize(string)
+{
+	string = string.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+	string = string.replace(/\>/g, "&gt;").replace(/"/g, "&quot;");
+	string = string.replace(/'/g, "&#x27;").replace(/\//g, "&#x2F;");
+	string = string.replace(/\//g, "&#x2F;").replace(/`/g, "&grave;");
+	return (string.replace(/=/g, "&#x3D;"));
 }
 
 export function	start_match()
@@ -306,6 +546,60 @@ export function	start_match()
 		document.querySelector("#contestant2-avatar").src = document.querySelector("#profile-avatar").src;
 	else
 		document.querySelector("#contestant2-avatar").src = "/static/img/22/im-user.svg";
+}
+
+export function	tournament_open()
+{
+	document.querySelector("#tournament-list-item").value = "";
+	new bootstrap.Modal(document.querySelector("#tournament")).show();
+	if (h.username != null)
+		add_item("tournament", h.username);
+}
+
+export function	tournament_start()
+{
+	if (tournament_array.length <= 1)
+	{
+		if (h.language == "english")
+			banner_open("Tournament needs at least two users!", "#tournament-banner");
+		else if (h.language == "french")
+			banner_open("Le tournoi a besoin d’au moins deux utilisateurs!", "#tournament-banner");
+		else if (h.language == "ukrainian")
+			banner_open("Турнір потребує мінімум двох учасників!", "#tournament-banner");
+		return ;
+	}
+	h.contestant1 = null;
+	h.contestant2 = null;
+	in_tournament = true;
+	document.querySelector("#tournament-list").innerHTML = "";
+	bootstrap.Modal.getInstance(document.getElementById("tournament")).hide();
+	winners = [];
+	prepare_next_match();
+	start_match();
+}
+
+export function	unpause()
+{
+	if (h.paused == false)
+	{
+		loadSavedParameters();
+		if (g.aiPaddleSpeed == 0)
+			g.aiPaddleSpeed = 8;
+		if (g.ballSpeed == 0)
+			g.ballSpeed = 0.016;
+		if (g.orbitSpeed == 0)
+			g.orbitSpeed = 0.002;
+		if (g.paddleSpeed == 0)
+			g.paddleSpeed = 8;
+		if (g.Player2PaddleSpeed == 0)
+			g.Player2PaddleSpeed = 8;
+		if (g.Player3PaddleSpeed == 0)
+			g.Player3PaddleSpeed = 8;
+		if (g.Player4PaddleSpeed == 0)
+			g.Player4PaddleSpeed = 8;
+		if (g.starsSpeed == 0)
+			g.starsSpeed = 0.05;
+	}
 }
 
 export function	update_score()
