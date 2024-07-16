@@ -175,7 +175,7 @@
 													Match History
 												</h3>
 											</div>
-											<table class="overflow-y-auto pe-3 w-100" style="max-height: calc(100vh - 102px);">
+											<table class="overflow-y-auto pe-none w-100" style="max-height: calc(100vh - 102px);">
 												<thead>
 													<tr>
 														<th id="profile-history-time" scope="col">
@@ -184,10 +184,10 @@
 														<th id="profile-history-result" scope="col">
 															Result
 														</th>
-														<th scope="col">
+														<th id="profile-history-type" scope="col">
 															Type
 														</th>
-														<th scope="col">
+														<th id="profile-history-score" scope="col">
 															Score
 														</th>
 														<th id="profile-history-opponent" scope="col">
@@ -893,7 +893,9 @@
 			document.querySelector("#profile-history-name").innerHTML = "Match History";
 			document.querySelector("#profile-history-opponent").innerHTML = "Opponent";
 			document.querySelector("#profile-history-result").innerHTML = "Result";
+			document.querySelector("#profile-history-score").innerHTML = "Score";
 			document.querySelector("#profile-history-time").innerHTML = "Time";
+			document.querySelector("#profile-history-type").innerHTML = "Type";
 			document.querySelector("#profile-list-item").placeholder = "Enter username";
 			document.querySelector("#profile-logout-label").innerHTML = "Log out";
 			document.querySelector("#profile-losses").innerHTML = h.losses + " Losses";
@@ -1096,7 +1098,9 @@
 			document.querySelector("#profile-history-name").innerHTML = "Historique des matchs";
 			document.querySelector("#profile-history-opponent").innerHTML = "Adversaire";
 			document.querySelector("#profile-history-result").innerHTML = "Résultat";
+			document.querySelector("#profile-history-score").innerHTML = "Score";
 			document.querySelector("#profile-history-time").innerHTML = "Temps";
+			document.querySelector("#profile-history-type").innerHTML = "Type";
 			document.querySelector("#profile-list-item").placeholder = "Entrez le nom d’utilisateur";
 			document.querySelector("#profile-logout-label").innerHTML = "Déconnexion";
 			document.querySelector("#profile-losses").innerHTML = h.losses + " défaites";
@@ -1307,7 +1311,9 @@
 			document.querySelector("#profile-history-name").innerHTML = "Історія матчів";
 			document.querySelector("#profile-history-opponent").innerHTML = "Суперник";
 			document.querySelector("#profile-history-result").innerHTML = "Результат";
+			document.querySelector("#profile-history-score").innerHTML = "Оцінка";
 			document.querySelector("#profile-history-time").innerHTML = "Час";
+			document.querySelector("#profile-history-type").innerHTML = "Тип";
 			document.querySelector("#profile-list-item").placeholder = "Введіть ім'я користувача";
 			document.querySelector("#profile-logout-label").innerHTML = "Вийти";
 			document.querySelector("#profile-losses").innerHTML = h.losses + " втрати";
@@ -1414,6 +1420,8 @@
 					document.querySelector("#profile-friends-count").innerHTML = "Friends: " + friends_array.length;
 				else if (h.language == "french")
 					document.querySelector("#profile-friends-count").innerHTML = "Amis: " + friends_array.length;
+				else if (h.language == "ukrainian")
+					document.querySelector("#profile-friends-count").innerHTML = "Друзі: " + friends_array.length;
 			});
 		}
 
@@ -1592,6 +1600,8 @@
 					banner_open("Cannot add self to friends list.", "#profile-banner");
 				else if (h.language == "french")
 					banner_open("Vous ne pouvez pas vous rajouter à votre liste d’amis.", "#profile-banner");
+				else if (h.language == "ukrainian")
+					banner_open("Не можу додати себе до списку друзів.", "#profile-banner");
 				return ;
 			}
 			else if (item == "")
@@ -1600,6 +1610,8 @@
 					banner_open("Cannot add user: empty input.", "#" + prefix + "-banner");
 				else if (h.language == "french")
 					banner_open("La boite de texte est vide.", "#" + prefix + "-banner");
+				else if (h.language == "ukrainian")
+					banner_open("Неможливо додати користувача: порожній вхід.", "#" + prefix + "-banner");
 				return ;
 			}
 			else if (array.indexOf(item) != -1)
@@ -1608,6 +1620,8 @@
 					banner_open("Cannot add user: already in list.", "#" + prefix + "-banner");
 				else if (h.language == "french")
 					banner_open("L’utilisateur est déjà dans la liste.", "#" + prefix + "-banner");
+				else if (h.language == "ukrainian")
+					banner_open("Неможливо додати користувача: уже в списку.", "#" + prefix + "-banner");
 				return ;
 			}
 			banner_close("#" + prefix + "-banner");
@@ -1637,6 +1651,8 @@
 					document.querySelector("#profile-friends-count").innerHTML = "Friends: " + friends_array.length;
 				else if (h.language == "french")
 					document.querySelector("#profile-friends-count").innerHTML = "Amis: " + friends_array.length;
+				else if (h.language == "ukrainian")
+					document.querySelector("#profile-friends-count").innerHTML = "Друзі: " + friends_array.length;
 			});
 			document.querySelector("#" + prefix + "-list").appendChild(div);
 			array.push(item);
@@ -1691,6 +1707,8 @@
 					banner_open("No username provided.", "#login-banner");
 				else if (h.language == "french")
 					banner_open("Aucun nom d’utilisateur fourni.", "#login-banner");
+				else if (h.language == "ukrainian")
+					banner_open("Ім'я користувача не вказано.", "#login-banner");
 				return ;
 			}
 			else if (document.querySelector("#login-pass").value == "")
@@ -1699,6 +1717,8 @@
 					banner_open("No password provided.", "#login-banner");
 				else if (h.language == "french")
 					banner_open("Aucun mot de pass fourni.", "#login-banner");
+				else if (h.language == "ukrainian")
+					banner_open("Пароль не надано.", "#login-banner");
 				return ;
 			}
 			document.querySelector("#login-form").submit();
@@ -1762,6 +1782,8 @@
 					banner_open("No username provided.", "#register-banner");
 				else if (h.language == "french")
 					banner_open("Aucun nom d’utilisateur fourni.", "#register-banner");
+				else if (h.language == "ukrainian")
+					banner_open("Ім'я користувача не вказано.", "#register-banner");
 				return ;
 			}
 			else if (document.querySelector("#register-pass").value == "")
@@ -1770,14 +1792,18 @@
 					banner_open("No password provided.", "#register-banner");
 				else if (h.language == "french")
 					banner_open("Aucun mot de pass fourni.", "#register-banner");
+				else if (h.language == "ukrainian")
+					banner_open("Пароль не надано.", "#register-banner");
 				return ;
 			}
 			else if (document.querySelector("#register-pass").value != document.querySelector("#register-pass2").value)
 			{
 				if (h.language == "english")
 					banner_open("Passwords do not match.", "#register-banner");
-				else (h.language == "french")
+				else if (h.language == "french")
 					banner_open("Vos mots de passes ne correspondent pas.", "#register-banner");
+				else if (h.language == "ukrainian")
+					banner_open("Паролі не збігаються.", "#register-banner");
 				return ;
 			}
 			document.querySelector("#myForm").submit();
@@ -1808,6 +1834,8 @@
 					banner_open("Tournament needs at least two users!", "#tournament-banner");
 				else if (h.language == "french")
 					banner_open("Le tournoi a besoin d’au moins deux utilisateurs!", "#tournament-banner");
+				else if (h.language == "ukrainian")
+					banner_open("Турнір потребує мінімум двох учасників!", "#tournament-banner");
 				return ;
 			}
 			h.contestant1 = null;

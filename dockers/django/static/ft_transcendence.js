@@ -54,11 +54,15 @@ export function	prepare_next_match()
 				h.contestant1 = "Guest";
 			else if (h.language == "french")
 				h.contestant1 = "Invité";
+			else if (h.language == "ukrainian")
+				h.contestant1 = "Гість";
 		}
 		if (h.language == "english")
 			h.contestant2 = "Guest";
 		else if (h.language == "french")
 			h.contestant2 = "Invité";
+		else if (h.language == "ukrainian")
+			h.contestant2 = "Гість";
 		document.querySelector("#next-match").innerHTML = "";
 	}
 }
@@ -84,6 +88,11 @@ function	profile_log_add(winner, loser, tournament)
 			result = "Victoire";
 			type = "Tournoi";
 		}
+		else if (h.language == "ukrainian")
+		{
+			result = "Перемога";
+			type = "Турнір";
+		}
 	}
 	else
 	{
@@ -93,7 +102,9 @@ function	profile_log_add(winner, loser, tournament)
 			if (h.language == "english")
 				result = "Victory";
 			else if (h.language == "french")
-				result = "Defeat";
+				result = "Victoire";
+			else if (h.language == "ukrainian")
+				result = "Перемога";
 			if (g.playerScore < g.aiScore)
 				score = g.aiScore + "-" + g.playerScore;
 			else
@@ -106,6 +117,8 @@ function	profile_log_add(winner, loser, tournament)
 				result = "Defeat";
 			else if (h.language == "french")
 				result = "Défaite";
+			else if (h.language == "ukrainian")
+				result = "Поразка";
 			if (g.playerScore < g.aiScore)
 				score = g.playerScore + "-" + g.aiScore;
 			else
@@ -118,6 +131,8 @@ function	profile_log_add(winner, loser, tournament)
 				opponent += " Team";
 			else if (h.language == "french")
 				opponent = "Équipe " + opponent;
+			else if (h.language == "ukrainian")
+				opponent = "Командний " + opponent;
 		}
 	}
 	tr.innerHTML = `
@@ -165,6 +180,11 @@ export function	profile_update(value)
 		document.querySelector("#profile-losses").innerHTML = h.losses + " défaites";
 		document.querySelector("#profile-wins").innerHTML = h.wins + " victoires";
 	}
+	else if (h.language == "ukrainian")
+	{
+		document.querySelector("#profile-losses").innerHTML = h.losses + " втрати";
+		document.querySelector("#profile-wins").innerHTML = h.wins + " виграє";
+	}
 }
 
 export function	result(value)
@@ -201,6 +221,8 @@ export function	result(value)
 			document.querySelector("#result").innerHTML += " Team";
 		else if (h.language == "french")
 			document.querySelector("#result").innerHTML = "Équipe " + document.querySelector("#result").innerHTML;
+		else if (h.language == "ukrainian")
+			document.querySelector("#result").innerHTML = "Командний " + document.querySelector("#result").innerHTML;
 	}
 	if (h.in_tournament == true && h.tournament_array.length == 0 && h.winners.length == 1)
 	{
@@ -210,6 +232,8 @@ export function	result(value)
 			document.querySelector("#result").innerHTML +=  " won the tournament!";
 		else if (h.language == "french")
 			document.querySelector("#result").innerHTML +=  " a gagné le tournoi!";
+		else if (h.language == "ukrainian")
+			document.querySelector("#result").innerHTML +=  " виграв турнір!";
 	}
 	else
 	{
@@ -217,8 +241,15 @@ export function	result(value)
 			document.querySelector("#result").innerHTML += " won the match against ";
 		else if (h.language == "french")
 			document.querySelector("#result").innerHTML += " a gagné le match contre ";
-		if (g.isSinglePlayer == false && h.language == "french")
-			document.querySelector("#result").innerHTML += "Équipe ";
+		else if (h.language == "ukrainian")
+			document.querySelector("#result").innerHTML += " виграв матч проти ";
+		if (g.isSinglePlayer == false)
+		{
+			if (h.language == "french")
+				document.querySelector("#result").innerHTML += "Équipe ";
+			else if (h.language == "ukrainian")
+				document.querySelector("#result").innerHTML += "Командний ";
+		}
 		document.querySelector("#result").innerHTML += loser;
 		if (g.isSinglePlayer == false && h.language == "english")
 			document.querySelector("#result").innerHTML += " Team";
@@ -251,6 +282,8 @@ export function	start_match()
 			document.querySelector("#contestant1").innerHTML += " Team";
 		else if (h.language == "french")
 			document.querySelector("#contestant1").innerHTML = "Équipe " + document.querySelector("#contestant1").innerHTML;
+		else if (h.language == "ukrainian")
+			document.querySelector("#contestant1").innerHTML = "Командний " + document.querySelector("#contestant1").innerHTML;
 	}
 	if (h.contestant1 == h.username)
 		document.querySelector("#contestant1-avatar").src = document.querySelector("#profile-avatar").src;
@@ -263,6 +296,8 @@ export function	start_match()
 			document.querySelector("#contestant2").innerHTML += " Team";
 		else if (h.language == "french")
 			document.querySelector("#contestant2").innerHTML = "Équipe " + document.querySelector("#contestant2").innerHTML;
+		else if (h.language == "ukrainian")
+			document.querySelector("#contestant2").innerHTML = "Командний " + document.querySelector("#contestant2").innerHTML;
 	}
 	if (h.contestant2 == h.username)
 		document.querySelector("#contestant2-avatar").src = document.querySelector("#profile-avatar").src;
