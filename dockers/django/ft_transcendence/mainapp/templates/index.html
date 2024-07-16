@@ -39,7 +39,7 @@
 							</a>
 							<img class="ms-1 my-auto" height="16" src='{% static "img/16/go-down.svg" %}'>
 						</button>
-						<ul class="border dropdown-menu frame position-absolute rounded" id="language-select" style="padding: 3px !important;">
+						<form class="border dropdown-menu frame position-absolute rounded" id="language-select" name="language_select" style="padding: 3px !important;">
 							<label class="d-flex form-check m-0 p-0 rounded" for="english">
 								<input checked id="english" name="language" type="radio">
 								<label class="form-check-label" for="english">
@@ -58,7 +58,7 @@
 									Українська
 								</label>
 							</label>
-						</ul>
+						</form>
 					</li>
 					<li class="border d-flex nav-item py-1 rounded text-nowrap" id="pause" title="Pause">
 						<img height="22" src='{% static "img/22/media-playback-pause.svg" %}'>
@@ -227,7 +227,7 @@
 													</div>
 												</div>
 											</div>
-											{% for friend in friends %}
+<!--											{% for friend in friends %}
 												<li>
 													<img alt="profile picture" class="rounded-circle" height="30" src="{{ friend.get_image_profile_url }}" width="30">
 													{{ friend.username }}
@@ -239,15 +239,15 @@
 													</button>
 												</li>
 											{% endfor %}
-											<form action="/add_friend" method="post">
+											<form action="/add_friend" id="profile-friends-form" method="post">
 												{% csrf_token %}
 												<input type="text" id="info" name="friend_to_add" placeholder="Add a friend" required>
 												<br>
 												<br>
-												<button type="submit">
+												<button id=profile-friends-add type="submit">
 													Add
 												</button>
-											</form>
+											</form>-->
 										</div>
 									</div>
 								</div>
@@ -695,6 +695,7 @@
 
 		window.onload = function()
 		{
+			language_select.reset();
 			/*{% if user.is_authenticated %}*/
 				h.username = "{{ user.username }}";
 				login_complete();
@@ -712,6 +713,26 @@
 			e.preventDefault();
 			pause();
 		});
+
+		if (document.querySelector("#avatar"))
+		{
+			document.querySelector("#avatar").onchange = function ()
+			{
+				var	reader = new FileReader();
+
+				reader.onload = function (e)
+				{
+					document.querySelector("#profile-avatar").src = e.target.result;
+					document.querySelector("#profile-avatar-mini").src = e.target.result;
+					if (h.contestant1 == h.username)
+						document.querySelector("#contestant1-avatar").src = e.target.result;
+					if (h.contestant2 == h.username)
+						document.querySelector("#contestant2-avatar").src = e.target.result;
+				};
+				reader.readAsDataURL(this.files[0]);
+				document.querySelector("#avatar-name").value = this.files[0].name;
+			};
+		}
 
 		document.querySelector("#contestant1-victory").addEventListener("click", function(e)
 		{
@@ -876,30 +897,33 @@
 			</button>`;
 			document.querySelector("#language-button").title = "Language";
 			document.querySelector("#language-label").innerHTML = "Language";
-			document.querySelector("#login-button").title = "Log in";
 			document.querySelector("#login-close-label").innerHTML = "Cancel";
-			document.querySelector("#login-label").innerHTML = "Log in";
 			document.querySelector("#login-name-label").innerHTML = "Username:";
 			document.querySelector("#login-pass-label").innerHTML = "Password:";
 			document.querySelector("#login-title").innerHTML = "Log in";
 			document.querySelector("#pause-label").innerHTML = "Pause";
 			document.querySelector("#play").title = "Play";
 			document.querySelector("#play-label").innerHTML = "Play";
-			document.querySelector("#profile-delete-label").innerHTML = "Delete Account";
-			document.querySelector("#profile-friends").innerHTML = "Manage Friends";
-			document.querySelector("#profile-friends-count").innerHTML = "Friends: " + friends_array.length;
-			document.querySelector("#profile-friends-name").innerHTML = "Friends";
-			document.querySelector("#profile-history").innerHTML = "Match History";
-			document.querySelector("#profile-history-name").innerHTML = "Match History";
-			document.querySelector("#profile-history-opponent").innerHTML = "Opponent";
-			document.querySelector("#profile-history-result").innerHTML = "Result";
-			document.querySelector("#profile-history-score").innerHTML = "Score";
-			document.querySelector("#profile-history-time").innerHTML = "Time";
-			document.querySelector("#profile-history-type").innerHTML = "Type";
-			document.querySelector("#profile-list-item").placeholder = "Enter username";
-			document.querySelector("#profile-logout-label").innerHTML = "Log out";
-			document.querySelector("#profile-losses").innerHTML = h.losses + " Losses";
-			document.querySelector("#profile-wins").innerHTML = h.wins + " Wins";
+			/*{% if user.is_authenticated %}*/
+				document.querySelector("#profile-delete-label").innerHTML = "Delete Account";
+				document.querySelector("#profile-friends").innerHTML = "Manage Friends";
+				document.querySelector("#profile-friends-count").innerHTML = "Friends: " + friends_array.length;
+				document.querySelector("#profile-friends-name").innerHTML = "Friends";
+				document.querySelector("#profile-history").innerHTML = "Match History";
+				document.querySelector("#profile-history-name").innerHTML = "Match History";
+				document.querySelector("#profile-history-opponent").innerHTML = "Opponent";
+				document.querySelector("#profile-history-result").innerHTML = "Result";
+				document.querySelector("#profile-history-score").innerHTML = "Score";
+				document.querySelector("#profile-history-time").innerHTML = "Time";
+				document.querySelector("#profile-history-type").innerHTML = "Type";
+				document.querySelector("#profile-list-item").placeholder = "Enter username";
+				document.querySelector("#profile-logout-label").innerHTML = "Log out";
+				document.querySelector("#profile-losses").innerHTML = h.losses + " Losses";
+				document.querySelector("#profile-wins").innerHTML = h.wins + " Wins";
+			/*{% else %}*/
+				document.querySelector("#login-button").title = "Log in";
+				document.querySelector("#login-label").innerHTML = "Log in";
+			/*{% endif %}*/
 			document.querySelector("#register-button-label").innerHTML = "Register";
 			document.querySelector("#register-close").innerHTML = "Cancel";
 			document.querySelector("#register-name-label").innerHTML = "Username:";
@@ -1079,32 +1103,33 @@
 			</button>`;
 			document.querySelector("#language-button").title = "Langue";
 			document.querySelector("#language-label").innerHTML = "Langue";
-			if (document.querySelector("#login-button"))
-				document.querySelector("#login-button").title = "Connexion";
 			document.querySelector("#login-close-label").innerHTML = "Annuler";
-			if (document.querySelector("#login-label"))
-				document.querySelector("#login-label").innerHTML = "Connexion";
 			document.querySelector("#login-name-label").innerHTML = "Nom d’utilisateur:";
 			document.querySelector("#login-pass-label").innerHTML = "Mot de passe:";
 			document.querySelector("#login-title").innerHTML = "Connexion";
 			document.querySelector("#pause-label").innerHTML = "Pause";
 			document.querySelector("#play").title = "Jouer";
 			document.querySelector("#play-label").innerHTML = "Jouer";
-			document.querySelector("#profile-delete-label").innerHTML = "Supprimer le compte";
-			document.querySelector("#profile-friends").innerHTML = "Gérer les amis";
-			document.querySelector("#profile-friends-count").innerHTML = "Amis: " + friends_array.length;
-			document.querySelector("#profile-friends-name").innerHTML = "Amis";
-			document.querySelector("#profile-history").innerHTML = "Historique des matchs";
-			document.querySelector("#profile-history-name").innerHTML = "Historique des matchs";
-			document.querySelector("#profile-history-opponent").innerHTML = "Adversaire";
-			document.querySelector("#profile-history-result").innerHTML = "Résultat";
-			document.querySelector("#profile-history-score").innerHTML = "Score";
-			document.querySelector("#profile-history-time").innerHTML = "Temps";
-			document.querySelector("#profile-history-type").innerHTML = "Type";
-			document.querySelector("#profile-list-item").placeholder = "Entrez le nom d’utilisateur";
-			document.querySelector("#profile-logout-label").innerHTML = "Déconnexion";
-			document.querySelector("#profile-losses").innerHTML = h.losses + " défaites";
-			document.querySelector("#profile-wins").innerHTML = h.wins + " victoires";
+			/*{% if user.is_authenticated %}*/
+				document.querySelector("#profile-delete-label").innerHTML = "Supprimer le compte";
+				document.querySelector("#profile-friends").innerHTML = "Gérer les amis";
+				document.querySelector("#profile-friends-count").innerHTML = "Amis: " + friends_array.length;
+				document.querySelector("#profile-friends-name").innerHTML = "Amis";
+				document.querySelector("#profile-history").innerHTML = "Historique des matchs";
+				document.querySelector("#profile-history-name").innerHTML = "Historique des matchs";
+				document.querySelector("#profile-history-opponent").innerHTML = "Adversaire";
+				document.querySelector("#profile-history-result").innerHTML = "Résultat";
+				document.querySelector("#profile-history-score").innerHTML = "Score";
+				document.querySelector("#profile-history-time").innerHTML = "Temps";
+				document.querySelector("#profile-history-type").innerHTML = "Type";
+				document.querySelector("#profile-list-item").placeholder = "Entrez le nom d’utilisateur";
+				document.querySelector("#profile-logout-label").innerHTML = "Déconnexion";
+				document.querySelector("#profile-losses").innerHTML = h.losses + " défaites";
+				document.querySelector("#profile-wins").innerHTML = h.wins + " victoires";
+			/*{% else %}*/
+				document.querySelector("#login-button").title = "Connexion";
+				document.querySelector("#login-label").innerHTML = "Connexion";
+			/*{% endif %}*/
 			document.querySelector("#register-button-label").innerHTML = "Inscription";
 			document.querySelector("#register-close").innerHTML = "Annuler";
 			document.querySelector("#register-name-label").innerHTML = "Nom d’utilisateur:";
@@ -1133,13 +1158,67 @@
 			}
 		});
 
-		if (document.querySelector("#imageFile"))
-		{
+		/*{% if user.is_authenticated %}*/
 			document.querySelector("#imageFile").onchange = function ()
 			{
 				document.querySelector("#profile-avatar-form").submit();
 			};
-		}
+
+			document.querySelector("#profile-banner-close").addEventListener("click", function(e)
+			{
+				e.preventDefault();
+				banner_close('#profile-banner');
+			});
+
+			document.querySelector("#profile-delete").addEventListener("click", function(e)
+			{
+				e.preventDefault();
+				profile_logout();
+			});
+
+			document.querySelector("#profile-list-add").addEventListener("click", function(e)
+			{
+				e.preventDefault();
+				add_item("profile", null);
+				if (h.language == "english")
+					document.querySelector("#profile-friends-count").innerHTML = "Friends: " + friends_array.length;
+				else if (h.language == "french")
+					document.querySelector("#profile-friends-count").innerHTML = "Amis: " + friends_array.length;
+				else if (h.language == "ukrainian")
+					document.querySelector("#profile-friends-count").innerHTML = "Друзі: " + friends_array.length;
+			});
+
+			document.querySelector("#profile-name-edit").addEventListener("click", function(e)
+			{
+				e.preventDefault();
+				document.querySelector("#profile-name-container").classList.remove("position-relative");
+				document.querySelector("#profile-name-inside").classList.add("d-none");
+				document.querySelector("#profile-name-input").value = h.username;
+				document.querySelector("#profile-name-input-container").classList.remove("d-none");
+			});
+
+			document.querySelector("#profile-name-input-button").addEventListener("click", function(e)
+			{
+				e.preventDefault();
+				if (document.querySelector("#profile-name-input").value == "")
+					return ;
+				document.querySelector("#profile-name-inside").innerHTML = document.querySelector("#profile-name-input").value;
+				if (h.contestant1 == h.username)
+				{
+					h.contestant1 = document.querySelector("#profile-name-input").value;
+					document.querySelector("#contestant1").innerHTML = h.contestant1;
+				}
+				if (h.contestant2 == h.username)
+				{
+					h.contestant2 = document.querySelector("#profile-name-input").value;
+					document.querySelector("#contestant2").innerHTML = h.contestant2;
+				}
+				h.username = document.querySelector("#profile-name-input").value;
+				document.querySelector("#profile-name-container").classList.add("position-relative");
+				document.querySelector("#profile-name-inside").classList.remove("d-none");
+				document.querySelector("#profile-name-input-container").classList.add("d-none");
+			});
+		/*{% endif %}*/
 
 		document.querySelector("#ukrainian").addEventListener("change", function(e)
 		{
@@ -1292,32 +1371,33 @@
 			</button>`;
 			document.querySelector("#language-button").title = "Мова";
 			document.querySelector("#language-label").innerHTML = "Мова";
-			if (document.querySelector("#login-button"))
-				document.querySelector("#login-button").title = "Авторизуватися";
 			document.querySelector("#login-close-label").innerHTML = "Скасувати";
-			if (document.querySelector("#login-label"))
-				document.querySelector("#login-label").innerHTML = "Авторизуватися";
 			document.querySelector("#login-name-label").innerHTML = "Ім'я користувача:";
 			document.querySelector("#login-pass-label").innerHTML = "Пароль:";
 			document.querySelector("#login-title").innerHTML = "Авторизуватися";
 			document.querySelector("#pause-label").innerHTML = "Пауза";
 			document.querySelector("#play").title = "Грати";
 			document.querySelector("#play-label").innerHTML = "Грати";
-			document.querySelector("#profile-delete-label").innerHTML = "Видалити аккаунт";
-			document.querySelector("#profile-friends").innerHTML = "Керуйте друзями";
-			document.querySelector("#profile-friends-count").innerHTML = "Друзі: " + friends_array.length;
-			document.querySelector("#profile-friends-name").innerHTML = "Друзі";
-			document.querySelector("#profile-history").innerHTML = "Історія матчів";
-			document.querySelector("#profile-history-name").innerHTML = "Історія матчів";
-			document.querySelector("#profile-history-opponent").innerHTML = "Суперник";
-			document.querySelector("#profile-history-result").innerHTML = "Результат";
-			document.querySelector("#profile-history-score").innerHTML = "Оцінка";
-			document.querySelector("#profile-history-time").innerHTML = "Час";
-			document.querySelector("#profile-history-type").innerHTML = "Тип";
-			document.querySelector("#profile-list-item").placeholder = "Введіть ім'я користувача";
-			document.querySelector("#profile-logout-label").innerHTML = "Вийти";
-			document.querySelector("#profile-losses").innerHTML = h.losses + " втрати";
-			document.querySelector("#profile-wins").innerHTML = h.wins + " виграє";
+			/*{% if user.is_authenticated %}*/
+				document.querySelector("#profile-delete-label").innerHTML = "Видалити аккаунт";
+				document.querySelector("#profile-friends").innerHTML = "Керуйте друзями";
+				document.querySelector("#profile-friends-count").innerHTML = "Друзі: " + friends_array.length;
+				document.querySelector("#profile-friends-name").innerHTML = "Друзі";
+				document.querySelector("#profile-history").innerHTML = "Історія матчів";
+				document.querySelector("#profile-history-name").innerHTML = "Історія матчів";
+				document.querySelector("#profile-history-opponent").innerHTML = "Суперник";
+				document.querySelector("#profile-history-result").innerHTML = "Результат";
+				document.querySelector("#profile-history-score").innerHTML = "Оцінка";
+				document.querySelector("#profile-history-time").innerHTML = "Час";
+				document.querySelector("#profile-history-type").innerHTML = "Тип";
+				document.querySelector("#profile-list-item").placeholder = "Введіть ім'я користувача";
+				document.querySelector("#profile-logout-label").innerHTML = "Вийти";
+				document.querySelector("#profile-losses").innerHTML = h.losses + " втрати";
+				document.querySelector("#profile-wins").innerHTML = h.wins + " виграє";
+			/*{% else %}*/
+				document.querySelector("#login-button").title = "Авторизуватися";
+				document.querySelector("#login-label").innerHTML = "Авторизуватися";
+			/*{% endif %}*/
 			document.querySelector("#register-button-label").innerHTML = "Зареєструватися";
 			document.querySelector("#register-close").innerHTML = "Скасувати";
 			document.querySelector("#register-name-label").innerHTML = "Ім'я користувача:";
@@ -1391,85 +1471,6 @@
 			document.querySelector("#pause").classList.remove("d-none");
 			document.querySelector("#pause").classList.add("d-flex");
 		});
-
-		if (document.querySelector("#profile-banner-close"))
-		{
-			document.querySelector("#profile-banner-close").addEventListener("click", function(e)
-			{
-				e.preventDefault();
-				banner_close('#profile-banner');
-			});
-		}
-
-		if (document.querySelector("#profile-delete"))
-		{
-			document.querySelector("#profile-delete").addEventListener("click", function(e)
-			{
-				e.preventDefault();
-				profile_logout();
-			});
-		}
-
-		if (document.querySelector("#profile-delete"))
-		{
-			document.querySelector("#profile-list-add").addEventListener("click", function(e)
-			{
-				e.preventDefault();
-				add_item("profile", null);
-				if (h.language == "english")
-					document.querySelector("#profile-friends-count").innerHTML = "Friends: " + friends_array.length;
-				else if (h.language == "french")
-					document.querySelector("#profile-friends-count").innerHTML = "Amis: " + friends_array.length;
-				else if (h.language == "ukrainian")
-					document.querySelector("#profile-friends-count").innerHTML = "Друзі: " + friends_array.length;
-			});
-		}
-
-		if (document.querySelector("#profile-logout"))
-		{
-			document.querySelector("#profile-logout").addEventListener("click", function(e)
-			{
-				e.preventDefault();
-				profile_logout();
-			});
-		}
-
-		if (document.querySelector("#profile-name-edit"))
-		{
-			document.querySelector("#profile-name-edit").addEventListener("click", function(e)
-			{
-				e.preventDefault();
-				document.querySelector("#profile-name-container").classList.remove("position-relative");
-				document.querySelector("#profile-name-inside").classList.add("d-none");
-				document.querySelector("#profile-name-input").value = h.username;
-				document.querySelector("#profile-name-input-container").classList.remove("d-none");
-			});
-		}
-
-		if (document.querySelector("#profile-name-input-button"))
-		{
-			document.querySelector("#profile-name-input-button").addEventListener("click", function(e)
-			{
-				e.preventDefault();
-				if (document.querySelector("#profile-name-input").value == "")
-					return ;
-				document.querySelector("#profile-name-inside").innerHTML = document.querySelector("#profile-name-input").value;
-				if (h.contestant1 == h.username)
-				{
-					h.contestant1 = document.querySelector("#profile-name-input").value;
-					document.querySelector("#contestant1").innerHTML = h.contestant1;
-				}
-				if (h.contestant2 == h.username)
-				{
-					h.contestant2 = document.querySelector("#profile-name-input").value;
-					document.querySelector("#contestant2").innerHTML = h.contestant2;
-				}
-				h.username = document.querySelector("#profile-name-input").value;
-				document.querySelector("#profile-name-container").classList.add("position-relative");
-				document.querySelector("#profile-name-inside").classList.remove("d-none");
-				document.querySelector("#profile-name-input-container").classList.add("d-none");
-			});
-		}
 
 		document.querySelector("#register").addEventListener("hidden.bs.modal", function(e)
 		{
@@ -1560,26 +1561,6 @@
 			e.preventDefault();
 			start_match();
 		});
-
-		if (document.getElementById('avatar'))
-		{
-			document.getElementById('avatar').onchange = function ()
-			{
-				var	reader = new FileReader();
-
-				reader.onload = function (e)
-				{
-					document.querySelector("#profile-avatar").src = e.target.result;
-					document.querySelector("#profile-avatar-mini").src = e.target.result;
-					if (h.contestant1 == h.username)
-						document.querySelector("#contestant1-avatar").src = e.target.result;;
-					if (h.contestant2 == h.username)
-						document.querySelector("#contestant2-avatar").src = e.target.result;;
-				};
-				reader.readAsDataURL(this.files[0]);
-				document.querySelector("#avatar-name").value = this.files[0].name;
-			};
-		}
 
 		function	add_item(prefix, value)
 		{

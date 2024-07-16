@@ -96,7 +96,10 @@ function	profile_log_add(winner, loser, tournament)
 	}
 	else
 	{
-		type = "Match";
+		if (h.language == "english" || h.language == "french")
+			type = "Match";
+		else if (h.language == "ukrainian")
+			type = "Матч";
 		if (winner == h.username)
 		{
 			if (h.language == "english")
