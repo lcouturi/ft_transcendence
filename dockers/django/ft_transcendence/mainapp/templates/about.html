@@ -1,0 +1,181 @@
+{% load static %}
+<div aria-hidden="true" aria-labelledby="about" class="modal fade" id="about" tabindex="-1">
+	<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+		<div class="bg-body border modal-content p-1 rounded">
+			<div class="modal-header p-1">
+				<h2 class="m-1 pe-none" id="about-title">
+					The Great Avocado War of '24
+				</h2>
+			</div>
+			<div class="d-flex flex-column m-1 modal-body overflow-hidden p-0">
+				<ul class="border-bottom-0 flex-nowrap ms-1 mt-1 nav nav-tabs position-relative rounded-top" id="myTab" role="tablist">
+					<li class="nav-item" role="presentation">
+						<button aria-controls="about-tab-pane" aria-selected="true" class="active border-bottom-0 first m-0 nav-link position-relative px-1 text-dark text-nowrap" data-bs-target="#about-tab-pane" data-bs-toggle="tab" id="about-tab" role="tab" type="button">
+							About
+						</button>
+					</li>
+					<li class="nav-item" role="presentation">
+						<button aria-controls="components-tab-pane" aria-selected="false" class="border-bottom-0 m-0 nav-link position-relative px-1 rounded-0 text-dark" data-bs-target="#components-tab-pane" data-bs-toggle="tab" id="components-tab" role="tab" type="button">
+							Components
+						</button>
+					</li>
+					<li class="nav-item" role="presentation">
+						<button aria-controls="authors-tab-pane" aria-selected="false" class="border-bottom-0 m-0 last nav-link position-relative px-1 text-dark" data-bs-target="#authors-tab-pane" data-bs-toggle="tab" id="authors-tab" role="tab" type="button">
+							Authors
+						</button>
+					</li>
+				</ul>
+				<div class="d-flex overflow-hidden tab-content" id="myTabContent">
+					<div aria-labelledby="about-tab" class="active border mb-1 mx-1 overflow-y-auto p-1 position-relative rounded show tab-pane" id="about-tab-pane" role="tabpanel" tabindex="0">
+						<div class="d-flex">
+							<img class="inline-img" src='{% static "img/openart-image_yBIl3nIg_1717776713014_raw.jpg" %}'>
+						</div>
+						<br>
+						On February 30th 2024, something happened that would forever change the course of history. Tired of being treated as little more than food, the avocados waged war against the animal kingdom as a whole.
+						<br>
+						<br>
+						At first, the war went well for the avocados and they made short work of the weak human forces. With the humans out of the picture, the avocados thought they had won the war.
+						<br>
+						<br>
+						They were wrong.
+						<br>
+						<br>
+						They were not prepared for the onslaught from the pangolins. The pangolins were ruthless. The avocados found themselves evenly matched.
+						<br>
+						<br>
+						This website exists to serve as an accurate retelling of the Great Avocado War of '24. As for who won the war? You will have to play to find out.
+					</div>
+					<div aria-labelledby="components-tab" class="border mb-1 mx-1 overflow-y-auto p-1 position-relative rounded tab-pane w-100" id="components-tab-pane" role="tabpanel" tabindex="0">
+						<b>
+							Bootstrap
+						</b>
+						<br>
+						<i>
+							Version 5.3.3
+						</i>
+						<br>
+						<button class="border borderless-button d-flex m-1 p-0 rounded" title="Visit component's homepage&#013;https://getbootstrap.com" type="button">
+							<a href="https://getbootstrap.com" target="_blank">
+								<img class="m-1" height="22" src='{% static "img/22/globe.svg" %}'>
+							</a>
+						</button>
+						<b>
+							Django
+						</b>
+						<br>
+						<i>
+							Version 5.0.6
+						</i>
+						<br>
+						<button class="border borderless-button d-flex m-1 p-0 rounded" title="Visit component's homepage&#013;https://www.djangoproject.com" type="button">
+							<a href="https://www.djangoproject.com" target="_blank">
+								<img class="m-1" height="22" src='{% static "img/22/globe.svg" %}'>
+							</a>
+						</button>
+						<b>
+							PostgreSQL
+						</b>
+						<br>
+						<i>
+							Version 16.3
+						</i>
+						<br>
+						<button class="border borderless-button d-flex m-1 p-0 rounded" title="Visit component's homepage&#013;https://www.postgresql.org" type="button">
+							<a href="https://www.postgresql.org" target="_blank">
+								<img class="m-1" height="22" src='{% static "img/22/globe.svg" %}'>
+							</a>
+						</button>
+						<b>
+							Three.js
+						</b>
+						<br>
+						<i>
+							Version r165
+						</i>
+						<br>
+						<button class="border borderless-button d-flex m-1 p-0 rounded" title="Visit component's homepage&#013;https://threejs.org" type="button">
+							<a href="https://threejs.org" target="_blank">
+								<img class="m-1" height="22" src='{% static "img/22/globe.svg" %}'>
+							</a>
+						</button>
+					</div>
+					<div aria-labelledby="authors-tab" class="border mb-1 mx-1 overflow-y-auto p-1 position-relative rounded tab-pane w-100" id="authors-tab-pane" role="tabpanel" tabindex="0">
+						<b>
+							Bruno Pierre Bouchard
+						</b>
+						<br>
+						<i>
+							Database
+						</i>
+						<br>
+						<button class="border borderless-button d-flex m-1 p-0 rounded" title="Visit contributor's homepage&#013;https://github.com/Nyonyx" type="button">
+							<a href="https://github.com/Nyonyx" target="_blank">
+								<img class="m-1" height="22" src='{% static "img/22/globe.svg" %}'>
+							</a>
+						</button>
+						<b>
+							Félix Barrette
+						</b>
+						<br>
+						<i>
+							Backend
+						</i>
+						<br>
+						<button class="border borderless-button d-flex m-1 p-0 rounded" title="Visit contributor's homepage&#013;https://github.com/ShroomySquid" type="button">
+							<a href="https://github.com/ShroomySquid" target="_blank">
+								<img class="m-1" height="22" src='{% static "img/22/globe.svg" %}'>
+							</a>
+						</button>
+						<b>
+							George Zhukov
+						</b>
+						<br>
+						<i>
+							Game
+						</i>
+						<br>
+						<button class="border borderless-button d-flex m-1 p-0 rounded" title="Visit contributor's homepage&#013;https://github.com/joeroeg" type="button">
+							<a href="https://github.com/joeroeg" target="_blank">
+								<img class="m-1" height="22" src='{% static "img/22/globe.svg" %}'>
+							</a>
+						</button>
+						<b>
+							Léopold Couturier-Otis
+						</b>
+						<br>
+						<i>
+							Interface
+						</i>
+						<br>
+						<button class="border borderless-button d-flex m-1 p-0 rounded" title="Visit contributor's homepage&#013;https://github.com/lcouturi" type="button">
+							<a href="https://github.com/lcouturi" target="_blank">
+								<img class="m-1" height="22" src='{% static "img/22/globe.svg" %}'>
+							</a>
+						</button>
+						<b>
+							Pierre Olivier Paquet
+						</b>
+						<br>
+						<i>
+							MIA
+						</i>
+						<br>
+						<button class="border borderless-button d-flex m-1 p-0 rounded" title="Visit contributor's homepage&#013;https://github.com/pierreolivierpaquet" type="button">
+							<a href="https://github.com/pierreolivierpaquet" target="_blank">
+								<img class="m-1" height="22" src='{% static "img/22/globe.svg" %}'>
+							</a>
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer p-1">
+				<button class="border button d-flex m-1 ms-auto rounded shadow-sm" data-bs-dismiss="modal" type="button">
+					<img class="m-1" height="22" src='{% static "img/22/window-close.svg" %}'>
+					<div class="my-auto" id="about-close">
+						Close
+					</div>
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
