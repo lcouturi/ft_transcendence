@@ -1,0 +1,366 @@
+.borderless-button
+{
+	--bs-border-color: transparent;
+	--bs-border-radius: 3px;
+	background-color: inherit;
+	transition: border-color 0.25s ease-out;
+}
+
+.borderless-button:active
+{
+	--bs-border-color: #00b0ef !important;
+	background-color: #9ed0e8 !important;
+	transition: background-color 0.25s ease-out;
+}
+
+.borderless-button:hover
+{
+	--bs-border-color: #00b0ef !important;
+}
+
+.button
+{
+	background-color: #fcfcfc;
+	transition: border-color 0.25s ease-out;
+}
+
+.button .label
+{
+	cursor: pointer;
+}
+
+.button:active
+{
+	--bs-border-color: #00b0ef;
+	background-color: #b2e3f8;
+	transition: border-color 0.25s ease-out;
+}
+
+.button:hover
+{
+	--bs-border-color: #00b0ef;
+}
+
+.container-fluid
+{
+	max-width: 90rem;
+}
+
+.content
+{
+	width: 90rem;
+}
+
+.content-body canvas
+{
+	--bs-border-color: #bcbbbd;
+	border: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color) !important;
+	border-radius: var(--bs-border-radius) !important;
+	height: 100% !important;
+	width: 100% !important;
+}
+
+.form-check
+{
+	border: 1px solid transparent;
+	height: 26px;
+}
+
+.form-check:active input[type=radio]
+{
+  background-color: #e8e8e8;
+}
+
+.form-check:active input[type=radio]:checked
+{
+  background-color: black;
+  box-shadow: inset 0 0 0 1px #00b0ef, inset 0 0 0 5px #7ecceb;
+}
+
+.form-check:hover
+{
+	background-color: #b3e0f3;
+	border-color: #009cd1;
+}
+
+.form-check-label
+{
+	font-size: 14px;
+	margin: auto 6px;
+}
+
+.frame
+{
+	background-color: #f4f5f5;
+	min-width: 0 !important;
+	padding: 10px !important;
+}
+
+.inline-img
+{
+	margin: auto;
+	max-height: 25rem;
+}
+
+.modal-content
+{
+	--bs-border-color: #bcbbbd;
+	--bs-modal-footer-border-width: 0;
+	--bs-modal-header-border-width: 0;
+}
+
+.nav-item
+{
+	--bs-border-color: transparent;
+	cursor: pointer;
+	transition: border-color 0.25s ease-out;
+}
+
+.nav-item:active
+{
+	background-color: #9ed0e8 !important;
+	transition: background-color 0.25s ease-out;
+}
+
+.nav-item.show
+{
+	--bs-border-color: #00b0ef;
+	background-color: #9ed0e8 !important;
+}
+
+.nav-item:hover
+{
+	--bs-border-color: #00b0ef;
+}
+
+.nav-tabs
+{
+	background-color: #c7c8c9;
+	bottom: -1px;
+	width: min-content
+}
+
+.nav-tabs .nav-item .nav-link
+{
+	--bs-nav-link-font-size: 13px;
+	border-top-width: 3px;
+	cursor: default;
+	padding: 2px 0 6.25px;
+	transition: background-color 0.25s ease-out, border-color 0.25s ease-out;
+}
+
+.nav-tabs .nav-item .nav-link:focus, .nav-tabs .nav-item .nav-link:hover
+{
+	background-color: #c5e4f2;
+	border-color: #c5e4f2;
+}
+
+.nav-tabs .nav-item .nav-link.first:focus, .nav-tabs .nav-item .nav-link.first:hover
+{
+	border-top-left-radius: 3px !important;
+	border-top-right-radius: 0;
+}
+
+.nav-tabs .nav-item .nav-link.last:focus, .nav-tabs .nav-item .nav-link.last:hover
+{
+	border-top-left-radius: 0;
+	border-top-right-radius: 3px !important;
+}
+
+.nav-tabs .nav-item .nav-link.active
+{
+	background-color: #f4f5f5 !important;
+	border-color: #00b0ef #bcbebf;
+	border-radius: 3px 3px 0 0 !important;
+	transition: unset;
+	z-index: 2;
+}
+
+.navbar
+{
+	--bs-border-color: #aeb2b4;
+}
+
+.over
+{
+	max-height: calc(100vh - 102px);
+	overflow: hidden;
+	width: max(100%, 270px);
+}
+
+.position-relative:hover label
+{
+	display: flex !important;
+}
+
+.navbar-nav .nav-item, .navbar-nav .dropdown .nav-item
+{
+	--bs-nav-link-font-size: 10px;
+	font-size: 10px;
+	margin: 5.5px 1px;
+	padding: 0 7.5px 0 7px;
+}
+
+.tab-pane
+{
+	--bs-border-radius: 0 3px 3px;
+	background-color: #f4f5f5;
+	max-width: 50rem;
+}
+
+.warning-banner
+{
+	background-color: #f8e3e6;
+	color: #be7d88;
+	max-height: 500px;
+	transition-duration: 0.25s;
+	transition-property: max-height, padding;
+}
+
+body
+{
+	--bs-body-bg: white;
+	--bs-body-bg-rgb: 255, 255, 255;
+	--bs-border-radius: 3px;
+	--bs-box-shadow-sm: 0px 1px 0px 0px rgba(209,210,211,1);
+	--bs-tertiary-bg: #dee0e2;
+	--bs-tertiary-bg-rgb: 222, 224, 226;
+	padding-bottom: 100px;
+}
+
+/* Custom progress bar widget style. Works in all browsers. */
+
+progress, ::-webkit-progress-bar
+{
+	background-color: #e2e3e3;
+	border: 0;
+	border-radius: 3px;
+	box-shadow: inset 0 0 0 1px #cacbcb;
+	height: 6px;
+}
+
+::-moz-progress-bar /* Gecko-specific portion. */
+{
+	background-color: #a5d8f1;
+	border: 1px solid #49bdee;
+	border-radius: 3px;
+}
+
+::-webkit-progress-value /* WebKit-specific portion. */
+{
+	background-color: #a5d8f1;
+	border: 1px solid #49bdee;
+	border-radius: 3px;
+}
+
+/* Custom scrollbar widget style. Only works in WebKit-based browsers.
+ *
+ * I wanted to make it work in Firefox, but the available options were too
+ * limited (unless you make a fully custom JavaScript scrollbar).
+ *
+ * I wanted to use transition for background-color and border-color, but that
+ * unfortunately seems to be impossible. */
+
+:focus::-webkit-scrollbar-thumb
+{
+	background-color: #a4daf2;
+	box-shadow: inset 0 0 0 1px #24bdef;
+}
+
+::-webkit-scrollbar
+{
+	min-width: 0;
+}
+
+::-webkit-scrollbar:horizontal
+{
+	border-top: 1px solid #dbdcdc;
+	height: 22px;
+}
+
+::-webkit-scrollbar:vertical
+{
+	border-left: 1px solid #dbdcdc;
+	width: 22px;
+}
+
+::-webkit-scrollbar-thumb
+{
+	background-clip: content-box;
+	background-color: #cacdcd;
+	border-radius: 11px;
+	border: 7px solid transparent;
+	box-shadow: inset 0 0 0 1px #8f9293;
+}
+
+::-webkit-scrollbar-thumb:hover
+{
+	background-color: #81d1f0;
+	box-shadow: inset 0 0 0 1px #00b0ef;
+}
+
+::-webkit-scrollbar-track
+{
+	background-clip: content-box;
+	border: 7px solid transparent;
+	border-radius: 11px;
+}
+
+::-webkit-scrollbar-track:hover
+{
+	background-color: #dbdcdc;
+	box-shadow: inset 0 0 0 1px #b5b8b8;
+}
+
+input[type=password], input[type=text]
+{
+	background-color: #fcfcfc;
+	transition: border-color 0.25s ease-out;
+}
+
+input[type=password]:focus, input[type=password]:hover, input[type=text]:focus, input[type=text]:hover
+{
+	--bs-border-color: #00b0ef;
+	outline: none;
+}
+
+input[type=radio]
+{
+	appearance: none;
+	background-color: white;
+	border: 1px solid #b6b8b9;
+	border-radius: 50%;
+	height: 16px;
+	margin: auto 6px;
+	width: 16px;
+}
+
+input[type=radio]:checked
+{
+	background-color: black;
+	border: none;
+	box-shadow: inset 0 0 0 1px #00b0ef, inset 0 0 0 5px #aedef3;
+}
+
+table
+{
+  border-collapse: collapse;
+}
+
+thead tr th
+{
+  background-color: #fcfcfc;
+  border: 1px solid;
+  border-color: #e6e6e6 #d1d2d2;
+  font-size: 11px;
+}
+
+th, td
+{
+  background-color: #ffffff;
+  font-weight: normal;
+  font-size: 12.5px;
+  padding: 4px 6.5px 3px;
+  text-align: left;
+}
+

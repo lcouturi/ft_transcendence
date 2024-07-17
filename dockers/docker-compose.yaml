@@ -1,0 +1,67 @@
+volumes:
+  volume-django:
+
+services:
+  database:
+    build:
+      context: ./postgre
+      dockerfile: Dockerfile
+      args:
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
+        - POSTGRES_DB=postgres
+    image: postgresql:transcendence
+    container_name: postgre
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+      - POSTGRES_HOST=database
+      - POSTGRES_PORT=5432
+    networks:
+      - default_network
+  
+  django:
+    build:
+      context: ./django/
+      dockerfile: Dockerfile
+    image: django:transcendence
+    container_name: django
+    restart: on-failure:10
+    env_file:
+      - .env
+    volumes:
+      - volume-django:/usr/src/app
+      - ./django/static:/static
+      - ./django/ft_transcendence/mainapp/templates:/django/mainapp/templates
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_HOST=database
+      - POSTGRES_PORT=5432
+    depends_on:
+      - database
+    networks:
+      - default_network
+
+  nginx:
+    build:
+      context: .
+      dockerfile: ./nginx/Dockerfile
+    image: nginx:transcendence
+    container_name: nginx
+    restart: on-failure:10
+    ports:
+     - "443:443"
+     - "80:80"
+    volumes: 
+     - ./django/static:/static
+    depends_on:
+     - django
+    networks:
+      - default_network
+
+networks:
+  default_network:
+    driver: bridge

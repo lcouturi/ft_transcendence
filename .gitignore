@@ -1,0 +1,9 @@
+<<<<<<< HEAD
+.env
+=======
+._*
+patate
+Pipfile
+Pipfile.lock
+.DS_Store
+>>>>>>> lcouturi
