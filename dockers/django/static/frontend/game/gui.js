@@ -10,7 +10,7 @@ function getTranslation(key, lang = 'en') {
     return translations[lang][key] || translations['en'][key];
 }
 
-function switchLanguage(lang) {
+export function switchLanguage(lang) {
     localStorage.setItem('lang', lang);
     updateGUI(lang);
 }

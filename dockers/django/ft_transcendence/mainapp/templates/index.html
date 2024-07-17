@@ -671,7 +671,8 @@
 		import
 		{
 			loadSavedParameters,
-			saveParameter
+			saveParameter,
+			switchLanguage
 		}
 		from '{% static "frontend/game/gui.js" %}';
 
@@ -755,6 +756,7 @@
 		document.querySelector("#english").addEventListener("change", function(e)
 		{
 			e.preventDefault();
+			switchLanguage("en");
 			h.language = "english";
 			document.querySelector("#about-button").title = "About";
 			document.querySelector("#about-close").innerHTML = "Close";
@@ -961,6 +963,7 @@
 		document.querySelector("#french").addEventListener("change", function(e)
 		{
 			e.preventDefault();
+			switchLanguage("fr");
 			h.language = "french";
 			document.querySelector("#about-button").title = "À propos";
 			document.querySelector("#about-close").innerHTML = "Fermer";
@@ -1229,6 +1232,7 @@
 		document.querySelector("#ukrainian").addEventListener("change", function(e)
 		{
 			e.preventDefault();
+			switchLanguage("uk");
 			h.language = "ukrainian";
 			document.querySelector("#about-button").title = "Про";
 			document.querySelector("#about-close").innerHTML = "Закрити";
