@@ -117,7 +117,7 @@ export function	banner_close(id)
 	document.querySelector(id).style.maxHeight = "0";
 }
 
-function	banner_open(value, id)
+export function	banner_open(value, id)
 {
 	document.querySelector(id).classList.add("p-1");
 	document.querySelector(id).classList.remove("overflow-hidden", "p-0");

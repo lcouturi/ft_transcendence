@@ -12,5 +12,6 @@ urlpatterns = [
     path("add_friend", views.add_friend),
     path("delete_friend", views.delete_friend),
     path("delete_friend_request", views.delete_friend_request),
-    path("send_friend_request", views.request_friend)
+    path("send_friend_request", views.request_friend),
+    path("delete_account", views.delete_account)
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
