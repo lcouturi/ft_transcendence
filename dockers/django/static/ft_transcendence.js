@@ -493,13 +493,22 @@ export function	result(value)
 	new bootstrap.Modal(document.querySelector("#results")).show();
 }
 
-function	sanitize(string)
+export function	sanitize(string)
 {
 	string = string.replace(/&/g, "&amp;").replace(/</g, "&lt;");
 	string = string.replace(/\>/g, "&gt;").replace(/"/g, "&quot;");
 	string = string.replace(/'/g, "&#x27;").replace(/\//g, "&#x2F;");
-	string = string.replace(/\//g, "&#x2F;").replace(/`/g, "&grave;");
-	return (string.replace(/=/g, "&#x3D;"));
+	string = string.replace(/`/g, "&grave;").replace(/=/g, "&#x3D;");
+	return (string);
+}
+
+export function	unsanitize(string)
+{
+	string = string.replace(/&amp;/g, "&").replace(/&lt;/g, "<");
+	string = string.replace(/&gt;/g, ">").replace(/&quot;/g, '"');
+	string = string.replace(/&#x27;/g, "'").replace(/&#x2F;/g, "/");
+	string = string.replace(/&grave;/g, "`").replace(/&#x3D;/g, "=");
+	return (string);
 }
 
 export function	start_match()
@@ -553,7 +562,7 @@ export function	tournament_open()
 	document.querySelector("#tournament-list-item").value = "";
 	new bootstrap.Modal(document.querySelector("#tournament")).show();
 	if (h.username != null)
-		add_item("tournament", h.username);
+		add_item("tournament", unsanitize(h.username));
 }
 
 export function	tournament_start()
