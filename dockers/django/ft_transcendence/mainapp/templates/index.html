@@ -90,7 +90,7 @@
 					{% else %}
 						<li class="dropdown" id="profile-button">
 							<button aria-expanded="false" class="bg-body-tertiary border d-flex nav-item py-1 rounded text-nowrap" data-bs-auto-close="outside" data-bs-toggle="dropdown" title="Profile">
-								<img class="rounded-circle" height="22" id="profile-avatar-mini" src='{{ user.get_image_profile_url }}'>
+								<img class="object-fit-cover rounded-circle" height="22" id="profile-avatar-mini" src='{{ user.get_image_profile_url }}' style="aspect-ratio: 1/1;">
 								<a aria-current="page" class="active ms-1 my-auto nav-link p-0" id="profile-name">
 									{{ user.username }}
 								</a>
@@ -101,7 +101,7 @@
 									<div class="carousel-inner">
 										<div class="active carousel-item p-2">
 											<div class="position-relative">
-												<img class="mx-auto mw-100 rounded-circle" id="profile-avatar" src='{{ user.get_image_profile_url }}'>
+												<img class="mx-auto mw-100 object-fit-cover rounded-circle w-100" id="profile-avatar" src='{{ user.get_image_profile_url }}' style="aspect-ratio: 1/1;">
 												<form action="/upload_image" enctype="multipart/form-data" id="profile-avatar-form" method="post">
 													{% csrf_token %}
 													<label class="border button d-none position-absolute end-0 rounded shadow-sm top-0" for="imageFile">
@@ -230,27 +230,6 @@
 													</div>
 												</div>
 											</div>
-<!--											{% for friend in friends %}
-												<li>
-													<img alt="profile picture" class="rounded-circle" height="30" src="{{ friend.get_image_profile_url }}" width="30">
-													{{ friend.username }}
-													{% if friend.is_online %}
-														(online)
-													{% endif %}
-													<button id="deleteButton" onclick="delete_friend('{{ friend.username }}')" type="submit">
-														<img height="20" src='{% static "../static/icons/red_x_icon.jpg" %}' width="20">
-													</button>
-												</li>
-											{% endfor %}
-											<form action="/add_friend" id="profile-friends-form" method="post">
-												{% csrf_token %}
-												<input type="text" id="info" name="friend_to_add" placeholder="Add a friend" required>
-												<br>
-												<br>
-												<button id=profile-friends-add type="submit">
-													Add
-												</button>
-											</form>-->
 										</div>
 									</div>
 								</div>
@@ -263,7 +242,7 @@
 		<div class="content d-flex flex-column flex-grow-1 flex-shrink-1 m-auto mh-100 mw-100" id="content">
 			<div class="d-flex m-1" id="current-match">
 				<div class="d-flex m-1 w-50">
-					<img class="mx-1 my-auto rounded-circle" height="22" id="contestant1-avatar" src='{% static "img/22/im-user.svg" %}'>
+					<img class="mx-1 my-auto object-fit-cover rounded-circle" height="22" id="contestant1-avatar" src='{% static "img/22/im-user.svg" %}' style="aspect-ratio: 1/1;">
 					<div class="ms-1 my-auto" id="contestant1">
 						Guest
 					</div>
@@ -276,7 +255,7 @@
 					</button>
 				</div>
 				<div class="d-flex m-1 w-50">
-					<img class="me-1 ms-auto my-auto rounded-circle" height="22" id="contestant2-avatar" src='{% static "img/22/im-user.svg" %}'>
+					<img class="me-1 ms-auto my-auto object-fit-cover rounded-circle" height="22" id="contestant2-avatar" src='{% static "img/22/im-user.svg" %}' style="aspect-ratio: 1/1;">
 					<div class="ms-1 my-auto" id="contestant2">
 						Guest
 					</div>
