@@ -4,6 +4,24 @@ import { g } from './globals.js';
 import { initStarField, updateStars } from './objects.js';
 import { createNeonBorder, removePaddles, addPaddles, removeAIPaddle, initializePaddles } from './geometry.js';
 import { start_match } from '../../ft_transcendence.js'
+import { translations } from './translation.js';
+
+function getTranslation(key, lang = 'en') {
+    return translations[lang][key] || translations['en'][key];
+}
+
+export function switchLanguage(lang) {
+    localStorage.setItem('lang', lang);
+    updateGUI(lang);
+}
+
+function updateGUI(lang) {
+    const guiContainer = document.querySelector('.lil-gui');
+    if (guiContainer) {
+      guiContainer.remove();
+    }
+    initGUI(lang);
+}
 
 function updateGUIPosition() {
     const gui = document.querySelector('.lil-gui');
@@ -18,8 +36,8 @@ function updateGUIPosition() {
 
 window.addEventListener('resize', updateGUIPosition);
 
-export function initGUI() {
-    const gui = new GUI({autoPlace: false});
+export function initGUI(lang = 'en') {
+    const gui = new GUI({ autoPlace: false });
     const gameContainer = document.getElementById('container');
     document.body.appendChild(gui.domElement);
     const rect = gameContainer.getBoundingClientRect();
@@ -41,40 +59,43 @@ export function initGUI() {
 
 
     const floorMaterialOptions = { floor: g.localStorage.getItem('floorMaterial') || 'asphalt' };
-    gui.add(g, 'hemiIrradiance', Object.keys(hemiLuminousIrradiances)).name('irradiance');
-    gui.add(g, 'bulbPower', Object.keys(bulbLuminousPowers)).name('bulb power');
-    gui.add(g, 'exposure', 0, 3);
-    gui.add(g, 'isOrbiting').name('enable orbiting').onChange(value => saveParameter('isOrbiting', value));
-    gui.add(g, 'orbitSpeed', 0, 0.1).name('orbit speed').step(0.001).onChange(value => saveParameter('orbitSpeed', value));
-    gui.add(g, 'numStars', 0, 10000).name('number of stars').step(1).onChange(value => { initStarField(); saveParameter('numStars', value); });
-    gui.add(g, 'starsSpeed', 0, 1).name('stars speed').onChange(value => saveParameter('starsSpeed', value));
-    gui.add(g, 'startSize', 0, 0.1).name('star size').step(0.001).onChange(value => { initStarField(); saveParameter('startSize', value); });
-    gui.addColor(g, 'starColor').name('star color').onChange(value => { g.starPool.forEach(star => { star.material.color.set(value); }); saveParameter('starColor', value); });
-    gui.addColor(g, 'borderColor').name('border color').onChange(value =>   { g.borderColor = value; updateNeonBorderColor(); saveParameter('borderColor', value);    });
-    gui.add(g, 'paddleSpeed', 0, 10).name('user 1 speed').step(1).onChange(value => saveParameter('paddleSpeed', value));
-    gui.add(g, "Player2PaddleSpeed", 0, 10).name('user 2 speed').step(1).onChange(value => saveParameter('Player2PaddleSpeed', value));
-    gui.add(g, "Player3PaddleSpeed", 0, 10).name('user 3 speed').step(1).onChange(value => saveParameter('Player3PaddleSpeed', value));
-    gui.add(g, "Player4PaddleSpeed", 0, 10).name('user 4 speed').step(1).onChange(value => saveParameter('Player4PaddleSpeed', value));
-    gui.addColor(g, 'playerPaddleColor').name('user 1 color').onChange(value => { updatePaddleColor(); saveParameter('playerPaddleColor', value); });
-    gui.addColor(g, 'Player2PaddleColor').name('user 2 color').onChange(value => { updatePaddleColor(); saveParameter('Player2PaddleColor', value); });
-    gui.addColor(g, 'Player3PaddleColor').name('user 3 color').onChange(value => { updatePaddleColor(); saveParameter('Player3PaddleColor', value); });
-    gui.addColor(g, 'Player4PaddleColor').name('user 4 color').onChange(value => { updatePaddleColor(); saveParameter('Player4PaddleColor', value); });
+    gui.add(g, 'hemiIrradiance', Object.keys(hemiLuminousIrradiances)).name(getTranslation('irradiance', lang));
+    gui.add(g, 'bulbPower', Object.keys(bulbLuminousPowers)).name(getTranslation('bulbPower', lang));
+    gui.add(g, 'exposure', 0, 3).name(getTranslation('exposure', lang));
+    gui.add(g, 'isOrbiting').name(getTranslation('enableOrbiting', lang)).onChange(value => saveParameter('isOrbiting', value));
+    gui.add(g, 'orbitSpeed', 0, 0.1).name(getTranslation('orbitSpeed', lang)).step(0.001).onChange(value => saveParameter('orbitSpeed', value));
+    gui.add(g, 'numStars', 0, 10000).name(getTranslation('numStars', lang)).step(1).onChange(value => { initStarField(); saveParameter('numStars', value); });
+    gui.add(g, 'starsSpeed', 0, 1).name(getTranslation('starsSpeed', lang)).onChange(value => saveParameter('starsSpeed', value));
+    gui.add(g, 'startSize', 0, 0.1).name(getTranslation('starSize', lang)).step(0.001).onChange(value => { initStarField(); saveParameter('startSize', value); });
+    gui.addColor(g, 'starColor').name(getTranslation('starColor', lang)).onChange(value => { g.starPool.forEach(star => { star.material.color.set(value); }); saveParameter('starColor', value); });
+    gui.addColor(g, 'borderColor').name(getTranslation('borderColor', lang)).onChange(value => { g.borderColor = value; updateNeonBorderColor(); saveParameter('borderColor', value); });
+    gui.add(g, 'paddleSpeed', 0, 10).name(getTranslation('user1Speed', lang)).step(1).onChange(value => saveParameter('paddleSpeed', value));
+    gui.add(g, "Player2PaddleSpeed", 0, 10).name(getTranslation('user2Speed', lang)).step(1).onChange(value => saveParameter('Player2PaddleSpeed', value));
+    gui.add(g, "Player3PaddleSpeed", 0, 10).name(getTranslation('user3Speed', lang)).step(1).onChange(value => saveParameter('Player3PaddleSpeed', value));
+    gui.add(g, "Player4PaddleSpeed", 0, 10).name(getTranslation('user4Speed', lang)).step(1).onChange(value => saveParameter('Player4PaddleSpeed', value));
+    gui.addColor(g, 'playerPaddleColor').name(getTranslation('user1Color', lang)).onChange(value => { updatePaddleColor(); saveParameter('playerPaddleColor', value); });
+    gui.addColor(g, 'Player2PaddleColor').name(getTranslation('user2Color', lang)).onChange(value => { updatePaddleColor(); saveParameter('Player2PaddleColor', value); });
+    gui.addColor(g, 'Player3PaddleColor').name(getTranslation('user3Color', lang)).onChange(value => { updatePaddleColor(); saveParameter('Player3PaddleColor', value); });
+    gui.addColor(g, 'Player4PaddleColor').name(getTranslation('user4Color', lang)).onChange(value => { updatePaddleColor(); saveParameter('Player4PaddleColor', value); });
+    gui.add(g, 'limitScore', 1, 9999).name(getTranslation('scoreLimit', lang)).step(1).onChange(value => saveParameter('limitScore', value));
+    gui.add(g, 'ballSpeed', 0, 0.1).name(getTranslation('ballSpeed', lang)).step(0.001).onChange(value => saveParameter('ballSpeed', value));
+    gui.add(floorMaterialOptions, 'floor', ['wood', 'ice', 'glass', 'asphalt', 'grass']).name(getTranslation('floorMaterial', lang)).onChange(value => { changeFloorMaterial(value); saveParameter('floorMaterial', value); });
+    gui.add(g, 'emissiveIntensity').name(getTranslation('glassEffect', lang)).onChange(value => { updatePaddleColor(); saveParameter('emissiveIntensity', value); }).listen();
+    gui.add(g, 'shadows').onChange(value => saveParameter('shadows', value));
+    gui.add(g, 'isSinglePlayer').name(getTranslation('enable2Player', lang)).onChange(value => { toggleGameMode(value); saveParameter('isSinglePlayer', value); });
+    gui.add({ reset: () => { localStorage.clear(); location.reload(); } }, 'reset').name(getTranslation('resetParameters', lang));
+    gui.add({ switchToEnglish: () => switchLanguage('en') }, 'switchToEnglish').name('English');
+    gui.add({ switchToFrench: () => switchLanguage('fr') }, 'switchToFrench').name('Français');
+    gui.add({ switchToUkrainian: () => switchLanguage('uk') }, 'switchToUkrainian').name('Українська');
+    gui.close(); // Open the GUI by default
+    return gui;
     // gui.add(g, 'aiPaddleSpeed', 0, 20).name('AI speed').step(1).onChange(value => saveParameter('aiPaddleSpeed', value));
     // gui.add(g, 'tolerance', 0, 1).name('tolerance').onChange(value => saveParameter('tolerance', value));
     // gui.add(g, 'easingFactor', 0, 1).name('easing factor').onChange(value => saveParameter('easingFactor', value));
-    gui.add(g, 'limitScore', 1, 9999).name('score limit').step(1).onChange(value => saveParameter('limitScore', value));
-    gui.add(g, 'ballSpeed', 0, 0.1).name('ball speed').step(0.001).onChange(value => saveParameter('ballSpeed', value));
-    gui.add(floorMaterialOptions, 'floor', ['wood', 'ice', 'glass', 'asphalt', 'grass']).name('floor material').onChange(value => { changeFloorMaterial(value); saveParameter('floorMaterial', value); });
-    gui.add(g, 'emissiveIntensity').name('glass effect').onChange(value => { updatePaddleColor(); saveParameter('emissiveIntensity', value); }).listen();
-    gui.add(g, 'shadows').onChange(value => saveParameter('shadows', value));
-    gui.add(g, 'isSinglePlayer').name('enable 2 player').onChange(value => { toggleGameMode(value); saveParameter('isSinglePlayer', value); });
     // gui.add(g, 'bloomStrength', 0, 3).name('bloom Strength').step(0.1).onChange(value => { g.bloomPass.strength = value; saveParameter('bloomStrength', value);});
     // gui.add(g, 'bloomRadius', 0, 1).name('bloom Radius').step(0.1).onChange(value => { g.bloomPass.radius = value; saveParameter('bloomRadius', value); });
     // gui.add(g, 'bloomThreshold', 0, 1).name('bloom threshold').step(0.1).onChange(value => { g.bloomPass.threshold = value; saveParameter('bloomThreshold', value); });
     // gui.addColor(g, 'aiPaddleColor').name('AI color').onChange(value => { updatePaddleColor(); saveParameter('aiPaddleColor', value); });
-    gui.add({ reset: () => { localStorage.clear(); location.reload(); } }, 'reset').name('Reset Parameters');
-    gui.close(); // Open the GUI by default
-    return gui;
 }
 
 // Load saved parameters from local storage

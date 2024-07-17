@@ -7,6 +7,7 @@ import { initControls } from './events.js';
 import { initStarField, updateStars } from './objects.js';
 import { initEffectComposer } from './composer.js';
 import { g } from './globals.js';
+const savedLang = localStorage.getItem('lang') || 'en';
 
 import {
     updateLighting,
@@ -36,7 +37,7 @@ function init() {
     initGeometry();                                        // Initialize the geometry
     initStarField();                                       // Initialize the star field
     initRenderer(animate);                                 // Initialize the renderer
-    initGUI();                                             // Initialize the GUI
+    initGUI(savedLang);                                             // Initialize the GUI
     initControls();                                        // Setup the controls for the player paddle
     initScoreDisplay();                                    // Initialize the score display
     // initStats();                                           // Initialize the stats
