@@ -1,0 +1,59 @@
+{% load static %}
+
+<div aria-hidden="true" aria-labelledby="login" class="modal fade" id="login" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <form class="bg-body border modal-content p-1 rounded" id="login-form">
+            {% csrf_token %}
+            <div class="modal-header p-1">
+                <h2 class="m-1 pe-none" id="login-title">
+                    Log in
+                </h2>
+            </div>
+            <div class="m-1 modal-body p-0">
+                <div class="border d-flex flex-column frame m-1 p-0 rounded">
+                    <div class="d-flex overflow-hidden p-0 warning-banner" id="login-banner" style="max-height: 0">
+                        <div class="m-auto pe-none" id="login-banner-text">
+                        </div>
+                        <button class="border borderless-button d-flex p-0 rounded" id="login-banner-close" type="button">
+                            <img class="m-1" height="22" src='{% static "img/22/window-close.svg" %}'>
+                        </button>
+                    </div>
+                    <div class="d-flex m-3">
+                        <div class="d-flex flex-column">
+                            <div class="my-auto pe-none text-end text-nowrap" id="login-name-label">
+                                Username:
+                            </div>
+                            <div class="my-auto pe-none text-end" id="login-pass-label">
+                                Password:
+                            </div>
+                        </div>
+                        <div class="d-flex flex-column w-100">
+                            <input class="border m-1 p-1 rounded w-100" id="login-name" name="username" type="text">
+                            <input class="border m-1 p-1 rounded w-100" id="login-pass" name="password" type="password">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer p-1">
+                <button class="border button d-flex m-1 rounded shadow-sm text-nowrap" data-bs-dismiss="modal" id="register-button" type="button">
+                    <img class="m-1" height="22" src='{% static "img/22/list-add.svg" %}'>
+                    <div class="my-auto pe-none" id="register-button-label">
+                        Register
+                    </div>
+                </button>
+                <button class="border button d-flex m-1 ms-auto rounded shadow-sm" data-bs-dismiss="modal" id="login-close" type="button">
+                    <img class="m-1" height="22" src='{% static "img/22/dialog-cancel.svg" %}'>
+                    <div class="my-auto" id="login-close-label">
+                        Cancel
+                    </div>
+                </button>
+                <button class="border button d-flex m-1 rounded shadow-sm" id="login-ok" type="submit">
+                    <img class="m-1" height="22" src='{% static "img/22/dialog-ok-apply.svg" %}'>
+                    <div class="my-auto">
+                        OK
+                    </div>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
