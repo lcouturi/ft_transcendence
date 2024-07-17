@@ -111,7 +111,7 @@
 												</form>
 											</div>
 											<div class="position-relative" id="profile-name-container">
-												<h3 class="mx-auto my-0 pe-none" id="profile-name-inside">
+												<h3 class="mx-auto my-0 pe-none text-nowrap" id="profile-name-inside">
 													{{ user.username }}
 												</h3>
 												<div class="d-flex d-none" id="profile-name-input-container">
@@ -632,7 +632,7 @@
 					</div>
 					<div class="d-flex flex-column m-1 modal-body overflow-hidden p-0">
 						<div class="border d-flex flex-column frame m-1 overflow-hidden p-1 rounded">
-							<h4 class="my-1 mx-auto" id="result">
+							<h4 class="my-1 mx-auto text-center" id="result">
 							</h4>
 							<h6 class="my-1 mx-auto" id="next-match">
 							</h6>
@@ -678,10 +678,12 @@
 			register_open,
 			register_validate,
 			result,
+			sanitize,
 			start_match,
 			tournament_open,
 			tournament_start,
-			unpause
+			unpause,
+			unsanitize
 		} from '{% static "ft_transcendence.js" %}';
 
 		window.onload = function()
@@ -1295,27 +1297,28 @@
 				e.preventDefault();
 				document.querySelector("#profile-name-container").classList.remove("position-relative");
 				document.querySelector("#profile-name-inside").classList.add("d-none");
-				document.querySelector("#profile-name-input").value = h.username;
+				document.querySelector("#profile-name-input").value = unsanitize(h.username);
 				document.querySelector("#profile-name-input-container").classList.remove("d-none");
 			});
 
 			document.querySelector("#profile-name-input-button").addEventListener("click", function(e)
 			{
 				e.preventDefault();
-				if (document.querySelector("#profile-name-input").value == "")
+				name = sanitize(document.querySelector("#profile-name-input").value);
+				if (name == "")
 					return ;
-				document.querySelector("#profile-name-inside").innerHTML = document.querySelector("#profile-name-input").value;
+				document.querySelector("#profile-name-inside").innerHTML = name;
 				if (h.contestant1 == h.username)
 				{
-					h.contestant1 = document.querySelector("#profile-name-input").value;
+					h.contestant1 = name;
 					document.querySelector("#contestant1").innerHTML = h.contestant1;
 				}
 				if (h.contestant2 == h.username)
 				{
-					h.contestant2 = document.querySelector("#profile-name-input").value;
+					h.contestant2 = name;
 					document.querySelector("#contestant2").innerHTML = h.contestant2;
 				}
-				h.username = document.querySelector("#profile-name-input").value;
+				h.username = name;
 				document.querySelector("#profile-name-container").classList.add("position-relative");
 				document.querySelector("#profile-name-inside").classList.remove("d-none");
 				document.querySelector("#profile-name-input-container").classList.add("d-none");
