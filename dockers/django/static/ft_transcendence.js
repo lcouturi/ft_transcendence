@@ -935,29 +935,6 @@ function	profile_log_add(winner, loser, tournament)
 	document.querySelector("#profile-log").appendChild(tr);
 }
 
-export function	profile_logout()
-{
-	if (document.querySelector("#login-button"))
-	{
-		document.querySelector("#login-button").classList.add("d-flex");
-		document.querySelector("#login-button").classList.remove("d-none");
-	}
-	document.querySelector("#profile-avatar").src = "/static/img/22/im-user.svg";
-	document.querySelector("#profile-button").classList.add("d-none");
-	document.querySelector("#profile-log").innerHTML = "";
-	document.querySelector("#profile-name").innerHTML = "";
-	document.querySelector("#profile-name-inside").innerHTML = "";
-	h.losses = 0;
-	h.wins = 0;
-	profile_update(0);
-	h.username = null;
-	if (in_tournament == false)
-	{
-		prepare_next_match();
-		start_match()
-	}
-}
-
 function	profile_update(value)
 {
 	if (value == -1)

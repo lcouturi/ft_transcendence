@@ -116,7 +116,6 @@
 			login_complete,
 			login_validate,
 			pause,
-			profile_logout,
 			register_open,
 			register_validate,
 			result,
@@ -203,12 +202,6 @@
 			{
 				e.preventDefault();
 				banner_close('#profile-banner');
-			});
-
-			document.querySelector("#profile-delete").addEventListener("click", function(e)
-			{
-				e.preventDefault();
-				profile_logout();
 			});
 
 			document.querySelector("#profile-list-add").addEventListener("click", function(e)
