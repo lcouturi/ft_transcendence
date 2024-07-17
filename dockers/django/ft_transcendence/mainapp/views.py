@@ -103,17 +103,19 @@ def upload_image(request):
     return redirect(reverse("accueil"))
 
 def login_check(request):
-    print("hello")
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
+
+        if not CustomUser.objects.filter(username=username).exists():
+            return JsonResponse({'error': "no_user_match"})
+        
         user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect(reverse("accueil"))
-            #return JsonResponse({'username': user.get_username()})
-        else:
-            return JsonResponse({'error': "Login or password incorrect"})
+        if user is None:
+            return JsonResponse({'error': "invalid_password"})
+
+        login(request, user)
+        return JsonResponse({'message': "Login sucessful !"})
     else:
         return redirect(reverse("accueil"))
     
@@ -127,19 +129,22 @@ def register_check(request):
         password = request.POST['password']
         confirm_password = request.POST['confirm_password']
 
-        if CustomUser.objects.filter(username=username).exists():
-                return JsonResponse({'error': "User name already exists !"})
-        else:
-            if password != confirm_password:
-                return JsonResponse({'error': "Passwords are not the same !"})
+        if username == '':
+            return JsonResponse({'error': "no_username"})
+        elif password == '':
+            return JsonResponse({'error': "no_pass"})
+        elif CustomUser.objects.filter(username=username).exists():
+            return JsonResponse({'error': "username_exist"})
+        elif password != confirm_password:
+            return JsonResponse({'error': "password_not_identic"})
+        elif len(password) < 5:
+            return JsonResponse({'error': "password_too_short"})
 
-            new_user = CustomUser.objects.create_user(username=username, password=password)
-            new_user.save()
-            login(request, new_user)
-            return JsonResponse({'sucess': "login sucessfull !"})
-    else:
-        form = UserCreationForm()
-    return HttpResponse("vue de registration")
+        new_user = CustomUser.objects.create_user(username=username, password=password)
+        new_user.save()
+        login(request, new_user)
+        return JsonResponse({'message': "login sucessful !"})
+    return redirect(reverse("accueil"))
 
 @login_required 
 def delete_account(request):
