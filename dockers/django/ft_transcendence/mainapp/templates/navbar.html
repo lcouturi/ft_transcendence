@@ -76,75 +76,84 @@
 					<ul class="border dropdown-menu dropdown-menu-end frame p-0 position-absolute rounded">
 						<div class="carousel slide" id="profile">
 							<div class="carousel-inner">
-								<div class="active carousel-item p-2">
-									<div class="position-relative">
-										<img class="mx-auto mw-100 object-fit-cover rounded-circle w-100" id="profile-avatar" src='{{ user.get_image_profile_url }}' style="aspect-ratio: 1/1;">
-										<form action="/upload_image" enctype="multipart/form-data" id="profile-avatar-form" method="post">
+								<div class="active carousel-item">
+									<div class="d-flex overflow-hidden p-0 text-nowrap warning-banner" id="profile-banner" style="max-height: 0">
+										<div class="me-auto ms-1 my-auto pe-1 pe-none" id="profile-banner-text">
+										</div>
+										<button class="border borderless-button d-flex p-0 rounded" id="profile-banner-close" type="button">
+											<img class="m-1" height="22" src='{% static "img/22/window-close.svg" %}'>
+										</button>
+									</div>
+									<div class="m-2">
+										<div class="mb-1 position-relative">
+											<img class="mx-auto mw-100 object-fit-cover rounded-circle w-100" id="profile-avatar" src='{{ user.get_image_profile_url }}' style="aspect-ratio: 1/1;">
+											<form action="/upload_image" enctype="multipart/form-data" id="profile-avatar-form" method="post">
+												{% csrf_token %}
+												<label class="border button d-none position-absolute end-0 rounded shadow-sm top-0" for="imageFile">
+													<img height="22" src='{% static "img/22/document-edit.svg" %}'>
+												</label>
+												<input accept="image/png, image/jpeg" class="d-none" id="imageFile" name="imageFile" type="file">
+											</form>
+										</div>
+										<div class="position-relative" id="profile-name-container">
+											<h3 class="mx-auto my-0 pe-none text-nowrap" id="profile-name-inside">
+												{{ user.username }}
+											</h3>
+											<div class="d-flex d-none" id="profile-name-input-container">
+												<input class="border me-1 p-1 rounded w-100" id="profile-name-input" type="text">
+												<button class="border button ms-1 rounded shadow-sm" id="profile-name-input-button">
+													<img height="22" src='{% static "img/22/dialog-ok-apply.svg" %}'>
+												</button>
+											</div>
+											<button class="border button d-none position-absolute end-0 rounded shadow-sm top-0" id="profile-name-edit">
+												<img height="22" src='{% static "img/22/document-edit.svg" %}'>
+											</button>
+										</div>
+										<progress class="border-0 rounded w-100" id="profile-bar" max="100" value="50">
+										</progress>
+										<div class="d-flex">
+											<div class="pe-none m-1" id="profile-wins">
+												0 Wins
+											</div>
+											<div class="me-1 ms-auto my-1 pe-none" id="profile-losses">
+												0 Losses
+											</div>
+										</div>
+										<button class="border button d-flex m-1 ms-auto rounded shadow-sm w-100" data-bs-slide-to="1" data-bs-target="#profile" type="button">
+											<img class="me-1 ms-auto" height="22" src='{% static "img/22/appointment-new.svg" %}'>
+											<div class="me-auto my-auto text-nowrap" id="profile-history">
+												Match History
+											</div>
+											<img class="ms-1 my-auto" height="16" src='{% static "img/16/go-next.svg" %}'>
+										</button>
+										<div class="d-flex mx-auto my-1 pe-none" id="profile-friends-count">
+											Friends: 0
+										</div>
+										<button class="border button d-flex m-1 ms-auto rounded shadow-sm w-100" data-bs-slide-to="2" data-bs-target="#profile" type="button">
+											<img class="me-1 ms-auto" height="22" src='{% static "img/22/address-book-new.svg" %}'>
+											<div class="me-auto my-auto text-nowrap" id="profile-friends">
+												Manage Friends
+											</div>
+											<img class="ms-1 my-auto" height="16" src='{% static "img/16/go-next.svg" %}'>
+										</button>
+										<form action="{% url 'logout' %}" method="get">
+											<button class="border button d-flex m-1 ms-auto rounded shadow-sm w-100" type="submit">
+												<img class="me-1 ms-auto" height="22" src='{% static "img/22/system-log-out.svg" %}'>
+												<div class="me-auto my-auto text-nowrap" id="profile-logout-label">
+													Log out
+												</div>
+											</button>
+										</form>
+										<form action="delete_account" method="post">
 											{% csrf_token %}
-											<label class="border button d-none position-absolute end-0 rounded shadow-sm top-0" for="imageFile">
-												<img class="m-1" height="22" src='{% static "img/22/document-edit.svg" %}'>
-											</label>
-											<input accept="image/png, image/jpeg" class="d-none" id="imageFile" name="imageFile" type="file">
+											<button class="border button d-flex m-1 ms-auto rounded shadow-sm w-100" id="profile-delete" type="submit">
+												<img class="me-1 ms-auto" height="22" src='{% static "img/22/edit-delete.svg" %}'>
+												<div class="me-auto my-auto text-nowrap" id="profile-delete-label">
+													Delete Account
+												</div>
+											</button>
 										</form>
 									</div>
-									<div class="position-relative" id="profile-name-container">
-										<h3 class="mx-auto my-0 pe-none text-nowrap" id="profile-name-inside">
-											{{ user.username }}
-										</h3>
-										<div class="d-flex d-none" id="profile-name-input-container">
-											<input class="border me-1 p-1 rounded w-100" id="profile-name-input" type="text">
-											<label class="border button ms-1 rounded shadow-sm" id="profile-name-input-button">
-												<img class="m-1" height="22" src='{% static "img/22/dialog-ok-apply.svg" %}'>
-											</label>
-										</div>
-										<label class="border button d-none position-absolute end-0 rounded shadow-sm top-0" id="profile-name-edit">
-											<img class="m-1" height="22" src='{% static "img/22/document-edit.svg" %}'>
-										</label>
-									</div>
-									<progress class="border-0 rounded w-100" id="profile-bar" max="100" value="50">
-									</progress>
-									<div class="d-flex">
-										<div class="pe-none m-1" id="profile-wins">
-											0 Wins
-										</div>
-										<div class="me-1 ms-auto my-1 pe-none" id="profile-losses">
-											0 Losses
-										</div>
-									</div>
-									<button class="border button d-flex m-1 ms-auto rounded shadow-sm w-100" data-bs-slide-to="1" data-bs-target="#profile" type="button">
-										<img class="me-1 ms-auto" height="22" src='{% static "img/22/appointment-new.svg" %}'>
-										<div class="me-auto my-auto text-nowrap" id="profile-history">
-											Match History
-										</div>
-										<img class="ms-1 my-auto" height="16" src='{% static "img/16/go-next.svg" %}'>
-									</button>
-									<div class="d-flex mx-auto my-1 pe-none" id="profile-friends-count">
-										Friends: 0
-									</div>
-									<button class="border button d-flex m-1 ms-auto rounded shadow-sm w-100" data-bs-slide-to="2" data-bs-target="#profile" type="button">
-										<img class="me-1 ms-auto" height="22" src='{% static "img/22/address-book-new.svg" %}'>
-										<div class="me-auto my-auto text-nowrap" id="profile-friends">
-											Manage Friends
-										</div>
-										<img class="ms-1 my-auto" height="16" src='{% static "img/16/go-next.svg" %}'>
-									</button>
-									<form action="{% url 'logout' %}" method="get">
-										<button class="border button d-flex m-1 ms-auto rounded shadow-sm w-100" type="submit">
-											<img class="me-1 ms-auto" height="22" src='{% static "img/22/system-log-out.svg" %}'>
-											<div class="me-auto my-auto text-nowrap" id="profile-logout-label">
-												Log out
-											</div>
-										</button>
-									</form>
-									<form action="delete_account" method="post">
-										{% csrf_token %}
-										<button class="border button d-flex m-1 ms-auto rounded shadow-sm w-100" id="profile-delete" type="submit">
-											<img class="me-1 ms-auto" height="22" src='{% static "img/22/edit-delete.svg" %}'>
-											<div class="me-auto my-auto text-nowrap" id="profile-delete-label">
-												Delete Account
-											</div>
-										</button>
-									</form>
 								</div>
 								<div class="carousel-item">
 									<div class="bg-body-tertiary border-bottom d-flex p-2">
@@ -200,7 +209,7 @@
 											<div class= "d-flex">
 												<input class="border m-1 p-1 rounded w-100" id="profile-list-item" placeholder="Enter username" type="text">
 												<button class="border button d-flex m-1 rounded shadow-sm" id="profile-list-add">
-													<img class="m-1" height="22" src='{% static "img/22/list-add.svg" %}'>
+													<img height="22" src='{% static "img/22/list-add.svg" %}'>
 												</button>
 											</div>
 											<div id="profile-list" style="min-width: min-content;">

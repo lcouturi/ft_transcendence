@@ -85,7 +85,7 @@ export function	add_item(prefix, value)
 				${sanitize(item)}
 			</div>
 			<button class="border button d-flex delete m-1 rounded shadow-sm">
-				<img class="icon m-1" height="22" src="/static/img/22/list-remove.svg">
+				<img height="22" src="/static/img/22/list-remove.svg">
 			</button>
 		</div>`;
 		div.style.minWidth = "min-content";

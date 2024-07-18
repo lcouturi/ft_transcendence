@@ -239,7 +239,15 @@
 				e.preventDefault();
 				name = sanitize(document.querySelector("#profile-name-input").value);
 				if (name == "")
+				{
+					if (h.language == "english")
+						banner_open("Username cannot be empty." ,"#profile-banner");
+					else if (h.language == "french")
+						banner_open("Le nom d'utilisateur ne peut pas être vide." ,"#profile-banner");
+					else if (h.language == "ukrainian")
+						banner_open("Ім'я користувача не може бути пустим." ,"#profile-banner");
 					return ;
+				}
 				document.querySelector("#profile-name-inside").innerHTML = name;
 				if (h.contestant1 == h.username)
 				{
