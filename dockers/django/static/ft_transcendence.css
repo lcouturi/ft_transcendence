@@ -228,6 +228,12 @@ body
 	padding-bottom: 100px;
 }
 
+button
+{
+	font-size: 13px !important;
+	padding: 5px 9px 5px 7px;
+}
+
 /* Custom progress bar widget style. Works in all browsers. */
 
 progress, ::-webkit-progress-bar

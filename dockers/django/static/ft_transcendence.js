@@ -329,7 +329,8 @@ export function french()
 	document.querySelector("#pause-label").innerHTML = "Pause";
 	document.querySelector("#play").title = "Jouer";
 	document.querySelector("#play-label").innerHTML = "Jouer";
-	/*{% if user.is_authenticated %}*/
+	if (h.username)
+	{
 		document.querySelector("#profile-delete-label").innerHTML = "Supprimer le compte";
 		document.querySelector("#profile-friends").innerHTML = "Gérer les amis";
 		document.querySelector("#profile-friends-count").innerHTML = "Amis: " + h.friends_array.length;
@@ -345,10 +346,12 @@ export function french()
 		document.querySelector("#profile-logout-label").innerHTML = "Déconnexion";
 		document.querySelector("#profile-losses").innerHTML = h.losses + " défaites";
 		document.querySelector("#profile-wins").innerHTML = h.wins + " victoires";
-	/*{% else %}*/
+	}
+	else
+	{
 		document.querySelector("#login-button").title = "Connexion";
 		document.querySelector("#login-label").innerHTML = "Connexion";
-	/*{% endif %}*/
+	}
 	document.querySelector("#register-button-label").innerHTML = "Inscription";
 	document.querySelector("#register-close").innerHTML = "Annuler";
 	document.querySelector("#register-name-label").innerHTML = "Nom d’utilisateur:";
@@ -535,7 +538,8 @@ export function ukrainian()
 	document.querySelector("#pause-label").innerHTML = "Пауза";
 	document.querySelector("#play").title = "Грати";
 	document.querySelector("#play-label").innerHTML = "Грати";
-	/*{% if user.is_authenticated %}*/
+	if (h.username)
+	{
 		document.querySelector("#profile-delete-label").innerHTML = "Видалити аккаунт";
 		document.querySelector("#profile-friends").innerHTML = "Керуйте друзями";
 		document.querySelector("#profile-friends-count").innerHTML = "Друзі: " + h.friends_array.length;
@@ -551,10 +555,12 @@ export function ukrainian()
 		document.querySelector("#profile-logout-label").innerHTML = "Вийти";
 		document.querySelector("#profile-losses").innerHTML = h.losses + " втрати";
 		document.querySelector("#profile-wins").innerHTML = h.wins + " виграє";
-	/*{% else %}*/
+	}
+	else
+	{
 		document.querySelector("#login-button").title = "Авторизуватися";
 		document.querySelector("#login-label").innerHTML = "Авторизуватися";
-	/*{% endif %}*/
+	}
 	document.querySelector("#register-button-label").innerHTML = "Зареєструватися";
 	document.querySelector("#register-close").innerHTML = "Скасувати";
 	document.querySelector("#register-name-label").innerHTML = "Ім'я користувача:";
@@ -742,7 +748,8 @@ export function english()
 	document.querySelector("#pause-label").innerHTML = "Pause";
 	document.querySelector("#play").title = "Play";
 	document.querySelector("#play-label").innerHTML = "Play";
-	/*{% if user.is_authenticated %}*/
+	if (h.username)
+	{
 		document.querySelector("#profile-delete-label").innerHTML = "Delete Account";
 		document.querySelector("#profile-friends").innerHTML = "Manage Friends";
 		document.querySelector("#profile-friends-count").innerHTML = "Friends: " + h.friends_array.length;
@@ -758,10 +765,12 @@ export function english()
 		document.querySelector("#profile-logout-label").innerHTML = "Log out";
 		document.querySelector("#profile-losses").innerHTML = h.losses + " Losses";
 		document.querySelector("#profile-wins").innerHTML = h.wins + " Wins";
-	/*{% else %}*/
+	}
+	else
+	{
 		document.querySelector("#login-button").title = "Log in";
 		document.querySelector("#login-label").innerHTML = "Log in";
-	/*{% endif %}*/
+	}
 	document.querySelector("#register-button-label").innerHTML = "Register";
 	document.querySelector("#register-close").innerHTML = "Cancel";
 	document.querySelector("#register-name-label").innerHTML = "Username:";

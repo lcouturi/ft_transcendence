@@ -112,7 +112,7 @@
 										</div>
 									</div>
 									<button class="border button d-flex m-1 ms-auto rounded shadow-sm w-100" data-bs-slide-to="1" data-bs-target="#profile" type="button">
-										<img class="m-1 ms-auto" height="22" src='{% static "img/22/appointment-new.svg" %}'>
+										<img class="me-1 ms-auto" height="22" src='{% static "img/22/appointment-new.svg" %}'>
 										<div class="me-auto my-auto text-nowrap" id="profile-history">
 											Match History
 										</div>
@@ -122,7 +122,7 @@
 										Friends: 0
 									</div>
 									<button class="border button d-flex m-1 ms-auto rounded shadow-sm w-100" data-bs-slide-to="2" data-bs-target="#profile" type="button">
-										<img class="m-1 ms-auto" height="22" src='{% static "img/22/address-book-new.svg" %}'>
+										<img class="me-1 ms-auto" height="22" src='{% static "img/22/address-book-new.svg" %}'>
 										<div class="me-auto my-auto text-nowrap" id="profile-friends">
 											Manage Friends
 										</div>
@@ -130,7 +130,7 @@
 									</button>
 									<form action="{% url 'logout' %}" method="get">
 										<button class="border button d-flex m-1 ms-auto rounded shadow-sm w-100" type="submit">
-											<img class="m-1 ms-auto" height="22" src='{% static "img/22/system-log-out.svg" %}'>
+											<img class="me-1 ms-auto" height="22" src='{% static "img/22/system-log-out.svg" %}'>
 											<div class="me-auto my-auto text-nowrap" id="profile-logout-label">
 												Log out
 											</div>
@@ -139,7 +139,7 @@
 									<form action="delete_account" method="post">
 										{% csrf_token %}
 										<button class="border button d-flex m-1 ms-auto rounded shadow-sm w-100" id="profile-delete" type="submit">
-											<img class="m-1 ms-auto" height="22" src='{% static "img/22/edit-delete.svg" %}'>
+											<img class="me-1 ms-auto" height="22" src='{% static "img/22/edit-delete.svg" %}'>
 											<div class="me-auto my-auto text-nowrap" id="profile-delete-label">
 												Delete Account
 											</div>
