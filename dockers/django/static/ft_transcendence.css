@@ -219,8 +219,8 @@
 
 body
 {
-	--bs-body-bg: black;
-	--bs-body-bg-rgb: 239, 240, 241;
+	--bs-body-bg: white;
+	--bs-body-bg-rgb: 255, 255, 255;
 	--bs-border-radius: 3px;
 	--bs-box-shadow-sm: 0px 1px 0px 0px rgba(209,210,211,1);
 	--bs-tertiary-bg: #dee0e2;
