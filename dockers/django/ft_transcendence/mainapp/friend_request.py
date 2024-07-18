@@ -22,5 +22,6 @@ def reject_friend_request(user1, user2):
     try:
         friend_request = FriendRequest.objects.get(from_user=user1, to_user=user2)
         friend_request.delete()
+        return True
     except FriendRequest.DoesNotExist:
-        pass
+        return False

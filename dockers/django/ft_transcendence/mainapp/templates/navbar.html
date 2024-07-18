@@ -204,9 +204,11 @@
 												<img class="m-1" height="22" src='{% static "img/22/list-add.svg" %}'>
 											</button>
 										</form>
+										{% if  friend_requests or friend_requesters %}
+											<h4>Friend Request</h4>
+										{% endif %}
 
 										<div id="profile-list-friend-request" style="min-width: min-content;">
-											<h4>Friend Request</h4>
 											{% for friend in friend_requests %}
 												<div class="d-flex" style="min-width: min-content;" id = "myfriend_{{ friend.username }}">
 													<img class="rounded-circle" height="22" src="{{ friend.get_image_profile_url }}" title="Away" alt="profile picture" width="30" height="30">
@@ -216,35 +218,37 @@
 												</div>
 											{% endfor %}
 										</div>
-
 										{% for friend in friend_requesters %}
 											<div class="d-flex" style="min-width: min-content;">
 												<img src="{{ friend.get_image_profile_url }}" class="rounded-circle" alt="profile picture" width="30" height="30">
 												<div class="m-1 p-1 w-100" style="min-width: min-content;">
 													{{ friend.username }}
 												</div>
-												<button class="border button d-flex delete m-1 rounded shadow-sm" type="submit" id="acceptButton" onclick="accept_friend_request('{{ friend.username }}')">
+												
+												<button class="border button d-flex delete m-1 rounded shadow-sm" type="submit" id="acceptButton" onclick="accept_friend_request('{{ friend.username }}',this)">
 													<img class="m-1" height="22" src='{% static "img/22/list-add.svg" %}'>
 												</button>
-							
-												<button class="border button d-flex delete m-1 rounded shadow-sm" type="submit" id="deleteButton" onclick="delete_friend_request('{{ friend.username }}')">
+												
+												<button class="border button d-flex delete m-1 rounded shadow-sm" type="submit" onclick="reject_friend_request('{{ friend.username }}',this)">
 													<img class="icon m-1" height="22" src="/static/img/22/list-remove.svg">  
 												</button>
 											</div>
 										{% endfor %}
 										
 										<h4>Friend List</h4>
-										{% for friend in friends %}
-											<div class="d-flex" style="min-width: min-content;" id = "myfriend_{{ friend.username }}">
+										<div id="profile-list-friend" style="min-width: min-content;">
+											{% for friend in friends %}
+											<div class="d-flex" style="min-width: min-content;">
 												<img class="rounded-circle" height="22" src="{{ friend.get_image_profile_url }}" title="Away" alt="profile picture" width="30" height="30">
 												<div class="m-1 p-1 w-100" style="min-width: min-content;">
 													{{ friend.username }}
 												</div>
-												<button class="border button d-flex delete m-1 rounded shadow-sm" type="submit" id="deleteButton" onclick="delete_friend('{{ friend.username }}')">
+												<button class="border button d-flex delete m-1 rounded shadow-sm" type="submit" id="deleteButton" onclick="delete_friend('{{ friend.username }}',this)">
 													<img class="icon m-1" height="22" src="/static/img/22/list-remove.svg">
 												</button>
 											</div>
-										{% endfor %}
+											{% endfor %}
+										</div>
 										
 										
 									</div>

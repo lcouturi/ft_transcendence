@@ -21,6 +21,17 @@
 				}
 			}
 			</script>
+			<script type="module">
+				import { 
+					reject_friend_request,
+					accept_friend_request,
+					delete_friend
+				} from '{% static "friend_list.js" %}';
+	
+				window.reject_friend_request = reject_friend_request;
+				window.accept_friend_request = accept_friend_request;
+				window.delete_friend = delete_friend;
+			</script>
 		</head>
 		{% include 'navbar.html' %}
 		<div class="content d-flex flex-column flex-grow-1 flex-shrink-1 m-auto mh-100 mw-100" id="content">
@@ -88,7 +99,6 @@
 		{% include 'tournament.html' %}
 	</body>
 	<script src='{% static "authentification.js" %}' type="module"></script>
-	<script src='{% static "friend_list.js" %}' type = "module"></script>
 	<script type="module">
 		import
 		{

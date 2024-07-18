@@ -6,12 +6,12 @@ import
 }
 from './ft_transcendence.js';
 
-function add_friend(value)
+function add_friend_request_html(value, image)
 {
     const	div = document.createElement("div");
     let	divContainer = `
-    <div class="d-flex" style="min-width: min-content;"> 
-        <img class="mx-1 my-auto" height="22" src="/static/img/22/im-user-away.svg" title="Away">
+    <div class="d-flex" style="min-width: min-content;">
+        <img class="rounded-circle" height="22" src="${image}" title="Away">
         <div class="m-1 p-1 w-100" style="min-width: min-content;">
             ${value} (waiting to accept)
         </div>
@@ -22,10 +22,29 @@ function add_friend(value)
     document.querySelector("#profile-list-friend-request").appendChild(div);
 }
 
+function add_friend_html(value, image)
+{
+    const	div = document.createElement("div");
+    let	divContainer = `
+    <div class="d-flex" style="min-width: min-content;"> 
+        <img class="rounded-circle" height="22" src="${image}" title="Away" alt="profile picture" width="30" height="30">
+        <div class="m-1 p-1 w-100" style="min-width: min-content;">
+            ${value}
+        </div>
+		<button class="border button d-flex delete m-1 rounded shadow-sm" type="submit" id="deleteButton" onclick="delete_friend('${value}',this)">
+		    <img class="icon m-1" height="22" src="/static/img/22/list-remove.svg">
+		</button>
+    </div>`
+
+    div.style.minWidth = "min-content";
+    div.innerHTML = divContainer;
+    document.querySelector("#profile-list-friend").appendChild(div);
+}
+
 
 // ------------ Fetch calls ---------------
 
-// envoi une requete damis
+// envoi une demande damis
 // friend request
 document.getElementById('friend-request-form').addEventListener('submit', function(event) {
     event.preventDefault();    
@@ -44,16 +63,65 @@ document.getElementById('friend-request-form').addEventListener('submit', functi
         if (data.error) {
             banner_open(data.error, "#profile-banner");
         } else {
-            add_friend(username);
+            add_friend_request_html(username, data.profile_image);
         }
     }).catch(error => {console.error('Error:', error);});
     document.querySelector("#friend_to_add").value = "";
 });
 
+// Rejette une demande damis
+export function reject_friend_request(friend, button) {
+    var url = `/delete_friend_request`; 
+    fetch(url, {
+        method: 'DELETE',
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: JSON.stringify( { friend_to_delete: friend })
+    })
+    .then(response => {
+        if (!response.ok) {
+            banner_open(data.error, "#profile-banner");
+            return;
+        }
+        const elementToDelete = button.parentNode
+        elementToDelete.parentNode.removeChild(elementToDelete);
 
+    })
+    .catch(error => {
+        console.error('Erreur :', error);
+    });
+}
+
+// Accepte une demande damis
+export function accept_friend_request(friend, button) {
+    var url = `/accept_friend_request`; 
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: JSON.stringify( { friend_to_add: friend })
+    })
+    .then(response => {
+        if (!response.ok) {
+            banner_open(data.error, "#profile-banner");
+            return;
+        }
+
+        const elementToDelete = button.parentNode
+        elementToDelete.parentNode.removeChild(elementToDelete);
+        var image = elementToDelete.children[0].src
+        
+        add_friend_html(friend, image);
+    })
+    .catch(error => {
+        console.error('Erreur :', error);
+    });
+}
 
 // Delete un friend (friend) de la friend list
-function delete_friend(friend) {
+export function delete_friend(friend, button) {
     var url = `/delete_friend`; 
     fetch(url, {
         method: 'DELETE',
@@ -64,11 +132,11 @@ function delete_friend(friend) {
     })
     .then(response => {
         if (!response.ok) {
-            throw new Error('Erreur lors de la suppression de l\'élément');
+            banner_open(data.error, "#profile-banner");
+            return;
         }
-        
-        var friend_to_delete = document.getElementById('myfriend_' + friend);
-        friend_to_delete.parentNode.removeChild(friend_to_delete);
+        const elementToDelete = button.parentNode
+        elementToDelete.parentNode.removeChild(elementToDelete);
     })
     .catch(error => {
         console.error('Erreur :', error);
