@@ -54,11 +54,14 @@ def request_friend(request):
         friend_to_add = request.POST['friend_to_add']
         try:
             friend = CustomUser.objects.get(username=friend_to_add)
-            send_friend_request(request.user, friend)
+            if send_friend_request(request.user, friend):
+                return JsonResponse({'message': "friend sucessfully added"})
+            else:
+                return JsonResponse({'error': "friend_request_already_sent"})
         except:
             pass
 
-    return redirect(reverse("accueil"))
+    return JsonResponse({'error': "no_user_match"})
 
 @login_required
 def delete_friend_request(request):

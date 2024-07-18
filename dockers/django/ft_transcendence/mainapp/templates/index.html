@@ -87,8 +87,8 @@
 		{% include 'register_popup.html' %}
 		{% include 'tournament.html' %}
 	</body>
-	<script src='{% static "authentification.js" %}' type="module">
-	</script>
+	<script src='{% static "authentification.js" %}' type="module"></script>
+	<script src='{% static "friend_list.js" %}' type = "module"></script>
 	<script type="module">
 		import
 		{
@@ -204,17 +204,17 @@
 				banner_close('#profile-banner');
 			});
 
-			document.querySelector("#profile-list-add").addEventListener("click", function(e)
-			{
-				e.preventDefault();
-				add_item("profile", null);
-				if (h.language == "english")
-					document.querySelector("#profile-friends-count").innerHTML = "Friends: " + h.friends_array.length;
-				else if (h.language == "french")
-					document.querySelector("#profile-friends-count").innerHTML = "Amis: " + h.friends_array.length;
-				else if (h.language == "ukrainian")
-					document.querySelector("#profile-friends-count").innerHTML = "Друзі: " + h.friends_array.length;
-			});
+			//document.querySelector("#profile-list-add").addEventListener("click", function(e)
+			//{
+			//	e.preventDefault();
+			//	add_item("profile", null);
+			//	if (h.language == "english")
+			//		document.querySelector("#profile-friends-count").innerHTML = "Friends: " + h.friends_array.length;
+			//	else if (h.language == "french")
+			//		document.querySelector("#profile-friends-count").innerHTML = "Amis: " + h.friends_array.length;
+			//	else if (h.language == "ukrainian")
+			//		document.querySelector("#profile-friends-count").innerHTML = "Друзі: " + h.friends_array.length;
+			//});
 
 			document.querySelector("#profile-name-edit").addEventListener("click", function(e)
 			{
