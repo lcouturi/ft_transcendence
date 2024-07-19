@@ -169,3 +169,13 @@ def delete_account(request):
         user.delete()
         print("account deleted !" + user.username)
     return redirect(reverse("accueil"))
+
+@login_required
+def change_password(request):
+    if request.method == "POST":
+        new_password = request.POST['password']
+        user = request.user
+        user.password = new_password
+        user.save()
+        return JsonResponse({'message': "password changed"})
+    return JsonResponse({'error': "cannot_change_password"})
