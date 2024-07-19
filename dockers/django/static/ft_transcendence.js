@@ -129,6 +129,7 @@ export function	banner_open(value, id)
 export function english()
 {
 	document.querySelector("#english").checked = true;
+	localStorage.setItem("userLanguage", "english");
 	switchLanguage("en");
 	h.language = "english";
 	document.querySelector("#about-button").title = "About";
@@ -339,6 +340,7 @@ export function english()
 export function french()
 {
 	document.querySelector("#french").checked = true;
+	localStorage.setItem("userLanguage", "french");
 	switchLanguage("fr");
 	h.language = "french";
 	document.querySelector("#about-button").title = "À propos";
@@ -982,6 +984,7 @@ export function ukrainian()
 {
 	document.querySelector("#ukrainian").checked = true;
 	switchLanguage("uk");
+	localStorage.setItem("userLanguage", "ukrainian");
 	h.language = "ukrainian";
 	document.querySelector("#about-button").title = "Про";
 	document.querySelector("#about-close").innerHTML = "Закрити";

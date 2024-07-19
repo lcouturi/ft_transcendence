@@ -22,12 +22,12 @@
 			}
 			</script>
 			<script type="module">
-				import { 
+				import {
 					reject_friend_request,
 					accept_friend_request,
 					delete_friend
 				} from '{% static "friend_list.js" %}';
-	
+
 				window.reject_friend_request = reject_friend_request;
 				window.accept_friend_request = accept_friend_request;
 				window.delete_friend = delete_friend;
@@ -139,6 +139,21 @@
 
 		window.onload = function()
 		{
+			const savedLanguage = localStorage.getItem('userLanguage');
+			if (savedLanguage) {
+				if (savedLanguage == 'english') {
+					console.log('english');
+					english();
+				} else if (savedLanguage == 'french') {
+					console.log('french');
+					french();
+				} else if (savedLanguage == 'ukrainian') {
+					console.log('ukrainian');
+					ukrainian();
+				}
+    		} else {
+				localStorage.setItem('userLanguage', 'english');
+    		}
 			language_select.reset();
 			/*{% if user.is_authenticated %}*/
 				if ('{{ user.get_image_profile_url }}' == "/media/default_profile_image.jpg")
