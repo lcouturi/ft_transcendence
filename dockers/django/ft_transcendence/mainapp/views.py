@@ -96,9 +96,33 @@ def delete_friend_request(request):
                 return JsonResponse({'message': "friend request deleted"})
         except:
             pass      
-        
 
     return JsonResponse({'error': "friend_request_not_exist"})
+# ------------------ GAME ------------------------
+
+@login_required
+def save_game(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        p1 = data.get('player1')
+        user = CustomUser.objects.filter(username=p1)
+        if not user.exists():
+            return JsonResponse({'error': "user_not_found"})
+        p2 = data.get('player2')
+        score_p1 = data.get('score_p1')
+        score_p2 = data.get('score_p2')
+        date = data.get('date')
+        new_game = Game.objects.create_game(p1, p2, score_p1, score_p2, date)
+        new_game.save()
+        user.game_list.add(new_game)
+
+    return redirect(reverse("accueil"))
+
+# @logoin_required
+# def send_games(request):
+#     if request.method == 'GET'
+#         data = json.loads(request.body)
+#         user = CustomUser.objects.filter(username=data.get('username'))
 
 ####################################################
 
