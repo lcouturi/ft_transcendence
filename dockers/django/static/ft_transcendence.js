@@ -297,7 +297,7 @@ export function english()
 		document.querySelector("#profile-history-score").innerHTML = "Score";
 		document.querySelector("#profile-history-time").innerHTML = "Time";
 		document.querySelector("#profile-history-type").innerHTML = "Type";
-		document.querySelector("#profile-list-item").placeholder = "Enter username";
+		document.querySelector("#friend_to_add").placeholder = "Enter username";
 		document.querySelector("#profile-logout-label").innerHTML = "Log out";
 		document.querySelector("#profile-losses").innerHTML = h.losses + " Losses";
 		document.querySelector("#profile-wins").innerHTML = h.wins + " Wins";
@@ -506,7 +506,7 @@ export function french()
 		document.querySelector("#profile-history-score").innerHTML = "Score";
 		document.querySelector("#profile-history-time").innerHTML = "Temps";
 		document.querySelector("#profile-history-type").innerHTML = "Type";
-		document.querySelector("#profile-list-item").placeholder = "Entrez le nom d’utilisateur";
+		document.querySelector("#friend_to_add").placeholder = "Entrez le nom d’utilisateur";
 		document.querySelector("#profile-logout-label").innerHTML = "Déconnexion";
 		document.querySelector("#profile-losses").innerHTML = h.losses + " défaites";
 		document.querySelector("#profile-wins").innerHTML = h.wins + " victoires";
@@ -1147,7 +1147,7 @@ export function ukrainian()
 		document.querySelector("#profile-history-score").innerHTML = "Оцінка";
 		document.querySelector("#profile-history-time").innerHTML = "Час";
 		document.querySelector("#profile-history-type").innerHTML = "Тип";
-		document.querySelector("#profile-list-item").placeholder = "Введіть ім'я користувача";
+		document.querySelector("#friend_to_add").placeholder = "Введіть ім'я користувача";
 		document.querySelector("#profile-logout-label").innerHTML = "Вийти";
 		document.querySelector("#profile-losses").innerHTML = h.losses + " втрати";
 		document.querySelector("#profile-wins").innerHTML = h.wins + " виграє";
