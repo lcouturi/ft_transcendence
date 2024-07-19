@@ -6,6 +6,8 @@ def send_friend_request(user1, user2):
         friend_request = FriendRequest(from_user=user1, to_user=user2, timestamp=timezone.now())
         friend_request.save()
         print("friend request sent from :" + user1.username + " to " + user2.username)
+        return True
+    return False
 
 def accept_friend_request(user1, user2):
     try:
@@ -20,5 +22,6 @@ def reject_friend_request(user1, user2):
     try:
         friend_request = FriendRequest.objects.get(from_user=user1, to_user=user2)
         friend_request.delete()
+        return True
     except FriendRequest.DoesNotExist:
-        pass
+        return False

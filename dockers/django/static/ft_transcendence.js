@@ -103,7 +103,7 @@ export function	add_item(prefix, value)
 		});
 		document.querySelector("#" + prefix + "-list").appendChild(div);
 		array.push(item);
-		document.querySelector("#" + prefix + "-list-item").value = "";
+		//document.querySelector("#" + prefix + "-list-item").value = "";
 		if (prefix == "tournament")
 			tournament_array = array;
 		else

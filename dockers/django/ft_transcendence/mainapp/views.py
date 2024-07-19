@@ -36,7 +36,7 @@ def index(request):
 # ------------- FRIEND REQUEST VIEWS ----------------
 
 @login_required
-def add_friend(request):
+def accept_friend_request_view(request):
     if request.method == 'POST':
         data = json.loads(request.body)
         friend_to_add = data.get('friend_to_add')
@@ -52,13 +52,28 @@ def add_friend(request):
 def request_friend(request):
     if request.method == 'POST':
         friend_to_add = request.POST['friend_to_add']
+
+        if friend_to_add == request.user.username:
+            return JsonResponse({'error': "self_adding"})
+        
         try:
-            friend = CustomUser.objects.get(username=friend_to_add)
-            send_friend_request(request.user, friend)
+            request.user.friends_list.get(username=friend_to_add)
+            return JsonResponse({'error': "already_friend"})
         except:
             pass
 
-    return redirect(reverse("accueil"))
+        try:
+            friend = CustomUser.objects.get(username=friend_to_add)
+        except:
+            return JsonResponse({'error': "no_user_match"})
+
+        if send_friend_request(request.user, friend):
+            return JsonResponse({'message': "friend sucessfully added", 'profile_image': friend.get_image_profile_url()})
+        else:
+            return JsonResponse({'error': "friend_request_already_sent"})
+
+
+    return JsonResponse({'error': "no_user_match"})
 
 @login_required
 def delete_friend_request(request):
@@ -67,11 +82,12 @@ def delete_friend_request(request):
         friend_to_del = data.get('friend_to_delete')
         try:
             friend = CustomUser.objects.get(username=friend_to_del)
-            reject_friend_request(friend, request.user)
+            deleted = reject_friend_request(friend, request.user)
+            if deleted:
+                return JsonResponse({'message': "friend request deleted"})
         except:
             pass
-
-    return redirect(reverse("accueil"))
+    return JsonResponse({'error': "friend_request_not_exist"})
 
 ####################################################
 

@@ -21,6 +21,17 @@
 				}
 			}
 			</script>
+			<script type="module">
+				import { 
+					reject_friend_request,
+					accept_friend_request,
+					delete_friend
+				} from '{% static "friend_list.js" %}';
+	
+				window.reject_friend_request = reject_friend_request;
+				window.accept_friend_request = accept_friend_request;
+				window.delete_friend = delete_friend;
+			</script>
 		</head>
 		{% include 'navbar.html' %}
 		<div class="content d-flex flex-column flex-grow-1 flex-shrink-1 m-auto mh-100 mw-100" id="content">
@@ -87,8 +98,7 @@
 		{% include 'register_popup.html' %}
 		{% include 'tournament.html' %}
 	</body>
-	<script src='{% static "authentification.js" %}' type="module">
-	</script>
+	<script src='{% static "authentification.js" %}' type="module"></script>
 	<script type="module">
 		import
 		{
@@ -213,17 +223,17 @@
 				banner_close('#profile-banner');
 			});
 
-			document.querySelector("#profile-list-add").addEventListener("click", function(e)
-			{
-				e.preventDefault();
-				add_item("profile", null);
-				if (h.language == "english")
-					document.querySelector("#profile-friends-count").innerHTML = "Friends: " + h.friends_array.length;
-				else if (h.language == "french")
-					document.querySelector("#profile-friends-count").innerHTML = "Amis: " + h.friends_array.length;
-				else if (h.language == "ukrainian")
-					document.querySelector("#profile-friends-count").innerHTML = "Друзі: " + h.friends_array.length;
-			});
+			//document.querySelector("#profile-list-add").addEventListener("click", function(e)
+			//{
+			//	e.preventDefault();
+			//	add_item("profile", null);
+			//	if (h.language == "english")
+			//		document.querySelector("#profile-friends-count").innerHTML = "Friends: " + h.friends_array.length;
+			//	else if (h.language == "french")
+			//		document.querySelector("#profile-friends-count").innerHTML = "Amis: " + h.friends_array.length;
+			//	else if (h.language == "ukrainian")
+			//		document.querySelector("#profile-friends-count").innerHTML = "Друзі: " + h.friends_array.length;
+			//});
 
 			document.querySelector("#profile-name-edit").addEventListener("click", function(e)
 			{
