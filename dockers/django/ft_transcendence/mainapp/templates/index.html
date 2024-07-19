@@ -139,6 +139,7 @@
 
 		window.onload = function()
 		{
+			language_select.reset();
 			/*{% if user.is_authenticated %}*/
 				if ('{{ user.get_image_profile_url }}' == "/media/default_profile_image.jpg")
 				{
@@ -167,7 +168,6 @@
     		} else {
 				localStorage.setItem('userLanguage', 'english');
     		}
-			language_select.reset();
 		};
 
 		document.querySelector("#about").addEventListener("hidden.bs.modal", function(e)
