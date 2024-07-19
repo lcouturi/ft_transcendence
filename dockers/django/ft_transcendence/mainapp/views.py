@@ -80,6 +80,7 @@ def delete_friend_request(request):
     if request.method == 'DELETE':
         data = json.loads(request.body)
         friend_to_del = data.get('friend_to_delete')
+
         try:
             friend = CustomUser.objects.get(username=friend_to_del)
             deleted = reject_friend_request(friend, request.user)
@@ -87,6 +88,16 @@ def delete_friend_request(request):
                 return JsonResponse({'message': "friend request deleted"})
         except:
             pass
+
+        try:
+            friend = CustomUser.objects.get(username=friend_to_del)
+            deleted = reject_friend_request(request.user, friend)
+            if deleted:
+                return JsonResponse({'message': "friend request deleted"})
+        except:
+            pass      
+        
+
     return JsonResponse({'error': "friend_request_not_exist"})
 
 ####################################################
@@ -169,3 +180,13 @@ def delete_account(request):
         user.delete()
         print("account deleted !" + user.username)
     return redirect(reverse("accueil"))
+
+@login_required
+def change_password(request):
+    if request.method == "POST":
+        new_password = request.POST['password']
+        user = request.user
+        user.password = new_password
+        user.save()
+        return JsonResponse({'message': "password changed"})
+    return JsonResponse({'error': "cannot_change_password"})
