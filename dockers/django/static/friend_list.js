@@ -13,8 +13,11 @@ function add_friend_request_html(value, image)
     <div class="d-flex" style="min-width: min-content;">
         <img class="mx-1 my-auto rounded-circle" height="22" src="${image}" title="Away">
         <div class="m-1 p-1 w-100" style="min-width: min-content;">
-            ${value} (waiting to accept)
+            ${value} (pending)
         </div>
+        <button class="border button d-flex delete m-1 rounded shadow-sm" type="submit" onclick="reject_friend_request('${value}',this)">
+            <img class="icon" height="22" src="/static/img/22/list-remove.svg">
+        </button>
     </div>`
 
     div.style.minWidth = "min-content";

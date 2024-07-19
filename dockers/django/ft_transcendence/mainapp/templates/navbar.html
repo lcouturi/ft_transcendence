@@ -220,6 +220,9 @@
 														<div class="m-1 p-1 w-100" style="min-width: min-content;">
 															{{ friend.username }} (pending)
 														</div>
+														<button class="border button d-flex delete m-1 rounded shadow-sm" type="submit" onclick="reject_friend_request('{{ friend.username }}',this)">
+															<img class="icon" height="22" src="/static/img/22/list-remove.svg">
+														</button>
 													</div>
 												{% endfor %}
 											</div>
