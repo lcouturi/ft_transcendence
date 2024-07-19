@@ -16,7 +16,6 @@ services:
     env_file:
       - .env
     volumes:
-      - volume-django:/usr/src/app
       - ./django/static:/static
       - ./django/ft_transcendence/mainapp/templates:/django/mainapp/templates
     depends_on:
@@ -40,4 +39,3 @@ services:
 
 volumes:
   postgres_data:
-  volume-django:
