@@ -21,6 +21,17 @@
 				}
 			}
 			</script>
+			<script type="module">
+				import { 
+					reject_friend_request,
+					accept_friend_request,
+					delete_friend
+				} from '{% static "friend_list.js" %}';
+	
+				window.reject_friend_request = reject_friend_request;
+				window.accept_friend_request = accept_friend_request;
+				window.delete_friend = delete_friend;
+			</script>
 		</head>
 		{% include 'navbar.html' %}
 		<div class="content d-flex flex-column flex-grow-1 flex-shrink-1 m-auto mh-100 mw-100" id="content">
@@ -87,8 +98,7 @@
 		{% include 'register_popup.html' %}
 		{% include 'tournament.html' %}
 	</body>
-	<script src='{% static "authentification.js" %}' type="module">
-	</script>
+	<script src='{% static "authentification.js" %}' type="module"></script>
 	<script type="module">
 		import
 		{
@@ -133,12 +143,12 @@
 			/*{% if user.is_authenticated %}*/
 				if ('{{ user.get_image_profile_url }}' == "/media/default_profile_image.jpg")
 				{
-					document.querySelector("#profile-avatar").src = '{% static "img/22/im-user.svg" %}';
-					document.querySelector("#profile-avatar-mini").src = '{% static "img/22/im-user.svg" %}';
+					document.querySelector("#profile-avatar").src = '{% static "img/openart-image_Gsv7dBEX_1717776600275_raw.jpg" %}';
+					document.querySelector("#profile-avatar-mini").src = '{% static "img/openart-image_Gsv7dBEX_1717776600275_raw.jpg" %}';
 					if (h.contestant1 == h.username)
-						document.querySelector("#contestant1-avatar").src = '{% static "img/22/im-user.svg" %}';
+						document.querySelector("#contestant1-avatar").src = '{% static "img/openart-image_Gsv7dBEX_1717776600275_raw.jpg" %}';
 					if (h.contestant2 == h.username)
-						document.querySelector("#contestant2-avatar").src =  '{% static "img/22/im-user.svg" %}';
+						document.querySelector("#contestant2-avatar").src =  '{% static "img/openart-image_Gsv7dBEX_1717776600275_raw.jpg" %}';
 				}
 				h.username = "{{ user.username }}";
 				login_complete();
@@ -213,16 +223,10 @@
 				banner_close('#profile-banner');
 			});
 
-			document.querySelector("#profile-list-add").addEventListener("click", function(e)
+			document.querySelector("#profile-name-banner-close").addEventListener("click", function(e)
 			{
 				e.preventDefault();
-				add_item("profile", null);
-				if (h.language == "english")
-					document.querySelector("#profile-friends-count").innerHTML = "Friends: " + h.friends_array.length;
-				else if (h.language == "french")
-					document.querySelector("#profile-friends-count").innerHTML = "Amis: " + h.friends_array.length;
-				else if (h.language == "ukrainian")
-					document.querySelector("#profile-friends-count").innerHTML = "Друзі: " + h.friends_array.length;
+				banner_close('#profile-name-banner');
 			});
 
 			document.querySelector("#profile-name-edit").addEventListener("click", function(e)
@@ -241,11 +245,11 @@
 				if (name == "")
 				{
 					if (h.language == "english")
-						banner_open("Username cannot be empty." ,"#profile-banner");
+						banner_open("Username cannot be empty." ,"#profile-name-banner");
 					else if (h.language == "french")
-						banner_open("Le nom d'utilisateur ne peut pas être vide." ,"#profile-banner");
+						banner_open("Le nom d'utilisateur ne peut pas être vide." ,"#profile-name-banner");
 					else if (h.language == "ukrainian")
-						banner_open("Ім'я користувача не може бути пустим." ,"#profile-banner");
+						banner_open("Ім'я користувача не може бути пустим." ,"#profile-name-banner");
 					return ;
 				}
 				document.querySelector("#profile-name-inside").innerHTML = name;

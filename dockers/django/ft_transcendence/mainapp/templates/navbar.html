@@ -77,10 +77,10 @@
 						<div class="carousel slide" id="profile">
 							<div class="carousel-inner">
 								<div class="active carousel-item">
-									<div class="d-flex overflow-hidden p-0 text-nowrap warning-banner" id="profile-banner" style="max-height: 0">
-										<div class="me-auto ms-1 my-auto pe-1 pe-none" id="profile-banner-text">
+									<div class="d-flex overflow-hidden p-0 text-nowrap warning-banner" id="profile-name-banner" style="max-height: 0">
+										<div class="me-auto ms-1 my-auto pe-1 pe-none" id="profile-name-banner-text">
 										</div>
-										<button class="border borderless-button d-flex p-0 rounded" id="profile-banner-close" type="button">
+										<button class="border borderless-button d-flex p-0 rounded" id="profile-name-banner-close" type="button">
 											<img class="m-1" height="22" src='{% static "img/22/window-close.svg" %}'>
 										</button>
 									</div>
@@ -206,13 +206,52 @@
 									</div>
 									<div class="overflow-y-auto over pe-2" style="min-width: min-content;" tabindex="-1">
 										<div class="m-2 pe-2 w-100" style="min-width: min-content;">
-											<div class= "d-flex">
-												<input class="border m-1 p-1 rounded w-100" id="profile-list-item" placeholder="Enter username" type="text">
-												<button class="border button d-flex m-1 rounded shadow-sm" id="profile-list-add">
+											<form id="friend-request-form" class= "d-flex">
+												{% csrf_token %}
+												<input class="border m-1 p-1 rounded w-100" id="friend_to_add" name="friend_to_add" placeholder="Enter username" type="text">
+												<button class="border button d-flex m-1 rounded shadow-sm" type="submit">
 													<img height="22" src='{% static "img/22/list-add.svg" %}'>
 												</button>
+											</form>
+											<div id="profile-list-friend-request" style="min-width: min-content;">
+												{% for friend in friend_requests %}
+													<div class="d-flex" style="min-width: min-content;" id = "myfriend_{{ friend.username }}">
+														<img class="mx-1 my-auto rounded-circle" height="22" src="{{ friend.get_image_profile_url }}" title="Away" width="22">
+														<div class="m-1 p-1 w-100" style="min-width: min-content;">
+															{{ friend.username }} (pending)
+														</div>
+														<button class="border button d-flex delete m-1 rounded shadow-sm" type="submit" onclick="reject_friend_request('{{ friend.username }}',this)">
+															<img class="icon" height="22" src="/static/img/22/list-remove.svg">
+														</button>
+													</div>
+												{% endfor %}
 											</div>
-											<div id="profile-list" style="min-width: min-content;">
+											{% for friend in friend_requesters %}
+												<div class="d-flex" style="min-width: min-content;">
+													<img class="mx-1 my-auto rounded-circle" height="22" src="{{ friend.get_image_profile_url }}" width="22">
+													<div class="m-1 p-1 w-100" style="min-width: min-content;">
+														{{ friend.username }}
+													</div>
+													<button class="border button d-flex delete m-1 rounded shadow-sm" type="submit" id="acceptButton" onclick="accept_friend_request('{{ friend.username }}',this)">
+														<img height="22" src='{% static "img/22/list-add.svg" %}'>
+													</button>
+													<button class="border button d-flex delete m-1 rounded shadow-sm" type="submit" onclick="reject_friend_request('{{ friend.username }}',this)">
+														<img class="icon" height="22" src="/static/img/22/list-remove.svg">
+													</button>
+												</div>
+											{% endfor %}
+											<div id="profile-list-friend" style="min-width: min-content;">
+												{% for friend in friends %}
+												<div class="d-flex" style="min-width: min-content;">
+													<img class="mx-1 my-auto rounded-circle" height="22" src="{{ friend.get_image_profile_url }}" title="Away" width="22">
+													<div class="m-1 p-1 w-100" style="min-width: min-content;">
+														{{ friend.username }}
+													</div>
+													<button class="border button d-flex delete m-1 rounded shadow-sm" type="submit" id="deleteButton" onclick="delete_friend('{{ friend.username }}',this)">
+														<img class="icon" height="22" src="/static/img/22/list-remove.svg">
+													</button>
+												</div>
+												{% endfor %}
 											</div>
 										</div>
 									</div>

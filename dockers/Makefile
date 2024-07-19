@@ -1,32 +1,53 @@
+# Variables
+COMPOSE_FILE := ./docker-compose.yml
+DOCKER_COMPOSE := docker-compose -f $(COMPOSE_FILE)
 
-all: up
+# Default target
+.DEFAULT_GOAL := help
 
-up:
-	@	docker compose -f docker-compose.yaml up --build -d
+.PHONY: help build up down restart logs ps stats clean rebuild
 
-down:
-	@	docker compose -f docker-compose.yaml down
+help:  ## Show this help message
+	@awk 'BEGIN {FS = ":.*##"; printf "Targets:              Description:\n"} \
+        /^[a-zA-Z_-]+:.*##/ { printf "%-20s %s\n", $$1, $$2 }' $(MAKEFILE_LIST)
 
-rm_ps:
-#	Removes any running or stopped processe(s) based on DJANGO image.
-	@	if docker ps -a --format {{.Image}} | grep -q 'django'; then \
-			docker rm -f $$(docker ps -a --format '{{.ID}} {{.Image}}' \
-			| grep 'django' | awk '{print $$1}'); \
-		fi
+build:  ## Build the Docker image
+	$(DOCKER_COMPOSE) build
 
-rm_images: rm_ps
-#	Removes DJANGO image(s).
-	@	if docker image ls --format {{.Repository}} | grep -q 'django'; then \
-			docker image rm $$(docker image ls --format '{{.ID}} {{.Repository}}' \
-			| grep 'django' | awk '{print $$1}');\
-		fi
+up:  ## Build and start the containers in detached mode
+	$(DOCKER_COMPOSE) up -d --build
 
-rm_volume:
-	@	ARG=$$(docker volume ls --format {{.Name}}); if echo $$ARG | grep -q 'volume-django'; then \
-			docker volume rm $$ARG; \
-		fi
+down:  ## Stop and remove the containers
+	$(DOCKER_COMPOSE) down
 
-clean: rm_images
+restart:  ## Restart the Docker containers
+	$(DOCKER_COMPOSE) down
+	$(DOCKER_COMPOSE) up -d
 
-nuke: clean rm_volume
-	@	docker system prune --all --force --volumes
+logs:  ## Show logs of the Docker containers
+	$(DOCKER_COMPOSE) logs -f
+
+ps:  ## List containers
+	$(DOCKER_COMPOSE) ps
+
+stats: ## Show Docker system statistics
+	@echo "Containers:"
+	@docker ps -a
+	@echo "\nNetworks:"
+	@docker network ls
+	@echo "\nImages:"
+	@docker images
+	@echo "\nVolumes:"
+	@docker volume ls
+
+clean: ## Remove all stopped containers, networks, and volumes
+	$(DOCKER_COMPOSE) down -v
+	docker system prune -f --volumes
+	docker network prune -f
+	docker volume prune -f
+	docker image prune -a -f
+	docker container prune -f
+
+rebuild:  ## Rebuild the Docker image without cache
+	$(DOCKER_COMPOSE) build --no-cache
+	$(DOCKER_COMPOSE) up -d --build --force-recreate --no-deps --remove-orphans
