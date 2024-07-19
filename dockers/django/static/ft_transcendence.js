@@ -128,6 +128,7 @@ export function	banner_open(value, id)
 
 export function english()
 {
+	document.querySelector("#english").checked = true;
 	switchLanguage("en");
 	h.language = "english";
 	document.querySelector("#about-button").title = "About";
@@ -337,6 +338,7 @@ export function english()
 
 export function french()
 {
+	document.querySelector("#french").checked = true;
 	switchLanguage("fr");
 	h.language = "french";
 	document.querySelector("#about-button").title = "À propos";
@@ -978,6 +980,7 @@ export function	tournament_start()
 
 export function ukrainian()
 {
+	document.querySelector("#ukrainian").checked = true;
 	switchLanguage("uk");
 	h.language = "ukrainian";
 	document.querySelector("#about-button").title = "Про";
