@@ -1,0 +1,43 @@
+services:
+  database:
+    build:
+      context: ./postgre
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  django:
+    build:
+      context: ./django/
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    volumes:
+      - volume-django:/usr/src/app
+      - ./django/static:/static
+      - ./django/ft_transcendence/mainapp/templates:/django/mainapp/templates
+    depends_on:
+      - database
+    restart: unless-stopped
+
+  nginx:
+    build:
+      context: .
+      dockerfile: ./nginx/Dockerfile
+    env_file:
+      - .env
+    volumes:
+     - ./django/static:/static
+    ports:
+     - "443:443"
+     - "80:80"
+    depends_on:
+     - django
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  volume-django:
