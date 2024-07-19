@@ -143,12 +143,12 @@
 			/*{% if user.is_authenticated %}*/
 				if ('{{ user.get_image_profile_url }}' == "/media/default_profile_image.jpg")
 				{
-					document.querySelector("#profile-avatar").src = '{% static "img/22/im-user.svg" %}';
-					document.querySelector("#profile-avatar-mini").src = '{% static "img/22/im-user.svg" %}';
+					document.querySelector("#profile-avatar").src = '{% static "img/openart-image_Gsv7dBEX_1717776600275_raw.jpg" %}';
+					document.querySelector("#profile-avatar-mini").src = '{% static "img/openart-image_Gsv7dBEX_1717776600275_raw.jpg" %}';
 					if (h.contestant1 == h.username)
-						document.querySelector("#contestant1-avatar").src = '{% static "img/22/im-user.svg" %}';
+						document.querySelector("#contestant1-avatar").src = '{% static "img/openart-image_Gsv7dBEX_1717776600275_raw.jpg" %}';
 					if (h.contestant2 == h.username)
-						document.querySelector("#contestant2-avatar").src =  '{% static "img/22/im-user.svg" %}';
+						document.querySelector("#contestant2-avatar").src =  '{% static "img/openart-image_Gsv7dBEX_1717776600275_raw.jpg" %}';
 				}
 				h.username = "{{ user.username }}";
 				login_complete();
