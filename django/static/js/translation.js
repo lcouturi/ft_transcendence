@@ -1,6 +1,6 @@
-import { switchLanguage } from './frontend/game/gui.js';
-import { h } from './ft_transcendence.js';
-import { g } from './frontend/game/globals.js';
+import { switchLanguage } from '../frontend/game/gui.js';
+import { h } from '../ft_transcendence.js';
+import { g } from '../frontend/game/globals.js';
 
 export function english()
 {
