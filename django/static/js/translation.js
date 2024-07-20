@@ -2,7 +2,6 @@ import { switchLanguage } from '../frontend/game/gui.js';
 import { h } from '../ft_transcendence.js';
 import { g } from '../frontend/game/globals.js';
 
-
 export function english()
 {
 	document.querySelector("#english").checked = true;
@@ -213,10 +212,12 @@ export function english()
 		document.querySelector("#contestant2").innerHTML += " Team";
 	}
 
-	if (h.is_tracking_disabled == true) {
-		document.querySelector("#disable-tracking-text").innerHTML = "Tracking off";
-	} else {
-		document.querySelector("#disable-tracking-text").innerHTML = "Tracking on";
+	if (h.username != null) {
+		if (h.is_tracking_disabled == true) {
+			document.querySelector("#disable-tracking-text").innerHTML = "Tracking off";
+		} else {
+			document.querySelector("#disable-tracking-text").innerHTML = "Tracking on";
+		}
 	}
 }
 
@@ -430,27 +431,13 @@ export function french()
 		document.querySelector("#contestant2").innerHTML = "Équipe " + h.contestant2;
 	}
 
-	if (h.is_tracking_disabled == true) {
-		document.querySelector("#disable-tracking-text").innerHTML = "Historique désactivée";
-	} else {
-		document.querySelector("#disable-tracking-text").innerHTML = "Historique activée";
+	if (h.username != null) {
+		if (h.is_tracking_disabled == true) {
+			document.querySelector("#disable-tracking-text").innerHTML = "Historique désactivée";
+		} else {
+			document.querySelector("#disable-tracking-text").innerHTML = "Historique activée";
+		}
 	}
-	if (document.querySelector("#profile-name"))
-		document.querySelector("#profile-name").innerHTML = h.username;
-	if (document.querySelector("#profile-name-inside"))
-		document.querySelector("#profile-name-inside").innerHTML = h.username;
-	if (document.querySelector("#profile-button"))
-		document.querySelector("#profile-button").classList.remove("d-none");
-	if (in_tournament == false)
-	{
-		prepare_next_match();
-		start_match();
-	}
-
-	if (h.is_tracking_disabled == true) {
-		document.querySelector("#disable-tracking-text").innerHTML = "Historique désactivée";
-	} else {
-		document.querySelector("#disable-tracking-text").innerHTML = "Historique activée";
 }
 
 export function ukrainian()
@@ -663,9 +650,11 @@ export function ukrainian()
 		document.querySelector("#contestant2").innerHTML = "Командний " + h.contestant2;
 	}
 
-	if (h.is_tracking_disabled == true) {
-		document.querySelector("#disable-tracking-text").innerHTML = "Відстеження вимкнено";
-	} else {
-		document.querySelector("#disable-tracking-text").innerHTML = "Відстеження увімкнено";
+	if (h.username != null) {
+		if (h.is_tracking_disabled == true) {
+			document.querySelector("#disable-tracking-text").innerHTML = "Відстеження вимкнено";
+		} else {
+			document.querySelector("#disable-tracking-text").innerHTML = "Відстеження увімкнено";
+		}
 	}
 }
