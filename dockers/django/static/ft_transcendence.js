@@ -27,6 +27,7 @@ export const h =
 let	in_tournament = false;
 let	tournament_array = [];
 let	winners = [];
+let is_tracking_disabled = false;
 
 export function	add_item(prefix, value)
 {
@@ -659,6 +660,10 @@ function	profile_log_add(winner, loser, tournament)
 	let		score = "";
 	let		type;
 
+	if (is_tracking_disabled == true) {
+		return ;
+	}
+
 	if (tournament == true)
 	{
 		if (h.language == "english")
@@ -1228,4 +1233,20 @@ export function	update_score()
 {
 	document.querySelector("#contestant1-score").innerHTML = ": " + g.playerScore;
 	document.querySelector("#contestant2-score").innerHTML = ": " + g.aiScore;
+}
+
+if (document.getElementById("disable-tracking") == null) {
+	is_tracking_disabled = false;
+} else {
+	document.getElementById("disable-tracking").addEventListener("click", disable_button);
+}
+
+export function disable_button() {
+	if (is_tracking_disabled) {
+		is_tracking_disabled = false;
+		document.getElementById("disable-tracking-text").innerHTML = "Tracking enabled";
+	} else {
+		is_tracking_disabled = true;
+		document.getElementById("disable-tracking-text").innerHTML = "Tracking disabled";
+	}
 }

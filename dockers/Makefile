@@ -3,7 +3,7 @@ COMPOSE_FILE := ./docker-compose.yml
 DOCKER_COMPOSE := docker-compose -f $(COMPOSE_FILE)
 
 # Default target
-.DEFAULT_GOAL := help
+.DEFAULT_GOAL := up
 
 .PHONY: help build up down restart logs ps stats clean rebuild
 
