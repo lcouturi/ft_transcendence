@@ -120,9 +120,9 @@
 			banner_close,
 			banner_open,
 			h,
-			english,
-			french,
-			ukrainian,
+			// english,
+			// french,
+			// ukrainian,
 			login_complete,
 			login_validate,
 			pause,
@@ -136,6 +136,13 @@
 			unpause,
 			unsanitize
 		} from '{% static "ft_transcendence.js" %}';
+
+		import
+		{
+			english,
+			french,
+			ukrainian
+		} from '{% static "translation.js" %}';
 
 		window.onload = function()
 		{
