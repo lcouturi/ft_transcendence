@@ -106,22 +106,20 @@ def delete_friend_request(request):
 def save_game(request):
     if request.method == 'SAVE_GAME':
         data = json.loads(request.body)
-        print("hello")
-        print(data)
         p1 = data.get('player1')
         user = CustomUser.objects.filter(username=p1)
         if not user.exists():
             return JsonResponse({'error': "user_not_found"})
+        user = user.first()
         p2 = data.get('player2')
         score = data.get('score')
         date = data.get('date')
         game_type = data.get('game_type')
         result = data.get('result')
-        new_game = Game.create_new_game(p1, p2, score, date, result, game_type)
+        print(user)
+        new_game = Game.create_new_game(user = user, player1 = p1, player2 = p2, score = score, date = date, result = result , game_type = game_type)
         new_game.save()
-        user.game_list.add(new_game)
-        all_games = serializers.serialize('json', user.game_list.all)
-        print(all_games)
+        all_games = serializers.serialize('json', user.games.all())
         return (HttpResponse(all_games, content_type="application/json"))
 
     return redirect(reverse("accueil"))
