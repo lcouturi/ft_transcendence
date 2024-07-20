@@ -120,9 +120,9 @@
 			banner_close,
 			banner_open,
 			h,
-			english,
-			french,
-			ukrainian,
+			// english,
+			// french,
+			// ukrainian,
 			login_complete,
 			login_validate,
 			pause,
@@ -136,6 +136,13 @@
 			unpause,
 			unsanitize
 		} from '{% static "ft_transcendence.js" %}';
+
+		import
+		{
+			english,
+			french,
+			ukrainian
+		} from '{% static "./js/translation.js" %}';
 
 		window.onload = function()
 		{
@@ -156,13 +163,10 @@
 			const savedLanguage = localStorage.getItem('userLanguage');
 			if (savedLanguage) {
 				if (savedLanguage == 'english') {
-					console.log('english');
 					english();
 				} else if (savedLanguage == 'french') {
-					console.log('french');
 					french();
 				} else if (savedLanguage == 'ukrainian') {
-					console.log('ukrainian');
 					ukrainian();
 				}
     		} else {

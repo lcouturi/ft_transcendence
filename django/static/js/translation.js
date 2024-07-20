@@ -1,3 +1,4 @@
+<<<<<<< HEAD:dockers/django/static/ft_transcendence.js
 import
 {
 	loadSavedParameters,
@@ -127,6 +128,11 @@ export function	banner_open(value, id)
 	document.querySelector(id + "-text").innerHTML = value;
 	document.querySelector(id).style.maxHeight = "500px";
 }
+=======
+import { switchLanguage } from '../frontend/game/gui.js';
+import { h } from '../ft_transcendence.js';
+import { g } from '../frontend/game/globals.js';
+>>>>>>> ec243fefe6613bdb7d79e2ebe8d9e4935fa0f597:django/static/js/translation.js
 
 export function english()
 {
@@ -336,6 +342,12 @@ export function english()
 	{
 		document.querySelector("#contestant1").innerHTML += " Team";
 		document.querySelector("#contestant2").innerHTML += " Team";
+	}
+
+	if (h.is_tracking_disabled == true) {
+		document.querySelector("#disable-tracking-text").innerHTML = "Tracking off";
+	} else {
+		document.querySelector("#disable-tracking-text").innerHTML = "Tracking on";
 	}
 }
 
@@ -548,15 +560,13 @@ export function french()
 		document.querySelector("#contestant1").innerHTML = "Équipe " + h.contestant1;
 		document.querySelector("#contestant2").innerHTML = "Équipe " + h.contestant2;
 	}
-}
 
-export function	login_complete()
-{
-	if (document.querySelector("#login-button"))
-	{
-		document.querySelector("#login-button").classList.add("d-none");
-		document.querySelector("#login-button").classList.remove("d-flex");
+	if (h.is_tracking_disabled == true) {
+		document.querySelector("#disable-tracking-text").innerHTML = "Historique désactivée";
+	} else {
+		document.querySelector("#disable-tracking-text").innerHTML = "Historique activée";
 	}
+<<<<<<< HEAD:dockers/django/static/ft_transcendence.js
 	if (document.querySelector("#profile-name"))
 		document.querySelector("#profile-name").innerHTML = h.username;
 	if (document.querySelector("#profile-name-inside"))
@@ -1030,6 +1040,8 @@ export function	tournament_start()
 	winners = [];
 	prepare_next_match();
 	start_match();
+=======
+>>>>>>> ec243fefe6613bdb7d79e2ebe8d9e4935fa0f597:django/static/js/translation.js
 }
 
 export function ukrainian()
@@ -1241,43 +1253,10 @@ export function ukrainian()
 		document.querySelector("#contestant1").innerHTML = "Командний " + h.contestant1;
 		document.querySelector("#contestant2").innerHTML = "Командний " + h.contestant2;
 	}
-}
 
-export function	unpause()
-{
-	if (h.paused == false)
-	{
-		loadSavedParameters();
-		if (g.aiPaddleSpeed == 0)
-			g.aiPaddleSpeed = 8;
-		if (g.ballSpeed == 0)
-			g.ballSpeed = 0.016;
-		if (g.orbitSpeed == 0)
-			g.orbitSpeed = 0.002;
-		if (g.paddleSpeed == 0)
-			g.paddleSpeed = 8;
-		if (g.Player2PaddleSpeed == 0)
-			g.Player2PaddleSpeed = 8;
-		if (g.Player3PaddleSpeed == 0)
-			g.Player3PaddleSpeed = 8;
-		if (g.Player4PaddleSpeed == 0)
-			g.Player4PaddleSpeed = 8;
-		if (g.starsSpeed == 0)
-			g.starsSpeed = 0.05;
+	if (h.is_tracking_disabled == true) {
+		document.querySelector("#disable-tracking-text").innerHTML = "Відстеження вимкнено";
+	} else {
+		document.querySelector("#disable-tracking-text").innerHTML = "Відстеження увімкнено";
 	}
-}
-
-export function	unsanitize(string)
-{
-	string = string.replace(/&amp;/g, "&").replace(/&lt;/g, "<");
-	string = string.replace(/&gt;/g, ">").replace(/&quot;/g, '"');
-	string = string.replace(/&#x27;/g, "'").replace(/&#x2F;/g, "/");
-	string = string.replace(/&grave;/g, "`").replace(/&#x3D;/g, "=");
-	return (string);
-}
-
-export function	update_score()
-{
-	document.querySelector("#contestant1-score").innerHTML = ": " + g.playerScore;
-	document.querySelector("#contestant2-score").innerHTML = ": " + g.aiScore;
 }

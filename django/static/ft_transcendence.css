@@ -370,3 +370,10 @@ th, td
   text-align: left;
 }
 
+#disable-tracking
+{
+	background-color: #ffffff;
+	border: 1px solid #d1d2d2;
+	padding: 5px;
+	text-align: center;
+}
