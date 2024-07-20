@@ -5,8 +5,9 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.urls import reverse
-from mainapp.models import CustomUser,FriendRequest
+from mainapp.models import CustomUser, FriendRequest, Game
 from django import forms
+from django.core import serializers
 from django.contrib.auth.decorators import login_required
 import json
 from datetime import datetime
@@ -15,6 +16,7 @@ from .friend_request import *
 
 # Create your views here.
 def index(request):
+    print("hello from index")
     friends = None
     friend_requests = None
     friend_requesters = None
@@ -102,27 +104,41 @@ def delete_friend_request(request):
 
 @login_required
 def save_game(request):
-    if request.method == 'POST':
+    if request.method == 'SAVE_GAME':
         data = json.loads(request.body)
+        print("hello")
+        print(data)
         p1 = data.get('player1')
         user = CustomUser.objects.filter(username=p1)
         if not user.exists():
             return JsonResponse({'error': "user_not_found"})
         p2 = data.get('player2')
-        score_p1 = data.get('score_p1')
-        score_p2 = data.get('score_p2')
+        score = data.get('score')
         date = data.get('date')
-        new_game = Game.objects.create_game(p1, p2, score_p1, score_p2, date)
+        game_type = data.get('game_type')
+        result = data.get('result')
+        new_game = Game.create_new_game(p1, p2, score, date, result, game_type)
         new_game.save()
         user.game_list.add(new_game)
+        all_games = serializers.serialize('json', user.game_list.all)
+        print(all_games)
+        return (HttpResponse(all_games, content_type="application/json"))
 
     return redirect(reverse("accueil"))
 
-# @logoin_required
-# def send_games(request):
-#     if request.method == 'GET'
-#         data = json.loads(request.body)
-#         user = CustomUser.objects.filter(username=data.get('username'))
+@login_required
+def send_games(request):
+    if request.method == 'SEND_GAME':
+        data = json.loads(request.body)
+        user = CustomUser.objects.filter(username=data.get('username'))
+        if not user.exists(): 
+            return JsonResponse({'error': "user_not_found"}) 
+        user.game_list.add(new_game)
+        all_games = serializers.serialize('json', user.game_list)
+        return (HttpResponse(all_games, content_type="application/json"))
+
+    return redirect(reverse("accueil"))
+
 
 ####################################################
 
@@ -154,6 +170,7 @@ def upload_image(request):
     return redirect(reverse("accueil"))
 
 def login_check(request):
+    print("hello from login")
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
@@ -171,6 +188,7 @@ def login_check(request):
         return redirect(reverse("accueil"))
     
 def logout_check(request):
+    print("hello from logout")
     logout(request)
     return redirect(reverse("accueil"))
 

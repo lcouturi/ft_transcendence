@@ -10,17 +10,20 @@ from datetime import datetime, timedelta
 class Game(models.Model):
     player1 = models.CharField(max_length=50)
     player2 = models.CharField(max_length=50)
-    p1_score = models.IntegerField()
-    p2_score = models.IntegerField()
+    score = models.CharField(max_length=50)
+    game_type = models.CharField(max_length=50)
+    result = models.CharField(max_length=50)
     date = models.CharField(max_length=50)
 
     def __str__(self):
         return self.player1
 
-    def create_game(self, player1, player2, p1_score, p2_score, date):
-        game = self.create(player1 = player1, player2 = player2, p1_score = p1_score,
-                p2_score = p2_score, date = date)
-        return game
+    def create_new_game(player1, player2, score, date, result, game_type):
+        print(player1)
+        #game = self.create(player1 = player1, player2 = player2, score = score,
+                #date = date, result = result, game_type = game_type)
+        #return game
+        return 0    
 
 class CustomUser(AbstractUser):
     image_profile = models.ImageField(upload_to='images/',default='default_profile_image.jpg', null=True, blank=True)
