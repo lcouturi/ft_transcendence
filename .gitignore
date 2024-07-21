@@ -3,3 +3,10 @@ patate
 Pipfile
 Pipfile.lock
 .DS_Store
+
+# Virtual environment
+venv/
+
+# Byte-compiled files
+*.pyc
+__pycache__/
