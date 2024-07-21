@@ -637,30 +637,3 @@ export function	update_score()
 	document.querySelector("#contestant1-score").innerHTML = ": " + g.playerScore;
 	document.querySelector("#contestant2-score").innerHTML = ": " + g.aiScore;
 }
-
-if (document.getElementById("disable-tracking") == null) {
-	h.is_tracking_disabled = false;
-} else {
-	document.getElementById("disable-tracking").addEventListener("click", disable_button);
-}
-
-export function disable_button() {
-	if (h.is_tracking_disabled) {
-		h.is_tracking_disabled = false;
-		if (h.language == "english")
-			document.getElementById("disable-tracking-text").innerHTML = "Tracking on";
-		else if (h.language == "french")
-			document.getElementById("disable-tracking-text").innerHTML = "Activer l'historique";
-		else if (h.language == "ukrainian")
-			document.getElementById("disable-tracking-text").innerHTML = "Відстеження увімкнено";
-	} else {
-		h.is_tracking_disabled = true;
-		if (h.language == "english")
-			document.getElementById("disable-tracking-text").innerHTML = "Tracking off";
-		else if (h.language == "french")
-			document.getElementById("disable-tracking-text").innerHTML = "Désactiver l'historique";
-		else if (h.language == "ukrainian") {
-			document.getElementById("disable-tracking-text").innerHTML = "Відстеження вимкнено";
-		}
-	}
-}

@@ -335,6 +335,14 @@
 			document.querySelector("#pause").classList.add("d-flex");
 		});
 
+		document.querySelector("#profile-history-checkbox").addEventListener("change", function(e)
+		{
+			if (document.querySelector("#profile-history-checkbox").checked == true)
+				h.is_tracking_disabled = false;
+			else
+				h.is_tracking_disabled = true;
+		});
+
 		document.querySelector("#register").addEventListener("hidden.bs.modal", function(e)
 		{
 			e.preventDefault();

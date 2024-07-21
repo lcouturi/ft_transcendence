@@ -370,10 +370,54 @@ th, td
   text-align: left;
 }
 
-#disable-tracking
+/* Custom checkbox style */
+
+input[type="checkbox"]
 {
-	background-color: #ffffff;
-	border: 1px solid #d1d2d2;
-	padding: 5px;
-	text-align: center;
+	appearance: none;
+	background-color: white;
+	border: 1px solid #b0b1b2;
+	border-radius: 3px;
+	display: grid;
+	height: 16px;
+	min-width: 16px;
+	place-content: center;
+	width: 16px;
 }
+
+input[type="checkbox"]::before
+{
+	background-color: #222629;
+	clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+	content: "";
+	height: 8.5px;
+	width: 11.5px;
+	transform: scale(0);
+}
+
+input[type="checkbox"]:active:hover
+{
+	background-color: #e8e8e8;
+}
+
+input[type="checkbox"]:active:checked:hover
+{
+	background-color: #add9ec;
+}
+
+input[type="checkbox"]:checked
+{
+	background-color: #aedef3;
+	border-color: #00b0ef;
+}
+
+input[type="checkbox"]:checked::before
+{
+	transform: scale(1);
+}
+
+input[type="checkbox"]:hover
+{
+	border-color: #00b0ef;
+}
+

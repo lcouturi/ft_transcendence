@@ -119,13 +119,16 @@
 												0 Losses
 											</div>
 										</div>
-										<button class="border button d-flex m-1 ms-auto rounded shadow-sm w-100" data-bs-slide-to="1" data-bs-target="#profile" type="button">
-											<img class="me-1 ms-auto" height="22" src='{% static "img/22/appointment-new.svg" %}'>
-											<div class="me-auto my-auto text-nowrap" id="profile-history">
-												Match History
-											</div>
-											<img class="ms-1 my-auto" height="16" src='{% static "img/16/go-next.svg" %}'>
-										</button>
+										<div class="d-flex w-100">
+											<input class="me-1 my-auto" id="profile-history-checkbox" name="history" type="checkbox">
+											<button class="border button d-flex my-1 ms-auto rounded shadow-sm w-100" data-bs-slide-to="1" data-bs-target="#profile" type="button">
+												<img class="me-1 ms-auto" height="22" src='{% static "img/22/appointment-new.svg" %}'>
+												<div class="me-auto my-auto text-nowrap" id="profile-history">
+													Match History
+												</div>
+												<img class="ms-1 my-auto" height="16" src='{% static "img/16/go-next.svg" %}'>
+											</button>
+										</div>
 										<div class="d-flex mx-auto my-1 pe-none" id="profile-friends-count">
 											Friends: 0
 										</div>
@@ -136,10 +139,6 @@
 											</div>
 											<img class="ms-1 my-auto" height="16" src='{% static "img/16/go-next.svg" %}'>
 										</button>
-										<div id="disable-tracking" class="border button d-flex m-1 ms-auto rounded shadow-sm w-100">
-											<img id="disable-tracking-icon" height="22" src='{% static "img/22/tracking.svg" %}'/>
-											<label id="disable-tracking-text"> Tracking on </label>
-										</div>
 										<form action="{% url 'logout' %}" method="get">
 											<button class="border button d-flex m-1 ms-auto rounded shadow-sm w-100" type="submit">
 												<img class="me-1 ms-auto" height="22" src='{% static "img/22/system-log-out.svg" %}'>

@@ -98,7 +98,6 @@ export function english()
 			<img class="m-1" height="22" src="/static/img/22/globe.svg">
 		</a>
 	</button>`;
-	document.querySelector("#avatar-button").title = "Open file dialog";
 	document.querySelector("#components-tab").innerHTML = "Components";
 	document.querySelector("#components-tab-pane").innerHTML = `
 	<b>
@@ -211,14 +210,6 @@ export function english()
 		document.querySelector("#contestant1").innerHTML += " Team";
 		document.querySelector("#contestant2").innerHTML += " Team";
 	}
-
-	if (h.username != null) {
-		if (h.is_tracking_disabled == true) {
-			document.querySelector("#disable-tracking-text").innerHTML = "Tracking off";
-		} else {
-			document.querySelector("#disable-tracking-text").innerHTML = "Tracking on";
-		}
-	}
 }
 
 export function french()
@@ -317,7 +308,6 @@ export function french()
 			<img class="m-1" height="22" src="/static/img/22/globe.svg">
 		</a>
 	</button>`;
-	document.querySelector("#avatar-button").title = "Ouvrir le sélecteur de fichiers";
 	document.querySelector("#components-tab").innerHTML = "Composants";
 	document.querySelector("#components-tab-pane").innerHTML = `
 	<b>
@@ -430,14 +420,6 @@ export function french()
 		document.querySelector("#contestant1").innerHTML = "Équipe " + h.contestant1;
 		document.querySelector("#contestant2").innerHTML = "Équipe " + h.contestant2;
 	}
-
-	if (h.username != null) {
-		if (h.is_tracking_disabled == true) {
-			document.querySelector("#disable-tracking-text").innerHTML = "Historique désactivée";
-		} else {
-			document.querySelector("#disable-tracking-text").innerHTML = "Historique activée";
-		}
-	}
 }
 
 export function ukrainian()
@@ -536,7 +518,6 @@ export function ukrainian()
 			<img class="m-1" height="22" src="/static/img/22/globe.svg">
 		</a>
 	</button>`;
-	document.querySelector("#avatar-button").title = "Діалогове вікно відкриття файлів";
 	document.querySelector("#components-tab").innerHTML = "Компоненти";
 	document.querySelector("#components-tab-pane").innerHTML = `
 	<b>
@@ -648,13 +629,5 @@ export function ukrainian()
 	{
 		document.querySelector("#contestant1").innerHTML = "Командний " + h.contestant1;
 		document.querySelector("#contestant2").innerHTML = "Командний " + h.contestant2;
-	}
-
-	if (h.username != null) {
-		if (h.is_tracking_disabled == true) {
-			document.querySelector("#disable-tracking-text").innerHTML = "Відстеження вимкнено";
-		} else {
-			document.querySelector("#disable-tracking-text").innerHTML = "Відстеження увімкнено";
-		}
 	}
 }
