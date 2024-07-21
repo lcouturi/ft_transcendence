@@ -27,6 +27,15 @@ restart:  ## Restart the Docker containers
 logs:  ## Show logs of the Docker containers
 	$(DOCKER_COMPOSE) logs -f
 
+logs-django:  ## Show logs of the Django container
+	$(DOCKER_COMPOSE) logs -f django
+
+logs-nginx:  ## Show logs of the Nginx container
+	$(DOCKER_COMPOSE) logs -f nginx
+
+logs-db:  ## Show logs of the PostgreSQL container
+	$(DOCKER_COMPOSE) logs -f db
+
 ps:  ## List containers
 	$(DOCKER_COMPOSE) ps
 
