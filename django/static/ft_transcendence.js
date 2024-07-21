@@ -222,24 +222,22 @@ function	prepare_next_match()
 
 export const render_match_history = async (data) => {
 	const	tr = document.createElement("tr");
-	console.log(data);
-	p_data = JSON.parse(data);
-	console.log(p_data);
+	let game_data = data[0].fields;
 	tr.innerHTML = `
 	<th class="text-nowrap" scope="row">
-		bob
+		${game_data.date}
 	</th>
 	<td>
-		bob
+		${game_data.result}
 	</td>
 	<td>
-		bob
+		${game_data.game_type}
 	</td>
 	<td>
-		bob
+		${game_data.score}
 	</td>
 	<td>
-		bob
+		${game_data.player2}
 	</td>`
 	document.querySelector("#profile-log").appendChild(tr);
 };
