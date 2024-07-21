@@ -66,6 +66,41 @@
 			<div class="content-body flex-grow-1 flex-shrink-1 m-1 mh-100 mt-0" id="container">
 			</div>
 		</div>
+		<div aria-hidden="true" aria-labelledby="delete-confirm" class="modal fade" id="delete-confirm" tabindex="-1">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="bg-body border modal-content p-1 rounded">
+					<div class="modal-header p-1">
+						<h2 class="m-1 pe-none">
+							Are you sure?
+						</h2>
+					</div>
+					<div class="d-flex flex-column m-1 modal-body overflow-hidden p-0">
+						<div class="border d-flex flex-column frame m-1 overflow-hidden p-1 rounded">
+							<h4 class="m-1">
+								Account deletion is irreversible.
+							</h4>
+						</div>
+					</div>
+					<div class="modal-footer p-1">
+						<button class="border button d-flex m-1 ms-auto rounded shadow-sm" data-bs-dismiss="modal" type="button">
+							<img class="me-1" height="22" src='{% static "img/22/dialog-cancel.svg" %}'>
+							<div class="my-auto">
+								Cancel
+							</div>
+						</button>
+						<form action="delete_account" method="post">
+							{% csrf_token %}
+							<button class="border button d-flex m-1 ms-auto rounded shadow-sm" id="profile-delete" type="submit">
+								<img class="me-1" height="22" src='{% static "img/22/edit-delete.svg" %}'>
+								<div class="my-auto">
+									Delete Account
+								</div>
+							</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
 		<div aria-hidden="true" aria-labelledby="results" class="modal fade" data-bs-backdrop="static" id="results" tabindex="-1">
 			<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 				<div class="bg-body border modal-content p-1 rounded">
@@ -236,6 +271,14 @@
 				document.querySelector("#profile-avatar-form").submit();
 			};
 
+			document.querySelector("#profile-history-checkbox").addEventListener("change", function(e)
+			{
+				if (document.querySelector("#profile-history-checkbox").checked == true)
+					h.is_tracking_disabled = false;
+				else
+					h.is_tracking_disabled = true;
+			});
+
 			document.querySelector("#profile-banner-close").addEventListener("click", function(e)
 			{
 				e.preventDefault();
@@ -333,14 +376,6 @@
 			this.classList.add("d-none");
 			document.querySelector("#pause").classList.remove("d-none");
 			document.querySelector("#pause").classList.add("d-flex");
-		});
-
-		document.querySelector("#profile-history-checkbox").addEventListener("change", function(e)
-		{
-			if (document.querySelector("#profile-history-checkbox").checked == true)
-				h.is_tracking_disabled = false;
-			else
-				h.is_tracking_disabled = true;
 		});
 
 		document.querySelector("#register").addEventListener("hidden.bs.modal", function(e)

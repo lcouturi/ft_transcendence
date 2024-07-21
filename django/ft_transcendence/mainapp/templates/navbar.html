@@ -147,15 +147,12 @@
 												</div>
 											</button>
 										</form>
-										<form action="delete_account" method="post">
-											{% csrf_token %}
-											<button class="border button d-flex m-1 ms-auto rounded shadow-sm w-100" id="profile-delete" type="submit">
-												<img class="me-1 ms-auto" height="22" src='{% static "img/22/edit-delete.svg" %}'>
-												<div class="me-auto my-auto text-nowrap" id="profile-delete-label">
-													Delete Account
-												</div>
-											</button>
-										</form>
+										<button class="border button d-flex m-1 ms-auto rounded shadow-sm w-100" data-bs-target="#delete-confirm" data-bs-toggle="modal" type="submit">
+											<img class="me-1 ms-auto" height="22" src='{% static "img/22/edit-delete.svg" %}'>
+											<div class="me-auto my-auto text-nowrap" id="profile-delete-label">
+												Delete Account
+											</div>
+										</button>
 									</div>
 								</div>
 								<div class="carousel-item">
