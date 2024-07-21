@@ -70,13 +70,13 @@
 			<div class="modal-dialog modal-dialog-centered">
 				<div class="bg-body border modal-content p-1 rounded">
 					<div class="modal-header p-1">
-						<h2 class="m-1 pe-none">
+						<h2 class="m-1 pe-none" id="delete-confirm-title">
 							Are you sure?
 						</h2>
 					</div>
 					<div class="d-flex flex-column m-1 modal-body overflow-hidden p-0">
 						<div class="border d-flex flex-column frame m-1 overflow-hidden p-1 rounded">
-							<h4 class="m-1">
+							<h4 class="m-1" id="delete-confirm-body">
 								Account deletion is irreversible.
 							</h4>
 						</div>
@@ -84,7 +84,7 @@
 					<div class="modal-footer p-1">
 						<button class="border button d-flex m-1 ms-auto rounded shadow-sm" data-bs-dismiss="modal" type="button">
 							<img class="me-1" height="22" src='{% static "img/22/dialog-cancel.svg" %}'>
-							<div class="my-auto">
+							<div class="my-auto" id="delete-confirm-cancel">
 								Cancel
 							</div>
 						</button>
@@ -92,7 +92,7 @@
 							{% csrf_token %}
 							<button class="border button d-flex m-1 ms-auto rounded shadow-sm" id="profile-delete" type="submit">
 								<img class="me-1" height="22" src='{% static "img/22/edit-delete.svg" %}'>
-								<div class="my-auto">
+								<div class="my-auto" id="delete-confirm-delete">
 									Delete Account
 								</div>
 							</button>
@@ -155,9 +155,6 @@
 			banner_close,
 			banner_open,
 			h,
-			// english,
-			// french,
-			// ukrainian,
 			login_complete,
 			login_validate,
 			pause,

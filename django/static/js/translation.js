@@ -152,6 +152,10 @@ export function english()
 			<img class="m-1" height="22" src="/static/img/22/globe.svg">
 		</a>
 	</button>`;
+	document.querySelector("#delete-confirm-body").innerHTML = "Account deletion is irreversible.";
+	document.querySelector("#delete-confirm-cancel").innerHTML = "Cancel";
+	document.querySelector("#delete-confirm-delete").innerHTML = "Delete Account";
+	document.querySelector("#delete-confirm-title").innerHTML = "Are you sure?";
 	document.querySelector("#language-button").title = "Language";
 	document.querySelector("#language-label").innerHTML = "Language";
 	document.querySelector("#login-close-label").innerHTML = "Cancel";
@@ -362,6 +366,10 @@ export function french()
 			<img class="m-1" height="22" src="/static/img/22/globe.svg">
 		</a>
 	</button>`;
+	document.querySelector("#delete-confirm-body").innerHTML = "La suppression du compte est irréversible.";
+	document.querySelector("#delete-confirm-cancel").innerHTML = "Annuler";
+	document.querySelector("#delete-confirm-delete").innerHTML = "Supprimer le compte";
+	document.querySelector("#delete-confirm-title").innerHTML = "Êtes-vous sûr?";
 	document.querySelector("#language-button").title = "Langue";
 	document.querySelector("#language-label").innerHTML = "Langue";
 	document.querySelector("#login-close-label").innerHTML = "Annuler";
@@ -572,6 +580,10 @@ export function ukrainian()
 			<img class="m-1" height="22" src="/static/img/22/globe.svg">
 		</a>
 	</button>`;
+	document.querySelector("#delete-confirm-body").innerHTML = "Видалення облікового запису незворотне.";
+	document.querySelector("#delete-confirm-cancel").innerHTML = "Скасувати";
+	document.querySelector("#delete-confirm-delete").innerHTML = "Видалити аккаунт";
+	document.querySelector("#delete-confirm-title").innerHTML = "Ти впевнений?";
 	document.querySelector("#language-button").title = "Мова";
 	document.querySelector("#language-label").innerHTML = "Мова";
 	document.querySelector("#login-close-label").innerHTML = "Скасувати";
