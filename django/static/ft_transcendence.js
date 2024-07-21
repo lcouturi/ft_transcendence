@@ -118,27 +118,6 @@ export function	banner_open(value, id)
 	document.querySelector(id).style.maxHeight = "500px";
 }
 
-export const render_match_history = async (data) => {
-	const	tr = document.createElement("tr");
-	tr.innerHTML = `
-	<th class="text-nowrap" scope="row">
-		${data.date}
-	</th>
-	<td>
-		${data.result}
-	</td>
-	<td>
-		${data.game_type}
-	</td>
-	<td>
-		${data.score}
-	</td>
-	<td>
-		${data.player2}
-	</td>`
-	document.querySelector("#profile-log").appendChild(tr);
-};
-
 export const get_games = async (username) => {
 	const response = await fetch('/get_games', {
 		headers: {
@@ -305,10 +284,8 @@ function	profile_log_add(winner, loser, tournament)
 	let		type;
 	let 	type_json;
 
-	if (h.is_tracking_disabled == true) {
+	if (h.is_tracking_disabled == true)
 		return ;
-	}
-
 	if (tournament == true)
 		type_json = "T";
 	else
@@ -345,9 +322,9 @@ function	profile_log_add(winner, loser, tournament)
 	let username = document.getElementById("profile-name-inside").textContent;
 	save_game(username, opponent, score, date_json, type_json, result_json)
 		.then(data => {
-			for (let i = 0; i < data.length; i++) {
+			document.querySelector("#profile-log").innerHTML = "";
+			for (let i = 0; i < data.length; i++)
 				render_match_history(data[i].fields);
-			};
 		})
 		.catch(err => {
 			console.log('error: ', err.message);
@@ -436,6 +413,63 @@ export function	register_validate()
 	}
 	document.querySelector("#myForm").submit();
 }
+
+export const	render_match_history = async (data) => {
+	if (data.result == "V")
+	{
+		if (h.language == "english")
+			data.result = "Victory";
+		else if (h.language == "french")
+			data.result = "Victoire";
+		else if (h.language == "ukrainain")
+			data.result = "Перемога";
+	}
+	else if (data.result == "D")
+	{
+		if (h.language == "english")
+			data.result = "Defeat";
+		else if (h.language == "french")
+			data.result = "Défaite";
+		else if (h.language == "ukrainain")
+			data.result = "Поразка";
+	}
+	if (data.game_type == "M")
+	{
+		if (h.language == "english")
+			data.game_type = "Match";
+		else if (h.language == "french")
+			data.game_type = "Match";
+		else if (h.language == "ukrainain")
+			data.game_type = "Матч";
+	}
+	else if (data.game_type == "T")
+	{
+		if (h.language == "english")
+			data.game_type = "Tournament";
+		else if (h.language == "french")
+			data.game_type = "Tournoi";
+		else if (h.language == "ukrainain")
+			data.game_type = "Турнір";
+	}
+	const	tr = document.createElement("tr");
+	tr.innerHTML = `
+	<th class="text-nowrap" scope="row">
+		${data.date}
+	</th>
+	<td>
+		${data.result}
+	</td>
+	<td>
+		${data.game_type}
+	</td>
+	<td>
+		${data.score}
+	</td>
+	<td>
+		${data.player2}
+	</td>`
+	document.querySelector("#profile-log").appendChild(tr);
+};
 
 export function	result(value)
 {
