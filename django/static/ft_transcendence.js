@@ -6,12 +6,12 @@ export const h =
 	contestant1: "Guest",
 	contestant2: "Guest",
 	friends_array: [],
+	is_tracking_disabled: false,
 	language: "english",
 	losses: 0,
 	paused: false,
 	username: null,
-	wins: 0,
-	is_tracking_disabled : false,
+	wins: 0
 };
 
 let	in_tournament = false;
