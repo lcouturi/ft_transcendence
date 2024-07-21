@@ -310,40 +310,13 @@ function	profile_log_add(winner, loser, tournament)
 	}
 
 	if (tournament == true)
-	{
 		type_json = "T";
-		if (h.language == "english")
-		{
-			result = "Victory";
-			type = "Tournament";
-		}
-		else if (h.language == "french")
-		{
-			result = "Victoire";
-			type = "Tournoi";
-		}
-		else if (h.language == "ukrainian")
-		{
-			result = "Перемога";
-			type = "Турнір";
-		}
-	}
 	else
 	{
 		type_json = "M"
-		if (h.language == "english" || h.language == "french")
-			type = "Match";
-		else if (h.language == "ukrainian")
-			type = "Матч";
 		if (winner == h.username)
 		{
 			result_json = "V"
-			if (h.language == "english")
-				result = "Victory";
-			else if (h.language == "french")
-				result = "Victoire";
-			else if (h.language == "ukrainian")
-				result = "Перемога";
 			if (g.playerScore < g.aiScore)
 				score = g.aiScore + "-" + g.playerScore;
 			else
@@ -353,12 +326,6 @@ function	profile_log_add(winner, loser, tournament)
 		else
 		{
 			result_json = "D"
-			if (h.language == "english")
-				result = "Defeat";
-			else if (h.language == "french")
-				result = "Défaite";
-			else if (h.language == "ukrainian")
-				result = "Поразка";
 			if (g.playerScore < g.aiScore)
 				score = g.playerScore + "-" + g.aiScore;
 			else
