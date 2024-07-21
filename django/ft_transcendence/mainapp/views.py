@@ -117,7 +117,7 @@ def save_game(request):
         game_type = data.get('game_type')
         result = data.get('result')
         print(user)
-        new_game = Game.create_new_game(user = user, player1 = p1, player2 = p2, score = score, date = date, result = result , game_type = game_type)
+        new_game = Game.create_new_game(user_id = user.id, player1 = p1, player2 = p2, score = score, date = date, result = result , game_type = game_type)
         new_game.save()
         all_games = serializers.serialize('json', user.games.all())
         return (HttpResponse(all_games, content_type="application/json"))

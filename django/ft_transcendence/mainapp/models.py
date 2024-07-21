@@ -30,7 +30,7 @@ class CustomUser(AbstractUser):
 
 
 class Game(models.Model):
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='games')
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='games', null=True, blank=True)
     player1 = models.CharField(max_length=50)
     player2 = models.CharField(max_length=50)
     score = models.CharField(max_length=50)
@@ -42,9 +42,10 @@ class Game(models.Model):
         return self.player1
 
     @classmethod
-    def create_new_game(self, user, player1, player2, score, date, result, game_type):
+    def create_new_game(self, user_id, player1, player2, score, date, result, game_type):
         print(player1)
-        game = self.objects.create(user = user, player1 = player1, player2 = player2, score = score,
+        game = self.objects.create(user = CustomUser.objects.get(pk=user_id), 
+                player1 = player1, player2 = player2, score = score,
                 date = date, result = result, game_type = game_type)
         return game
     

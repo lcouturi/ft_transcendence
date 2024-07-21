@@ -223,7 +223,7 @@ function	prepare_next_match()
 export const render_match_history = async (data) => {
 	const	tr = document.createElement("tr");
 	console.log(data);
-	p_data = json.parse(data);
+	p_data = JSON.parse(data);
 	console.log(p_data);
 	tr.innerHTML = `
 	<th class="text-nowrap" scope="row">
@@ -354,7 +354,6 @@ function	profile_log_add(winner, loser, tournament)
 	let username = document.getElementById("profile-name-inside").textContent;
 	save_game(username, opponent, score, date_json, type_json, result_json)
 		.then(data => {
-			console.log(data);
 			render_match_history(data)
 		})
 		.catch(err => {
