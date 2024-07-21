@@ -49,28 +49,31 @@ function add_friend_html(value, image)
 
 // envoi une demande damis
 // friend request
-document.getElementById('friend-request-form').addEventListener('submit', function(event) {
-    event.preventDefault();    
-    banner_close("#profile-banner");
-    const username = document.querySelector("#friend_to_add").value;
+if (document.getElementById('friend-request-form'))
+{
+	document.getElementById('friend-request-form').addEventListener('submit', function(event) {
+		event.preventDefault();
+		banner_close("#profile-banner");
+		const username = document.querySelector("#friend_to_add").value;
 
-    var formData = new FormData(this);
-    fetch("send_friend_request", {method: 'post', body: formData,
-        headers: {
-            'X-Requested-With': 'XMLHttpRequest',
-            'X-CSRFToken': '{% csrf_token %}'
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.error) {
-            banner_open(data.error, "#profile-banner");
-        } else {
-            add_friend_request_html(username, data.profile_image);
-        }
-    }).catch(error => {console.error('Error:', error);});
-    document.querySelector("#friend_to_add").value = "";
-});
+		var formData = new FormData(this);
+		fetch("send_friend_request", {method: 'post', body: formData,
+			headers: {
+				'X-Requested-With': 'XMLHttpRequest',
+				'X-CSRFToken': '{% csrf_token %}'
+			}
+		})
+		.then(response => response.json())
+		.then(data => {
+			if (data.error) {
+				banner_open(data.error, "#profile-banner");
+			} else {
+				add_friend_request_html(username, data.profile_image);
+			}
+		}).catch(error => {console.error('Error:', error);});
+		document.querySelector("#friend_to_add").value = "";
+	});
+}
 
 // Rejette une demande damis
 export function reject_friend_request(friend, button) {
