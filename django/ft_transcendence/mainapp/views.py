@@ -16,7 +16,6 @@ from .friend_request import *
 
 # Create your views here.
 def index(request):
-    print("hello from index")
     friends = None
     friend_requests = None
     friend_requesters = None
@@ -116,7 +115,6 @@ def save_game(request):
         date = data.get('date')
         game_type = data.get('game_type')
         result = data.get('result')
-        print(user)
         new_game = Game.create_new_game(user_id = user.id, player1 = p1, player2 = p2, score = score, date = date, result = result , game_type = game_type)
         new_game.save()
         all_games = serializers.serialize('json', user.games.all())
@@ -125,14 +123,14 @@ def save_game(request):
     return redirect(reverse("accueil"))
 
 @login_required
-def send_games(request):
-    if request.method == 'SEND_GAME':
+def get_games(request):
+    if request.method == 'POST':
         data = json.loads(request.body)
         user = CustomUser.objects.filter(username=data.get('username'))
         if not user.exists(): 
             return JsonResponse({'error': "user_not_found"}) 
-        user.game_list.add(new_game)
-        all_games = serializers.serialize('json', user.game_list)
+        user = user.first()
+        all_games = serializers.serialize('json', user.games.all())
         return (HttpResponse(all_games, content_type="application/json"))
 
     return redirect(reverse("accueil"))
@@ -168,7 +166,6 @@ def upload_image(request):
     return redirect(reverse("accueil"))
 
 def login_check(request):
-    print("hello from login")
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
@@ -186,7 +183,6 @@ def login_check(request):
         return redirect(reverse("accueil"))
     
 def logout_check(request):
-    print("hello from logout")
     logout(request)
     return redirect(reverse("accueil"))
 

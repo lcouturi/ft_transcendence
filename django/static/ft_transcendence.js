@@ -118,6 +118,46 @@ export function	banner_open(value, id)
 	document.querySelector(id).style.maxHeight = "500px";
 }
 
+export const render_match_history = async (data) => {
+	const	tr = document.createElement("tr");
+	tr.innerHTML = `
+	<th class="text-nowrap" scope="row">
+		${data.date}
+	</th>
+	<td>
+		${data.result}
+	</td>
+	<td>
+		${data.game_type}
+	</td>
+	<td>
+		${data.score}
+	</td>
+	<td>
+		${data.player2}
+	</td>`
+	document.querySelector("#profile-log").appendChild(tr);
+};
+
+export const get_games = async (username) => {
+	const response = await fetch('/get_games', {
+		headers: {
+			"Content-Type": "application/json",
+			"X-CSRFToken": CSRF_TOKEN,
+		},
+		method: 'POST',
+		credentials: 'include',
+		body: JSON.stringify({
+			'username': username,
+		}),
+	});
+	if (response.status !== SUCCESS) {
+		throw new Error('nope, u suck to get game');
+	}
+	const data = await response.json();
+	return data;
+};
+
 export function	login_complete()
 {
 	if (document.querySelector("#login-button"))
@@ -136,6 +176,16 @@ export function	login_complete()
 		prepare_next_match();
 		start_match();
 	}
+	let username = document.getElementById("profile-name-inside").textContent;
+	get_games(username)
+		.then(data => {
+			for (let i = 0; i < data.length; i++) {
+				render_match_history(data[i].fields);
+			};
+		})
+		.catch(err => {
+			console.log('error: ', err.message);
+		});
 }
 
 export function	login_validate()
@@ -220,28 +270,6 @@ function	prepare_next_match()
 	}
 }
 
-export const render_match_history = async (data) => {
-	const	tr = document.createElement("tr");
-	let game_data = data[0].fields;
-	tr.innerHTML = `
-	<th class="text-nowrap" scope="row">
-		${game_data.date}
-	</th>
-	<td>
-		${game_data.result}
-	</td>
-	<td>
-		${game_data.game_type}
-	</td>
-	<td>
-		${game_data.score}
-	</td>
-	<td>
-		${game_data.player2}
-	</td>`
-	document.querySelector("#profile-log").appendChild(tr);
-};
-
 export const save_game = async (username, player2, score, date, game_type, result) => {
 	const response = await fetch('/save_game', {
 		headers: {
@@ -259,12 +287,10 @@ export const save_game = async (username, player2, score, date, game_type, resul
 			'result': result
 		}),
 	});
-	console.log(response);
 	if (response.status !== SUCCESS) {
 		throw new Error('nope, u suck to save game');
 	}
 	const data = await response.json();
-	console.log("save game succeed");
 	return data;
 };
 
@@ -352,7 +378,9 @@ function	profile_log_add(winner, loser, tournament)
 	let username = document.getElementById("profile-name-inside").textContent;
 	save_game(username, opponent, score, date_json, type_json, result_json)
 		.then(data => {
-			render_match_history(data)
+			for (let i = 0; i < data.length; i++) {
+				render_match_history(data[i].fields);
+			};
 		})
 		.catch(err => {
 			console.log('error: ', err.message);
