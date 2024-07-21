@@ -8,6 +8,12 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $POSTGRES_USER"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    container_name: database
 
   django:
     build:
@@ -19,8 +25,11 @@ services:
       - ./django/static:/static
       - ./django/ft_transcendence/mainapp:/django/mainapp
     depends_on:
-      - database
+      database:
+        condition: service_healthy
     restart: unless-stopped
+    entrypoint: /usr/local/bin/wait-for-it.sh database:5432 -- /usr/local/bin/entrypoint.sh
+    container_name: django
 
   nginx:
     build:
@@ -36,6 +45,7 @@ services:
     depends_on:
      - django
     restart: unless-stopped
+    container_name: nginx
 
 volumes:
   postgres_data:

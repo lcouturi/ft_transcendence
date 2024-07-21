@@ -7,7 +7,7 @@ WORKDIR /django
 # Container's dependencie(s) installations.
 COPY ./tools/dependencies.sh /usr/local/bin
 RUN chmod +x /usr/local/bin/dependencies.sh && \
-	/usr/local/bin/dependencies.sh
+    /usr/local/bin/dependencies.sh
 
 # Required package(s) installation.
 COPY ./tools/requirements.txt ./
@@ -26,6 +26,10 @@ COPY ./ft_transcendence .
 # Setting up ENTRYPOINT script.
 COPY ./tools/entrypoint.sh /usr/local/bin
 RUN chmod +x /usr/local/bin/entrypoint.sh
+
+# Copy the wait-for-it script and make it executable
+COPY ./tools/wait-for-it.sh /usr/local/bin
+RUN chmod +x /usr/local/bin/wait-for-it.sh
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
