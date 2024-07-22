@@ -8,6 +8,7 @@ import
 
 let langs = {
     'french' : {
+		'forbidden_username': "Nom d'utilisateur interdit.",
         'no_username': "Aucun nom d’utilisateur fourni.",
         'no_pass' : "Aucun password fourni.",
         'password_not_identic' : "Vos mots de passes ne correspondent pas.",
@@ -18,6 +19,7 @@ let langs = {
         'invalid_password' : "Mot de passe incorrect."
     },
     'english' : {
+		'forbidden_username': "Forbidden username.",
         'no_username': "No username provided.",
         'no_pass' : "No password provided.",
         'password_not_identic' : "Passwords do not match.",
@@ -28,6 +30,7 @@ let langs = {
         'invalid_password' : "Invalid password."
     },
     'ukrainian' : {
+		'forbidden_username': "Заборонене ім'я користувача.",
         'no_username': "Ім'я користувача не вказано.",
         'no_pass' : "Пароль не надано.",
         'password_not_identic' : "Паролі не збігаються.",

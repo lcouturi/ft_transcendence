@@ -84,6 +84,11 @@ export function movePlayerPaddle() {
         g.paddleMesh.position.z -= paddleDirection.z * paddleSpeed * delta;
     }
 
+    // if the paddle intersects with the middle table, prevent the paddle from moving further
+    if (g.paddleMesh.position.z < -g.middleTableBounds) {
+        g.paddleMesh.position.z = -g.middleTableBounds;
+    }
+
     g.paddleVelocity = paddleVelocity; // Store paddle velocity for collision handling
 }
 
@@ -110,6 +115,11 @@ export function movePlayer2Paddle() {
     if (paddleBox.intersectsBox(ballBox)) {
         g.Player2PaddleMesh.position.x -= player2PaddleDirection.x * paddleSpeed * delta;
         g.Player2PaddleMesh.position.z -= player2PaddleDirection.z * paddleSpeed * delta;
+    }
+
+    // if the paddle intersects with the middle table, prevent the paddle from moving further
+    if (g.Player2PaddleMesh.position.z > g.middleTableBounds) {
+        g.Player2PaddleMesh.position.z = g.middleTableBounds;
     }
 
     g.Player2PaddleVelocity = paddleVelocity; // Store paddle velocity for collision handling
@@ -139,6 +149,11 @@ export function movePlayer3Paddle() {
         g.Player3PaddleMesh.position.z -= player3PaddleDirection.z * paddleSpeed * delta;
     }
 
+    // if the paddle intersects with the middle table, prevent the paddle from moving further
+    if (g.Player3PaddleMesh.position.z < -g.middleTableBounds) {
+        g.Player3PaddleMesh.position.z = -g.middleTableBounds;
+    }
+
     g.Player3PaddleVelocity = paddleVelocity; // Store paddle velocity for collision handling
 }
 
@@ -165,6 +180,11 @@ export function movePlayer4Paddle() {
     if (paddleBox.intersectsBox(ballBox)) {
         g.Player4PaddleMesh.position.x -= player4PaddleDirection.x * paddleSpeed * delta;
         g.Player4PaddleMesh.position.z -= player4PaddleDirection.z * paddleSpeed * delta;
+    }
+
+    // if the paddle intersects with the middle table, prevent the paddle from moving further
+    if (g.Player4PaddleMesh.position.z > g.middleTableBounds) {
+        g.Player4PaddleMesh.position.z = g.middleTableBounds;
     }
 
     g.Player4PaddleVelocity = paddleVelocity; // Store paddle velocity for collision handling
@@ -483,12 +503,14 @@ export function updateScoreDisplay() {
 }
 
 function checkPaddleBounds(paddleMesh, paddleBoundary) {
+    // down and up bounds
     if (paddleMesh.position.x < -paddleBoundary) {
         paddleMesh.position.x = -paddleBoundary; // Reset paddle position
     } else if (paddleMesh.position.x > paddleBoundary) {
         paddleMesh.position.x = paddleBoundary; // Reset paddle position
     }
 
+    // left and right bounds
     if (paddleMesh.position.z < -paddleBoundary) {
         paddleMesh.position.z = -paddleBoundary; // Reset paddle position
     } else if (paddleMesh.position.z > paddleBoundary) {

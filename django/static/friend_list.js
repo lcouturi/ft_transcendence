@@ -125,7 +125,7 @@ export function accept_friend_request(friend, button) {
         const elementToDelete = button.parentNode
         elementToDelete.parentNode.removeChild(elementToDelete);
         var image = elementToDelete.children[0].src
-        
+
         add_friend_html(friend, image);
     })
     .catch(error => {
