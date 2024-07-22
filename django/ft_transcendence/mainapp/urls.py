@@ -18,5 +18,6 @@ urlpatterns = [
     path("send_friend_request", views.request_friend),
 
     path("delete_account", views.delete_account),
-    path("change_password", views.change_password)
+    path("change_password", views.change_password),
+    path("change_username", views.change_username)
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
