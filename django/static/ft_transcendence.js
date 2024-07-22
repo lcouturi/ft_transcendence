@@ -297,8 +297,16 @@ function	profile_log_add(winner, loser, tournament)
 
 	if (h.is_tracking_disabled == true)
 		return ;
-	if (tournament == true)
+	if (tournament == true) {
+		return ;
 		type_json = "T";
+		score = "---";
+		opponent = "Tournament";
+		if (winner == h.username)
+			result_json = "V";
+		else
+			result_json = "D";
+	}
 	else
 	{
 		type_json = "M"
@@ -329,11 +337,8 @@ function	profile_log_add(winner, loser, tournament)
 			else if (h.language == "ukrainian")
 				opponent = "Командний " + opponent;
 		}
-		if (tournament == true) {
-			score = "---";
-			opponent = "Tournament";
-		}
 	}
+	console.log(score, opponent);
 	let username = document.getElementById("profile-name-inside").textContent;
 	save_game(username, opponent, score, date_json, type_json, result_json)
 		.then(data => {
