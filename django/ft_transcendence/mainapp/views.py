@@ -218,11 +218,36 @@ def delete_account(request):
     return redirect(reverse("accueil"))
 
 @login_required
+def change_username(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        new_name = data.get("newname")
+        
+        if CustomUser.objects.filter(username=new_name).exists():
+            return JsonResponse({'error': "username_exist"})
+        
+        request.user.username = new_name
+        request.user.save()
+        print("changing name to " + new_name)
+        return JsonResponse({'message': "Username changed !"})
+    return redirect(reverse("accueil"))
+
+@login_required
 def change_password(request):
     if request.method == "POST":
-        new_password = request.POST['password']
+        password = request.POST['password']
+        new_password = request.POST['newpassword']
+        new_password2 = request.POST['newpassword2']
+        
+        if request.user.check_password(password) == False:
+            return JsonResponse({'error': "current_password_not_identic"})
+        elif new_password != new_password2:
+            return JsonResponse({'error': "password_not_identic"})
+        elif len(new_password) < 5:
+            return JsonResponse({'error': "password_too_short"})
+        
         user = request.user
-        user.password = new_password
+        user.set_password(new_password)
         user.save()
-        return JsonResponse({'message': "password changed"})
+        return JsonResponse({'message': "Password sucessfully changed"})
     return JsonResponse({'error': "cannot_change_password"})
