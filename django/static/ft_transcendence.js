@@ -340,10 +340,10 @@ function	profile_update(value)
 	else if (h.language == "french")
 	{
 		document.querySelector("#profile-losses").innerHTML = h.losses + " défaite";
-		if (h.losses != 1)
+		if (h.losses > 1)
 			document.querySelector("#profile-losses").innerHTML += "s";
 		document.querySelector("#profile-wins").innerHTML = h.wins + " victoire";
-		if (h.wins != 1)
+		if (h.wins > 1)
 			document.querySelector("#profile-wins").innerHTML += "s";
 	}
 	else if (h.language == "ukrainian")
