@@ -1,5 +1,11 @@
 import { switchLanguage } from '../frontend/game/gui.js';
-import { h } from '../ft_transcendence.js';
+
+import
+{
+	h,
+	render_match_history
+} from '../ft_transcendence.js';
+
 import { g } from '../frontend/game/globals.js';
 
 export function english()
@@ -162,6 +168,12 @@ export function english()
 	document.querySelector("#login-name-label").innerHTML = "Username:";
 	document.querySelector("#login-pass-label").innerHTML = "Password:";
 	document.querySelector("#login-title").innerHTML = "Log in";
+	document.querySelector("#password-change-cancel").innerHTML = "Cancel";
+	document.querySelector("#password-change-confirm").innerHTML = "Change Password";
+	document.querySelector("#password-change-new-label").innerHTML = "New Password:";
+	document.querySelector("#password-change-new2-label").innerHTML = "Confirm Password:";
+	document.querySelector("#password-change-old-label").innerHTML = "Current Password:";
+	document.querySelector("#password-change-title").innerHTML = "Change Password";
 	document.querySelector("#pause-label").innerHTML = "Pause";
 	document.querySelector("#play").title = "Play";
 	document.querySelector("#play-label").innerHTML = "Play";
@@ -169,19 +181,27 @@ export function english()
 	{
 		document.querySelector("#profile-delete-label").innerHTML = "Delete Account";
 		document.querySelector("#profile-friends").innerHTML = "Manage Friends";
-		document.querySelector("#profile-friends-count").innerHTML = "Friends: " + h.friends_array.length;
+		document.querySelector("#profile-friends-count").innerHTML = "Friends: " + document.querySelector("#profile-list-friend").childElementCount;
 		document.querySelector("#profile-friends-name").innerHTML = "Friends";
 		document.querySelector("#profile-history").innerHTML = "Match History";
+		document.querySelector("#profile-history-label").innerHTML = "Match history:";
 		document.querySelector("#profile-history-name").innerHTML = "Match History";
 		document.querySelector("#profile-history-opponent").innerHTML = "Opponent";
 		document.querySelector("#profile-history-result").innerHTML = "Result";
 		document.querySelector("#profile-history-score").innerHTML = "Score";
 		document.querySelector("#profile-history-time").innerHTML = "Time";
 		document.querySelector("#profile-history-type").innerHTML = "Type";
+		document.querySelector("#profile-preferences").innerHTML = "Preferences";
+		document.querySelector("#profile-preferences-password").innerHTML = "Change Password";
+		document.querySelector("#profile-preferences-title").innerHTML = "Preferences";
 		document.querySelector("#friend_to_add").placeholder = "Enter username";
 		document.querySelector("#profile-logout-label").innerHTML = "Log out";
-		document.querySelector("#profile-losses").innerHTML = h.losses + " Losses";
-		document.querySelector("#profile-wins").innerHTML = h.wins + " Wins";
+		document.querySelector("#profile-losses").innerHTML = h.losses + " Loss";
+		if (h.losses != 1)
+			document.querySelector("#profile-losses").innerHTML += "es";
+		document.querySelector("#profile-wins").innerHTML = h.wins + " Win";
+		if (h.wins != 1)
+			document.querySelector("#profile-wins").innerHTML += "s";
 	}
 	else
 	{
@@ -213,6 +233,14 @@ export function english()
 	{
 		document.querySelector("#contestant1").innerHTML += " Team";
 		document.querySelector("#contestant2").innerHTML += " Team";
+	}
+	if (h.match_history)
+	{
+		h.losses = 0;
+		h.wins = 0;
+		document.querySelector("#profile-log").innerHTML = "";
+		for (let i = 0; i < h.match_history.length; i++)
+			render_match_history(h.match_history[i].fields);
 	}
 }
 
@@ -376,6 +404,12 @@ export function french()
 	document.querySelector("#login-name-label").innerHTML = "Nom d’utilisateur:";
 	document.querySelector("#login-pass-label").innerHTML = "Mot de passe:";
 	document.querySelector("#login-title").innerHTML = "Connexion";
+	document.querySelector("#password-change-cancel").innerHTML = "Annuler";
+	document.querySelector("#password-change-confirm").innerHTML = "Changer le mot de passe";
+	document.querySelector("#password-change-new-label").innerHTML = "Nouveau mot de passe:";
+	document.querySelector("#password-change-new2-label").innerHTML = "Confirmez le mot de passe:";
+	document.querySelector("#password-change-old-label").innerHTML = "Mot de passe actuel:";
+	document.querySelector("#password-change-title").innerHTML = "Changer le mot de passe";
 	document.querySelector("#pause-label").innerHTML = "Pause";
 	document.querySelector("#play").title = "Jouer";
 	document.querySelector("#play-label").innerHTML = "Jouer";
@@ -383,19 +417,27 @@ export function french()
 	{
 		document.querySelector("#profile-delete-label").innerHTML = "Supprimer le compte";
 		document.querySelector("#profile-friends").innerHTML = "Gérer les amis";
-		document.querySelector("#profile-friends-count").innerHTML = "Amis: " + h.friends_array.length;
+		document.querySelector("#profile-friends-count").innerHTML = "Amis: " + document.querySelector("#profile-list-friend").childElementCount;
 		document.querySelector("#profile-friends-name").innerHTML = "Amis";
 		document.querySelector("#profile-history").innerHTML = "Historique des matchs";
+		document.querySelector("#profile-history-label").innerHTML = "Historique des matchs:";
 		document.querySelector("#profile-history-name").innerHTML = "Historique des matchs";
 		document.querySelector("#profile-history-opponent").innerHTML = "Adversaire";
 		document.querySelector("#profile-history-result").innerHTML = "Résultat";
 		document.querySelector("#profile-history-score").innerHTML = "Score";
 		document.querySelector("#profile-history-time").innerHTML = "Temps";
 		document.querySelector("#profile-history-type").innerHTML = "Type";
+		document.querySelector("#profile-preferences").innerHTML = "Préférences";
+		document.querySelector("#profile-preferences-password").innerHTML = "Changer le mot de passe";
+		document.querySelector("#profile-preferences-title").innerHTML = "Préférences";
 		document.querySelector("#friend_to_add").placeholder = "Entrez le nom d’utilisateur";
 		document.querySelector("#profile-logout-label").innerHTML = "Déconnexion";
-		document.querySelector("#profile-losses").innerHTML = h.losses + " défaites";
-		document.querySelector("#profile-wins").innerHTML = h.wins + " victoires";
+		document.querySelector("#profile-losses").innerHTML = h.losses + " défaite";
+		if (h.losses > 1)
+			document.querySelector("#profile-losses").innerHTML += "s";
+		document.querySelector("#profile-wins").innerHTML = h.wins + " victoire";
+		if (h.wins > 1)
+			document.querySelector("#profile-wins").innerHTML += "s";
 	}
 	else
 	{
@@ -427,6 +469,14 @@ export function french()
 	{
 		document.querySelector("#contestant1").innerHTML = "Équipe " + h.contestant1;
 		document.querySelector("#contestant2").innerHTML = "Équipe " + h.contestant2;
+	}
+	if (h.match_history)
+	{
+		h.losses = 0;
+		h.wins = 0;
+		document.querySelector("#profile-log").innerHTML = "";
+		for (let i = 0; i < h.match_history.length; i++)
+			render_match_history(h.match_history[i].fields);
 	}
 }
 
@@ -590,6 +640,12 @@ export function ukrainian()
 	document.querySelector("#login-name-label").innerHTML = "Ім'я користувача:";
 	document.querySelector("#login-pass-label").innerHTML = "Пароль:";
 	document.querySelector("#login-title").innerHTML = "Авторизуватися";
+	document.querySelector("#password-change-cancel").innerHTML = "Скасувати";
+	document.querySelector("#password-change-confirm").innerHTML = "Змінити пароль";
+	document.querySelector("#password-change-new-label").innerHTML = "Новий пароль:";
+	document.querySelector("#password-change-new2-label").innerHTML = "Підтвердьте пароль:";
+	document.querySelector("#password-change-old-label").innerHTML = "Поточний пароль:";
+	document.querySelector("#password-change-title").innerHTML = "Змінити пароль";
 	document.querySelector("#pause-label").innerHTML = "Пауза";
 	document.querySelector("#play").title = "Грати";
 	document.querySelector("#play-label").innerHTML = "Грати";
@@ -597,19 +653,29 @@ export function ukrainian()
 	{
 		document.querySelector("#profile-delete-label").innerHTML = "Видалити аккаунт";
 		document.querySelector("#profile-friends").innerHTML = "Керуйте друзями";
-		document.querySelector("#profile-friends-count").innerHTML = "Друзі: " + h.friends_array.length;
+		document.querySelector("#profile-friends-count").innerHTML = "Друзі: " + document.querySelector("#profile-list-friend").childElementCount;
 		document.querySelector("#profile-friends-name").innerHTML = "Друзі";
 		document.querySelector("#profile-history").innerHTML = "Історія матчів";
+		document.querySelector("#profile-history-label").innerHTML = "Історія матчів:";
 		document.querySelector("#profile-history-name").innerHTML = "Історія матчів";
 		document.querySelector("#profile-history-opponent").innerHTML = "Суперник";
 		document.querySelector("#profile-history-result").innerHTML = "Результат";
 		document.querySelector("#profile-history-score").innerHTML = "Оцінка";
 		document.querySelector("#profile-history-time").innerHTML = "Час";
 		document.querySelector("#profile-history-type").innerHTML = "Тип";
+		document.querySelector("#profile-preferences").innerHTML = "Налаштування";
+		document.querySelector("#profile-preferences-password").innerHTML = "Змінити пароль";
+		document.querySelector("#profile-preferences-title").innerHTML = "Налаштування";
 		document.querySelector("#friend_to_add").placeholder = "Введіть ім'я користувача";
 		document.querySelector("#profile-logout-label").innerHTML = "Вийти";
-		document.querySelector("#profile-losses").innerHTML = h.losses + " втрати";
-		document.querySelector("#profile-wins").innerHTML = h.wins + " виграє";
+		if (h.losses != 1)
+			document.querySelector("#profile-losses").innerHTML = h.losses + " втрати";
+		else
+			document.querySelector("#profile-losses").innerHTML = h.losses + " втрата";
+		if (h.wins != 1)
+			document.querySelector("#profile-wins").innerHTML = h.wins + " виграє";
+		else
+			document.querySelector("#profile-wins").innerHTML = h.wins + " виграти";
 	}
 	else
 	{
@@ -641,5 +707,13 @@ export function ukrainian()
 	{
 		document.querySelector("#contestant1").innerHTML = "Командний " + h.contestant1;
 		document.querySelector("#contestant2").innerHTML = "Командний " + h.contestant2;
+	}
+	if (h.match_history)
+	{
+		h.losses = 0;
+		h.wins = 0;
+		document.querySelector("#profile-log").innerHTML = "";
+		for (let i = 0; i < h.match_history.length; i++)
+			render_match_history(h.match_history[i].fields);
 	}
 }

@@ -9,6 +9,7 @@ export const h =
 	is_tracking_disabled: false,
 	language: "english",
 	losses: 0,
+	match_history: null,
 	paused: false,
 	username: null,
 	wins: 0,
@@ -24,7 +25,6 @@ const tournament_content = document.getElementById("tournament_content");
 const new_tournament = document.getElementById("new_tournament");
 const CSRF_TOKEN = document.querySelector('[name=csrfmiddlewaretoken]').value;
 const SUCCESS = 200;
-let match_history;
 
 export function	add_item(prefix, value)
 {
@@ -37,8 +37,11 @@ export function	add_item(prefix, value)
 			array = h.friends_array;
 		if (value == null)
 			item = document.querySelector("#" + prefix + "-list-item").value;
-		else
+		else {
 			item = value;
+		}
+		item = item.replace(/^\s+|\s+$/g, '');
+
 		if (prefix == "profile" && item == h.username)
 		{
 			if (h.language == "english")
@@ -100,6 +103,7 @@ export function	add_item(prefix, value)
 				document.querySelector("#profile-friends-count").innerHTML = "Друзі: " + h.friends_array.length;
 		});
 		document.querySelector("#" + prefix + "-list").appendChild(div);
+		console.log("item before push: ", item);
 		array.push(item);
 		//document.querySelector("#" + prefix + "-list-item").value = "";
 		if (prefix == "tournament")
@@ -167,7 +171,7 @@ export function	login_complete()
 	let username = document.getElementById("profile-name-inside").textContent;
 	get_games(username)
 		.then(data => {
-			match_history = data;
+			h.match_history = data;
 			for (let i = 0; i < data.length; i++) {
 				render_match_history(data[i].fields);
 			};
@@ -280,30 +284,6 @@ function	prepare_next_match()
 	}
 }
 
-export const save_game = async (username, player2, score, date, game_type, result) => {
-	const response = await fetch('/save_game', {
-		headers: {
-			"Content-Type": "application/json",
-			"X-CSRFToken": CSRF_TOKEN,
-		},
-		method: 'SAVE_GAME',
-		credentials: 'include',
-		body: JSON.stringify({
-			'player1': username,
-			'player2': player2,
-			'score': score,
-			'date': date,
-			'game_type': game_type,
-			'result': result
-		}),
-	});
-	if (response.status !== SUCCESS) {
-		throw new Error('nope, u suck to save game');
-	}
-	const data = await response.json();
-	return data;
-};
-
 function	profile_log_add(winner, loser, tournament)
 {
 	const	date = new Date();
@@ -357,7 +337,9 @@ function	profile_log_add(winner, loser, tournament)
 	let username = document.getElementById("profile-name-inside").textContent;
 	save_game(username, opponent, score, date_json, type_json, result_json)
 		.then(data => {
-			match_history = data;
+			h.losses = 0;
+			h.match_history = data;
+			h.wins = 0;
 			document.querySelector("#profile-log").innerHTML = "";
 			for (let i = 0; i < data.length; i++)
 				render_match_history(data[i].fields);
@@ -385,18 +367,32 @@ function	profile_update(value)
 	}
 	if (h.language == "english")
 	{
-		document.querySelector("#profile-losses").innerHTML = h.losses + " Losses";
-		document.querySelector("#profile-wins").innerHTML = h.wins + " Wins";
+		document.querySelector("#profile-losses").innerHTML = h.losses + " Loss";
+		if (h.losses != 1)
+			document.querySelector("#profile-losses").innerHTML += "es";
+		document.querySelector("#profile-wins").innerHTML = h.wins + " Win";
+		if (h.wins != 1)
+			document.querySelector("#profile-wins").innerHTML += "s";
 	}
 	else if (h.language == "french")
 	{
-		document.querySelector("#profile-losses").innerHTML = h.losses + " défaites";
-		document.querySelector("#profile-wins").innerHTML = h.wins + " victoires";
+		document.querySelector("#profile-losses").innerHTML = h.losses + " défaite";
+		if (h.losses > 1)
+			document.querySelector("#profile-losses").innerHTML += "s";
+		document.querySelector("#profile-wins").innerHTML = h.wins + " victoire";
+		if (h.wins > 1)
+			document.querySelector("#profile-wins").innerHTML += "s";
 	}
 	else if (h.language == "ukrainian")
 	{
-		document.querySelector("#profile-losses").innerHTML = h.losses + " втрати";
-		document.querySelector("#profile-wins").innerHTML = h.wins + " виграє";
+		if (h.losses != 1)
+			document.querySelector("#profile-losses").innerHTML = h.losses + " втрати";
+		else
+			document.querySelector("#profile-losses").innerHTML = h.losses + " втрата";
+		if (h.wins != 1)
+			document.querySelector("#profile-wins").innerHTML = h.wins + " виграє";
+		else
+			document.querySelector("#profile-wins").innerHTML = h.wins + " виграти";
 	}
 }
 
@@ -432,7 +428,7 @@ export function	register_validate()
 		if (h.language == "english")
 			banner_open("No password provided.", "#register-banner");
 		else if (h.language == "french")
-			banner_open("Aucun mot de pass fourni.", "#register-banner");
+			banner_open("Aucun mot de passe fourni.", "#register-banner");
 		else if (h.language == "ukrainian")
 			banner_open("Пароль не надано.", "#register-banner");
 		return ;
@@ -451,41 +447,56 @@ export function	register_validate()
 }
 
 export const	render_match_history = async (data) => {
-	if (data.result == "V")
+	let	game_type = data.game_type
+	let	player2 = data.player2;
+	let	result = data.result;
+
+	if (result == "V")
 	{
+		profile_update(1);
 		if (h.language == "english")
-			data.result = "Victory";
+			result = "Victory";
 		else if (h.language == "french")
-			data.result = "Victoire";
+			result = "Victoire";
 		else if (h.language == "ukrainian")
-			data.result = "Перемога";
+			result = "Перемога";
 	}
-	else if (data.result == "D")
+	else if (result == "D")
 	{
+		profile_update(-1);
 		if (h.language == "english")
-			data.result = "Defeat";
+			result = "Defeat";
 		else if (h.language == "french")
-			data.result = "Défaite";
+			result = "Défaite";
 		else if (h.language == "ukrainian")
-			data.result = "Поразка";
+			result = "Поразка";
 	}
-	if (data.game_type == "M")
+	if (game_type == "M")
 	{
 		if (h.language == "english")
-			data.game_type = "Match";
+			game_type = "Match";
 		else if (h.language == "french")
-			data.game_type = "Match";
+			game_type = "Match";
 		else if (h.language == "ukrainian")
-			data.game_type = "Матч";
+			game_type = "Матч";
 	}
-	else if (data.game_type == "T")
+	else if (game_type == "T")
 	{
 		if (h.language == "english")
-			data.game_type = "Tournament";
+			game_type = "Tournament";
 		else if (h.language == "french")
-			data.game_type = "Tournoi";
+			game_type = "Tournoi";
 		else if (h.language == "ukrainian")
-			data.game_type = "Турнір";
+			game_type = "Турнір";
+	}
+	if (player2 == "Guest" || player2 == "Invité" || player2 == "Гість")
+	{
+		if (h.language == "english")
+			player2 = "Guest";
+		else if (h.language == "french")
+			player2 = "Invité";
+		else if (h.language == "ukrainian")
+			player2 = "Гість";
 	}
 	const	tr = document.createElement("tr");
 	tr.innerHTML = `
@@ -493,16 +504,16 @@ export const	render_match_history = async (data) => {
 		${data.date}
 	</th>
 	<td>
-		${data.result}
+		${result}
 	</td>
 	<td>
-		${data.game_type}
+		${game_type}
 	</td>
 	<td>
 		${data.score}
 	</td>
 	<td>
-		${data.player2}
+		${player2}
 	</td>`
 	document.querySelector("#profile-log").appendChild(tr);
 };
@@ -586,8 +597,34 @@ export function	sanitize(string)
 	string = string.replace(/\>/g, "&gt;").replace(/"/g, "&quot;");
 	string = string.replace(/'/g, "&#x27;").replace(/\//g, "&#x2F;");
 	string = string.replace(/`/g, "&grave;").replace(/=/g, "&#x3D;");
+
+
 	return (string);
 }
+
+export const	save_game = async (username, player2, score, date, game_type, result) => {
+	const response = await fetch('/save_game', {
+		headers: {
+			"Content-Type": "application/json",
+			"X-CSRFToken": CSRF_TOKEN,
+		},
+		method: 'SAVE_GAME',
+		credentials: 'include',
+		body: JSON.stringify({
+			'player1': username,
+			'player2': player2,
+			'score': score,
+			'date': date,
+			'game_type': game_type,
+			'result': result
+		}),
+	});
+	if (response.status !== SUCCESS) {
+		throw new Error('nope, u suck to save game');
+	}
+	const data = await response.json();
+	return data;
+};
 
 export function	start_match()
 {
@@ -702,10 +739,11 @@ export function	unpause()
 
 export function	unsanitize(string)
 {
-	string = string.replace(/&amp;/g, "&").replace(/&lt;/g, "<");
-	string = string.replace(/&gt;/g, ">").replace(/&quot;/g, '"');
-	string = string.replace(/&#x27;/g, "'").replace(/&#x2F;/g, "/");
-	string = string.replace(/&grave;/g, "`").replace(/&#x3D;/g, "=");
+	string = string.replace(/&amp;/g, "&").replace(/&lt;/g, "<"); // less-than
+	string = string.replace(/&gt;/g, ">").replace(/&quot;/g, '"'); // double quote
+	string = string.replace(/&#x27;/g, "'").replace(/&#x2F;/g, "/"); // single quote
+	string = string.replace(/&grave;/g, "`").replace(/&#x3D;/g, "="); // grave accent
+
 	return (string);
 }
 

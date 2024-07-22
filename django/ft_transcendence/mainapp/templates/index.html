@@ -1,6 +1,7 @@
 {% load static %}
 <!doctype html>
 <html class="h-100" lang="en-US">
+	<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
 	<title>
 		The Great Avocado War of '24
 	</title>
@@ -98,6 +99,63 @@
 							</button>
 						</form>
 					</div>
+				</div>
+			</div>
+		</div>
+		<div aria-hidden="true" aria-labelledby="password-change" class="modal fade" id="password-change" tabindex="-1">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="bg-body border modal-content p-1 rounded">
+					<div class="modal-header p-1">
+						<h2 class="m-1 pe-none" id="password-change-title">
+							Change Password
+						</h2>
+					</div>
+					<form action="change_password" id="password-change-form" method="post">
+					{% csrf_token %}
+						<div class="d-flex flex-column m-1 modal-body overflow-hidden p-0">
+							<div class="border d-flex flex-column frame m-1 overflow-hidden p-0 rounded">
+								<div class="d-flex overflow-hidden p-0 warning-banner" id="password-change-banner" style="max-height: 0">
+									<div class="me-auto ms-1 my-auto pe-1 pe-none" id="password-change-banner-text">
+									</div>
+									<button class="border borderless-button d-flex p-0 rounded" id="password-change-banner-close" type="button">
+										<img class="m-1" height="22" src='{% static "img/22/window-close.svg" %}'>
+									</button>
+								</div>
+								<div class="d-flex m-3">
+									<div class="d-flex flex-column">
+										<div class="my-auto pe-none text-end text-nowrap" id="password-change-old-label">
+											Current Password:
+										</div>
+										<div class="my-auto pe-none text-end text-nowrap" id="password-change-new-label">
+											New Password:
+										</div>
+										<div class="my-auto pe-none text-end text-nowrap" id="password-change-new2-label">
+											Confirm Password:
+										</div>
+									</div>
+									<div class="d-flex flex-column w-100">
+										<input class="border m-1 p-1 rounded w-100" id="password-change-old" name="password" type="password">
+										<input class="border m-1 p-1 rounded w-100" id="password-change-new" name="newpassword" type="password">
+										<input class="border m-1 p-1 rounded w-100" id="password-change-new2" name="newpassword2" type="password">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer p-1">
+							<button class="border button d-flex m-1 ms-auto rounded shadow-sm" data-bs-dismiss="modal" type="button">
+								<img class="me-1" height="22" src='{% static "img/22/dialog-cancel.svg" %}'>
+								<div class="my-auto" id="password-change-cancel">
+									Cancel
+								</div>
+							</button>
+							<button class="border button d-flex m-1 rounded shadow-sm" id="password-change-finish" type="submit">
+								<img class="me-1" height="22" src='{% static "img/22/dialog-password.svg" %}'>
+								<div class="my-auto" id="password-change-confirm">
+									Change Password
+								</div>
+							</button>
+						</div>
+					</form>
 				</div>
 			</div>
 		</div>
@@ -238,6 +296,32 @@
 			};
 		}
 
+		document.querySelector("#password-change-finish").addEventListener("click", function(e)
+		{
+			e.preventDefault();
+			if (document.querySelector("#password-change-old").value == "" || document.querySelector("#password-change-new").value == "")
+			{
+				if (h.language == "english")
+					banner_open("No password provided.", "#password-change-banner");
+				else if (h.language == "french")
+					banner_open("Aucun mot de pass fourni.", "#password-change-banner");
+				else if (h.language == "ukrainian")
+					banner_open("Пароль не надано.", "#password-change-banner");
+				return ;
+			}
+			else if (document.querySelector("#password-change-new").value != document.querySelector("#password-change-new2").value)
+			{
+				if (h.language == "english")
+					banner_open("Passwords do not match.", "#password-change-banner");
+				else if (h.language == "french")
+					banner_open("Vos mots de passes ne correspondent pas.", "#password-change-banner");
+				else if (h.language == "ukrainian")
+					banner_open("Паролі не збігаються.", "#password-change-banner");
+				return ;
+			}
+			document.querySelector("#password-change-form").submit();
+		});
+
 		document.querySelector("#contestant1-victory").addEventListener("click", function(e)
 		{
 			e.preventDefault();
@@ -248,6 +332,18 @@
 		{
 			e.preventDefault();
 			result(2);
+		});
+
+		document.querySelector("#delete-confirm").addEventListener("hidden.bs.modal", function(e)
+		{
+			e.preventDefault();
+			unpause();
+		});
+
+		document.querySelector("#delete-confirm").addEventListener("shown.bs.modal", function(e)
+		{
+			e.preventDefault();
+			pause();
 		});
 
 		document.querySelector("#english").addEventListener("change", function(e)
@@ -271,9 +367,15 @@
 			document.querySelector("#profile-history-checkbox").addEventListener("change", function(e)
 			{
 				if (document.querySelector("#profile-history-checkbox").checked == true)
+				{
 					h.is_tracking_disabled = false;
+					document.querySelector("#profile-history-button").classList.remove("d-none");
+				}
 				else
+				{
 					h.is_tracking_disabled = true;
+					document.querySelector("#profile-history-button").classList.add("d-none");
+				}
 			});
 
 			document.querySelector("#profile-banner-close").addEventListener("click", function(e)
@@ -329,12 +431,6 @@
 			});
 		{% endif %}
 
-		document.querySelector("#ukrainian").addEventListener("change", function(e)
-		{
-			e.preventDefault();
-			ukrainian();
-		});
-
 		document.querySelector("#login").addEventListener("hidden.bs.modal", function(e)
 		{
 			e.preventDefault();
@@ -351,6 +447,24 @@
 		{
 			e.preventDefault();
 			banner_close('#login-banner');
+		});
+
+		document.querySelector("#password-change").addEventListener("hidden.bs.modal", function(e)
+		{
+			e.preventDefault();
+			unpause();
+		});
+
+		document.querySelector("#password-change").addEventListener("shown.bs.modal", function(e)
+		{
+			e.preventDefault();
+			pause();
+		});
+
+		document.querySelector("#password-change-banner-close").addEventListener("click", function(e)
+		{
+			e.preventDefault();
+			banner_close('#password-change-banner');
 		});
 
 		document.querySelector("#pause").addEventListener("click", function(e)
@@ -463,6 +577,12 @@
 		{
 			e.preventDefault();
 			start_match();
+		});
+
+		document.querySelector("#ukrainian").addEventListener("change", function(e)
+		{
+			e.preventDefault();
+			ukrainian();
 		});
 	</script>
 	<script src='{% static "frontend/game/main.js" %}' type="module">

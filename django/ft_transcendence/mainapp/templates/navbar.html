@@ -119,16 +119,13 @@
 												0 Losses
 											</div>
 										</div>
-										<div class="d-flex w-100">
-											<input checked class="me-1 my-auto" id="profile-history-checkbox" type="checkbox">
-											<button class="border button d-flex my-1 ms-auto rounded shadow-sm w-100" data-bs-slide-to="1" data-bs-target="#profile" type="button">
-												<img class="me-1 ms-auto" height="22" src='{% static "img/22/appointment-new.svg" %}'>
-												<div class="me-auto my-auto text-nowrap" id="profile-history">
-													Match History
-												</div>
-												<img class="ms-1 my-auto" height="16" src='{% static "img/16/go-next.svg" %}'>
-											</button>
-										</div>
+										<button class="border button d-flex my-1 ms-auto rounded shadow-sm w-100" data-bs-slide-to="1" data-bs-target="#profile" id="profile-history-button" type="button">
+											<img class="me-1 ms-auto" height="22" src='{% static "img/22/appointment-new.svg" %}'>
+											<div class="me-auto my-auto text-nowrap" id="profile-history">
+												Match History
+											</div>
+											<img class="ms-1 my-auto" height="16" src='{% static "img/16/go-next.svg" %}'>
+										</button>
 										<div class="d-flex mx-auto my-1 pe-none" id="profile-friends-count">
 											Friends: 0
 										</div>
@@ -136,6 +133,13 @@
 											<img class="me-1 ms-auto" height="22" src='{% static "img/22/address-book-new.svg" %}'>
 											<div class="me-auto my-auto text-nowrap" id="profile-friends">
 												Manage Friends
+											</div>
+											<img class="ms-1 my-auto" height="16" src='{% static "img/16/go-next.svg" %}'>
+										</button>
+										<button class="border button d-flex m-1 ms-auto rounded shadow-sm w-100" data-bs-slide-to="3" data-bs-target="#profile" type="button">
+											<img class="me-1 ms-auto" height="22" src='{% static "img/22/configure.svg" %}'>
+											<div class="me-auto my-auto text-nowrap" id="profile-preferences">
+												Preferences
 											</div>
 											<img class="ms-1 my-auto" height="16" src='{% static "img/16/go-next.svg" %}'>
 										</button>
@@ -147,12 +151,6 @@
 												</div>
 											</button>
 										</form>
-										<button class="border button d-flex m-1 ms-auto rounded shadow-sm w-100" data-bs-target="#delete-confirm" data-bs-toggle="modal" type="submit">
-											<img class="me-1 ms-auto" height="22" src='{% static "img/22/edit-delete.svg" %}'>
-											<div class="me-auto my-auto text-nowrap" id="profile-delete-label">
-												Delete Account
-											</div>
-										</button>
 									</div>
 								</div>
 								<div class="carousel-item">
@@ -242,18 +240,48 @@
 											{% endfor %}
 											<div id="profile-list-friend" style="min-width: min-content;">
 												{% for friend in friends %}
-												<div class="d-flex" style="min-width: min-content;">
-													<img class="mx-1 my-auto rounded-circle" height="22" src="{{ friend.get_image_profile_url }}" title="Away" width="22">
-													<div class="m-1 p-1 w-100" style="min-width: min-content;">
-														{{ friend.username }}
+													<div class="d-flex" style="min-width: min-content;">
+														<img class="mx-1 my-auto rounded-circle" height="22" src="{{ friend.get_image_profile_url }}" title="Away" width="22">
+														<div class="m-1 p-1 w-100" style="min-width: min-content;">
+															{{ friend.username }}
+														</div>
+														<button class="border button d-flex delete m-1 rounded shadow-sm" type="submit" id="deleteButton" onclick="delete_friend('{{ friend.username }}',this)">
+															<img class="icon" height="22" src="/static/img/22/list-remove.svg">
+														</button>
 													</div>
-													<button class="border button d-flex delete m-1 rounded shadow-sm" type="submit" id="deleteButton" onclick="delete_friend('{{ friend.username }}',this)">
-														<img class="icon" height="22" src="/static/img/22/list-remove.svg">
-													</button>
-												</div>
 												{% endfor %}
 											</div>
 										</div>
+									</div>
+								</div>
+								<div class="carousel-item">
+									<div class="bg-body-tertiary border-bottom d-flex p-2">
+										<button class="border borderless-button d-flex mx-1 my-auto p-0 rounded" data-bs-slide-to="0" data-bs-target="#profile" type="button">
+											<img class="m-1" height="22" src='{% static "img/22/go-previous.svg" %}'>
+										</button>
+										<h3 class="m-auto pe-none text-nowrap" id="profile-preferences-title">
+											Preferences
+										</h3>
+									</div>
+									<div class="m-2">
+										<div class="d-flex">
+											<div class="me-1 my-auto text-nowrap" id="profile-history-label">
+												Match history:
+											</div>
+											<input checked class="ms-1 my-auto" id="profile-history-checkbox" type="checkbox">
+										</div>
+										<button class="border button d-flex m-1 ms-auto rounded shadow-sm w-100" data-bs-target="#password-change" data-bs-toggle="modal" type="button">
+											<img class="me-1 ms-auto" height="22" src='{% static "img/22/dialog-password.svg" %}'>
+											<div class="me-auto my-auto text-nowrap" id="profile-preferences-password">
+												Change Password
+											</div>
+										</button>
+										<button class="border button d-flex m-1 ms-auto rounded shadow-sm w-100" data-bs-target="#delete-confirm" data-bs-toggle="modal" type="button">
+											<img class="me-1 ms-auto" height="22" src='{% static "img/22/edit-delete.svg" %}'>
+											<div class="me-auto my-auto text-nowrap" id="profile-delete-label">
+												Delete Account
+											</div>
+										</button>
 									</div>
 								</div>
 							</div>
