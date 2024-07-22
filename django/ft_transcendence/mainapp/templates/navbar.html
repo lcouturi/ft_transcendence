@@ -214,7 +214,7 @@
 											<div id="profile-list-friend-request" style="min-width: min-content;">
 												{% for friend in friend_requests %}
 													<div class="d-flex" style="min-width: min-content;" id = "myfriend_{{ friend.username }}">
-														<img class="mx-1 my-auto object-fit-cover rounded-circle" height="22" src="{{ friend.get_image_profile_url }}" style="aspect-ratio: 1;" title="Away" width="22">
+														<!--<img class="mx-1 my-auto object-fit-cover rounded-circle" height="22" src="{{ friend.get_image_profile_url }}" style="aspect-ratio: 1;" title="Away" width="22">-->
 														<div class="m-1 p-1 w-100" style="min-width: min-content;">
 															{{ friend.username }} (pending)
 														</div>
@@ -241,7 +241,7 @@
 											<div id="profile-list-friend" style="min-width: min-content;">
 												{% for friend in friends %}
 													<div class="d-flex" style="min-width: min-content;">
-														<img class="mx-1 my-auto object-fit-cover rounded-circle" height="22" src="{{ friend.get_image_profile_url }}" style="aspect-ratio: 1;" title="Away" width="22">
+														<!--<img class="mx-1 my-auto object-fit-cover rounded-circle" height="22" src="{{ friend.get_image_profile_url }}" style="aspect-ratio: 1;" title="Away" width="22">-->
 														<div class="m-1 p-1 w-100" style="min-width: min-content;">
 															{{ friend.username }}
 														</div>

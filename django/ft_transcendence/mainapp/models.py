@@ -25,7 +25,7 @@ class CustomUser(AbstractUser):
     
     def get_image_profile_url(self):
         if not self.image_profile:
-            return settings.MEDIA_URL + 'default_profile_image.jpg'
+            return '/static/img/default_profile_image.jpg'
         return self.image_profile.url
 
 
