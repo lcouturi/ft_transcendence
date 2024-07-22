@@ -421,7 +421,7 @@ export const	render_match_history = async (data) => {
 			data.result = "Victory";
 		else if (h.language == "french")
 			data.result = "Victoire";
-		else if (h.language == "ukrainain")
+		else if (h.language == "ukrainian")
 			data.result = "Перемога";
 	}
 	else if (data.result == "D")
@@ -430,7 +430,7 @@ export const	render_match_history = async (data) => {
 			data.result = "Defeat";
 		else if (h.language == "french")
 			data.result = "Défaite";
-		else if (h.language == "ukrainain")
+		else if (h.language == "ukrainian")
 			data.result = "Поразка";
 	}
 	if (data.game_type == "M")
@@ -439,7 +439,7 @@ export const	render_match_history = async (data) => {
 			data.game_type = "Match";
 		else if (h.language == "french")
 			data.game_type = "Match";
-		else if (h.language == "ukrainain")
+		else if (h.language == "ukrainian")
 			data.game_type = "Матч";
 	}
 	else if (data.game_type == "T")
@@ -448,7 +448,7 @@ export const	render_match_history = async (data) => {
 			data.game_type = "Tournament";
 		else if (h.language == "french")
 			data.game_type = "Tournoi";
-		else if (h.language == "ukrainain")
+		else if (h.language == "ukrainian")
 			data.game_type = "Турнір";
 	}
 	const	tr = document.createElement("tr");
