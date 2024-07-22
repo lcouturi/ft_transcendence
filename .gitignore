@@ -3,3 +3,4 @@ patate
 Pipfile
 Pipfile.lock
 .DS_Store
+*.env
