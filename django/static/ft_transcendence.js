@@ -330,18 +330,32 @@ function	profile_update(value)
 	}
 	if (h.language == "english")
 	{
-		document.querySelector("#profile-losses").innerHTML = h.losses + " Losses";
-		document.querySelector("#profile-wins").innerHTML = h.wins + " Wins";
+		document.querySelector("#profile-losses").innerHTML = h.losses + " Loss";
+		if (h.losses != 1)
+			document.querySelector("#profile-losses").innerHTML += "es";
+		document.querySelector("#profile-wins").innerHTML = h.wins + " Win";
+		if (h.wins != 1)
+			document.querySelector("#profile-wins").innerHTML += "s";
 	}
 	else if (h.language == "french")
 	{
-		document.querySelector("#profile-losses").innerHTML = h.losses + " défaites";
-		document.querySelector("#profile-wins").innerHTML = h.wins + " victoires";
+		document.querySelector("#profile-losses").innerHTML = h.losses + " défaite";
+		if (h.losses != 1)
+			document.querySelector("#profile-losses").innerHTML += "s";
+		document.querySelector("#profile-wins").innerHTML = h.wins + " victoire";
+		if (h.wins != 1)
+			document.querySelector("#profile-wins").innerHTML += "s";
 	}
 	else if (h.language == "ukrainian")
 	{
-		document.querySelector("#profile-losses").innerHTML = h.losses + " втрати";
-		document.querySelector("#profile-wins").innerHTML = h.wins + " виграє";
+		if (h.losses != 1)
+			document.querySelector("#profile-losses").innerHTML = h.losses + " втрати";
+		else
+			document.querySelector("#profile-losses").innerHTML = h.losses + " втрата";
+		if (h.wins != 1)
+			document.querySelector("#profile-wins").innerHTML = h.wins + " виграє";
+		else
+			document.querySelector("#profile-wins").innerHTML = h.wins + " виграти";
 	}
 }
 

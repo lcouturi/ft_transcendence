@@ -186,8 +186,12 @@ export function english()
 		document.querySelector("#profile-history-type").innerHTML = "Type";
 		document.querySelector("#friend_to_add").placeholder = "Enter username";
 		document.querySelector("#profile-logout-label").innerHTML = "Log out";
-		document.querySelector("#profile-losses").innerHTML = h.losses + " Losses";
-		document.querySelector("#profile-wins").innerHTML = h.wins + " Wins";
+		document.querySelector("#profile-losses").innerHTML = h.losses + " Loss";
+		if (h.losses != 1)
+			document.querySelector("#profile-losses").innerHTML += "es";
+		document.querySelector("#profile-wins").innerHTML = h.wins + " Win";
+		if (h.wins != 1)
+			document.querySelector("#profile-wins").innerHTML += "s";
 	}
 	else
 	{
@@ -408,8 +412,12 @@ export function french()
 		document.querySelector("#profile-history-type").innerHTML = "Type";
 		document.querySelector("#friend_to_add").placeholder = "Entrez le nom d’utilisateur";
 		document.querySelector("#profile-logout-label").innerHTML = "Déconnexion";
-		document.querySelector("#profile-losses").innerHTML = h.losses + " défaites";
-		document.querySelector("#profile-wins").innerHTML = h.wins + " victoires";
+		document.querySelector("#profile-losses").innerHTML = h.losses + " défaite";
+		if (h.losses != 1)
+			document.querySelector("#profile-losses").innerHTML += "s";
+		document.querySelector("#profile-wins").innerHTML = h.wins + " victoire";
+		if (h.wins != 1)
+			document.querySelector("#profile-wins").innerHTML += "s";
 	}
 	else
 	{
@@ -630,8 +638,14 @@ export function ukrainian()
 		document.querySelector("#profile-history-type").innerHTML = "Тип";
 		document.querySelector("#friend_to_add").placeholder = "Введіть ім'я користувача";
 		document.querySelector("#profile-logout-label").innerHTML = "Вийти";
-		document.querySelector("#profile-losses").innerHTML = h.losses + " втрати";
-		document.querySelector("#profile-wins").innerHTML = h.wins + " виграє";
+		if (h.losses != 1)
+			document.querySelector("#profile-losses").innerHTML = h.losses + " втрати";
+		else
+			document.querySelector("#profile-losses").innerHTML = h.losses + " втрата";
+		if (h.wins != 1)
+			document.querySelector("#profile-wins").innerHTML = h.wins + " виграє";
+		else
+			document.querySelector("#profile-wins").innerHTML = h.wins + " виграти";
 	}
 	else
 	{
