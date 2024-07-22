@@ -184,7 +184,7 @@ export function english()
 		document.querySelector("#profile-friends-count").innerHTML = "Friends: " + document.querySelector("#profile-list-friend").childElementCount;
 		document.querySelector("#profile-friends-name").innerHTML = "Friends";
 		document.querySelector("#profile-history").innerHTML = "Match History";
-		document.querySelector("#profile-history-label").innerHTML = "Match History:";
+		document.querySelector("#profile-history-label").innerHTML = "Match history:";
 		document.querySelector("#profile-history-name").innerHTML = "Match History";
 		document.querySelector("#profile-history-opponent").innerHTML = "Opponent";
 		document.querySelector("#profile-history-result").innerHTML = "Result";
