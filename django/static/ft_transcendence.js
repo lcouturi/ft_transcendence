@@ -32,8 +32,11 @@ export function	add_item(prefix, value)
 			array = h.friends_array;
 		if (value == null)
 			item = document.querySelector("#" + prefix + "-list-item").value;
-		else
+		else {
 			item = value;
+		}
+		item = item.replace(/^\s+|\s+$/g, '');
+
 		if (prefix == "profile" && item == h.username)
 		{
 			if (h.language == "english")
@@ -95,6 +98,7 @@ export function	add_item(prefix, value)
 				document.querySelector("#profile-friends-count").innerHTML = "Друзі: " + h.friends_array.length;
 		});
 		document.querySelector("#" + prefix + "-list").appendChild(div);
+		console.log("item before push: ", item);
 		array.push(item);
 		//document.querySelector("#" + prefix + "-list-item").value = "";
 		if (prefix == "tournament")
@@ -559,6 +563,8 @@ export function	sanitize(string)
 	string = string.replace(/\>/g, "&gt;").replace(/"/g, "&quot;");
 	string = string.replace(/'/g, "&#x27;").replace(/\//g, "&#x2F;");
 	string = string.replace(/`/g, "&grave;").replace(/=/g, "&#x3D;");
+
+
 	return (string);
 }
 
@@ -688,10 +694,11 @@ export function	unpause()
 
 export function	unsanitize(string)
 {
-	string = string.replace(/&amp;/g, "&").replace(/&lt;/g, "<");
-	string = string.replace(/&gt;/g, ">").replace(/&quot;/g, '"');
-	string = string.replace(/&#x27;/g, "'").replace(/&#x2F;/g, "/");
-	string = string.replace(/&grave;/g, "`").replace(/&#x3D;/g, "=");
+	string = string.replace(/&amp;/g, "&").replace(/&lt;/g, "<"); // less-than
+	string = string.replace(/&gt;/g, ">").replace(/&quot;/g, '"'); // double quote
+	string = string.replace(/&#x27;/g, "'").replace(/&#x2F;/g, "/"); // single quote
+	string = string.replace(/&grave;/g, "`").replace(/&#x3D;/g, "="); // grave accent
+
 	return (string);
 }
 
