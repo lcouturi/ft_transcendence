@@ -11,12 +11,17 @@ export const h =
 	losses: 0,
 	paused: false,
 	username: null,
-	wins: 0
+	wins: 0,
+	T_pos: 0
 };
 
 let	in_tournament = false;
 let	tournament_array = [];
 let	winners = [];
+let current_round = 0;
+const new_tournament_btn = document.getElementById("tournament-start");
+const tournament_content = document.getElementById("tournament_content");
+const new_tournament = document.getElementById("new_tournament");
 const CSRF_TOKEN = document.querySelector('[name=csrfmiddlewaretoken]').value;
 const SUCCESS = 200;
 let match_history;
@@ -101,6 +106,7 @@ export function	add_item(prefix, value)
 			tournament_array = array;
 		else
 			g.friends_array = array;
+
 }
 
 export function	banner_close(id)
@@ -113,6 +119,8 @@ export function	banner_close(id)
 
 export function	banner_open(value, id)
 {
+	if (document.querySelector(id) == null);
+		return ;
 	document.querySelector(id).classList.add("p-1");
 	document.querySelector(id).classList.remove("overflow-hidden", "p-0");
 	document.querySelector(id + "-text").innerHTML = value;
@@ -206,26 +214,47 @@ export function	pause()
 	g.starsSpeed = 0;
 }
 
+function render_tournament(members) {
+	new_tournament_btn.classList.add("d-none");
+	new_tournament.classList.add("d-none");
+	tournament_content.classList.remove("d-none");
+	tournament_content.innerHTML = `
+	<h3> Round ${current_round}: </h3>
+	`
+	for (let i = 0; i < members.length; i+=2) {
+		if (i == members.length - 1) {
+			tournament_content.innerHTML +=(`
+				<p><b>${members[i]}</b> gets a free pass.</p>
+			`)
+		}
+		else {
+			tournament_content.innerHTML +=(`
+				<p><b>${members[i]}</b> VS <b>${members[i + 1]}</b></p>
+			`)
+		}
+	}
+}
+
 function	prepare_next_match()
 {
 	if (in_tournament == true)
 	{
 		document.querySelector(".lil-gui").classList.add("d-none");
-		if (tournament_array.length == 0)
+		if (tournament_array.length <= h.T_pos + 1)
 		{
+			if (tournament_array.length == h.T_pos + 1)
+				winners.push(tournament_array[h.T_pos]);
 			tournament_array = [...winners];
+			tournament_array.sort(() => Math.random() - 0.5);
+			h.T_pos = 0;
 			winners = [];
+			current_round += 1;
+			render_tournament(tournament_array);
 		}
-		h.contestant1 = tournament_array[Math.floor(Math.random() * tournament_array.length)];
-		tournament_array.splice(tournament_array.indexOf(h.contestant1), 1);
-		if (tournament_array.length == 0)
-		{
-			tournament_array = [...winners];
-			winners = [];
-		}
-		h.contestant2 = tournament_array[Math.floor(Math.random() * tournament_array.length)];
-		tournament_array.splice(tournament_array.indexOf(h.contestant2), 1);
+		h.contestant1 = tournament_array[h.T_pos];
+		h.contestant2 = tournament_array[h.T_pos + 1];
 		document.querySelector("#next-match").innerHTML = "The next match will be between " + h.contestant1 + " and " + h.contestant2 + ".";
+		h.T_pos += 2;
 	}
 	else
 	{
@@ -319,6 +348,10 @@ function	profile_log_add(winner, loser, tournament)
 				opponent = "Équipe " + opponent;
 			else if (h.language == "ukrainian")
 				opponent = "Командний " + opponent;
+		}
+		if (tournament == true) {
+			score = "---";
+			opponent = "Tournament";
 		}
 	}
 	let username = document.getElementById("profile-name-inside").textContent;
@@ -511,9 +544,10 @@ export function	result(value)
 		else if (h.language == "ukrainian")
 			document.querySelector("#result").innerHTML = "Командний " + document.querySelector("#result").innerHTML;
 	}
-	if (in_tournament == true && tournament_array.length == 0 && winners.length == 1)
+	if (in_tournament == true && tournament_array.length == 2 && winners.length == 1)
 	{
 		in_tournament = false;
+		tournament_array = [];
 		profile_log_add(null, null, true);
 		if (h.language == "english")
 			document.querySelector("#result").innerHTML +=  " won the tournament!";
@@ -603,7 +637,13 @@ export function	start_match()
 
 export function	tournament_open()
 {
-	document.querySelector("#tournament-list-item").value = "";
+	if (in_tournament == false) {
+	tournament_array = [];
+	new_tournament_btn.classList.remove("d-none");
+	new_tournament.classList.remove("d-none");
+	tournament_content.classList.add("d-none");
+		document.querySelector("#tournament-list-item").value = "";
+	}
 	new bootstrap.Modal(document.querySelector("#tournament")).show();
 	if (h.username != null)
 		add_item("tournament", unsanitize(h.username));
@@ -626,7 +666,12 @@ export function	tournament_start()
 	in_tournament = true;
 	document.querySelector("#tournament-list").innerHTML = "";
 	bootstrap.Modal.getInstance(document.getElementById("tournament")).hide();
+	
 	winners = [];
+	tournament_array.sort(() => Math.random() - 0.5);
+	h.tournament_pos = 0;
+	current_round = 1;
+	render_tournament(tournament_array);
 	prepare_next_match();
 	start_match();
 }
