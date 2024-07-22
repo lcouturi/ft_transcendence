@@ -103,7 +103,6 @@ export function	add_item(prefix, value)
 				document.querySelector("#profile-friends-count").innerHTML = "Друзі: " + h.friends_array.length;
 		});
 		document.querySelector("#" + prefix + "-list").appendChild(div);
-		console.log("item before push: ", item);
 		array.push(item);
 		//document.querySelector("#" + prefix + "-list-item").value = "";
 		if (prefix == "tournament")
@@ -298,10 +297,10 @@ function	profile_log_add(winner, loser, tournament)
 	if (h.is_tracking_disabled == true)
 		return ;
 	if (tournament == true) {
-		return ;
+		// return ;
 		type_json = "T";
 		score = "---";
-		opponent = "Tournament";
+		opponent = "---";
 		if (winner == h.username)
 			result_json = "V";
 		else
@@ -338,7 +337,6 @@ function	profile_log_add(winner, loser, tournament)
 				opponent = "Командний " + opponent;
 		}
 	}
-	console.log(score, opponent);
 	let username = document.getElementById("profile-name-inside").textContent;
 	save_game(username, opponent, score, date_json, type_json, result_json)
 		.then(data => {
@@ -458,7 +456,8 @@ export const	render_match_history = async (data) => {
 
 	if (result == "V")
 	{
-		profile_update(1);
+		if (game_type != "T")
+			profile_update(1);
 		if (h.language == "english")
 			result = "Victory";
 		else if (h.language == "french")
@@ -468,7 +467,8 @@ export const	render_match_history = async (data) => {
 	}
 	else if (result == "D")
 	{
-		profile_update(-1);
+		if (game_type != "T")
+			profile_update(-1);
 		if (h.language == "english")
 			result = "Defeat";
 		else if (h.language == "french")
@@ -680,10 +680,10 @@ export function	start_match()
 export function	tournament_open()
 {
 	if (in_tournament == false) {
-	tournament_array = [];
-	new_tournament_btn.classList.remove("d-none");
-	new_tournament.classList.remove("d-none");
-	tournament_content.classList.add("d-none");
+		tournament_array.slice(0, tournament_array.length);
+		new_tournament_btn.classList.remove("d-none");
+		new_tournament.classList.remove("d-none");
+		tournament_content.classList.add("d-none");
 		document.querySelector("#tournament-list-item").value = "";
 	}
 	new bootstrap.Modal(document.querySelector("#tournament")).show();
