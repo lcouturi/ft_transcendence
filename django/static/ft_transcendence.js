@@ -103,7 +103,6 @@ export function	add_item(prefix, value)
 				document.querySelector("#profile-friends-count").innerHTML = "Друзі: " + h.friends_array.length;
 		});
 		document.querySelector("#" + prefix + "-list").appendChild(div);
-		console.log("item before push: ", item);
 		array.push(item);
 		//document.querySelector("#" + prefix + "-list-item").value = "";
 		if (prefix == "tournament")
@@ -297,8 +296,16 @@ function	profile_log_add(winner, loser, tournament)
 
 	if (h.is_tracking_disabled == true)
 		return ;
-	if (tournament == true)
+	if (tournament == true) {
+		// return ;
 		type_json = "T";
+		score = "---";
+		opponent = "---";
+		if (winner == h.username)
+			result_json = "V";
+		else
+			result_json = "D";
+	}
 	else
 	{
 		type_json = "M"
@@ -328,10 +335,6 @@ function	profile_log_add(winner, loser, tournament)
 				opponent = "Équipe " + opponent;
 			else if (h.language == "ukrainian")
 				opponent = "Командний " + opponent;
-		}
-		if (tournament == true) {
-			score = "---";
-			opponent = "Tournament";
 		}
 	}
 	let username = document.getElementById("profile-name-inside").textContent;
@@ -677,10 +680,10 @@ export function	start_match()
 export function	tournament_open()
 {
 	if (in_tournament == false) {
-	tournament_array = [];
-	new_tournament_btn.classList.remove("d-none");
-	new_tournament.classList.remove("d-none");
-	tournament_content.classList.add("d-none");
+		tournament_array.slice(0, tournament_array.length);
+		new_tournament_btn.classList.remove("d-none");
+		new_tournament.classList.remove("d-none");
+		tournament_content.classList.add("d-none");
 		document.querySelector("#tournament-list-item").value = "";
 	}
 	new bootstrap.Modal(document.querySelector("#tournament")).show();

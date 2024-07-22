@@ -33,6 +33,7 @@ export const g = {
     floor: null,
     borderColor: 0x00ff00,
     wallBoundary: 10,
+    middleTableBounds: -0.5,
 
     // Star Field
     starPool: [],
