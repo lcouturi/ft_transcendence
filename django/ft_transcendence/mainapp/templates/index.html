@@ -367,9 +367,15 @@
 			document.querySelector("#profile-history-checkbox").addEventListener("change", function(e)
 			{
 				if (document.querySelector("#profile-history-checkbox").checked == true)
+				{
 					h.is_tracking_disabled = false;
+					document.querySelector("#profile-history-button").classList.remove("d-none");
+				}
 				else
+				{
 					h.is_tracking_disabled = true;
+					document.querySelector("#profile-history-button").classList.add("d-none");
+				}
 			});
 
 			document.querySelector("#profile-banner-close").addEventListener("click", function(e)

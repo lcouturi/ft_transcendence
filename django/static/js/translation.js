@@ -184,6 +184,7 @@ export function english()
 		document.querySelector("#profile-friends-count").innerHTML = "Friends: " + document.querySelector("#profile-list-friend").childElementCount;
 		document.querySelector("#profile-friends-name").innerHTML = "Friends";
 		document.querySelector("#profile-history").innerHTML = "Match History";
+		document.querySelector("#profile-history-label").innerHTML = "Match History:";
 		document.querySelector("#profile-history-name").innerHTML = "Match History";
 		document.querySelector("#profile-history-opponent").innerHTML = "Opponent";
 		document.querySelector("#profile-history-result").innerHTML = "Result";
@@ -419,6 +420,7 @@ export function french()
 		document.querySelector("#profile-friends-count").innerHTML = "Amis: " + document.querySelector("#profile-list-friend").childElementCount;
 		document.querySelector("#profile-friends-name").innerHTML = "Amis";
 		document.querySelector("#profile-history").innerHTML = "Historique des matchs";
+		document.querySelector("#profile-history-label").innerHTML = "Historique des matchs:";
 		document.querySelector("#profile-history-name").innerHTML = "Historique des matchs";
 		document.querySelector("#profile-history-opponent").innerHTML = "Adversaire";
 		document.querySelector("#profile-history-result").innerHTML = "Résultat";
@@ -654,6 +656,7 @@ export function ukrainian()
 		document.querySelector("#profile-friends-count").innerHTML = "Друзі: " + document.querySelector("#profile-list-friend").childElementCount;
 		document.querySelector("#profile-friends-name").innerHTML = "Друзі";
 		document.querySelector("#profile-history").innerHTML = "Історія матчів";
+		document.querySelector("#profile-history-label").innerHTML = "Історія матчів:";
 		document.querySelector("#profile-history-name").innerHTML = "Історія матчів";
 		document.querySelector("#profile-history-opponent").innerHTML = "Суперник";
 		document.querySelector("#profile-history-result").innerHTML = "Результат";
