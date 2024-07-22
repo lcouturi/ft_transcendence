@@ -19,6 +19,7 @@ let	tournament_array = [];
 let	winners = [];
 const CSRF_TOKEN = document.querySelector('[name=csrfmiddlewaretoken]').value;
 const SUCCESS = 200;
+let match_history;
 
 export function	add_item(prefix, value)
 {
@@ -158,6 +159,7 @@ export function	login_complete()
 	let username = document.getElementById("profile-name-inside").textContent;
 	get_games(username)
 		.then(data => {
+			match_history = data;
 			for (let i = 0; i < data.length; i++) {
 				render_match_history(data[i].fields);
 			};
@@ -322,6 +324,7 @@ function	profile_log_add(winner, loser, tournament)
 	let username = document.getElementById("profile-name-inside").textContent;
 	save_game(username, opponent, score, date_json, type_json, result_json)
 		.then(data => {
+			match_history = data;
 			document.querySelector("#profile-log").innerHTML = "";
 			for (let i = 0; i < data.length; i++)
 				render_match_history(data[i].fields);
