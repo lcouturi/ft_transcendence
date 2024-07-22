@@ -334,6 +334,18 @@
 			result(2);
 		});
 
+		document.querySelector("#delete-confirm").addEventListener("hidden.bs.modal", function(e)
+		{
+			e.preventDefault();
+			unpause();
+		});
+
+		document.querySelector("#delete-confirm").addEventListener("shown.bs.modal", function(e)
+		{
+			e.preventDefault();
+			pause();
+		});
+
 		document.querySelector("#english").addEventListener("change", function(e)
 		{
 			e.preventDefault();
@@ -429,6 +441,18 @@
 		{
 			e.preventDefault();
 			banner_close('#login-banner');
+		});
+
+		document.querySelector("#password-change").addEventListener("hidden.bs.modal", function(e)
+		{
+			e.preventDefault();
+			unpause();
+		});
+
+		document.querySelector("#password-change").addEventListener("shown.bs.modal", function(e)
+		{
+			e.preventDefault();
+			pause();
 		});
 
 		document.querySelector("#password-change-banner-close").addEventListener("click", function(e)
