@@ -9,6 +9,7 @@ export const h =
 	is_tracking_disabled: false,
 	language: "english",
 	losses: 0,
+	match_history: null,
 	paused: false,
 	username: null,
 	wins: 0
@@ -19,7 +20,6 @@ let	tournament_array = [];
 let	winners = [];
 const CSRF_TOKEN = document.querySelector('[name=csrfmiddlewaretoken]').value;
 const SUCCESS = 200;
-let match_history;
 
 export function	add_item(prefix, value)
 {
@@ -159,7 +159,7 @@ export function	login_complete()
 	let username = document.getElementById("profile-name-inside").textContent;
 	get_games(username)
 		.then(data => {
-			match_history = data;
+			h.match_history = data;
 			for (let i = 0; i < data.length; i++) {
 				render_match_history(data[i].fields);
 			};
@@ -251,30 +251,6 @@ function	prepare_next_match()
 	}
 }
 
-export const save_game = async (username, player2, score, date, game_type, result) => {
-	const response = await fetch('/save_game', {
-		headers: {
-			"Content-Type": "application/json",
-			"X-CSRFToken": CSRF_TOKEN,
-		},
-		method: 'SAVE_GAME',
-		credentials: 'include',
-		body: JSON.stringify({
-			'player1': username,
-			'player2': player2,
-			'score': score,
-			'date': date,
-			'game_type': game_type,
-			'result': result
-		}),
-	});
-	if (response.status !== SUCCESS) {
-		throw new Error('nope, u suck to save game');
-	}
-	const data = await response.json();
-	return data;
-};
-
 function	profile_log_add(winner, loser, tournament)
 {
 	const	date = new Date();
@@ -324,7 +300,7 @@ function	profile_log_add(winner, loser, tournament)
 	let username = document.getElementById("profile-name-inside").textContent;
 	save_game(username, opponent, score, date_json, type_json, result_json)
 		.then(data => {
-			match_history = data;
+			h.match_history = data;
 			document.querySelector("#profile-log").innerHTML = "";
 			for (let i = 0; i < data.length; i++)
 				render_match_history(data[i].fields);
@@ -418,41 +394,54 @@ export function	register_validate()
 }
 
 export const	render_match_history = async (data) => {
-	if (data.result == "V")
+	let	game_type = data.game_type
+	let	player2 = data.player2;
+	let	result = data.result;
+
+	if (result == "V")
 	{
 		if (h.language == "english")
-			data.result = "Victory";
+			result = "Victory";
 		else if (h.language == "french")
-			data.result = "Victoire";
+			result = "Victoire";
 		else if (h.language == "ukrainian")
-			data.result = "Перемога";
+			result = "Перемога";
 	}
-	else if (data.result == "D")
+	else if (result == "D")
 	{
 		if (h.language == "english")
-			data.result = "Defeat";
+			result = "Defeat";
 		else if (h.language == "french")
-			data.result = "Défaite";
+			result = "Défaite";
 		else if (h.language == "ukrainian")
-			data.result = "Поразка";
+			result = "Поразка";
 	}
-	if (data.game_type == "M")
+	if (game_type == "M")
 	{
 		if (h.language == "english")
-			data.game_type = "Match";
+			game_type = "Match";
 		else if (h.language == "french")
-			data.game_type = "Match";
+			game_type = "Match";
 		else if (h.language == "ukrainian")
-			data.game_type = "Матч";
+			game_type = "Матч";
 	}
-	else if (data.game_type == "T")
+	else if (game_type == "T")
 	{
 		if (h.language == "english")
-			data.game_type = "Tournament";
+			game_type = "Tournament";
 		else if (h.language == "french")
-			data.game_type = "Tournoi";
+			game_type = "Tournoi";
 		else if (h.language == "ukrainian")
-			data.game_type = "Турнір";
+			game_type = "Турнір";
+	}
+	if (player2 == "Guest" || player2 == "Invité" || player2 == "Гість")
+	{
+		if (h.language == "english")
+			player2 = "Guest";
+		else if (h.language == "french")
+			player2 = "Invité";
+		else if (h.language == "ukrainian")
+			player2 = "Гість";
 	}
 	const	tr = document.createElement("tr");
 	tr.innerHTML = `
@@ -460,16 +449,16 @@ export const	render_match_history = async (data) => {
 		${data.date}
 	</th>
 	<td>
-		${data.result}
+		${result}
 	</td>
 	<td>
-		${data.game_type}
+		${game_type}
 	</td>
 	<td>
 		${data.score}
 	</td>
 	<td>
-		${data.player2}
+		${player2}
 	</td>`
 	document.querySelector("#profile-log").appendChild(tr);
 };
@@ -554,6 +543,30 @@ export function	sanitize(string)
 	string = string.replace(/`/g, "&grave;").replace(/=/g, "&#x3D;");
 	return (string);
 }
+
+export const	save_game = async (username, player2, score, date, game_type, result) => {
+	const response = await fetch('/save_game', {
+		headers: {
+			"Content-Type": "application/json",
+			"X-CSRFToken": CSRF_TOKEN,
+		},
+		method: 'SAVE_GAME',
+		credentials: 'include',
+		body: JSON.stringify({
+			'player1': username,
+			'player2': player2,
+			'score': score,
+			'date': date,
+			'game_type': game_type,
+			'result': result
+		}),
+	});
+	if (response.status !== SUCCESS) {
+		throw new Error('nope, u suck to save game');
+	}
+	const data = await response.json();
+	return data;
+};
 
 export function	start_match()
 {

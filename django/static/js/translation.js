@@ -1,5 +1,11 @@
 import { switchLanguage } from '../frontend/game/gui.js';
-import { h } from '../ft_transcendence.js';
+
+import
+{
+	h,
+	render_match_history
+} from '../ft_transcendence.js';
+
 import { g } from '../frontend/game/globals.js';
 
 export function english()
@@ -213,6 +219,12 @@ export function english()
 	{
 		document.querySelector("#contestant1").innerHTML += " Team";
 		document.querySelector("#contestant2").innerHTML += " Team";
+	}
+	if (h.match_history)
+	{
+		document.querySelector("#profile-log").innerHTML = "";
+		for (let i = 0; i < h.match_history.length; i++)
+			render_match_history(h.match_history[i].fields);
 	}
 }
 
@@ -428,6 +440,12 @@ export function french()
 		document.querySelector("#contestant1").innerHTML = "Équipe " + h.contestant1;
 		document.querySelector("#contestant2").innerHTML = "Équipe " + h.contestant2;
 	}
+	if (h.match_history)
+	{
+		document.querySelector("#profile-log").innerHTML = "";
+		for (let i = 0; i < h.match_history.length; i++)
+			render_match_history(h.match_history[i].fields);
+	}
 }
 
 export function ukrainian()
@@ -641,5 +659,11 @@ export function ukrainian()
 	{
 		document.querySelector("#contestant1").innerHTML = "Командний " + h.contestant1;
 		document.querySelector("#contestant2").innerHTML = "Командний " + h.contestant2;
+	}
+	if (h.match_history)
+	{
+		document.querySelector("#profile-log").innerHTML = "";
+		for (let i = 0; i < h.match_history.length; i++)
+			render_match_history(h.match_history[i].fields);
 	}
 }
