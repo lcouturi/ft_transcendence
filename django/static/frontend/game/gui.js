@@ -67,7 +67,7 @@ export function initGUI(lang = 'en') {
     gui.add(g, 'numStars', 0, 10000).name(getTranslation('numStars', lang)).step(1).onChange(value => { initStarField(); saveParameter('numStars', value); });
     gui.add(g, 'starsSpeed', 0, 1).name(getTranslation('starsSpeed', lang)).onChange(value => saveParameter('starsSpeed', value));
     gui.add(g, 'startSize', 0, 0.1).name(getTranslation('starSize', lang)).step(0.001).onChange(value => { initStarField(); saveParameter('startSize', value); });
-    gui.add(g, 'middleTableBounds', 0, 10).name(getTranslation('middleTableBounds', lang)).step(1).onChange(value => saveParameter('middleTableBounds', value));
+    gui.add(g, 'middleTableBounds', -0.5, 10).name(getTranslation('middleTableBounds', lang)).step(1).onChange(value => saveParameter('middleTableBounds', value));
     gui.addColor(g, 'starColor').name(getTranslation('starColor', lang)).onChange(value => { g.starPool.forEach(star => { star.material.color.set(value); }); saveParameter('starColor', value); });
     gui.addColor(g, 'borderColor').name(getTranslation('borderColor', lang)).onChange(value => { g.borderColor = value; updateNeonBorderColor(); saveParameter('borderColor', value); });
     gui.add(g, 'paddleSpeed', 0, 10).name(getTranslation('user1Speed', lang)).step(1).onChange(value => saveParameter('paddleSpeed', value));
