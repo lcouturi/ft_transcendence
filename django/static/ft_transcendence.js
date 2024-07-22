@@ -391,7 +391,7 @@ export function	register_validate()
 		if (h.language == "english")
 			banner_open("No password provided.", "#register-banner");
 		else if (h.language == "french")
-			banner_open("Aucun mot de pass fourni.", "#register-banner");
+			banner_open("Aucun mot de passe fourni.", "#register-banner");
 		else if (h.language == "ukrainian")
 			banner_open("Пароль не надано.", "#register-banner");
 		return ;
