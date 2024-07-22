@@ -297,10 +297,10 @@ function	profile_log_add(winner, loser, tournament)
 	if (h.is_tracking_disabled == true)
 		return ;
 	if (tournament == true) {
-		return ;
+		// return ;
 		type_json = "T";
 		score = "---";
-		opponent = "Tournament";
+		opponent = "---";
 		if (winner == h.username)
 			result_json = "V";
 		else
