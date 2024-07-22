@@ -122,8 +122,6 @@ export function	banner_close(id)
 
 export function	banner_open(value, id)
 {
-	if (document.querySelector(id) == null);
-		return ;
 	document.querySelector(id).classList.add("p-1");
 	document.querySelector(id).classList.remove("overflow-hidden", "p-0");
 	document.querySelector(id + "-text").innerHTML = value;
