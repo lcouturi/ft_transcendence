@@ -222,6 +222,8 @@ export function english()
 	}
 	if (h.match_history)
 	{
+		h.losses = 0;
+		h.wins = 0;
 		document.querySelector("#profile-log").innerHTML = "";
 		for (let i = 0; i < h.match_history.length; i++)
 			render_match_history(h.match_history[i].fields);
@@ -442,6 +444,8 @@ export function french()
 	}
 	if (h.match_history)
 	{
+		h.losses = 0;
+		h.wins = 0;
 		document.querySelector("#profile-log").innerHTML = "";
 		for (let i = 0; i < h.match_history.length; i++)
 			render_match_history(h.match_history[i].fields);
@@ -662,6 +666,8 @@ export function ukrainian()
 	}
 	if (h.match_history)
 	{
+		h.losses = 0;
+		h.wins = 0;
 		document.querySelector("#profile-log").innerHTML = "";
 		for (let i = 0; i < h.match_history.length; i++)
 			render_match_history(h.match_history[i].fields);

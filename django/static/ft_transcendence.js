@@ -300,7 +300,9 @@ function	profile_log_add(winner, loser, tournament)
 	let username = document.getElementById("profile-name-inside").textContent;
 	save_game(username, opponent, score, date_json, type_json, result_json)
 		.then(data => {
+			h.losses = 0;
 			h.match_history = data;
+			h.wins = 0;
 			document.querySelector("#profile-log").innerHTML = "";
 			for (let i = 0; i < data.length; i++)
 				render_match_history(data[i].fields);
@@ -400,6 +402,7 @@ export const	render_match_history = async (data) => {
 
 	if (result == "V")
 	{
+		profile_update(1);
 		if (h.language == "english")
 			result = "Victory";
 		else if (h.language == "french")
@@ -409,6 +412,7 @@ export const	render_match_history = async (data) => {
 	}
 	else if (result == "D")
 	{
+		profile_update(-1);
 		if (h.language == "english")
 			result = "Defeat";
 		else if (h.language == "french")
