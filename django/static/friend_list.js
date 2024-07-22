@@ -2,7 +2,8 @@ import
 {
 	add_item,
     banner_open,
-    banner_close
+    banner_close,
+	h
 }
 from './ft_transcendence.js';
 
@@ -42,6 +43,12 @@ function add_friend_html(value, image)
     div.style.minWidth = "min-content";
     div.innerHTML = divContainer;
     document.querySelector("#profile-list-friend").appendChild(div);
+	if (h.language == "english")
+		document.querySelector("#profile-friends-count").innerHTML = "Friends: " + document.querySelector("#profile-list-friend").childElementCount;
+	else if (h.language == "french")
+		document.querySelector("#profile-friends-count").innerHTML = "Amis: " + document.querySelector("#profile-list-friend").childElementCount;
+	else if (h.language == "ukrainian")
+		document.querySelector("#profile-friends-count").innerHTML = "Друзі: " + document.querySelector("#profile-list-friend").childElementCount;
 }
 
 
@@ -118,7 +125,7 @@ export function accept_friend_request(friend, button) {
         const elementToDelete = button.parentNode
         elementToDelete.parentNode.removeChild(elementToDelete);
         var image = elementToDelete.children[0].src
-        
+
         add_friend_html(friend, image);
     })
     .catch(error => {

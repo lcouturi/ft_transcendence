@@ -194,6 +194,8 @@ def register_check(request):
 
         if username == '':
             return JsonResponse({'error': "no_username"})
+        elif username == 'Guest' or username == 'Invité' or username == 'Гість':
+            return JsonResponse({'error': "forbidden_username"})
         elif password == '':
             return JsonResponse({'error': "no_pass"})
         elif CustomUser.objects.filter(username=username).exists():
