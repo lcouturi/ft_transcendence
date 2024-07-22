@@ -453,7 +453,8 @@ export const	render_match_history = async (data) => {
 
 	if (result == "V")
 	{
-		profile_update(1);
+		if (game_type != "T")
+			profile_update(1);
 		if (h.language == "english")
 			result = "Victory";
 		else if (h.language == "french")
@@ -463,7 +464,8 @@ export const	render_match_history = async (data) => {
 	}
 	else if (result == "D")
 	{
-		profile_update(-1);
+		if (game_type != "T")
+			profile_update(-1);
 		if (h.language == "english")
 			result = "Defeat";
 		else if (h.language == "french")
