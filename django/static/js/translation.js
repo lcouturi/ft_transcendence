@@ -175,7 +175,7 @@ export function english()
 	{
 		document.querySelector("#profile-delete-label").innerHTML = "Delete Account";
 		document.querySelector("#profile-friends").innerHTML = "Manage Friends";
-		document.querySelector("#profile-friends-count").innerHTML = "Friends: " + h.friends_array.length;
+		document.querySelector("#profile-friends-count").innerHTML = "Friends: " + document.querySelector("#profile-list-friend").childElementCount;
 		document.querySelector("#profile-friends-name").innerHTML = "Friends";
 		document.querySelector("#profile-history").innerHTML = "Match History";
 		document.querySelector("#profile-history-name").innerHTML = "Match History";
@@ -401,7 +401,7 @@ export function french()
 	{
 		document.querySelector("#profile-delete-label").innerHTML = "Supprimer le compte";
 		document.querySelector("#profile-friends").innerHTML = "Gérer les amis";
-		document.querySelector("#profile-friends-count").innerHTML = "Amis: " + h.friends_array.length;
+		document.querySelector("#profile-friends-count").innerHTML = "Amis: " + document.querySelector("#profile-list-friend").childElementCount;
 		document.querySelector("#profile-friends-name").innerHTML = "Amis";
 		document.querySelector("#profile-history").innerHTML = "Historique des matchs";
 		document.querySelector("#profile-history-name").innerHTML = "Historique des matchs";
@@ -627,7 +627,7 @@ export function ukrainian()
 	{
 		document.querySelector("#profile-delete-label").innerHTML = "Видалити аккаунт";
 		document.querySelector("#profile-friends").innerHTML = "Керуйте друзями";
-		document.querySelector("#profile-friends-count").innerHTML = "Друзі: " + h.friends_array.length;
+		document.querySelector("#profile-friends-count").innerHTML = "Друзі: " + document.querySelector("#profile-list-friend").childElementCount;
 		document.querySelector("#profile-friends-name").innerHTML = "Друзі";
 		document.querySelector("#profile-history").innerHTML = "Історія матчів";
 		document.querySelector("#profile-history-name").innerHTML = "Історія матчів";
