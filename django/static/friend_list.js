@@ -12,7 +12,7 @@ function add_friend_request_html(value, image)
     const	div = document.createElement("div");
     let	divContainer = `
     <div class="d-flex" style="min-width: min-content;">
-        <img class="mx-1 my-auto rounded-circle" height="22" src="${image}" title="Away">
+        <img class="mx-1 my-auto object-fit-cover rounded-circle" height="22" src="${image}" style="aspect-ratio: 1;" title="Away">
         <div class="m-1 p-1 w-100" style="min-width: min-content;">
             ${value} (pending)
         </div>
@@ -31,7 +31,7 @@ function add_friend_html(value, image)
     const	div = document.createElement("div");
     let	divContainer = `
     <div class="d-flex" style="min-width: min-content;"> 
-        <img class="mx-1 my-auto rounded-circle" height="22" src="${image}" title="Away" width="22">
+        <img class="mx-1 my-auto object-fit-cover rounded-circle" height="22" src="${image}" style="aspect-ratio: 1;" title="Away" width="22">
         <div class="m-1 p-1 w-100" style="min-width: min-content;">
             ${value}
         </div>
