@@ -229,7 +229,7 @@
 											</div>
 											{% for friend in friend_requesters %}
 												<div class="d-flex" style="min-width: min-content;">
-													<!--<img class="mx-1 my-auto object-fit-cover rounded-circle" height="22" src="{{ friend.get_image_profile_url }}" style="aspect-ratio: 1;" width="22">-->
+													<img class="mx-1 my-auto object-fit-cover rounded-circle" height="22" src="{{ friend.get_image_profile_url }}" style="aspect-ratio: 1;" width="22">
 													<div class="m-1 p-1 w-100" style="min-width: min-content;">
 														{{ friend.username }}
 														{% if friend.is_online %}
